@@ -1,0 +1,135 @@
+.portfolio-items-wrapper {
+    display: inline-flex;
+    flex-wrap: wrap;
+    min-width: 100vw;
+    min-height: fit-content;
+    animation: fadeIn ease 0.5s;
+}
+  
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+
+@-moz-keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+
+@-webkit-keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+  
+@-o-keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+  
+@-ms-keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:1; }
+}
+
+.button > .prev, .button > .next {
+    cursor: pointer;
+    position: fixed;
+    top: 50%;
+    z-index: 4;
+}
+
+.button > .next {
+    right: 0;
+}
+
+.button > .prev {
+    left: 0;
+}
+
+.button > .next img, .button > .prev img {
+    height: auto;
+    width: 5vw;
+    border-radius: 50%;
+    filter: brightness(0%) invert(1);
+    transition: all 0.2s ease;
+}
+
+.button > .prev img:hover, .button > .next img:hover {
+    filter: brightness(0%);
+    transform: rotate(360deg);
+}
+
+.dot {
+    cursor: pointer;
+    height: 16px;
+    width: 25px;
+    margin: 0 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    display: inline-block;
+}
+  
+.active, .dot:hover {
+    transition: all 0.2s ease-in;
+    background-color: white;
+}
+
+.dot:hover {
+    transform: scale(1.1);
+}
+
+.portfolio-item-wrapper {
+    z-index: 4;
+    width: calc(100% / 3);
+    position: relative;
+}
+
+.portfolio-item-wrapper:hover {
+    z-index: 0;
+    transform: scale(1.15);
+    transition: all 0.2s ease;
+}
+
+.portfolio-img-background {
+    height: 40vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.img-text-wrapper {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    padding-left: 100px;
+    padding-right: 100px;
+    width: calc(100% - 200px);
+}
+
+.logo-wrapper img{
+    width: 15vh;
+    margin-bottom: 20px;
+}
+
+.img-text-wrapper .subtitle {
+    transition: 1s;
+    font-size: 0.8vw;
+    font-weight: 600;
+    color: transparent;
+    width: 30vw;
+}
+
+.img-text-wrapper:hover .subtitle {
+    color: lightseagreen;
+}
+
+.img-darken {
+    transition: 1s;
+    filter: brightness(20%);
+}
