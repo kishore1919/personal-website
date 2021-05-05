@@ -1,135 +1,82 @@
-.portfolio-items-wrapper {
-    display: inline-flex;
-    flex-wrap: wrap;
-    min-width: 100vw;
-    min-height: fit-content;
-    animation: fadeIn ease 0.5s;
+.two-row-wrapper {
+    justify-content: space-around;
+    display: flex;
 }
+
+.home-page-message p {
+    text-align: left;
+    color: var(--secondary-color);
+    font-size: 5em;
+    margin: 2vw;
+}
+
+#name {
+    text-transform: uppercase;
+    color: crimson
+}
+
+.sphere-wrapper {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+@keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
+@-moz-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
+@-webkit-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
+@-o-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
+@-ms-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
   
-@keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:1; }
+@keyframes show {to {opacity: 1}}
+@-moz-keyframes show {to {opacity: 1}}
+@-webkit-keyframes show {to {opacity: 1}}
+@-o-keyframes show {to {opacity: 1}}
+@-ms-keyframes show {to {opacity: 1}}
+
+.scene {
+    width: 40vmax;
+    height: 40vmax;
+    margin: 2% auto;
+    perspective: 1000px;
 }
 
-@-moz-keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:1; }
-}
-
-@-webkit-keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:1; }
-}
-  
-@-o-keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:1; }
-}
-  
-@-ms-keyframes fadeIn {
-    0% { opacity:0; }
-    100% { opacity:1; }
-}
-
-.button > .prev, .button > .next {
-    cursor: pointer;
-    position: fixed;
-    top: 50%;
-    z-index: 4;
-}
-
-.button > .next {
-    right: 0;
-}
-
-.button > .prev {
-    left: 0;
-}
-
-.button > .next img, .button > .prev img {
-    height: auto;
-    width: 5vw;
-    border-radius: 50%;
-    filter: brightness(0%) invert(1);
-    transition: all 0.2s ease;
-}
-
-.button > .prev img:hover, .button > .next img:hover {
-    filter: brightness(0%);
-    transform: rotate(360deg);
-}
-
-.dot {
-    cursor: pointer;
-    height: 16px;
-    width: 25px;
-    margin: 0 5px;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
-    display: inline-block;
-}
-  
-.active, .dot:hover {
-    transition: all 0.2s ease-in;
-    background-color: white;
-}
-
-.dot:hover {
-    transform: scale(1.1);
-}
-
-.portfolio-item-wrapper {
-    z-index: 4;
-    width: calc(100% / 3);
-    position: relative;
-}
-
-.portfolio-item-wrapper:hover {
-    z-index: 0;
-    transform: scale(1.15);
-    transition: all 0.2s ease;
-}
-
-.portfolio-img-background {
-    height: 40vh;
+.wrapper {
     width: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    height: 100%;
+    transform: rotateX(45deg) rotateY(45deg);
+    transform-style: preserve-3d;
+    -moz-transition-style: preserve-3d;
+    -webkit-transition-style: preserve-3d;
+    -o-transition-style: preserve-3d;
+    -ms-transition-style: preserve-3d;
 }
 
-.img-text-wrapper {
+#ball {
+    position: relative;
+    width: 70%;
+    height: 70%;
+    margin:0 auto;
+    transform-style: preserve-3d;
+    animation: spin 7.5s 1.3s infinite alternate linear;
+    -moz-animation: spin 7.5s 1.3s infinite alternate linear;
+    -webkit-animation: spin 7.5s 1.3s infinite alternate linear;
+    -o-animation: spin 7.5s 1.3s infinite alternate linear;
+    -ms-animation: spin 7.5s 1.3s infinite alternate linear;
+}
+
+.ring {
     position: absolute;
     top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    left: 0;
+    width: 100%;
     height: 100%;
-    text-align: center;
-    padding-left: 100px;
-    padding-right: 100px;
-    width: calc(100% - 200px);
-}
-
-.logo-wrapper img{
-    width: 15vh;
-    margin-bottom: 20px;
-}
-
-.img-text-wrapper .subtitle {
-    transition: 1s;
-    font-size: 0.8vw;
-    font-weight: 600;
-    color: transparent;
-    width: 30vw;
-}
-
-.img-text-wrapper:hover .subtitle {
-    color: lightseagreen;
-}
-
-.img-darken {
-    transition: 1s;
-    filter: brightness(20%);
+    border: 4px;
+    border-style: dotted;
+    border-radius: 50%;
+    animation: show 0.75s forwards ease-in-out;
+    -moz-animation: show 0.75s forwards ease-in-out;
+    -webkit-animation: show 0.75s forwards ease-in-out;
+    -o-animation: show 0.75s forwards ease-in-out;
+    -ms-animation: show 0.75s forwards ease-in-out;
+    list-style-type: none;
 }

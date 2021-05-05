@@ -1,0 +1,12 @@
+LibGDX-Chess-Game,A Parallel AI Chess Game made with LibGDX Framework. Choose against AI or human
+SimpleParallelChessAI,A Parallel AI Chess Game made with Java Swing. Choose against AI or human.
+AndroidSimpleAIChess,First Android Project - Parallel AI Chess Game. Choose against AI or human.
+TicTacToe,Simple AI Tic-Tac-Toe Game made with Java Swing. Choose against AI or human.
+TextEditor,A Simple Text Editor similar to NotePad
+My-First-Web,My First Simple Website.
+MPN_CPP,A Simple Basic C++ Program.
+KnapsackProblem,Do you know how to solve the knapsack?
+SimpleParallelDispatcher,Simple Basic Parallel Program.
+CommonSortingAlgorithms,9 Most Commonly Used Sorting Algorithms.
+PythonCalculator,First Simple Python Project - Calculator.
+SimpleChess,A Simple Chess Game without AI.

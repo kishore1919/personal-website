@@ -1,0 +1,85 @@
+.contact-wrapper {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    width: 70vw;
+}
+
+.contact-us-panel {
+    padding: 1px;
+    margin: 0 auto;
+    border: 3px solid var(--secondary-color);
+    border-bottom: none;
+    background: yellow;
+}
+
+.contact-us-panel p {
+    text-align: center;
+    text-shadow: 5px 1px #0ffbf9;
+    color: crimson;
+    font-size: 2.5em;
+}
+
+#contact-header {font-size: 2em}
+
+.contact-form label {
+    color: #0ffbf9;
+    font-size: 2em;
+}
+
+.contact-form input[type=text], .contact-form input[type=email], .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    box-sizing: border-box;
+    resize: vertical;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    outline: none;
+    font-size: 0.5em;
+}
+
+.input-div {
+    padding: 10px;
+    margin: 6px 0 16px 0;
+    border: none;
+}
+
+.contact-form input[type=text]:hover, .contact-form input[type=email], .contact-form textarea:hover {outline: none}
+
+.submit-btn {
+    padding: 12px 15px 12px 15px;
+    background-color: crimson;
+    background: linear-gradient(to right, crimson 50%, white 50%) left;
+    background-size: 231%;
+    color: white;
+    border-color: crimson;
+    font-size: 2.5em;
+    transition: all 0.25s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    background-position: right;
+    color: crimson;
+}
+
+#submit-button-wrapper {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.contact-form {
+    box-shadow: 0 16px 16px 0 rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--secondary-color);
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+.input-info {padding-right: 10px}
