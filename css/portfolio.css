@@ -5,6 +5,31 @@
     animation: fadeIn ease 0.5s;
 }
 
+
+
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+
+
+
+
 .button > .prev, .button > .next {
     cursor: pointer;
     position: fixed;
@@ -112,7 +137,7 @@
 .portfolio-item-wrapper:hover {
     z-index: 0;
     transform: scale(1.13);
-    transition: all 0.2s ease;
+    transition: all 0.5s ease;
 }
 
 .portfolio-img-background {

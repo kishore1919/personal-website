@@ -1,4 +1,9 @@
 <?php
+
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\SMTP;
+    use PHPMailer\PHPMailer\Exception;
+
     $nameErr = $emailErr = $messageErr = $name = $email = $message = '';
 
     $submitSuccessful = FALSE;
@@ -10,32 +15,46 @@
         $message = $_POST['message'];
 
         if (nameValid($name, $nameErr) && emailValid($email, $emailErr) && messageValid($message, $messageErr)) {
+    
+            require_once 'PHPMailer-6.4.1/src/Exception.php';
+            require_once 'PHPMailer-6.4.1/src/PHPMailer.php';
+            require_once 'PHPMailer-6.4.1/src/SMTP.php';
 
-            define('MY_EMAIL', 'gervinfungdaxuen@gmail.com');//please dont abuse my email
+            // passing true in constructor enables exceptions in PHPMailer
+            $mail = new PHPMailer(true);
 
-            ini_set('SMTP', "aspmx.l.google.com");
-            ini_set('sendmail_from', MY_EMAIL);
+            try {
+                // Server settings
+                // $mail->SMTPDebug = SMTP::DEBUG_SERVER; // for detailed debug output
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
 
-            $email_subject = 'Contact form submission from:'.$name;
+                define('MY_EMAIL', 'poolofdeath20@gmail.com');//please dont abuse my email
 
-            $email_body = 'You have received a new message.\n'.
+                $mail->Username = MY_EMAIL;
+                $mail->Password = 'Qh9ehdDdyzTTRg9';//please dont hack me
 
-            'Here are the details:\n Name:'.$name.'\n '.
+                // Sender and recipient settings
+                $mail->setFrom($email, $name);
+                $mail->addAddress(MY_EMAIL, 'PoolOfDeath20');
+                $mail->addReplyTo($email, $name);
 
-            'Email: '.$email.'\n Message \n'.$message;
+                // Setting the email content
+                $mail->Subject = 'Portfolio Contact Form From:'.$name;
+                $newLine = "\n";
+                $mail->Body = 'You have received a new message.'.$newLine.
 
-            $headers = 'From: '.MY_EMAIL.'\n'.'\r\n'.'Reply-To: '.$email.'Context-Type: text/html\r\n';
+                'Here are the details: Name:'.$name.$newLine.
 
-            echo $email_subject.'\n';
-            echo $email_body.'\n';
-            echo $headers.'\n';
+                'Email: '.$email.$newLine.'Message'.$newLine.$message;
 
-            if(mail(MY_EMAIL, $email_subject, $email_body, $headers)) {
+                $mail->send();
                 $submitSuccessful = TRUE;
-                echo 'SUCCESS';
-                // header('Location: contact-form-thank-you.html');
-            } else {
-                echo 'FAILED';
+            } catch (Exception $e) {
+                echo 'Error in sending email. Mailer Error: {'.$mail->ErrorInfo.'}';
             }
         }
     }
@@ -83,6 +102,18 @@
             return FALSE;
         } return TRUE;
     }
+
+    function displayPopUp($name) {
+        echo '<div id="messageBackground">';
+            echo '<div class="message-content">';
+                echo '<span id="close">&times;</span>';
+                echo '<img src="../images/tick.jpg" alt="tick.jpg">';
+                echo '<p>Your Message Has Been Successfully Sent!</p>';
+                echo '<p>Thank You '.$name.'!</p>';
+            echo '</div>';
+        echo '</div>';
+        echo '<script src="../js/contactPopUp.js"> </script>';
+    }
 ?>
 
 <!DOCTYPE html>
@@ -100,10 +131,12 @@
 </head>
 <body>
     <div class="container">
+        <?php if ($submitSuccessful){displayPopUp($name);}?>
         <div class="content-wrapper">
             <div class="contact-wrapper">
                 <div class = "contact-us-panel">
-                    <p><b>Got a question?</b></p>
+                    <p><b>Got something to ask or tell me?</b></p>
+                    <p><b>Just contact me!</b></p>
                 </div>
 
                 <div class = "contact-form">
@@ -134,7 +167,7 @@
                         </label>
 
                         <div id = "submit-button-wrapper">
-                            <input class="submit-btn" name="submit" type = "submit" value = "Submit" id = "submit-button">
+                            <input class="submit-btn" name="submit" type = "submit" value = "Send" id = "submit-button">
                         </div>
                     </form>
                 </div>

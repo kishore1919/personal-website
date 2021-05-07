@@ -1,4 +1,4 @@
-const portfolioItems = document.getElementsByClassName('portfolio-link')
+const portfolioItems = document.getElementsByClassName('portfolio-item-wrapper')
 const portfolioSlides = document.getElementsByClassName('portfolio-items-wrapper')
 
 let slideIndex = 1
@@ -7,6 +7,11 @@ undarkenImg()
 darkenImg()
 showSlides(slideIndex)
 hideButton()
+
+function myFunction() {
+    console.log('drop')
+    document.getElementsByClassName("dropdown-content").firstChild.classList.toggle("show");
+}
 
 function darkenImg() {
     for (let i = 0; i < portfolioItems.length; i++) {

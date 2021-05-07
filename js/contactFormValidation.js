@@ -2,6 +2,7 @@ const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+
 const REGEX_TRAILING_BLANKS = /^\s+/
 const REGEX_CONSECUTIVE_BLANK_SPACE = /\s+/
 const REGEX_LEADING_BLANKS = /\s+/
+const EMPTY_STRING = ''
 
 validateForm()
 
@@ -17,30 +18,30 @@ function validateForm() {
 
     visitorName.addEventListener('input', () => {
         if (0 === visitorName.value.length || null == visitorName.value) {
-            nameErr.innerText = 'Please do not leave name section empty'
+            nameErr.innerText = '*Please do not leave name section empty*'
         } else if (checkForBlankString(visitorName.value)) {
-            nameErr.innerText = 'Please do not leave name section blank'
+            nameErr.innerText = '*Please do not leave name section blank*'
         } else {
-            visitorName.value = visitorName.value.replace(REGEX_TRAILING_BLANKS, "").replace(REGEX_LEADING_BLANKS, "").replace(REGEX_CONSECUTIVE_BLANK_SPACE, " ")
-            nameErr.innerText = ''
+            visitorName.value = visitorName.value.replace(REGEX_TRAILING_BLANKS, EMPTY_STRING).replace(REGEX_LEADING_BLANKS, EMPTY_STRING).replace(REGEX_CONSECUTIVE_BLANK_SPACE, ' ')
+            nameErr.innerText = EMPTY_STRING
         }
     })
 
     visitorEmail.addEventListener('change', () => {
         if (0 === visitorEmail.value.length || null == visitorEmail.value) {
-            emailErr.innerText = 'Please do not leave email section empty'
+            emailErr.innerText = '*Please do not leave email section empty*'
             return
         }
-        emailErr.innerText = (REGEX_EMAIL.test(visitorEmail.value)) ? '' : 'Please enter valid email format'
+        emailErr.innerText = (REGEX_EMAIL.test(visitorEmail.value)) ? EMPTY_STRING : '*Please enter valid email format*'
     })
 
     visitorMessage.addEventListener('change', () => {
         if (0 === visitorMessage.value.length || null == visitorMessage.value) {
-            messageErr.innerText = 'Please do not leave message section empty'
+            messageErr.innerText = '*Please do not leave message section empty*'
         } else if (checkForBlankString(visitorMessage.value)) {
-            nameErr.innerText = 'Please do not leave message section blank'
+            nameErr.innerText = '*Please do not leave message section blank*'
         } else {
-            messageErr.innerText = (visitorMessage.value.length < 10) ? 'At least 10 words are required' : ''
+            messageErr.innerText = (visitorMessage.value.length < 10) ? '*At least 10 words are required*' : EMPTY_STRING
         }
     })
 }
@@ -49,7 +50,7 @@ function checkForBlankString(string) {
     let j = 0
     const length = string.length
     for (let i = 0; i < length; i++) {
-        if ('' === string.charAt(i)) {
+        if (EMPTY_STRING === string.charAt(i)) {
             j++
         }
     }

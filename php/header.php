@@ -1,4 +1,8 @@
 <?php
+    function displayLinkIcon($rel, $dimension) {
+        echo '<link rel="'.$rel.'" sizes="'.($dimension.'x'.$dimension).'" href="'.OTHER_FILE.'images/appIcon/icon'.$dimension.'.png">';
+    }
+
     function displayHeader($isHeader) {
         define('OTHER_PHP', $isHeader ? 'php/' : '');
         define('OTHER_FILE', $isHeader ? '' : '../');
@@ -26,19 +30,19 @@
             echo '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">';
             echo '<meta name="msapplication-starturl" content="'.OTHER_FILE.'index.php">';
 
-            echo '<link rel="icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon128.png">';
-            echo '<link rel="icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon144.png">';
-            echo '<link rel="icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon152.png">';
-            echo '<link rel="icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon192.png">';
-            echo '<link rel="icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon256.png">';
-            echo '<link rel="icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon512.png">';
+            displayLinkIcon('icon', '128');
+            displayLinkIcon('icon', '144');
+            displayLinkIcon('icon', '152');
+            displayLinkIcon('icon', '192');
+            displayLinkIcon('icon', '256');
+            displayLinkIcon('icon', '512');
 
-            echo '<link rel="apple-touch-icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon128.png">';
-            echo '<link rel="apple-touch-icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon144.png">';
-            echo '<link rel="apple-touch-icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon152.png">';
-            echo '<link rel="apple-touch-icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon192.png">';
-            echo '<link rel="apple-touch-icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon256.png">';
-            echo '<link rel="apple-touch-icon" sizes="128x128" href="'.OTHER_FILE.'images/appIcon/icon512.png">';
+            displayLinkIcon('apple-touch-icon', '128');
+            displayLinkIcon('apple-touch-icon', '144');
+            displayLinkIcon('apple-touch-icon', '152');
+            displayLinkIcon('apple-touch-icon', '192');
+            displayLinkIcon('apple-touch-icon', '256');
+            displayLinkIcon('apple-touch-icon', '512');
 
         echo '</head>';
         echo '<body>';
