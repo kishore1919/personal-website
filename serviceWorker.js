@@ -1,6 +1,7 @@
 const cacheName = 'cache'
 const filesToCache = [
     '/',
+    '.htaccess',
     'css/about.css',
     'css/contact.css',
     'css/font/Orbitron/demo.html',
