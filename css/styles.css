@@ -6,6 +6,9 @@
 :root {
     --primary-color: #020202;
     --secondary-color: #fdfefe;
+    --red-color: #cc0f39;
+    --green-color: #0ffbf9;
+    --dime-yellow-color: #cdc764;
 }
 
 html {scroll-behavior: smooth}
@@ -211,18 +214,11 @@ body {
     .profile-content-wrapper p {font-size: 1.5em}
     .profile-content-wrapper {text-align: center}
     #nav-wrapper {display: block}
-    #left-side {
+    #left-side, #right-side {
         align-items: center;
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
-    }
-    #right-side {
-        display: grid;
-        text-align: center; 
-    }
-    #right-side .brand{
-        margin-bottom: 10px;
     }
     .logo-wrapper img{
         width: 10vh;
@@ -237,9 +233,9 @@ body {
     }
 }
 
-@media (max-width: 584px) and (min-width: 498px) {
+@media (max-width: 655px) and (min-width: 498px) {
     .home-page-message p {font-size: 4em}
-    .two-row-wrapper {
+    .two-col-wrapper {
         justify-content: center;
         display: block;
     }
@@ -253,16 +249,14 @@ body {
         display: grid;
         text-align: center; 
     }
-    .two-row-wrapper {
+    .two-col-wrapper {
         justify-content: center;
         display: block;
     }
     .home-page-message p {text-align: center}
     .social-link {display: block}
     #left-side > div{margin-bottom: 5px}
-    .copyright p, #right-side .brand > a, #left-side > div, .profile-content-wrapper p {
-        font-size: 1em;
-    }
+    .copyright p, #right-side .brand > a, #left-side > div, .profile-content-wrapper p {font-size: 1em}
     .profile-content-wrapper {
         padding: 5px;
         width: calc(50% - 120px);
@@ -288,7 +282,7 @@ body {
 
 @media (min-width: 1920px) {
     .copyright p, #right-side .brand > a, #left-side > div, .profile-content-wrapper p {font-size: 2.5em}
-    .two-row-wrapper {align-items: center}
+    .two-col-wrapper {align-items: center}
     .home-page-message p {font-size: 7em}
     .active-nav-link, .nav-link-wrapper:hover {border: 4px solid var(--secondary-color)}
     .contact-us-panel p, .contact-form label {font-size: 2.5em}

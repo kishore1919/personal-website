@@ -28,7 +28,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="two-row-wrapper">
+        <div class="two-col-wrapper">
             <div class="home-page-message">
                 <p>Hello</p><p>I am</p><p id="name">Gervin</p>
             </div>
@@ -41,6 +41,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="portfolio-button-wrapper">
+            <a href="php/portfolio" class="portfolio-button">Click Me</a>
         </div>
     </div>
     <?php require_once 'php/footer.php';?>

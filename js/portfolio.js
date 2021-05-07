@@ -3,30 +3,18 @@ const portfolioSlides = document.getElementsByClassName('portfolio-items-wrapper
 
 let slideIndex = 1
 
-undarkenImg()
-darkenImg()
+mouseOverRepoEffect()
 showSlides(slideIndex)
 hideButton()
 
-function myFunction() {
-    console.log('drop')
-    document.getElementsByClassName("dropdown-content").firstChild.classList.toggle("show");
-}
-
-function darkenImg() {
+function mouseOverRepoEffect() {
     for (let i = 0; i < portfolioItems.length; i++) {
         const portfolioItem = portfolioItems[i]
         portfolioItem.addEventListener('mouseover', () => {
-            portfolioItem.firstChild.classList.add('img-darken');
+            portfolioItem.firstChild.classList.add('img-darken')
         })
-    }
-}
-
-function undarkenImg() {
-    for (let i = 0; i < portfolioItems.length; i++) {
-        const portfolioItem = portfolioItems[i]
         portfolioItem.addEventListener('mouseout', () => {
-            portfolioItem.firstChild.classList.remove('img-darken');
+            portfolioItem.firstChild.classList.remove('img-darken')
         })
     }
 }

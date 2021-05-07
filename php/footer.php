@@ -8,10 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <div id = "footer">
-        <div class="copyright">
-            <p>copyright &copy;2020</p>
-        </div>
+    <div id="footer">
+        <div class="copyright"><p>copyright &copy;2020</p></div>
         <div class = "social-link">
             <a href="https://www.linkedin.com/in/gervin-fung-387409209/" rel="noreferrer" class="fa fa-linkedin"></a>
             <a href="https://www.facebook.com/GervinFung" rel="noreferrer" class="fa fa-facebook"></a>

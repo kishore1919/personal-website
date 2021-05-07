@@ -55,7 +55,7 @@
                         $data = PORTFOLIO_DATA[$page + $j];
                         $path = $data[0];
                         $caption = $data[1];
-                        echo '<div class="portfolio-item-wrapper" onclick="myFunction()">';
+                        echo '<div class="portfolio-item-wrapper">';
                             echo '<div class="portfolio-img-background" style="background-image:url(../images/portfolio_background/'.$path.'.jpg)"> </div>';
                             echo '<div class="img-text-wrapper">';
                                 echo '<div class="logo-wrapper">';
@@ -65,11 +65,6 @@
                                 echo '</div>';
                                 echo '<div class="subtitle">'.$caption.'</div>';
                             echo '</div>';
-                        echo '</div>';
-                        echo '<div id="myDropdown" class="dropdown-content">';
-                            echo '<a href="#home">Home</a>';
-                            echo '<a href="#about">About</a>';
-                            echo '<a href="#contact">Contact</a>';
                         echo '</div>';
                     }
                     echo '</div>';

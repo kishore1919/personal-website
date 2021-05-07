@@ -15,13 +15,13 @@
 
 .contact-us-panel p {
     text-align: center;
-    text-shadow: 5px 1px #0ffbf9;
-    color: crimson;
+    text-shadow: 5px 1px var(--green-color);
+    color: var(--red-color);
     font-size: 2.5em;
 }
 
 .contact-form label {
-    color: #0ffbf9;
+    color: var(--green-color);
     font-size: 2em;
 }
 
@@ -47,11 +47,11 @@
 
 .submit-btn {
     padding: 12px 15px 12px 15px;
-    background-color: crimson;
-    background: linear-gradient(to right, crimson 50%, white 50%) left;
+    background-color: var(--red-color);
+    background: linear-gradient(to right, var(--red-color) 50%, white 50%) left;
     background-size: 231%;
     color: white;
-    border-color: crimson;
+    border-color: var(--red-color);
     font-size: 2.5em;
     transition: all 0.25s ease;
 }
@@ -60,7 +60,7 @@
     background-color: var(--secondary-color);
     cursor: pointer;
     background-position: right;
-    color: crimson;
+    color: var(--red-color);
 }
 
 #submit-button-wrapper {

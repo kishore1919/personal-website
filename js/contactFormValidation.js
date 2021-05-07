@@ -1,7 +1,4 @@
 const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const REGEX_TRAILING_BLANKS = /^\s+/
-const REGEX_CONSECUTIVE_BLANK_SPACE = /\s+/
-const REGEX_LEADING_BLANKS = /\s+/
 const EMPTY_STRING = ''
 
 validateForm()
@@ -22,7 +19,6 @@ function validateForm() {
         } else if (checkForBlankString(visitorName.value)) {
             nameErr.innerText = '*Please do not leave name section blank*'
         } else {
-            visitorName.value = visitorName.value.replace(REGEX_TRAILING_BLANKS, EMPTY_STRING).replace(REGEX_LEADING_BLANKS, EMPTY_STRING).replace(REGEX_CONSECUTIVE_BLANK_SPACE, ' ')
             nameErr.innerText = EMPTY_STRING
         }
     })
