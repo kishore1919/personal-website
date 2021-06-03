@@ -12,9 +12,21 @@
     z-index: 4;
 }
 
-.button > .prev {animation: previousButtonSlideIn ease 1.5s}
+.button > .prev {
+    animation: previousButtonSlideIn ease 1.5s;
+    -moz-animation: previousButtonSlideIn ease 1.5s;
+    -webkit-animation: previousButtonSlideIn ease 1.5s;
+    -o-animation: previousButtonSlideIn ease 1.5s;
+    -ms-animation: previousButtonSlideIn ease 1.5s;
+}
 
-.button > .next {animation: nextButtonSlideIn ease 1.5s}
+.button > .next {
+    animation: nextButtonSlideIn ease 1.5s;
+    -moz-animation: nextButtonSlideIn ease 1.5s;
+    -webkit-animation: nextButtonSlideIn ease 1.5s;
+    -o-animation: nextButtonSlideIn ease 1.5s;
+    -ms-animation: nextButtonSlideIn ease 1.5s;
+}
 
 @keyframes previousButtonSlideIn {
     0% {left: -50%;}
@@ -111,7 +123,7 @@
 
 .portfolio-item-wrapper:hover {
     z-index: 0;
-    transform: scale(1.13);
+    transform: scale(1.11);
     transition: all 0.5s ease;
 }
 

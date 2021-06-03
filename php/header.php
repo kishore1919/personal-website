@@ -62,13 +62,16 @@
                     echo '</div>';
                 echo '</div>';
                 echo '<div id="right-side">';
+                    echo '<div class="toggle-wrapper">';
+                        echo '<i id="toggle-theme" class="fas fa-sun" aria-hidden="true"></i>';
+                    echo '</div>';
                     echo '<div class="brand">';
                         echo '<a href="#footer" rel="canonical" >PoolOfDeath20</a>';
                     echo '</div>';
                 echo '</div>';
             echo '</div>';
         echo '</body>';
-        echo '<script src="'.OTHER_FILE.'js/allPage.js"> </script>';
+        echo '<script src="'.OTHER_FILE.'js/allPage.js" charset="utf-8" defer> </script>';
         echo '</html>';
     }
 ?>

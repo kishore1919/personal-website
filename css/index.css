@@ -1,5 +1,6 @@
 .two-col-wrapper {
     justify-content: space-around;
+    align-items: center;
     display: flex;
 }
 
@@ -12,80 +13,14 @@
 
 #name {
     text-transform: uppercase;
-    color: var(--red-color)
-}
-
-.sphere-wrapper {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-}
-
-@keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
-@-moz-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
-@-webkit-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
-@-o-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
-@-ms-keyframes spin {to {transform: rotateX(360deg) rotateY(360deg)}}
-  
-@keyframes show {to {opacity: 1}}
-@-moz-keyframes show {to {opacity: 1}}
-@-webkit-keyframes show {to {opacity: 1}}
-@-o-keyframes show {to {opacity: 1}}
-@-ms-keyframes show {to {opacity: 1}}
-
-.scene {
-    width: 40vmax;
-    height: 40vmax;
-    margin: 2% auto;
-    perspective: 1000px;
-}
-
-.wrapper {
-    width: 100%;
-    height: 100%;
-    transform: rotateX(45deg) rotateY(45deg);
-    transform-style: preserve-3d;
-    -moz-transition-style: preserve-3d;
-    -webkit-transition-style: preserve-3d;
-    -o-transition-style: preserve-3d;
-    -ms-transition-style: preserve-3d;
-}
-
-#ball {
-    position: relative;
-    width: 70%;
-    height: 70%;
-    margin:0 auto;
-    transform-style: preserve-3d;
-    animation: spin 7.5s 1.3s infinite linear;
-    -moz-animation: spin 7.5s 1.3s infinite linear;
-    -webkit-animation: spin 7.5s 1.3s infinite linear;
-    -o-animation: spin 7.5s 1.3s infinite linear;
-    -ms-animation: spin 7.5s 1.3s infinite linear;
-}
-
-.ring {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 4px;
-    border-style: dotted;
-    border-radius: 50%;
-    animation: show 0.75s forwards ease-in-out;
-    -moz-animation: show 0.75s forwards ease-in-out;
-    -webkit-animation: show 0.75s forwards ease-in-out;
-    -o-animation: show 0.75s forwards ease-in-out;
-    -ms-animation: show 0.75s forwards ease-in-out;
-    list-style-type: none;
+    color: var(--red-color);
 }
 
 .portfolio-button-wrapper {
     justify-content: center;
     align-items: center;
     display: flex;
-    margin: -60px 0 60px 0;
+    margin: 30px;
 }
 
 @media (max-width: 993px) {.portfolio-button-wrapper {margin-top: 0}}
@@ -94,18 +29,18 @@
     text-align: center;
     position: relative;
     display: block;
-    color: white;
+    color: var(--secondary-color);
     text-decoration: none;
     font-size: 1.3em;
-    border: 3px solid #fa4454;
-    padding: 16px 30px;
+    border: 3px solid var(--cta-color);
+    padding: 16px 25px;
     text-transform: uppercase;
     overflow: hidden;
-    transition: 1s all ease;
+    transition: 0.5s all ease;
 }
 
 .portfolio-button::before{
-    background: #fa4454;
+    background: var(--cta-color);
     content: "";
     position: absolute;
     top: 50%;
@@ -117,4 +52,71 @@
     transform: translate(-50%,-50%) rotate(45deg);
 }
 
-.portfolio-button:hover::before{height: 350%}
+.portfolio-button:hover::before{height: 450%}
+
+/* connect4 */
+
+#connect4, #restart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#game_board td {
+    border: 1px solid #808080;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%
+}
+
+.piece {cursor: default !important}
+
+.black {background: var(--black-piece)}
+
+.red {background: var(--red-piece)}
+
+#restart, .aiBtn {
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--secondary-color);
+    font-size: 1.1em;
+    border: none;
+    margin: 6px 16px 6px 16px;
+}
+
+#message-to-player {
+    color: var(--secondary-color);
+    font-size: 1.1em;
+    border: none;
+    margin: 6px 16px 6px 16px;
+}
+
+.panel {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+@media (max-width: 506px) {
+    #game_board td {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 388px) {
+    #game_board td {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 304px) {
+    #game_board td {
+        width: 20px;
+        height: 20px;
+    }
+}

@@ -86,5 +86,5 @@
     </div>
     <?php require_once 'footer.php';?>
 </body>
-<script src="../js/portfolio.js"> </script>
+<script src="../js/portfolio.js" charset="utf-8" defer> </script>
 </html>

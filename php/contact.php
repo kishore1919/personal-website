@@ -112,7 +112,7 @@
                 echo '<p>Thank You '.$name.'!</p>';
             echo '</div>';
         echo '</div>';
-        echo '<script src="../js/contactPopUp.js"> </script>';
+        echo '<script src="../js/contactPopUp.js" charset="utf-8" defer> </script>';
     }
 ?>
 
@@ -154,7 +154,7 @@
                         <span class="error" id = "emailErr"><?php echo $emailErr;?></span>
                         <label>
                             <div class="input-div">
-                                <input type="email" name="email" id = "email" placeholder="Where can we email you back?" value="<?php echo $email;?>" required>
+                                <input type="email" name="email" id = "email" placeholder="Where can I email you back?" value="<?php echo $email;?>" required>
                             </div>
                         </label>
 
@@ -176,5 +176,5 @@
     </div>
     <?php require_once 'footer.php';?>
 </body>
-<script src="../js/contactFormValidation.js"></script>
+<script src="../js/contactFormValidation.js" charset="utf-8" defer></script>
 </html>

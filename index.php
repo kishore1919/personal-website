@@ -1,18 +1,3 @@
-<?php
-    function getData() {
-        $file_handle = fopen('files/sphere.txt', 'r') or die('path wrong OR file content corrupted');
-        $data = array();
-        $DEGREE = 4;
-        while (!feof($file_handle) ) {
-            $temp = explode(',', fgets($file_handle));
-            $data[] = '<li class="ring" style = "color:'.$temp[0].'; transform: rotateY('.$DEGREE.'deg); animation-delay: '.$temp[1].'s;"></li>';
-            $DEGREE += 4;
-        }
-        fclose($file_handle);
-        return $data;
-    }
-    define('SPHERE', getData());
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +5,6 @@
     <meta name="viewport" content="width = device-width, initial-scale = 1.0">
     <title>Home</title>
     <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/font/Allura/stylesheet.css" type="text/css" charset="utf-8" />
     <?php require_once 
         'php/header.php';
         displayHeader(TRUE);
@@ -32,21 +16,38 @@
             <div class="home-page-message">
                 <p>Hello</p><p>I am</p><p id="name">Gervin</p>
             </div>
-            <div class="sphere-wrapper">
-                <div class="scene">
-                    <div class="wrapper">
-                        <ul id="ball">
-                            <?php foreach(SPHERE as $value){echo $value;}?>
-                        </ul>
+            <div id="connect4">
+                <div>
+                    <div class="panel">
+                        <div><label for="redAI" class="aiBtn">Red as AI:<input type="checkbox" id="redCheck"></label></div>
+                        <div><label for="blackAI" class="aiBtn">Black as AI:<input type="checkbox" id="blackCheck"></label></div>
+                    </div>
+                    <table style="border-spacing: 10px;" id="game_board" cellpadding="0">
+                        <?php
+                            $html_game_board = '';
+                            for ($i = 0; $i < 6; $i++) { 
+                                $html_game_board .= '<tr>';
+                                for ($j = 0; $j < 7; $j++) {
+                                    $html_game_board .= '<td></td>';
+                                }
+                                $html_game_board .= '</tr>';
+                            }
+                            echo $html_game_board;
+                        ?>
+                    </table>
+                    <div class="panel">
+                        <div><button id="restart">Restart</button></div>
+                        <div><p id="message-to-player"></p></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="portfolio-button-wrapper">
-            <a href="php/portfolio" class="portfolio-button">Click Me</a>
+            <a href="php/portfolio" class="portfolio-button">View My Work</a>
         </div>
     </div>
     <?php require_once 'php/footer.php';?>
 </body>
-<script src="js/index.js"></script>
+<script src="js/Connect4JS/board/Board.js" charset="utf-8" defer type="module"></script>
+<script src="js/index.js" charset="utf-8" defer type="module"></script>
 </html>
