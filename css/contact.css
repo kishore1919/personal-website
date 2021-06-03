@@ -131,6 +131,14 @@
     .submit-btn {font-size: 1.75em}
 }
 
+@media (max-width: 491px) {
+    .input-div {margin: 20px 5px 20px 5px}
+}
+
+@media (max-width: 463px) {
+    .contact-wrapper {width: 95vw}
+}
+
 #close {
     color: #aaaaaa;
     float: right;
