@@ -137,6 +137,8 @@
 
 @media (max-width: 463px) {
     .contact-wrapper {width: 95vw}
+    .contact-form input[type=text], .contact-form input[type=email], .contact-form textarea {padding: 10px}
+    #my-contact-form {margin: -7px;}
 }
 
 #close {

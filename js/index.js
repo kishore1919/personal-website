@@ -36,7 +36,7 @@ function aiMakeMove() {
     const move = new Minimax(board.getCurrentPlayer().getLeague()).makeMove(board);
     td[move.getIndex()].className = League.isBlack(board.getCurrentPlayer().getLeague()) ? 'black piece' : 'red piece';
     board = move.execute(board);
-    if (currentPlayerIsAI()) { aiMakeMove(); }
+    currentPlayerIsAI() ? aiMakeMove() : checkEndGame();
 }
 
 function checkEndGame() {
