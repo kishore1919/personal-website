@@ -14,7 +14,7 @@ function validateForm() {
     const messageErr = document.getElementById('messageErr');
 
     visitorName.addEventListener('input', () => {
-        if (0 === visitorName.value.length || null == visitorName.value) {
+        if (0 === visitorName.value.length || null === visitorName.value) {
             nameErr.innerText = '*Please do not leave name section empty*';
         } else if (checkForBlankString(visitorName.value)) {
             nameErr.innerText = '*Please do not leave name section blank*';
@@ -24,7 +24,7 @@ function validateForm() {
     })
 
     visitorEmail.addEventListener('change', () => {
-        if (0 === visitorEmail.value.length || null == visitorEmail.value) {
+        if (0 === visitorEmail.value.length || null === visitorEmail.value) {
             emailErr.innerText = '*Please do not leave email section empty*';
             return;
         }
@@ -32,7 +32,7 @@ function validateForm() {
     })
 
     visitorMessage.addEventListener('change', () => {
-        if (0 === visitorMessage.value.length || null == visitorMessage.value) {
+        if (0 === visitorMessage.value.length || null === visitorMessage.value) {
             messageErr.innerText = '*Please do not leave message section empty*';
         } else if (checkForBlankString(visitorMessage.value)) {
             nameErr.innerText = '*Please do not leave message section blank*';

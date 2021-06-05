@@ -20,7 +20,7 @@ const filesToCache = [
     'images/appIcon/icon256.png',
     'images/appIcon/icon512.png',
     'images/logos/AndroidSimpleAIChess.jpg',
-    'images/logos/Connect4.JPG',
+    'images/logos/Connect4.jpg',
     'images/logos/KnapsackProblem.jpg',
     'images/logos/LibGDX-Chess-Game.jpg',
     'images/logos/SimpleParallelChessAI.jpg',
