@@ -1,0 +1,226 @@
+.contact-wrapper {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    width: 75vw;
+    margin: 15px;
+    box-shadow: -5px 5px var(--contact-green-glitch), 5px -5px var(--contact-red-glitch);
+}
+
+.contact-us-panel {
+    padding: 1px;
+    margin: 0 auto;
+    background: var(--contact-panel);
+}
+
+.contact-us-panel p {
+    text-align: center;
+    letter-spacing: 5.5px;
+    text-shadow: 4px 2px var(--contact-green-glitch), -4px 2px var(--contact-red-glitch);
+    color: var(--primary-color);
+    font-size: 2.5em;
+}
+
+.contact-form label {
+    color: var(--contact-me-label);
+    font-size: 2em;
+}
+
+.contact-form input[type=text], .contact-form input[type=email], .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid var(--contact-input-border);
+    box-sizing: border-box;
+    resize: vertical;
+    background-color: var(--contact-background);
+    color: var(--secondary-color);
+    outline: none;
+    font-size: 0.6em;
+}
+
+.input-div {
+    margin: 20px;
+    border: none;
+}
+
+.contact-form input[type=text]:hover, .contact-form input[type=email], .contact-form textarea:hover {outline: none}
+
+.submit-btn {
+    padding: 6px 16px 6px 16px;
+    background-color: var(--cta-color);
+    background: linear-gradient(to right, var(--cta-color) 50%, var(--primary-color) 50%) left;
+    background-size: 200%;
+    color: white;
+    border-color:transparent;
+    font-size: 2.5em;
+    transition: all 0.25s ease;
+}
+
+.submit-btn:hover {
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    background-position: right;
+    color: var(--cta-color);
+}
+
+#submit-button-wrapper {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.contact-form {
+    padding: 20px;
+    margin: 0 auto;
+    background-color: var(--contact-background);
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+.input-info {margin-right: 10px}
+
+/* contact pop up */
+#messageBackground, #waitingBackground {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.message-content, .waiting-content {
+    margin: auto;
+    padding: 20px;
+    border: none;
+    background-color: var(--secondary-color);
+    width: auto;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.waiting-content {
+    background-color: transparent !important;
+}
+
+#close-waiting {
+    color: var(--high-emphases-text-color);
+    margin: 10px 20px 10px 20px;
+    font-size: 2em;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: all ease 0.2s;
+}
+
+#close-waiting:hover, #close-waiting:focus {
+    transform: scale(2);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.message-content img {
+    width: auto;
+    height: 5vw;
+}
+
+@media (max-width: 973px) {
+    .contact-us-panel p {
+        text-shadow: 3px 1px var(--contact-green-glitch), -3px 1px var(--contact-red-glitch);
+        font-size: 2em;
+    }
+    .contact-form label {font-size: 1.3em}
+    .submit-btn {font-size: 2em}
+}
+
+@media (max-width: 927px) {
+    .message-content {
+        font-size: 1em;
+        width: 55vw;
+    }
+}
+
+@media (max-width: 847px) {
+    .contact-us-panel p {font-size: 1.75em}
+    .submit-btn {font-size: 1.75em}
+}
+
+@media (max-width: 491px) {
+    .input-div {margin: 20px 5px 20px 5px}
+}
+
+@media (max-width: 463px) {
+    .contact-wrapper {width: 95vw}
+    .contact-form input[type=text], .contact-form input[type=email], .contact-form textarea {padding: 10px}
+    #my-contact-form {margin: -7px;}
+}
+
+#close-msg {
+    color: #aaaaaa;
+    float: right;
+    margin-top: -15px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#close-msg:hover, #close-msg:focus {
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.message-content > p{
+    color: var(--primary-color);
+}
+
+#tick{
+    filter: var(--contact-tick-brightness);
+}
+
+/* loader */
+.loader {
+    border: 16px solid gray;
+    border-top: 16px solid #059862;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    -webkit-animation: spin 1s linear infinite;
+    -o-animation: spin 1s linear infinite;
+    -ms-animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@-moz-keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+  
+@-o-keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+  
+@-ms-keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,31 @@
+.two-row-wrapper {
+    width: 90%;
+    height: 100%;
+    display: block;
+}
+
+.profile-image-wrapper {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.profile-image-wrapper img {
+    border-radius: 50%;
+    width: 25%;
+    height: auto;
+}
+
+.profile-content-wrapper p {
+    text-align: center;
+    color: var(--about-me-description);
+    font-size: 1.3em;
+}
+
+.profile-content-wrapper h1 {
+    text-align: center;
+    font-size: 2.5em;
+    color: var(--high-emphases-text-color);
+    letter-spacing: 5.5px;
+    text-shadow: 4px 2px var(--contact-green-glitch), -4px 2px var(--contact-red-glitch);
+}

@@ -1,0 +1,68 @@
+#tictactoe-restart, #tictactoe-message-to-player {
+    color: var(--secondary-color);
+    font-size: 1.1em;
+}
+
+.occupied:hover {
+    cursor: default;
+}
+
+#tictactoe-restart {
+    background-color: transparent;
+    border: none;
+}
+
+#tictactoe-restart:hover {
+    cursor: pointer;
+}
+
+.panel {
+    margin: 25px 0 25px 0;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+#tic-tac-toe-wrapper td {
+    border: 1px solid var(--secondary-color);
+    padding: 8px;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    font-size: 5em;
+    text-align: center;
+    color: var(--secondary-color);
+}
+  
+#tic-tac-toe-wrapper td:hover {background-color: var(--hover-color)}
+
+#tictactoe-restart, #tictactoe-message-to-player {
+    color: var(--secondary-color);
+}
+
+@media (max-width: 377px) {
+    #tictactoe-restart, #tictactoe-message-to-player {font-size: 1.2em}
+    #tic-tac-toe-wrapper td {
+        width: 80px;
+        height: 80px;
+        font-size: 4em;
+    }
+}
+
+@media (max-width: 329px) {
+    #tictactoe-restart, #tictactoe-message-to-player {font-size: 1em}
+    #tic-tac-toe-wrapper td {
+        width: 60px;
+        height: 60px;
+        font-size: 3em;
+    }
+}
+
+@media (max-width: 255px) {
+    #tictactoe-restart, #tictactoe-message-to-player {font-size: 0.9em}
+    #tic-tac-toe-wrapper td {
+        width: 40px;
+        height: 40px;
+        font-size: 2em;
+    }
+}

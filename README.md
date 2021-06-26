@@ -5,11 +5,11 @@ It is also a Progressive Web App
 
 ## Home Page
 
-![Home Page](images/home_page.jpg)
+![Home Page](public/images/home_page.jpg)
 
 ## Portfolio Page
 
-![Portfolio Page](images/portfolio_page.jpg)
+![Portfolio Page](public/images/portfolio_page.jpg)
 
 No. | Repository
 --- | ----
@@ -29,8 +29,8 @@ No. | Repository
 
 ## About Page
 
-![About Page](images/about_page.jpg)
+![About Page](public/images/about_page.jpg)
 
 ## Contact Page
 
-![Contact Page](images/contact_page.jpg)
+![Contact Page](public/images/contact_page.jpg)

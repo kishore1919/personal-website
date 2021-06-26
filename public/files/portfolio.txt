@@ -1,0 +1,14 @@
+Room,A website build with rental information by web scraping from UTAR Accomodation list and build a better website using the information through collaboration with Eugene Yong
+LibGDX-Chess-Game,A Parallel AI Chess Game made with LibGDX Framework. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
+SimpleParallelChessAI,A Parallel AI Chess Game made with Java Swing. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
+AndroidSimpleAIChess,First Android Project - Parallel AI Chess Game. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
+Connect4,A Connect-4 Game written in C# WinForms. This program was written to familiarise myself with C# syntax since C# is very similar to Java.
+TicTacToe,Simple AI Tic-Tac-Toe Game made with Java Swing. Choose against AI or human. You can play in 3x3 grid up to 10x10.
+TextEditorFX,A Simple Text Editor similar to NotePad. My first JavaFX project. I wrote this as an upgraded version of the previous TextEditor.
+TextEditor,A Simple Text Editor similar to NotePad. I wrote this because the undo option of Notepad can only undo once. But with this software you can undo all of your edit.
+KnapsackProblem,Do you know how to solve the knapsack? Come and find out how to solve Knapsack in 5 different ways.
+SimpleParallelDispatcher,Simple Basic Parallel Program. A Java program that use thread and semaphore to simulate dispatcher.
+Tic-Tac-Toe-AI,Simple unbeatable AI Tic-Tac-Toe Game made with Javascript through collaboration with Tay Ming Liang. Choose against AI or human.
+MPN_CPP,A Simple Basic C++ Program. Nothing fancy as I just wanna write C++ for fun.
+CommonSortingAlgorithms,9 Commonly use sorting algorithms. Time and Space Complexity provided. Wrote this to familiarise myself with OOP.
+PythonCalculator,First Simple Python Project - Calculator. Nothing fancy as well since I just wanna write something for fun.

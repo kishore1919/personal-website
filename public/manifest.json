@@ -1,0 +1,40 @@
+{
+    "theme_color" : "#000d0d",
+    "background_color" : "#000d0d",
+    "display" : "standalone",
+    "lang": "en-US",
+    "scope" : "/",
+    "start_url" : "/",
+    "name" : "PoolOfDeath20",
+    "short_name" : "PoolOfDeath20",
+    "description" : "Website of PoolOfDeath20",
+    "prefer_related_applications": true,
+    "icons": [
+        {
+          "src": "images/appIcon/icon128.png",
+          "sizes": "128x128",
+          "type": "image/png"
+        }, {
+          "src": "images/appIcon/icon144.png",
+          "sizes": "144x144",
+          "type": "image/png"
+        }, {
+          "src": "images/appIcon/icon152.png",
+          "sizes": "152x152",
+          "type": "image/png"
+        }, {
+          "src": "images/appIcon/icon192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }, {
+          "src": "images/appIcon/icon256.png",
+          "sizes": "256x256",
+          "type": "image/png"
+        }, {
+          "src": "images/appIcon/icon512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any maskable"
+        }
+    ]
+}
