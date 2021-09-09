@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div class='two-col-wrapper'>
     <div class='home-page-message'><p>Hello</p><p>I am</p><p id='name'>Gervin</p></div>
     <div id='game'>
@@ -32,41 +31,6 @@
                     <div class='panel'>
                         <div><button id='tictactoe-restart' class='game-label'>Restart</button></div>
                         <div><p id='tictactoe-message-to-player' class='game-label'>Game started...</p></div>
-=======
-<div class="two-col-wrapper">
-    <div class="home-page-message"><p>Hello</p><p>I am</p><p id="name">Gervin</p></div>
-    <div id="game">
-        <div>
-            <div id="game-options">
-                <div class="game-option-container" id="connect4-button"><span class="game-option">Connect4</span></div>
-                <div class="game-option-container" id="tictactoe-button"><span class="game-option">Tic Tac Toe</span></div>
-            </div>
-            <div id="connect4">
-                <div>
-                    <div class="panel">
-                        <div><label class="aiBtn">Red as AI:<input type="checkbox" id="redCheck"></label></div>
-                        <div><button class="backBtn">Back</button></div>
-                        <div><label class="aiBtn">Black as AI:<input type="checkbox" id="blackCheck"></label></div>
-                    </div>
-                    <div class="panel"><table style="border-spacing: 10px;" id="game_board" cellpadding="0">{{#connect4}}{{this}}{{/connect4}}</table></div>
-                    <div class="panel">
-                        <div><button id="connect4-restart">Restart</button></div>
-                        <div><p id="connect4-message-to-player">Game started...</p></div>
-                    </div>
-                </div>
-            </div>
-            <div id="tictactoe">
-                <div>
-                    <div class="panel">
-                        <div><label class="aiBtn">O as AI:<input type="checkbox" id="OCheck"></label></div>
-                        <div><button class="backBtn">Back</button></div>
-                        <div><label class="aiBtn">X as AI:<input type="checkbox" id="XCheck"></label></div>
-                    </div>
-                    <div class="game-panel"><div id="tic-tac-toe-wrapper"><table>{{#tictactoe}}{{this}}{{/tictactoe}}</table></div></div>
-                    <div class="panel">
-                        <div><button id="tictactoe-restart">Restart</button></div>
-                        <div><p id="tictactoe-message-to-player">Game started...</p></div>
->>>>>>> main
                     </div>
                 </div>
             </div>
@@ -74,44 +38,6 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
 <div class='portfolio-button-wrapper'>
     <a href='portfolio' class='portfolio-button'>View My Work</a>
 </div>
-=======
-<div class="portfolio-button-wrapper">
-    <a href="portfolio" class="portfolio-button">View My Work</a>
-</div>
-<script>
-    const connect4option = document.getElementById('connect4-button');
-    const tictactoeOption = document.getElementById('tictactoe-button');
-
-    const connect4 = document.getElementById('connect4');
-    const tictactoe = document.getElementById('tictactoe');
-
-    const gameOptions = document.getElementById('game-options');
-
-    const backMenu = document.getElementsByClassName('backBtn');
-
-    for (let i = 0; i < backMenu.length; i++) {
-        const back = backMenu[i];
-        back.addEventListener('click', () => {
-            gameOptions.style.display = 'block';
-            connect4.style.display = 'none';
-            tictactoe.style.display = 'none';
-        });
-    }
-
-    function hideGameOptions (game) {
-        gameOptions.style.display = 'none';
-        game.style.display = 'flex';
-    }
-    
-    connect4option.addEventListener('click', () => {
-        hideGameOptions(connect4)
-    });
-    tictactoeOption.addEventListener('click', () => {
-        hideGameOptions(tictactoe)
-    });
-</script>
->>>>>>> main
