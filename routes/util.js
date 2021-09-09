@@ -34,11 +34,7 @@ const validateEmail = (senderEmail) => {
     if (undefined === senderEmail || senderEmail.length === 0) {
         return '*Please do not leave email section empty*';
     }
-    if (REGEX_EMAIL.test(senderEmail)) {
-        return EMPTY_STRING;
-    } else {
-        return '*Please enter valid email format*';
-    }
+    return REGEX_EMAIL.test(senderEmail) ? EMPTY_STRING : '*Please enter valid email format*';
 };
 
 const validateMsg = (msg) => {
@@ -46,13 +42,8 @@ const validateMsg = (msg) => {
         return '*Please do not leave message section empty*';
     } else if (checkForBlankString(msg)) {
         return '*Please do not leave message section blank*';
-    } else {
-        if (msg.length < 10) {
-            return '*At least 10 words are required*';
-        } else {
-            return EMPTY_STRING;
-        }
     }
+    return msg.length < 10 ? '*At least 10 words are required*' : EMPTY_STRING;
 };
 
 const validateName = (visitorName) => {
@@ -60,9 +51,8 @@ const validateName = (visitorName) => {
         return '*Please do not leave name section empty*';
     } else if (checkForBlankString(visitorName)) {
         return '*Please do not leave name section blank*';
-    } else {
-        return EMPTY_STRING;
     }
+    return EMPTY_STRING;
 };
 
 const getLanguageSelector = (github, portfolioData) => {
