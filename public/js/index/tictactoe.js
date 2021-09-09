@@ -14,7 +14,7 @@ const tdArr = document.getElementsByClassName('tictactoe-td ');
 
 const tictactoeTDAddEventListener = () => {
     const length = tdArr.length;
-    for (let i = 0; i < length< i++;) {
+    for (let i = 0; i < length; i++) {
         const tileGame = tdArr[i];
         tileGame.addEventListener('click', () => {
             if (tictactoeBoard.getTileAt(i).isTileOccupied() || tictactoeGameOver) { return; }
@@ -59,10 +59,12 @@ const restartGame = () => {
         if (confirm('Confirmation to restart game')) {
             tictactoeGameOver = false;
             tictactoeBoard = Board.createStandardBoard();
-            tdArr.forEach(tileGame => {
+            const length = tdArr.length;
+            for (let i = 0; i < length; i++) {
+                const tileGame = tdArr[i];
                 tileGame.innerHTML = '';
                 tileGame.className = 'tictactoe-td ';
-            });
+            }
             tictactoeMsg.innerHTML = 'Game started...';
             OAI.checked = false;
             XAI.checked = false;

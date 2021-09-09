@@ -14,7 +14,9 @@ const mouseOverRepoEffect = () => {
     });
 };
 
-const formLangQuery = (url) => (url.includes('language=') ? url.split('language=')[1].trim() : 'All');
+const removedHeaderFooterUrl = () => location.href.replace('#footer', '').replace('#top', '');
+
+const formLangQuery = (url) => url.includes('language=') ? url.split('language=')[1].trim() : 'All';
 
 const formNumQuery = (url) => {
     if (url.includes('page=')) {
@@ -26,7 +28,7 @@ const formNumQuery = (url) => {
 
 const highlightDot = () => {
     try {
-        const page = formNumQuery(processURL());
+        const page = formNumQuery(removedHeaderFooterUrl());
         if (page <= 0) {
             dots[0].className += ' active';
             return;
@@ -39,14 +41,14 @@ const sideBySideButton = () => {
     try {
         const prevButton = document.getElementById('prev');
         prevButton.addEventListener('click', () => {
-            const url = processURL();
+            const url = removedHeaderFooterUrl();
             const lang = formLangQuery(url);
             const portfolioPage = formNumQuery(url);
             window.location.search = `page=${portfolioPage <= 0 ? numberOfPagination : portfolioPage - 1}&language=${lang}`;
         });
         const nextButton = document.getElementById('next');
         nextButton.addEventListener('click', () => {
-            const url = processURL();
+            const url = removedHeaderFooterUrl();
             const lang = formLangQuery(url);
             const portfolioPage = formNumQuery(url);
             window.location.search = `page=${portfolioPage >= numberOfPagination ? 0 : portfolioPage + 1}&language=${lang}`;

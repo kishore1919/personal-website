@@ -1,12 +1,6 @@
 let showMenu = false;
 
-highlightActiveNavLink();
-restorePage();
-load();
-handleToggleThemeIcon();
-fullScreenNavMenu();
-
-function restorePage() {
+const restorePage = () => {
     window.addEventListener('pageshow', function (event) {
         const historyTraversal = event.persisted || (typeof window.performance !== 'undefined' && window.performance.type === 2)
         if (historyTraversal) {
@@ -16,12 +10,12 @@ function restorePage() {
     })
 }
 
-function processURL() {
+const processURL = () => {
     const url = location.href.replace('#footer', '').replace('#top', '');
     return url.includes('?') ? url.split('?')[0].replace('?', '') : url;
 }
 
-function highlightActiveNavLink() {
+const highlightActiveNavLink = () => {
     const currentLink = processURL();
     const allNavLink = document.getElementsByClassName('nav-link-wrapper');
     let isActiveFound = false;
@@ -40,7 +34,7 @@ function highlightActiveNavLink() {
     allNavLink[0].className = 'nav-link-wrapper active-nav-link';
 }
 
-function load() {
+const load = () => {
     window.addEventListener('load', () => {
         'use strict';
         if ('serviceWorker' in navigator) {
@@ -54,25 +48,30 @@ function load() {
     })
 }
 
-function handleToggleThemeIcon() {
+const handleToggleThemeIcon = () => {
+    const toggleButton = document.getElementById('toggle-theme-button');
     const toggle = document.getElementById('toggle-theme');
     const classList = document.body.classList;
     const THEME_KEY = 'THEME_KEY';
-    if (JSON.parse(sessionStorage.getItem(THEME_KEY)) === true) {
+    if (JSON.parse(sessionStorage.getItem(THEME_KEY))) {
         classList.toggle('light-theme');
         toggle.className = 'fas fa-moon';
     } else {
         toggle.className = 'fas fa-sun';
     }
-    toggle.addEventListener('click', () => {
+    toggleButton.addEventListener('click', () => {
         classList.toggle('light-theme');
         const isLight = classList.contains('light-theme');
         toggle.className = `fas ${isLight ? 'fa-moon' : 'fa-sun'}`;
         sessionStorage.setItem(THEME_KEY, isLight);
     })
-}
+};
 
-function fullScreenNavMenu() {
+const setFullScreenAnimation = (fullScreenMenu, animation) => {
+    fullScreenMenu.style.animation = fullScreenMenu.style.mozAnimation = fullScreenMenu.style.webkitAnimation = fullScreenMenu.style.oAnimation = fullScreenMenu.style.msAnimation = animation;
+};
+
+const fullScreenNavMenu = () => {
     const fullScreenMenu = document.getElementById('full-screen-nav');
     const navToTop = document.getElementById('back-to-top-wrapper')
     document.getElementById('hamburger-nav').addEventListener('click', () => {
@@ -93,8 +92,10 @@ function fullScreenNavMenu() {
             fullScreenMenu.style.display = 'none';
         }, 500);
     })
-}
+};
 
-function setFullScreenAnimation(fullScreenMenu, animation) {
-    fullScreenMenu.style.animation = fullScreenMenu.style.mozAnimation = fullScreenMenu.style.webkitAnimation = fullScreenMenu.style.oAnimation = fullScreenMenu.style.msAnimation = animation;
-}
+highlightActiveNavLink();
+restorePage();
+load();
+handleToggleThemeIcon();
+fullScreenNavMenu();

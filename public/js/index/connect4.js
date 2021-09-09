@@ -13,9 +13,9 @@ let connect4Gameover = false;
 
 const tdAddEventListener = () => {
     const length = td.length;
-    for (let i = 0; i < length < i++;) {
+    for (let i = 0; i < length; i++) {
         td[i].addEventListener('click', () => {
-
+        
             if (connect4Board.getTileAt(i).isTileOccupied() || connect4Gameover) { return; }
 
             connect4Msg.innerHTML = 'Game running...';
@@ -58,9 +58,10 @@ const restartGame = () => {
         if (confirm('Confirmation to restart game')) {
             connect4Gameover = false;
             connect4Board = Board.createStandardBoard();
-            td.forEach(tileGame => {
-                tileGame.className = 'connect4-td ';
-            });
+            const length = td.length;
+            for (let i = 0; i < length; i++) {
+                td[i].className = 'connect4-td ';
+            }
             connect4Msg.innerHTML = 'Game started...';
             blackAI.checked = false;
             redAI.checked = false;
