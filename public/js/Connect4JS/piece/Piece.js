@@ -11,21 +11,13 @@ class Piece {
         }
     }
 
-    getIndex() {
-        return this.index;
-    }
+    getIndex = () => this.index;
 
-    getLeague() {
-        return this.league;
-    }
+    getLeague = () => this.league;
 
-    toString() {
-        return League.ToString(this.league);
-    }
+    toString = () => League.ToString(this.league);
 
-    static createPiece(league, index) {
-        return League.isBlack(league) ? new BlackPiece(index) : new RedPiece(index);
-    }
+    static createPiece = (league, index) => League.isBlack(league) ? Object.freeze(new BlackPiece(index)) : Object.freeze(new RedPiece(index));
 }
 
 class RedPiece extends Piece {

@@ -2,6 +2,10 @@ Room,A website build with rental information by web scraping from UTAR Accomodat
 LibGDX-Chess-Game,A Parallel AI Chess Game made with LibGDX Framework. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
 SimpleParallelChessAI,A Parallel AI Chess Game made with Java Swing. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
 AndroidSimpleAIChess,First Android Project - Parallel AI Chess Game. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
+<<<<<<< HEAD:public/files/portfolio.txt
+RealTimeMarkdown,First React Project - A Real Time Markdown Editor made with React + TypeScript
+=======
+>>>>>>> main:files/portfolio.txt
 Connect4,A Connect-4 Game written in C# WinForms. This program was written to familiarise myself with C# syntax since C# is very similar to Java.
 TicTacToe,Simple AI Tic-Tac-Toe Game made with Java Swing. Choose against AI or human. You can play in 3x3 grid up to 10x10.
 TextEditorFX,A Simple Text Editor similar to NotePad. My first JavaFX project. I wrote this as an upgraded version of the previous TextEditor.

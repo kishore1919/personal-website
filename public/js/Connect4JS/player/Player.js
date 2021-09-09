@@ -23,18 +23,14 @@ class Player {
         throw new Error('To be implemented by sub-class');
     }
 
-    getLegalMoves() {
-        return this.legalMoves;
-    }
+    getLegalMoves = () => this.legalMoves;
 
-    toString() {
-        return League.isBlack(this.getLeague()) ? 'Black' : 'Red';
-    }
+    toString = () => League.isBlack(this.getLeague()) ? 'Black' : 'Red';
 
     /**
      * Concrete
      */
-    generateEmptyRows(board) {
+    generateEmptyRows = (board) => {
         const emptyRows = [];
 
         let begin = Board.DEFAULT_COL * 5, min = 0;
@@ -58,17 +54,17 @@ class Player {
         }
 
         return Object.freeze(emptyRows);
-    }
+    };
 
-    generateLegalMoves(board) {
+    generateLegalMoves = (board) => {
         const moves = [];
 
         this.generateEmptyRows(board).forEach(emptyRow => moves.push(new Move(this.getLeague(), emptyRow.getIndex())));
 
         return Object.freeze(moves);
-    }
+    };
 
-    makeMove(move, board) {
+    makeMove = (move, board) => {
         if (move == null) {
             throw new Error('Move cannot be null');
         }
@@ -77,9 +73,9 @@ class Player {
             return moveFound.execute(board);
         }
         throw new Error('Move passed here is invalid');
-    }
+    };
 
-    checkHorizontalWin(board) {
+    checkHorizontalWin = (board) => {
         let numTileOccupied = 0;
         let begin = 0;
         for (let i = begin; i < Board.DEFAULT_NUM_TILES; i++) {
@@ -95,9 +91,9 @@ class Player {
             }
         }
         return false;
-    }
+    };
 
-    checkVerticalWin(board) {
+    checkVerticalWin = (board) => {
         let numTileOccupied = 0, begin = 0, max = Board.DEFAULT_COL * 5;
 
         for (let i = begin; i <= max; i += Board.DEFAULT_COL) {
@@ -116,9 +112,9 @@ class Player {
             }
         }
         return false;
-    }
+    };
 
-    checkRightToLeftDiagonalWin(board) {
+    checkRightToLeftDiagonalWin = (board) => {
         let increment = Board.DEFAULT_COL - 1, begin = (Board.DEFAULT_COL - 1) / 2;
         let max = 21, numTileOccupied = 0;
         let goEdge = false;
@@ -141,9 +137,9 @@ class Player {
             }
         }
         return false;
-    }
+    };
 
-    checkLeftToRightDiagonalWin(board) {
+    checkLeftToRightDiagonalWin = (board) => {
         let increment = Board.DEFAULT_COL + 1, begin = (Board.DEFAULT_COL - 1) / 2;
         let max = 27, numTileOccupied = 0;
         let goEdge = false;
@@ -166,15 +162,11 @@ class Player {
             }
         }
         return false;
-    }
+    };
 
-    isInCheckmate(board) {
-        return this.checkVerticalWin(board) || this.checkHorizontalWin(board) || this.checkLeftToRightDiagonalWin(board) || this.checkRightToLeftDiagonalWin(board);
-    }
+    isInCheckmate = (board) => this.checkVerticalWin(board) || this.checkHorizontalWin(board) || this.checkLeftToRightDiagonalWin(board) || this.checkRightToLeftDiagonalWin(board);
 
-    isStalemate(board) {
-        return board.getTileList().every(tile => tile.isTileOccupied());
-    }
+    isStalemate = (board) => board.getTileList().every(tile => tile.isTileOccupied());
 }
 
 class RedPlayer extends Player {

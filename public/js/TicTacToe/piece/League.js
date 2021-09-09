@@ -8,7 +8,7 @@ class League {
         NOUGHTS: 'NOUGHTS'
     });
 
-    static isCross(league) {
+    static isCross = (league) => {
         if (league === League.league.CROSS) {
             return true;
         }
@@ -16,9 +16,9 @@ class League {
             return false
         }
         throw new Error('Cannot be of type other than RED and BLACK');
-    }
+    };
 
-    static ToString(league) {
+    static ToString = (league) => {
         if (league === League.league.CROSS) {
             return 'X';
         }
@@ -26,7 +26,7 @@ class League {
             return 'O'
         }
         throw new Error('Cannot be of type other than RED and BLACK');
-    }
+    };
 }
 
 export default League;

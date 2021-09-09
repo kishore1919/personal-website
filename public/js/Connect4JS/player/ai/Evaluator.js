@@ -2,20 +2,20 @@ import {Board} from '../../board/Board.js';
 import League from '../../piece/League.js';
 
 class Evaluator {
-    evaluateBoard(board, league, depth, searchDepth) {
+    evaluateBoard = (board, league, depth, searchDepth) => {
         throw new Error('To be implemented by subclass');
-    }
+    };
 }
 
 class Standard extends Evaluator {
-    evaluateBoard(board, league, depth, searchDepth) {
+    evaluateBoard = (board, league, depth, searchDepth) => {
         if (depth === 0) {
             return Standard.numberOfConsecutivePieceEval(league, board, board.getRedPlayer().getLeague(), board.getBlackPlayer().getLeague());
         }
         return Standard.numberOfConsecutivePieceEval(league, board, board.getRedPlayer().getLeague(), board.getBlackPlayer().getLeague()) * (searchDepth - depth);
-    }
+    };
 
-    static numberOfConsecutivePieceEval(league, board, currentLeague, enemyLeague) {
+    static numberOfConsecutivePieceEval = (league, board, currentLeague, enemyLeague) => {
 
         let score = 0;
 
@@ -125,9 +125,9 @@ class Standard extends Evaluator {
         }
 
         return score;
-    }
+    };
 
-    static computeScore(league, currentTile, enemyTile, emptyTile) {
+    static computeScore = (league, currentTile, enemyTile, emptyTile) => {
         const magnifier = League.isBlack(league) ? 100 : 1;
 
         if (currentTile === 1 && emptyTile === 3) { return 1 * magnifier; }
@@ -144,9 +144,9 @@ class Standard extends Evaluator {
         if (currentTile > enemyTile) { return 100; }
 
         return 0;
-    }
+    };
 
-    static getAllHorizontalRow(board) {
+    static getAllHorizontalRow = (board) => {
         const listOfLeagues = [];
         let begin = 0;
         let leagues = [];
@@ -162,9 +162,9 @@ class Standard extends Evaluator {
         }
 
         return Object.freeze(listOfLeagues);
-    }
+    };
 
-    static getAllVerticalColumn(board) {
+    static getAllVerticalColumn = (board) => {
         const listOfLeagues = [];
         let begin = 0, max = Board.DEFAULT_COL * 5;
         let leagues = [];
@@ -185,9 +185,9 @@ class Standard extends Evaluator {
         }
 
         return Object.freeze(listOfLeagues);
-    }
+    };
 
-    static getPositiveSlopeRow(board) {
+    static getPositiveSlopeRow = (board) => {
         const listOfLeagues = [];
         let increment = Board.DEFAULT_COL - 1, begin = (Board.DEFAULT_COL - 1) / 2;
         let max = 21;
@@ -209,9 +209,9 @@ class Standard extends Evaluator {
             }
         }
         return Object.freeze(listOfLeagues);
-    }
+    };
 
-    static getNegativeSlopeRow(board) {
+    static getNegativeSlopeRow = (board) => {
         const listOfLeagues = [];
         let increment = Board.DEFAULT_COL + 1, begin = (Board.DEFAULT_COL - 1) / 2;
         let max = 27;
@@ -234,7 +234,7 @@ class Standard extends Evaluator {
         }
 
         return Object.freeze(listOfLeagues);
-    }
+    };
 }
 
 export default Standard;

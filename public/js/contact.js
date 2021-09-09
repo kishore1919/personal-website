@@ -12,29 +12,36 @@ const messageErr = document.getElementById('messageErr');
 const modal = document.getElementById('messageBackground');
 const span = document.getElementById('close-msg');
 
-function closeNotification() {
-    span.addEventListener('click', () => {modal.style.display = 'none'});
-    window.addEventListener('click', event => {if (event.target === modal) {modal.style.display = 'none'}});
-}
-closeNotification();
-
 const waiting = document.getElementById('waitingBackground');
 const closeWaiting = document.getElementById('close-waiting');
-function closeWaitingNotification() {
-    closeWaiting.addEventListener('click', () => {waiting.style.display = 'none'});
-    window.addEventListener('click', event => {if (event.target === waiting) {waiting.style.display = 'none'}});
-}
-closeWaitingNotification();
 
 let nameValid = false, emailValid = false, msgValid = false;
 
-validateForm();
-submit();
+const closeNotification = () => {
+    span.addEventListener('click', () => {modal.style.display = 'none';});
+    window.addEventListener('click', event => {if (event.target === modal) {modal.style.display = 'none';}});
+};
 
-function validateForm() {
+const closeWaitingNotification = () => {
+    closeWaiting.addEventListener('click', () => {waiting.style.display = 'none'});
+    window.addEventListener('click', event => {if (event.target === waiting) {waiting.style.display = 'none';}});
+};
+
+const checkForBlankString = (string) => {
+    let j = 0;
+    const length = string.length;
+    for (let i = 0; i < length; i++) {
+        if (EMPTY_STRING === string.charAt(i)) {
+            j++;
+        }
+    }
+    return length === j;
+};
+
+const validateForm = () => {
 
     visitorName.addEventListener('input', () => {
-        if (undefined === visitorName.value || 0 === visitorName.value.length || null === visitorName.value) {
+        if (undefined === visitorName.value || visitorName.value.length === 0 || visitorName.value === null) {
             nameErr.innerText = '*Please do not leave name section empty*';
             nameValid = false;
         } else if (checkForBlankString(visitorName.value)) {
@@ -44,10 +51,10 @@ function validateForm() {
             nameErr.innerText = EMPTY_STRING;
             nameValid = true;
         }
-    })
+    });
 
     visitorEmail.addEventListener('change', () => {
-        if (undefined === visitorEmail.value || 0 === visitorEmail.value.length || null === visitorEmail.value) {
+        if (undefined === visitorEmail.value || visitorEmail.value.length === 0 || visitorEmail.value === null) {
             emailErr.innerText = '*Please do not leave email section empty*';
             emailValid = false;
             return;
@@ -59,10 +66,10 @@ function validateForm() {
             emailErr.innerText = '*Please enter valid email format*';
             emailValid = false;
         }
-    })
+    });
 
     visitorMessage.addEventListener('change', () => {
-        if (undefined === visitorMessage.value || 0 === visitorMessage.value.length || null === visitorMessage.value) {
+        if (undefined === visitorMessage.value || visitorMessage.value.length === 0 || visitorMessage.value === null) {
             messageErr.innerText = '*Please do not leave message section empty*';
             msgValid = false;
         } else if (checkForBlankString(visitorMessage.value)) {
@@ -77,10 +84,10 @@ function validateForm() {
                 msgValid = true;
             }
         }
-    })
-}
+    });
+};
 
-function submit() {
+const submit = () => {
     document.getElementById('my-contact-form').addEventListener('submit', async (e) => {
         if (nameValid && msgValid && emailValid) {
             e.preventDefault();
@@ -91,7 +98,6 @@ function submit() {
             const email = visitorEmail.value;
             const message = visitorMessage.value;
             const data = {name,email,message};
-    
             const option = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -101,12 +107,12 @@ function submit() {
 
             const response = await fetch('/contact', option);
             const responseData = await response.json();
-            displayMsg(responseData);
+            await displayMsg(responseData);
         }
     });
-}
+};
 
-async function displayMsg(responseData) {
+const displayMsg = async (responseData) => {
     if (responseData.status === 'success') {
         visitorName.value = '';
         visitorEmail.value = '';
@@ -120,15 +126,9 @@ async function displayMsg(responseData) {
         emailErr.innerText = responseData.emailErr;
         messageErr.innerText = responseData.messageErr;
     }
-}
+};
 
-function checkForBlankString(string) {
-    let j = 0;
-    const length = string.length;
-    for (let i = 0; i < length; i++) {
-        if (EMPTY_STRING === string.charAt(i)) {
-            j++;
-        }
-    }
-    return length === j;
-}
+validateForm();
+submit();
+closeNotification();
+closeWaitingNotification();

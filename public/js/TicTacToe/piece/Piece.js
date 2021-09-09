@@ -3,7 +3,7 @@ import League from '../piece/League.js';
 class Piece {
     league;
     index;
-    constructor(league, index) {
+    constructor (league, index) {
         this.league = league;
         this.index = index;
         if (this.constructor === Piece) {
@@ -11,21 +11,13 @@ class Piece {
         }
     }
 
-    getIndex() {
-        return this.index;
-    }
+    getIndex = () => this.index;
 
-    getLeague() {
-        return this.league;
-    }
+    getLeague = () => this.league;
 
-    toString() {
-        return League.ToString(this.league);
-    }
+    toString = () => League.ToString(this.league);
 
-    static createPiece(league, index) {
-        return League.isCross(league) ? new CrossPiece(index) : new NoughtsPiece(index);
-    }
+    static createPiece = (league, index) => League.isCross(league) ? Object.freeze(new CrossPiece(index)) : Object.freeze(new NoughtsPiece(index));
 }
 
 class NoughtsPiece extends Piece {

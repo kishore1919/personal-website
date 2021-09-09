@@ -1,21 +1,22 @@
 // Importing libraries
-const express = require('express');
-const app = express();
-const expbs = require('express-handlebars');
-const path = require('path');
+import express from 'express';
+const { static: expressStatic, json, urlencoded } = express;
+import { create } from 'express-handlebars';
+import { join } from 'path';
 
 // Importing files
-const routes = require('./routes/handlers');
+import router from './routes/handlers.js';
 const port = process.env.PORT || 8080;
 
-// Sending static files with Express 
-app.use(express.static('public'));
-app.use(express.json({ limit: '10mb'}));
-app.use(express.urlencoded({ extended: true }))
+// Sending static files with Express
+const app = express();
+app.use(expressStatic('public'));
+app.use(json({ limit: '10mb'}));
+app.use(urlencoded({ extended: true }))
 
-const hbs = expbs.create({
+const hbs = create({
     defaultLayout: 'main',
-    layoutsDir: path.join(__dirname, 'views/main'),
+    layoutsDir: join('views/layout'),
 
     // create custom express handlebars helpers
     helpers: {
@@ -91,6 +92,6 @@ app.set('view engine', 'handlebars');
 
 
 // Configure Routes
-app.use('/', routes);
+app.use('/', router);
 
-app.listen(port, () => {console.log('Server is starting at port ', port);});
+app.listen(port, () => console.log('Server is starting at port ', port));

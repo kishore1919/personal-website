@@ -11,29 +11,27 @@ let tictactoeBoard = Board.createStandardBoard();
 let tictactoeGameOver = false;
 
 const tdArr = document.getElementsByClassName('tictactoe-td ');
-const tdArrLen = tdArr.length;
-tictactoeTDAddEventListener();
-restartGame();
-checkBoxAddListener();
 
-function tictactoeTDAddEventListener() {
-    for (let i = 0; i < tdArrLen; i++) {
-        const td = tdArr[i];
-        td.addEventListener('click', () => {
+const tictactoeTDAddEventListener = () => {
+    const length = tdArr.length;
+    for (let i = 0; i < length< i++;) {
+        const tileGame = tdArr[i];
+        tileGame.addEventListener('click', () => {
             if (tictactoeBoard.getTileAt(i).isTileOccupied() || tictactoeGameOver) { return; }
 
             const move = tictactoeBoard.getCurrentPlayer().getLegalMoves().find(move => move.getIndex() === i);
 
-            td.innerHTML = League.ToString(tictactoeBoard.getCurrentPlayer().getLeague());
-            td.className += 'occupied';
+            tileGame.innerHTML = League.ToString(tictactoeBoard.getCurrentPlayer().getLeague());
+            tileGame.className += 'occupied';
+
             tictactoeBoard = tictactoeBoard.getCurrentPlayer().makeMove(move);
             tictactoeMsg.innerHTML = 'Game running...';
             currentPlayerIsAI() ? aiMakeMove() : checkEndGame();
-        })
-    }
-}
+        });
+    };
+};
 
-function aiMakeMove() {
+const aiMakeMove = () => {
     checkEndGame();
     if (tictactoeGameOver) { return; }
     tictactoeMsg.innerHTML = 'AI thinking...';
@@ -43,9 +41,9 @@ function aiMakeMove() {
     tictactoeBoard = move.execute(tictactoeBoard);
     tictactoeMsg.innerHTML = 'Game running...';
     currentPlayerIsAI() ? aiMakeMove() : checkEndGame();
-}
+};
 
-function checkEndGame() {
+const checkEndGame = () => {
     if (tictactoeGameOver) { return; }
     if (tictactoeBoard.getCurrentPlayer().isInCheckmate()) {
         tictactoeGameOver = true;
@@ -54,33 +52,31 @@ function checkEndGame() {
         tictactoeGameOver = true;
         tictactoeMsg.innerHTML = 'Game Drawn!';
     }
-}
+};
 
-function restartGame() {
+const restartGame = () => {
     tictactoeRestartBtn.addEventListener('click', () => {
         if (confirm('Confirmation to restart game')) {
             tictactoeGameOver = false;
             tictactoeBoard = Board.createStandardBoard();
-            for (let i = 0; i < tdArrLen; i++) {
-                tdArr[i].innerHTML = '';
-                tdArr[i].className = 'tictactoe-td ';
-            }
+            tdArr.forEach(tileGame => {
+                tileGame.innerHTML = '';
+                tileGame.className = 'tictactoe-td ';
+            });
             tictactoeMsg.innerHTML = 'Game started...';
             OAI.checked = false;
             XAI.checked = false;
         }
     })
-}
+};
 
-function currentPlayerIsAI() {
-    if (League.isCross(tictactoeBoard.getCurrentPlayer().getLeague()) && XAI.checked) {
-        return true;
-    } else if (!League.isCross(tictactoeBoard.getCurrentPlayer().getLeague()) && OAI.checked) {
-        return true;
-    }
-}
+const currentPlayerIsAI = () => {
+    const cross = League.isCross(tictactoeBoard.getCurrentPlayer().getLeague()) && XAI.checked;
+    const nought = !League.isCross(tictactoeBoard.getCurrentPlayer().getLeague()) && OAI.checked;
+    return cross || nought;
+};
 
-function checkBoxAddListener() {
+const checkBoxAddListener = () => {
     const listener = () => {
         if (currentPlayerIsAI()) {
             aiMakeMove()
@@ -88,4 +84,8 @@ function checkBoxAddListener() {
     };
     OAI.addEventListener('click', listener);
     XAI.addEventListener('click', listener);
-}
+};
+
+tictactoeTDAddEventListener();
+restartGame();
+checkBoxAddListener();

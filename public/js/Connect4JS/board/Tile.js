@@ -1,3 +1,6 @@
+import {Board} from '../board/Board.js'
+
+
 class Tile {
 
     index;
@@ -11,21 +14,24 @@ class Tile {
     /**
      * Implementation
      */
-    isTileOccupied() {
+    isTileOccupied = () => {
         throw new Error('You have to implement the method isTileOccupied!');
-    }
-    getPiece() {
+    };
+    getPiece = () => {
         throw new Error('You have to implement the method getPiece!');
-    }
+    };
 
     /**
      * Concrete
      */
-    getIndex() {return this.index;}
+    getIndex = () => this.index;
 
-    static createTile(piece, index) {
-        return piece === null ? new EmptyTile(index) : new OccupiedTile(piece, index);
-    }
+    static createTile = (piece, index) => {
+        if (index < 0 || index >= Board.DEFAULT_NUM_TILES) {
+            throw new Error (`Index should be greater than 0 and less than ${Board.DEFAULT_NUM_TILES}`);
+        }
+        return piece === null ? Object.freeze(new EmptyTile(index)) : Object.freeze(new OccupiedTile(piece, index));
+    };
 }
 
 class EmptyTile extends Tile {
@@ -34,9 +40,9 @@ class EmptyTile extends Tile {
         super(index);
     }
 
-    isTileOccupied() { return false; }
-    getPiece() { return null; }
-    toString() { return '-'; }
+    isTileOccupied = () => false;
+    getPiece = () => null;
+    toString = () => '-';
 }
 
 class OccupiedTile extends Tile {
@@ -51,9 +57,9 @@ class OccupiedTile extends Tile {
         this.piece = piece;
     }
 
-    isTileOccupied() { return true; }
-    getPiece() { return this.piece; }
-    toString() { return this.piece.toString(); }
+    isTileOccupied = () => true;
+    getPiece = () => this.piece;
+    toString = () => this.piece.toString();
 }
 
 export default Tile;

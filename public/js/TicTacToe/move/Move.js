@@ -7,27 +7,23 @@ class Move {
         this.piece = Piece.createPiece(league, index);
     }
 
-    execute(board) {
+    execute = (board) => {
         const builder = new BoardBuilder(board.getCurrentPlayer().getOpponent(board).getLeague());
         board.getTileList().forEach(tile => builder.appendTile(tile));
         builder.setPiece(this.piece);
         return builder.build();
-    }
+    };
 
-    getPiece() {
-        return this.piece;
-    }
+    getPiece = () => this.piece;
 
-    getIndex() {
-        return this.piece.getIndex();
-    }
+    getIndex = () => this.piece.getIndex();
 
-    equals(move) {
+    equals = (move) => {
         if (move.constructor === Move) {
             return move.piece.getIndex() === this.piece.getIndex() && move.piece.getLeague() === this.piece.getLeague();
         }
         throw new Error('Parameter should be type move');
-    }
+    };
 }
 
 export default Move;

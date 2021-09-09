@@ -19,7 +19,7 @@ class Minimax {
         this.league = league;
     }
 
-    static generateSortedMoves(legalMoves) {
+    static generateSortedMoves = (legalMoves) => {
         const sortedMove = [];
         const moveScore = [];
         for (let i = 0; i < legalMoves.length; i++) {
@@ -44,9 +44,9 @@ class Minimax {
         }
 
         return Object.freeze(sortedMove);
-    }
+    };
 
-    makeMove(board) {
+    makeMove = (board) => {
         const currentPlayer = board.getCurrentPlayer();
         let highestSeenValue = Number.NEGATIVE_INFINITY, lowestSeenValue = Number.POSITIVE_INFINITY;
 
@@ -70,9 +70,9 @@ class Minimax {
         }
 
         return bestMove;
-    }
+    };
 
-    min(board, depth, highestValue, lowestValue) {
+    min = (board, depth, highestValue, lowestValue) => {
         if (depth === 0 || board.getCurrentPlayer().isInCheckmate(board) || board.getCurrentPlayer().isStalemate(board)) {
             return Minimax.evulator.evaluateBoard(board, this.league, depth, searchDepth);
         }
@@ -87,9 +87,9 @@ class Minimax {
             }
         }
         return currentLowest;
-    }
+    };
 
-    max(board, depth, highestValue, lowestValue) {
+    max = (board, depth, highestValue, lowestValue) => {
         if (depth === 0 || board.getCurrentPlayer().isInCheckmate(board) || board.getCurrentPlayer().isStalemate(board)) {
             return Minimax.evulator.evaluateBoard(board, this.league, depth, searchDepth);
         }
@@ -104,7 +104,7 @@ class Minimax {
             }
         }
         return currentHighest;
-    }
+    };
 }
 
 export default Minimax;

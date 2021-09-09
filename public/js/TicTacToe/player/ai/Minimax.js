@@ -4,7 +4,7 @@ class Minimax {
 
     static DEPTH = 4;
 
-    makeMove(board) {
+    makeMove = (board) => {
         const currentPlayer = board.getCurrentPlayer();
         let highestSeenValue = Number.NEGATIVE_INFINITY, lowestSeenValue = Number.POSITIVE_INFINITY;
 
@@ -12,7 +12,7 @@ class Minimax {
 
         for (const move of currentPlayer.getLegalMoves()) {
             const latestBoard = currentPlayer.makeMove(move);
-            if (latestBoard.getCurrentPlayer().isInCheckmate() || latestBoard.getCurrentPlayer().isStalemate()) {
+            if (latestBoard.getCurrentPlayer().isInCheckmate()) {
                 return move;
             }
             const currentVal = League.isCross(currentPlayer.getLeague()) ?
@@ -30,9 +30,9 @@ class Minimax {
         }
 
         return bestMove;
-    }
+    };
 
-    min(board, depth, highestValue, lowestValue) {
+    min = (board, depth, highestValue, lowestValue) => {
         if (board.getCurrentPlayer().isInCheckmate()) {
             return 10 - depth;
         }
@@ -49,9 +49,9 @@ class Minimax {
             }
         }
         return currentLowest;
-    }
+    };
 
-    max(board, depth, highestValue, lowestValue) {
+    max = (board, depth, highestValue, lowestValue) => {
         if (board.getCurrentPlayer().isInCheckmate()) {
             return depth - 10;
         }
@@ -68,7 +68,7 @@ class Minimax {
             }
         }
         return currentHighest;
-    }
+    };
 }
 
 export default Minimax;

@@ -25,19 +25,15 @@ class Player {
         throw new Error('To be implemented by sub-class');
     }
 
-    getLegalMoves() {
-        return this.legalMoves;
-    }
+    getLegalMoves = () => this.legalMoves;
 
-    toString() {
-        return League.isCross(this.getLeague()) ? 'Cross' : 'Noughts';
-    }
+    toString = () => League.isCross(this.getLeague()) ? 'Cross' : 'Noughts';
 
     /**
      * Concrete
      */
 
-    generateLegalMoves() {
+    generateLegalMoves = () => {
         const moves = [];
 
         this.board.getTileList().forEach(tile => {
@@ -46,13 +42,11 @@ class Player {
         });
 
         return Object.freeze(moves);
-    }
+    };
 
-    getBoard() {
-        return this.board;
-    }
+    getBoard = () => this.board;
 
-    makeMove(move) {
+    makeMove = (move) => {
         if (move === null) {
             throw new Error('Move cannot be null');
         }
@@ -61,9 +55,9 @@ class Player {
             return moveFound.execute(this.board);
         }
         throw new Error('Move passed here is invalid');
-    }
+    };
 
-    findHorizontalWin() {
+    findHorizontalWin = () => {
 
         let numberOfTilesOccupied = 0;
 
@@ -81,9 +75,9 @@ class Player {
         }
 
         return false;
-    }
+    };
 
-    findVerticalWin() {
+    findVerticalWin = () => {
 
         let limit = Board.NUMBER_OF_TILES - 1;
 
@@ -108,9 +102,9 @@ class Player {
         }
 
         return false;
-    }
+    };
 
-    findDiagonalWin(findPositiveSlope) {
+    findDiagonalWin = (findPositiveSlope) => {
 
         let numberOfTilesOccupied = 0;
 
@@ -128,15 +122,11 @@ class Player {
         }
 
         return numberOfTilesOccupied === Board.GRID;
-    }
+    };
 
-    isInCheckmate() {
-        return this.findDiagonalWin(true) || this.findDiagonalWin(false) || this.findVerticalWin() || this.findHorizontalWin();
-    }
+    isInCheckmate = () => this.findDiagonalWin(true) || this.findDiagonalWin(false) || this.findVerticalWin() || this.findHorizontalWin();
 
-    isStalemate() {
-        return this.board.getTileList().every(tile => tile.isTileOccupied());
-    }
+    isStalemate = () => this.board.getTileList().every(tile => tile.isTileOccupied());
 }
 
 class NoughtsPlayer extends Player {
@@ -144,7 +134,7 @@ class NoughtsPlayer extends Player {
         super(board);
     }
     getOpponent() {
-        return super.getBoard().getCrossPlayer();
+        return this.getBoard().getCrossPlayer();
     }
     getLeague() {
         return League.league.NOUGHTS;
@@ -156,7 +146,7 @@ class CrossPlayer extends Player {
         super(board);
     }
     getOpponent() {
-        return super.getBoard().getNoughtsPlayer();
+        return this.getBoard().getNoughtsPlayer();
     }
     getLeague() {
         return League.league.CROSS;

@@ -43,7 +43,13 @@
     border: none;
 }
 
-.contact-form input[type=text]:hover, .contact-form input[type=email], .contact-form textarea:hover {outline: none}
+.contact-form input[type=text]:hover, .contact-form input[type=email], .contact-form textarea:hover {
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: none;
+}
 
 .submit-btn {
     padding: 6px 16px 6px 16px;
@@ -129,7 +135,7 @@
 
 .message-content img {
     width: auto;
-    height: 5vw;
+    height: 7vw;
 }
 
 @media (max-width: 973px) {

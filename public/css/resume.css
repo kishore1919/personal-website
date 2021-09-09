@@ -12,6 +12,10 @@
     text-decoration: none;
     color: white;
     font-size: 1.2em;
+    padding: 10px 16px 10px 16px;
+    margin: 15px;
+    background-color: #059862;
+    width: 280px;
 }
 
 .resume-download-container {
@@ -21,14 +25,7 @@
     margin: 0 0 10px 0;
 }
 
-.block-download {
-    padding: 10px 16px 10px 16px;
-    margin: 15px;
-    background-color: #059862;
-    width: 280px;
-}
-
-.block-download:hover {
+#download-link:hover {
     background-color: #006d32;
     cursor: pointer;
 }

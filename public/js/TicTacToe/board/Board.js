@@ -23,40 +23,29 @@ class Board {
         this.currentPlayer = boardBuilder.chooseCurrentPlayer(this.noughtsPlayer, this.crossPlayer);
     }
 
-    getTileList() {
-        return Object.freeze(this.tileList);
-    }
+    getTileList = () => Object.freeze(this.tileList);
 
-    getTileAt(index) {
-        return this.tileList[index];
-    }
+    getTileAt = (index) => this.tileList[index];
 
-    getCrossPlayer() {
-        return this.crossPlayer;
-    }
+    getCrossPlayer = () => this.crossPlayer;
 
-    getNoughtsPlayer() {
-        return this.noughtsPlayer;
-    }
+    getNoughtsPlayer = () => this.noughtsPlayer;
 
-    getCurrentPlayer() {
-        return this.currentPlayer;
-    }
+    getCurrentPlayer = () => this.currentPlayer;
 
-    static createStandardBoard() {
+    static createStandardBoard = () => {
         const builder = new BoardBuilder(League.league.CROSS);
         for (let i = 0; i < Board.NUMBER_OF_TILES; i++) { builder.appendTile(Tile.createTile(null, i)); }
         return builder.build();
-    }
+    };
 
-    toString() {
-        let boardInString = ''
-        for (let i = 0; i < Board.NUMBER_OF_TILES; i++) {
-            if (i % Board.GRID === 0) { boardInString += '\n'; }
-            boardInString += this.tileList[i].toString() + '(' + String(this.tileList[i].getIndex()) + ')\t';
-        }
-        return boardInString;
-    }
+    toString = () => {
+        const gameReadable = this.tileList.map((tile, i) => {
+            const newLine = i % Board.GRID === 0 ? '\n' : '';
+            return `${newLine}${tile.toString()}(${String(tile.getIndex())}) \t`;
+        });
+        return Object.freeze(gameReadable.join(''));
+    };
 }
 
 class BoardBuilder {
@@ -68,21 +57,21 @@ class BoardBuilder {
         this.league = league;
     }
 
-    appendTile(tile) {
+    appendTile = (tile) => {
         this.tileList.push(tile);
         return this;
-    }
+    };
 
-    setPiece(piece) {
+    setPiece = (piece) => {
         this.tileList[piece.getIndex()] = Tile.createTile(piece, piece.getIndex());
         return this;
-    }
+    };
 
-    build() { return new Board(this); }
+    build = () => Object.freeze(new Board(this));
 
-    getImmutableTileList() {return Object.freeze(this.tileList);}
+    getImmutableTileList = () => Object.freeze(this.tileList);
 
-    chooseCurrentPlayer(redPlayer, blackPlayer) {return League.isCross(this.league) ? blackPlayer : redPlayer;}
+    chooseCurrentPlayer = (redPlayer, blackPlayer) => League.isCross(this.league) ? blackPlayer : redPlayer;
 }
 
 export {BoardBuilder, Board};
