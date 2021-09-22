@@ -34,13 +34,11 @@ class Player {
      */
 
     generateLegalMoves = () => {
-        const moves = [];
-
-        this.board.getTileList().forEach(tile => {
-            if (tile.isTileOccupied()) {return;}
-            moves.push(new Move(this.getLeague(), tile.getIndex()));
+        const moves = this.board.getTileList().filter((tile) => {
+            return !tile.isTileOccupied();
+        }).map((tile) => {
+            return new Move(this.getLeague(), tile.getIndex());
         });
-
         return Object.freeze(moves);
     };
 

@@ -95,9 +95,7 @@ const filesToCache = [
     'views/pages/resume.handlebars'
 ];
 
-startService();
-
-function startService() {
+const startService = () => {
     caches.delete(cacheName);
     self.addEventListener('install', (event) => {
         console.log('Service worker install event!');
@@ -137,4 +135,6 @@ function startService() {
             })
         );
     })
-}
+};
+
+startService();

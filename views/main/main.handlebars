@@ -1,82 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/font/Orbitron/stylesheet.css" type="text/css" charset="utf-8" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="manifest" href="manifest.json">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <link rel='stylesheet' href='css/font/Orbitron/stylesheet.css' type='text/css' charset='utf-8' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css'>
+    <link rel='manifest' href='manifest.json'>
 
-    <meta name="description" content="{{description}}">
+    <meta name='description' content='{{description}}'>
 
-    {{#each style}}<link rel="stylesheet" href="css/{{this}}">{{/each}}
+    {{#each style}}<link rel='stylesheet' href='css/{{this}}'>{{/each}}
 
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel='stylesheet' href='css/styles.css'>
     <title>{{title}}</title>
 
-    <link rel="icon" href="images/appIcon/favicon.ico" type="image/x-icon"/>
+    <link rel='icon' href='images/appIcon/favicon.ico' type='image/x-icon'/>
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="PoolOfDeath20">
-    <meta name="apple-mobile-web-app-title" content="PoolOfDeath20">
-    <meta name="theme-color" content="#000d0d">
-    <meta name="msapplication-navbutton-color" content="#000d0d">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="msapplication-starturl" content="index.handlebars">
+    <meta name='mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta name='application-name' content='PoolOfDeath20'>
+    <meta name='apple-mobile-web-app-title' content='PoolOfDeath20'>
+    <meta name='theme-color' content='#000d0d'>
+    <meta name='msapplication-navbutton-color' content='#000d0d'>
+    <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+    <meta name='msapplication-starturl' content='index.handlebars'>
 
     {{#each iconSize}}
-        <link rel="icon" sizes="{{this}}x{{this}}" href="images/appIcon/icon{{this}}.png">
-        <link rel="apple-touch-icon" sizes="{{this}}x{{this}}" href="images/appIcon/icon{{this}}.png">
+        <link rel='icon' sizes='{{this}}x{{this}}' href='images/appIcon/icon{{this}}.png'>
+        <link rel='apple-touch-icon' sizes='{{this}}x{{this}}' href='images/appIcon/icon{{this}}.png'>
     {{/each}}
 
 </head>
 <body>
-    <div id="nav-wrapper">
-        <div id="left-side">
-            <div class="nav-link-wrapper"><a href="/" rel="canonical" >Home</a></div>
-            <div class="nav-link-wrapper"><a href="/portfolio" rel="canonical" >Portfolio</a></div>
-            <div class="nav-link-wrapper"><a href="/about" rel="canonical" >About</a></div>
-            <div class="nav-link-wrapper"><a href="/contact" rel="canonical" >Contact</a></div>
-            <div class="nav-link-wrapper"><a href="/resume" rel="canonical" >Resume</a></div>
+    <div id='nav-wrapper'>
+        <div id='left-side'>
+            <div class='nav-link-wrapper'><a href='/' rel='canonical' >Home</a></div>
+            <div class='nav-link-wrapper'><a href='/portfolio' rel='canonical' >Portfolio</a></div>
+            <div class='nav-link-wrapper'><a href='/about' rel='canonical' >About</a></div>
+            <div class='nav-link-wrapper'><a href='/contact' rel='canonical' >Contact</a></div>
+            <div class='nav-link-wrapper'><a href='/resume' rel='canonical' >Resume</a></div>
         </div>
-        <div id="right-side">
-            <div class="toggle-wrapper"><i id="toggle-theme" class="fas fa-sun" aria-hidden="true"></i></div>
-            <div class="brand"><a href="#footer" rel="canonical" >PoolOfDeath20</a></div>
-            <div id="hamburger-nav"><button id="hamburger-sign">☰</button></div>
-        </div>
-    </div>
-
-    <div id="full-screen-nav">
-        <span id="close-nav">&times;</span>
-        <div id="nav-menu">
-            <div class="nav-link-wrapper"><a href="/" rel="canonical" >Home</a></div>
-            <div class="nav-link-wrapper"><a href="/portfolio" rel="canonical" >Portfolio</a></div>
-            <div class="nav-link-wrapper"><a href="/about" rel="canonical" >About</a></div>
-            <div class="nav-link-wrapper"><a href="/contact" rel="canonical" >Contact</a></div>
-            <div class="nav-link-wrapper"><a href="/resume" rel="canonical" >Resume</a></div>
+        <div id='right-side'>
+            <div class='toggle-wrapper'><i id='toggle-theme' class='fas fa-sun' aria-hidden='true'></i></div>
+            <div class='brand'><a href='#footer' rel='canonical' >PoolOfDeath20</a></div>
+            <div id='hamburger-nav'><button id='hamburger-sign'>☰</button></div>
         </div>
     </div>
 
-    <div id="back-to-top-wrapper"><a href="#top"><i class="fas fa-arrow-up"></i></a></div>
+    <div id='full-screen-nav'>
+        <span id='close-nav'>&times;</span>
+        <div id='nav-menu'>
+            <div class='nav-link-wrapper'><a href='/' rel='canonical' >Home</a></div>
+            <div class='nav-link-wrapper'><a href='/portfolio' rel='canonical' >Portfolio</a></div>
+            <div class='nav-link-wrapper'><a href='/about' rel='canonical' >About</a></div>
+            <div class='nav-link-wrapper'><a href='/contact' rel='canonical' >Contact</a></div>
+            <div class='nav-link-wrapper'><a href='/resume' rel='canonical' >Resume</a></div>
+        </div>
+    </div>
 
-    <div class="container">
+    <div id='back-to-top-wrapper'><a href='#top'><i class='fas fa-arrow-up'></i></a></div>
+
+    <div class='container'>
         {{{body}}}
-        <div id="footer">
-            <div class="copyright"><p>copyright &copy;2020</p></div>
-            <div class="social-link">
-                {{#each socialLinks}}<a href="{{link}}" target="blank" rel="noopener noreferrer" class="{{class}}"></a>{{/each}}
+        <div id='footer'>
+            <div class='copyright'><p>copyright &copy;2020</p></div>
+            <div class='social-link'>
+                {{#each socialLinks}}<a href='{{link}}' target='blank' rel='noopener noreferrer' class='{{class}}'></a>{{/each}}
             </div>
         </div>
     </div>
 </body>
-<script src="js/allPage.js" charset="utf-8" defer> </script>
+<script src='js/allPage.js' charset='utf-8' defer> </script>
 
 {{#if module}}
-    {{#each js}}<script src="js/{{this}}" charset="utf-8" defer type="module"> </script>{{/each}}
+    {{#each js}}<script src='js/{{this}}' charset='utf-8' defer type='module'> </script>{{/each}}
 {{else}}
-    {{#each js}}<script src="js/{{this}}" charset="utf-8" defer></script>{{/each}}
+    {{#each js}}<script src='js/{{this}}' charset='utf-8' defer></script>{{/each}}
 {{/if}}
 
 </html>

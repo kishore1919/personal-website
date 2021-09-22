@@ -15,9 +15,9 @@ body, input, textarea, button, select, option {
     --contact-me-label:#0FFBF9;
     --about-me-description:#CDC764;
 
-    --high-emphases-text-color: rgba(255, 255, 255, 0.89);
-    --medium-emphases-text-color: rgba(255, 255, 255, 0.6);
-    --disabled-text-color: rgba(255, 255, 255, 0.38);
+    --high-emphases-text-color: #FFFFFFE2;
+    --medium-emphases-text-color: #FFFFFF99;
+    --disabled-text-color: #FFFFFF61;
 
     --contact-background:#121212;
     --contact-input-border:#37383B;
@@ -33,7 +33,7 @@ body, input, textarea, button, select, option {
     --black-piece:#333;
     --red-piece:#DC143C;
 
-    --resume-list-text: rgba(0, 0, 0, 0.7);
+    --resume-list-text: #000000B2;
     --contact-tick-brightness:brightness(0%) invert(0);
 }
 
@@ -42,11 +42,11 @@ body, input, textarea, button, select, option {
     --secondary-color:#121212;
 
     --contact-me-label:#00539C;
-    --about-me-description:#4b371c;/*#542e22;#85583f;*/
+    --about-me-description:#4b371c;
 
-    --high-emphases-text-color: rgba(0, 0, 0, 0.87);
-    --medium-emphases-text-color: rgba(0, 0, 0, 0.7);
-    --disabled-text-color: rgba(0, 0, 0, 0.38);
+    --high-emphases-text-color: #000000DD;
+    --medium-emphases-text-color: #000000B3;
+    --disabled-text-color: #00000061;
     
     --contact-background:#FEFEFE;
     --contact-input-border:#37383B;
@@ -57,10 +57,7 @@ body, input, textarea, button, select, option {
     --portfolio-button-brightness:brightness(0%) invert(0.2);
     --portfolio-button-brightness-hover:brightness(0%) invert(0.9);
 
-    --resume-left-panel:whitesmoke;
-    --resume-right-panel:black;
-
-    --resume-list-text: rgba(255, 255, 255, 0.89);
+    --resume-list-text: #FFFFFFE2;
     --contact-tick-brightness:brightness(0%) invert(1);
 }
 
@@ -338,27 +335,17 @@ body {
 
 #left-side {display: flex}
 
-.nav-link-wrapper {
-    margin: 0 10px 0 0;
-    font-size: 1em;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.nav-link-wrapper > a {text-decoration: none}
-
 #nav-wrapper #right-side .brand {
     color: var(--secondary-color);
     text-decoration: none;
     font-weight: bold;
+    padding: 5px 10px 5px 10px;
 }
 
 #right-side {
     display: flex;
     align-items: center;
 }
-
-.brand {padding: 5px 10px 5px 10px}
 
 #brand-to-social:hover {cursor: pointer}
 
@@ -368,6 +355,10 @@ body {
 }
 
 .nav-link-wrapper {
+    margin: 0 10px 0 0;
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
     border: 3px solid transparent;
     padding: 5px 10px 5px 10px;
     transition: border 0.5s;
@@ -462,6 +453,7 @@ body {
 .fa-github {background-color: #282a36}
 .fa-github:hover {color: #282a36}
 
+/* changes starts here */
 @media (max-width: 1235) {.ring {border: 1px}}
 
 /* phones */
@@ -518,9 +510,8 @@ body {
     }
     .home-page-message p {text-align: center}
     .social-link {display: block}
-    .nav-link-wrapper{margin: 0 0 10px 0}
     .profile-content-wrapper h1 {font-size: 1.5em}
-    .copyright p, #right-side .brand, #left-side > div, .profile-content-wrapper p {font-size: 1em}
+    .copyright p, #right-side .brand, .profile-content-wrapper p {font-size: 1em}
     .logo-wrapper img{
         width: 10vh;
         margin-bottom: 5px;
@@ -533,7 +524,6 @@ body {
     #hamburger-nav {display: flex}
     #left-side {display: none !important}
     #right-side > div {margin: 10px 0 10px 0}
-    #toggle-theme {font-size: 2em !important}
     #nav-menu > .nav-link-wrapper {
         font-size: 1.75em;
         margin: 25px;

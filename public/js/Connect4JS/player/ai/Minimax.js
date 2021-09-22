@@ -20,30 +20,24 @@ class Minimax {
     }
 
     static generateSortedMoves = (legalMoves) => {
-        const sortedMove = [];
-        const moveScore = [];
-        for (let i = 0; i < legalMoves.length; i++) {
-            const legalMove = legalMoves[i];
-            moveScore.push({
-                key:legalMove,
-                value:positionEval[legalMove.getIndex()]
-            });
-        }
+        const moveScore = legalMoves.map(move => {
+            return {
+                key: move,
+                value: positionEval[move.getIndex()]
+            };
+        });
         //descending sort
         moveScore.sort((a, b) => {
             if (a.value > b.value) {
                 return -1;
             } else if (a.value === b.value) {
                 return 0;
+            } else {
+                return 1;
             }
-            return 1;
-        })
+        });
 
-        for (let i = 0; i < moveScore.length; i++) {
-            sortedMove.push(moveScore[i].key);
-        }
-
-        return Object.freeze(sortedMove);
+        return Object.freeze(moveScore.map(score => score.key));
     };
 
     makeMove = (board) => {
@@ -56,7 +50,9 @@ class Minimax {
         for (let i = 0; i < sortedMove.length; i++) {
             const move = sortedMove[i];
             const latestBoard = currentPlayer.makeMove(move, board);
-            if (latestBoard.getCurrentPlayer().isStalemate(board) || latestBoard.getCurrentPlayer().isInCheckmate(board)) { return move; }
+            if (latestBoard.getCurrentPlayer().isInCheckmate(board)) {
+                return move;
+            }
             const currentVal = League.isBlack(currentPlayer.getLeague()) ?
                 this.min(latestBoard, searchDepth - 1, highestSeenValue, lowestSeenValue) :
                 this.max(latestBoard, searchDepth - 1, highestSeenValue, lowestSeenValue);

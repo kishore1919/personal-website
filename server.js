@@ -76,12 +76,10 @@ const hbs = create({
         },
 
         languageSelector: (portfolioLang, languages) => {
-            let options = '';
-            languages.forEach(language => {
+            return languages.map(language => {
                 const selected = language === portfolioLang ? 'selected="selected"' : ''
-                options += `<option ${selected}>${language}</option>`
-            });
-            return options;
+                return `<option ${selected}>${language}</option>`
+            }).join('');
         }
     }
 });

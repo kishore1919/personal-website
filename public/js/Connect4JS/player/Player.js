@@ -57,11 +57,7 @@ class Player {
     };
 
     generateLegalMoves = (board) => {
-        const moves = [];
-
-        this.generateEmptyRows(board).forEach(emptyRow => moves.push(new Move(this.getLeague(), emptyRow.getIndex())));
-
-        return Object.freeze(moves);
+        return Object.freeze(this.generateEmptyRows(board).map(emptyRow => new Move(this.getLeague(), emptyRow.getIndex())));
     };
 
     makeMove = (move, board) => {
@@ -114,57 +110,36 @@ class Player {
         return false;
     };
 
-    checkRightToLeftDiagonalWin = (board) => {
-        let increment = Board.DEFAULT_COL - 1, begin = (Board.DEFAULT_COL - 1) / 2;
-        let max = 21, numTileOccupied = 0;
+    checkDiagonalWin = (positiveSlope, board) => {
+        const vector = positiveSlope ? -1 : 1;
+        const negativeVector = vector * -1;
+        const increment = Board.DEFAULT_COL + vector;
+        let begin = (Board.DEFAULT_COL - 1) / 2;
+        let max = positiveSlope ? 21 : 27, numTileOccupied = 0;
         let goEdge = false;
 
-        for (let i = begin; i <= max; i+=increment) {
+        for (let i = begin; i <= max; i += increment) {
             const tile = board.getTileAt(i);
             if (tile.isTileOccupied()) {
                 numTileOccupied = tile.getPiece().getLeague() === this.getOpponent(board).getLeague() ? numTileOccupied + 1 : 0;
                 if (numTileOccupied === Board.DEFAULT_WIN_NUM_TILES) { return true; }
             }
             else { numTileOccupied = 0; }
-            if (i === max)
-            {
-                if (begin === 20) { break; }
-                if (begin === increment && !goEdge) { goEdge = true; }
-                begin = goEdge ? begin + Board.DEFAULT_COL : begin + 1;
-                max = max + Board.DEFAULT_COL >= Board.DEFAULT_NUM_TILES ? max + 1 : max + Board.DEFAULT_COL;
+            if (i === max) {
+                const compare = positiveSlope ? 20 : 14;
+                if (begin === compare) { break; }
+                const compareNum = positiveSlope ? increment : 0;
+                if (begin === compareNum && !goEdge) { goEdge = true; }
+                begin = goEdge ? begin + Board.DEFAULT_COL : begin + negativeVector;
+                max = max + Board.DEFAULT_COL >= Board.DEFAULT_NUM_TILES ? max + negativeVector : max + Board.DEFAULT_COL;
                 i = begin - increment;
                 numTileOccupied = 0;
             }
         }
         return false;
-    };
+    }
 
-    checkLeftToRightDiagonalWin = (board) => {
-        let increment = Board.DEFAULT_COL + 1, begin = (Board.DEFAULT_COL - 1) / 2;
-        let max = 27, numTileOccupied = 0;
-        let goEdge = false;
-
-        for (let i = begin; i <= max; i+=increment) {
-            const tile = board.getTileAt(i);
-            if (tile.isTileOccupied()) {
-                numTileOccupied = tile.getPiece().getLeague() === this.getOpponent(board).getLeague() ? numTileOccupied + 1 : 0;
-                if (numTileOccupied === Board.DEFAULT_WIN_NUM_TILES) { return true; }
-            }
-            else { numTileOccupied = 0; }
-            if (i === max)
-            {
-                if (begin === 14) { break; }
-                if (begin === 0 && !goEdge) { goEdge = true; }
-                begin = goEdge ? begin + Board.DEFAULT_COL : begin - 1;
-                max = max + Board.DEFAULT_COL >= Board.DEFAULT_NUM_TILES ? max - 1 : max + Board.DEFAULT_COL;
-                i = begin - increment;
-                numTileOccupied = 0;
-            }
-        }
-        return false;
-    };
-
-    isInCheckmate = (board) => this.checkVerticalWin(board) || this.checkHorizontalWin(board) || this.checkLeftToRightDiagonalWin(board) || this.checkRightToLeftDiagonalWin(board);
+    isInCheckmate = (board) => this.checkVerticalWin(board) || this.checkHorizontalWin(board) || this.checkDiagonalWin(true, board) || this.checkDiagonalWin(false, board);
 
     isStalemate = (board) => board.getTileList().every(tile => tile.isTileOccupied());
 }

@@ -5,17 +5,17 @@ const REGEX_EMAIL = /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\
 const EMPTY_STRING = '';
 const ALL = 'All';
 
-const readPortfolio = () => {
+const readPortfolio = async () => {
     const filename = 'public/files/portfolio.txt';
     return new Promise((resolve, reject) => {
-        const fetchData = [];
+        let fetchData = [];
         createReadStream(filename).on('data', data => {
-            data.toString().split('\n').forEach(stringData => {
+            fetchData = data.toString().split('\n').map(stringData => {
                 const commaSplit = stringData.toString().split(',');
-                fetchData.push({
+                return {
                     path: commaSplit[0],
                     caption: commaSplit[1].replace('\r', ''),
-                });
+                };
             });
         }).on('end', () => {
             resolve(Object.freeze(fetchData));
@@ -24,7 +24,7 @@ const readPortfolio = () => {
 };
 
 const fetchGithubAPI = async () => {
-    const res = await new Promise((resolve, reject) => resolve(fetch('https://api.github.com/users/GervinFung/repos')));
+    const res = await new Promise((resolve, reject) => resolve(fetch('https://api.github.com/users/GervinFung/repos?per_page=100')));
     return await Object.freeze(res.json());
 };
 
@@ -56,32 +56,24 @@ const validateName = (visitorName) => {
 };
 
 const getLanguageSelector = (github, portfolioData) => {
-    const languages = [];
-    languages.push(ALL);
-    portfolioData.forEach(portfolio => {
+    const languages = portfolioData.map(portfolio => {
         const name = portfolio.path;
-        github.forEach(git => {
-            if (git.name === name && !languages.includes(git.language)) {
-                languages.push(git.language);
-            }
-        });
-    });
-    return Object.freeze(languages);
+        return github.filter(git => git.name === name).map(git => git.language);
+    }).filter(portfolio => portfolio.length !== 0).flat(1);
+
+    return Object.freeze([ALL].concat([...new Set(languages)]));
 };
 
 const getPortfolioLanguageQuery = (portfolioLang, github, portfolioData) => {
     if (portfolioLang === ALL) {
         return Object.freeze(portfolioData);
     }
-    const portfolioQueried = [];
-    portfolioData.forEach(portfolio => {
+
+    const portfolioQueried = portfolioData.map(portfolio => {
         const name = portfolio.path;
-        github.forEach(git => {
-            if (git.name === name && git.language === portfolioLang) {
-                portfolioQueried.push(portfolio);
-            }
-        });
-    });
+        return github.filter(repo => repo.name === name && repo.language === portfolioLang).map(_ => portfolio);
+    }).filter(portfolio => portfolio.length !== 0).flat(1);
+
     return Object.freeze(portfolioQueried);
 };
 
@@ -102,13 +94,9 @@ const validatePortfolioLanguageQuery = (github, language) => {
     if (language === undefined) {
         return ALL;
     }
-    const finalisedLang = language === 'CPP' ? 'C++' : language;
-    for (let i = 0; i < github.length; i++) {
-        if (github[i].language === finalisedLang) {
-            return finalisedLang;
-        }
-    }
-    return ALL;
+    const finalizedLang = language === 'CPP' ? 'C++' : language;
+    const langFound = github.find(repo => repo.language === finalizedLang);
+    return langFound === undefined ? ALL : langFound.language;
 };
 
 const getPageNumQuery = (param, portfolioData, totalNumberOfPortfolio) => {
