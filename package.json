@@ -1,21 +1,27 @@
 {
-  "name": "expresshandlebars",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "my-first-web-server",
+  "version": "1",
+  "main": "server.js",
+  "author": "PoolOfDeath20",
+  "start": "node server.js",
+  "license": "MIT",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon --exec src/server.js",
+    "build": "yarn && cd frontend && yarn && yarn build",
+    "sync": "concurrently \"cd frontend && yarn start\" \"yarn start\""
   },
-  "start": "node server.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "daemon": "^1.1.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.0.0",
     "nodemailer": "^6.6.1"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.2",
+    "nodemon": "^2.0.13"
   }
 }

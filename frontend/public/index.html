@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='utf-8'/>
+    <link rel='icon' href='%PUBLIC_URL%/asset/images/icons/favicon.ico' type='image/x-icon'/>
+    <meta name='viewport' content='width=device-width, initial-scale=1'/>
+    <meta name='description' content='Website of PoolOfDeath20'/>
+    <link rel='manifest' href='%PUBLIC_URL%/manifest.webmanifest'/>
+
+    <meta name='mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta name='application-name' content='Website of PoolOfDeath20'>
+    <meta name='apple-mobile-web-app-title' content='Website of PoolOfDeath20'>
+    <meta name='theme-color' content='#000d0d'>
+    <meta name='msapplication-navbutton-color' content='#000d0d'>
+    <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+    <meta name='msapplication-starturl' content='index.html'>
+
+    <link rel='icon' sizes='72x72' href='%PUBLIC_URL%/asset/images/icons/icon-72x72.png'/>
+    <link rel='icon' sizes='96x96' href='%PUBLIC_URL%/asset/images/icons/icon-96x96.png'/>
+    <link rel='icon' sizes='128x128' href='%PUBLIC_URL%/asset/images/icons/icon-128x128.png'/>
+    <link rel='icon' sizes='144x144' href='%PUBLIC_URL%/asset/images/icons/icon-144x144.png'/>
+    <link rel='icon' sizes='152x152' href='%PUBLIC_URL%/asset/images/icons/icon-152x152.png'/>
+    <link rel='icon' sizes='192x192' href='%PUBLIC_URL%/asset/images/icons/icon-192x192.png'/>
+    <link rel='icon' sizes='384x384' href='%PUBLIC_URL%/asset/images/icons/icon-384x384.png'/>
+    <link rel='icon' sizes='512x512' href='%PUBLIC_URL%/asset/images/icons/icon-512x512.png'/>
+
+    <link rel='apple-touch-icon' sizes='72x72' href='%PUBLIC_URL%/asset/images/icons/icon-72x72.png'/>
+    <link rel='apple-touch-icon' sizes='96x96' href='%PUBLIC_URL%/asset/images/icons/icon-96x96.png'/>
+    <link rel='apple-touch-icon' sizes='128x128' href='%PUBLIC_URL%/asset/images/icons/icon-128x128.png'/>
+    <link rel='apple-touch-icon' sizes='144x144' href='%PUBLIC_URL%/asset/images/icons/icon-144x144.png'/>
+    <link rel='apple-touch-icon' sizes='152x152' href='%PUBLIC_URL%/asset/images/icons/icon-152x152.png'/>
+    <link rel='apple-touch-icon' sizes='192x192' href='%PUBLIC_URL%/asset/images/icons/icon-192x192.png'/>
+    <link rel='apple-touch-icon' sizes='384x384' href='%PUBLIC_URL%/asset/images/icons/icon-384x384.png'/>
+    <link rel='apple-touch-icon' sizes='512x512' href='%PUBLIC_URL%/asset/images/icons/icon-512x512.png'/>
+
+    <title>Loading...</title>
+</head>
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id='root'></div>
+</body>
+<script>
+;const regServiceWorker = () => {
+    window.addEventListener('load', () => {
+        'use strict';
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('serviceWorker.js').then(reg => {
+                console.log('Service worker registered, reg');
+            }).catch(err => {
+                console.error('Service worker registration failed: ', err);
+            });
+        }
+    });
+}
+regServiceWorker();
+</script>
+</html>
