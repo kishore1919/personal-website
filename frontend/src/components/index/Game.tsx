@@ -181,7 +181,7 @@ const Game = (): JSX.Element => {
                           boardDispatch: Dispatch<SetStateAction<BoardType>>,
                           firstPlayer: Dispatch<SetStateAction<boolean>>,
                           secondPlayer: Dispatch<SetStateAction<boolean>>) => {
-        if (window.confirm('window.confirmation to restart game')) {
+        if (window.confirm('confirmation to restart game')) {
             boardDispatch(board);
             firstPlayer(false);
             secondPlayer(false);

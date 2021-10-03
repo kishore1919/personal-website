@@ -52,7 +52,7 @@ const Portfolio = (): JSX.Element => {
     useEffect(() => {
         setInitialLoad(false);
         showSurprise();
-        history.listen((location) => {
+        return history.listen((location) => {
             const { pathname, search } = location;
             if (pathname.startsWith('/portfolio')) {
                 setURL(processQuery(search));
