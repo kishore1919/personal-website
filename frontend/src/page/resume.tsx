@@ -8,14 +8,20 @@ import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
 const Resume = (): JSX.Element => (
     <ContentContainer>
-        <Title title={'Resume'} content={'PoolOfDeath20 or Gervin\'s resume page'}/>
-        <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap' rel='stylesheet'/>
+        <Title
+            title={'Resume'}
+            content={"PoolOfDeath20 or Gervin's resume page"}
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap"
+            rel="stylesheet"
+        />
         <Container>
             <ResumeContainer>
                 <ErrorBoundary>
-                    <Suspense fallback={<HashLoading/>}>
-                        <ResumeLeft/>
-                        <ResumeRight/>
+                    <Suspense fallback={<HashLoading />}>
+                        <ResumeLeft />
+                        <ResumeRight />
                     </Suspense>
                 </ErrorBoundary>
             </ResumeContainer>
@@ -40,7 +46,8 @@ const ResumeContainer = styled.div`
     display: flex;
     width: 90%;
     justify-content: center;
-    box-shadow: -5px 5px ${({ theme }) => theme.greenColor}, 5px -5px ${({ theme }) => theme.redColor};
+    box-shadow: -5px 5px ${({ theme }) => theme.greenColor},
+        5px -5px ${({ theme }) => theme.redColor};
     background-color: transparent;
     @media (max-width: 840px) {
         display: block;

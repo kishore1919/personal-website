@@ -36,7 +36,8 @@ const IndexNameParagraph = styled(IndexMessageParagraph)`
     text-transform: uppercase;
     color: ${({ theme }) => theme.theme.highEmphasesTextColor};
     letter-spacing: 5.5px;
-    text-shadow: 4px 1px ${({ theme }) => theme.greenColor}, -4px 1px ${({ theme }) => theme.redColor};
+    text-shadow: 4px 1px ${({ theme }) => theme.greenColor},
+        -4px 1px ${({ theme }) => theme.redColor};
 `;
 
 export default HomeMessage;

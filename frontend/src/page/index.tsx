@@ -9,17 +9,17 @@ import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
 const Home = (): JSX.Element => (
     <ContentContainer>
-        <Title title={'Home'} content={'PoolOfDeath20 or Gervin\'s home page'}/>
+        <Title title={'Home'} content={"PoolOfDeath20 or Gervin's home page"} />
         <TwoColumnWrapper>
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading/>}>
-                    <HomeMessage/>
-                    <Game/>
+                <Suspense fallback={<HashLoading />}>
+                    <HomeMessage />
+                    <Game />
                 </Suspense>
             </ErrorBoundary>
         </TwoColumnWrapper>
         <PortfolioButtonContainer>
-            <Link to='/portfolio'>View My Work</Link>
+            <Link to="/portfolio">View My Work</Link>
         </PortfolioButtonContainer>
     </ContentContainer>
 );
@@ -55,9 +55,9 @@ const PortfolioButtonContainer = styled.div`
         overflow: hidden;
         transition: 0.5s all ease;
 
-        ::before{
+        ::before {
             background: ${({ theme }) => theme.ctaColor};
-            content: "";
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
@@ -65,10 +65,10 @@ const PortfolioButtonContainer = styled.div`
             transition: all 0.6s ease;
             width: 100%;
             height: 0%;
-            transform: translate(-50%,-50%) rotate(45deg);
+            transform: translate(-50%, -50%) rotate(45deg);
         }
 
-        :hover::before{
+        :hover::before {
             height: 450%;
         }
 

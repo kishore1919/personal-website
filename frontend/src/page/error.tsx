@@ -8,7 +8,6 @@ const DELAY = 0.5;
 const TIME_TO_CHARGE = 10 + DELAY;
 
 const Error = () => {
-
     const history = useHistory();
 
     const [countDown, setCountDown] = useState(TIME_TO_CHARGE - DELAY);
@@ -17,30 +16,49 @@ const Error = () => {
         if (countDown === 0) {
             history.push('/');
         }
-        setTimeout(() => setCountDown(prevCountDown => prevCountDown - 1), 1000);
+        setTimeout(
+            () => setCountDown((prevCountDown) => prevCountDown - 1),
+            1000
+        );
     }, [countDown]);
 
-    const backToHomeCountDown = () => countDown < 10 ? `0${countDown}` : countDown;
+    const backToHomeCountDown = () =>
+        countDown < 10 ? `0${countDown}` : countDown;
 
     return (
         <Container>
-            <Title title={'Page Not Found'} content={'You took the wrong turn and came here'}/>
+            <Title
+                title={'Page Not Found'}
+                content={'You took the wrong turn and came here'}
+            />
             <ErrorContentContainer>
                 <ErrorLeft>
                     <ErrorMessageTitle>Oops! You seems lost.</ErrorMessageTitle>
-                    <ErrorMessageDescription>Yeah, I am as confused as you are.</ErrorMessageDescription>
-                    <ErrorMessageDescription>From what I&apos;ve seen, it appears that the page you are looking for is now beyond my reach.</ErrorMessageDescription>
-                    <ErrorMessageDescription>Luckily, unlike some other mistakes, this can be fixed.</ErrorMessageDescription>
-                    <ErrorMessageDescription>So let&apos;s get you..</ErrorMessageDescription>
+                    <ErrorMessageDescription>
+                        Yeah, I am as confused as you are.
+                    </ErrorMessageDescription>
+                    <ErrorMessageDescription>
+                        From what I&apos;ve seen, it appears that the page you
+                        are looking for is now beyond my reach.
+                    </ErrorMessageDescription>
+                    <ErrorMessageDescription>
+                        Luckily, unlike some other mistakes, this can be fixed.
+                    </ErrorMessageDescription>
+                    <ErrorMessageDescription>
+                        So let&apos;s get you..
+                    </ErrorMessageDescription>
 
-                    <BackToHomeTimer>Back to Home in: 00:00:{backToHomeCountDown()}</BackToHomeTimer>
+                    <BackToHomeTimer>
+                        Back to Home in: 00:00:{backToHomeCountDown()}
+                    </BackToHomeTimer>
                     <BackToHomeAlternative>OR</BackToHomeAlternative>
                     <BackToHomeButton>
                         Go <Link to={'/'}>Home</Link> Immediately
                     </BackToHomeButton>
-
                 </ErrorLeft>
-                <ErrorRight><ErrorMessageFourZeroFour>404</ErrorMessageFourZeroFour></ErrorRight>
+                <ErrorRight>
+                    <ErrorMessageFourZeroFour>404</ErrorMessageFourZeroFour>
+                </ErrorRight>
             </ErrorContentContainer>
         </Container>
     );
@@ -121,7 +139,12 @@ const BackToHomeButton = styled.div`
     color: ${({ theme }) => theme.theme.highEmphasesTextColor};
     > a {
         background-color: ${({ theme }) => theme.errorHomeButton} !important;
-        background: linear-gradient(to left, ${({ theme }) => theme.theme.primaryColor} 50%, ${({ theme }) => theme.errorHomeButton} 50%) right;
+        background: linear-gradient(
+                to left,
+                ${({ theme }) => theme.theme.primaryColor} 50%,
+                ${({ theme }) => theme.errorHomeButton} 50%
+            )
+            right;
         background-size: 200%;
         display: inline-block;
         padding: 12px 16px;

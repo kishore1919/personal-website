@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorkerRegistration';
 ReactDOM.render(
     <React.StrictMode>
         <HelmetProvider>
-            <App/>
+            <App />
         </HelmetProvider>
     </React.StrictMode>,
     document.getElementById('root')

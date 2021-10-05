@@ -3,7 +3,11 @@ import styled, { keyframes } from 'styled-components';
 import { HashLoading, ErrorBoundary } from './HashLoading';
 import NavLinks from './NavLinks';
 const CloseFullScreen = lazy(() => import('./CloseFullScreen'));
-const FullScreenContainer = lazy(() => import('../util/theme/GlobalTheme').then(module => ({ default: module.FullScreenContainer })));
+const FullScreenContainer = lazy(() =>
+    import('../util/theme/GlobalTheme').then((module) => ({
+        default: module.FullScreenContainer,
+    }))
+);
 
 interface FullScreenAnimation {
     readonly slideIn: boolean;
@@ -15,7 +19,6 @@ interface FullScreenProps {
 }
 
 const FullScreen = ({ show, close }: FullScreenProps): JSX.Element | null => {
-
     const [animate, setAnimate] = useState(show);
     const [load, setLoad] = useState(show);
 
@@ -27,21 +30,24 @@ const FullScreen = ({ show, close }: FullScreenProps): JSX.Element | null => {
     if (load) {
         return (
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading/>}>
+                <Suspense fallback={<HashLoading />}>
                     <FullScreenNav slideIn={animate}>
-                        <CloseFullScreen close={() => {
-                            setAnimate(false);
-                            setTimeout(() => {
-                                close();
-                                setLoad(false);
-                            }, 350);
-                        }}/>
-                        <NavLinks fullScreen={true} close={close}/>
+                        <CloseFullScreen
+                            close={() => {
+                                setAnimate(false);
+                                setTimeout(() => {
+                                    close();
+                                    setLoad(false);
+                                }, 350);
+                            }}
+                        />
+                        <NavLinks fullScreen={true} close={close} />
                     </FullScreenNav>
                 </Suspense>
             </ErrorBoundary>
         );
-    } return null;
+    }
+    return null;
 };
 
 const FullScreenSlideIn = keyframes`
@@ -56,11 +62,21 @@ const FullScreenSlideOut = keyframes`
 
 const FullScreenNav = styled(FullScreenContainer)`
     background-color: ${({ theme }) => theme.theme.primaryColor};
-    animation: ${({ slideIn: show }: FullScreenAnimation) => show ? FullScreenSlideIn : FullScreenSlideOut} ease 0.5s;
-    -moz-animation: ${({ slideIn: show }: FullScreenAnimation) => show ? FullScreenSlideIn : FullScreenSlideOut} ease 0.5s;
-    -webkit-animation: ${({ slideIn: show }: FullScreenAnimation) => show ? FullScreenSlideIn : FullScreenSlideOut} ease 0.5s;
-    -o-animation: ${({ slideIn: show }: FullScreenAnimation) => show ? FullScreenSlideIn : FullScreenSlideOut} ease 0.5s;
-    -ms-animation: ${({ slideIn: show }: FullScreenAnimation) => show ? FullScreenSlideIn : FullScreenSlideOut} ease 0.5s;
+    animation: ${({ slideIn: show }: FullScreenAnimation) =>
+            show ? FullScreenSlideIn : FullScreenSlideOut}
+        ease 0.5s;
+    -moz-animation: ${({ slideIn: show }: FullScreenAnimation) =>
+            show ? FullScreenSlideIn : FullScreenSlideOut}
+        ease 0.5s;
+    -webkit-animation: ${({ slideIn: show }: FullScreenAnimation) =>
+            show ? FullScreenSlideIn : FullScreenSlideOut}
+        ease 0.5s;
+    -o-animation: ${({ slideIn: show }: FullScreenAnimation) =>
+            show ? FullScreenSlideIn : FullScreenSlideOut}
+        ease 0.5s;
+    -ms-animation: ${({ slideIn: show }: FullScreenAnimation) =>
+            show ? FullScreenSlideIn : FullScreenSlideOut}
+        ease 0.5s;
 `;
 
 export default FullScreen;

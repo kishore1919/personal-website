@@ -1,14 +1,31 @@
-import React, { useState, useEffect, Dispatch, SetStateAction, useCallback } from 'react';
+import React, {
+    useState,
+    useEffect,
+    Dispatch,
+    SetStateAction,
+    useCallback,
+} from 'react';
 import styled, { css } from 'styled-components';
-import { BoardType, createStandardConnectFourBoard, createStandardTicTacToeBoard } from '../../game/board/Board';
+import {
+    BoardType,
+    createStandardConnectFourBoard,
+    createStandardTicTacToeBoard,
+} from '../../game/board/Board';
 import { checkmate, stalemate } from '../../game/endgame/EndgameChecker';
 import { minimaxMakeMove } from '../../game/minimax/Minimax';
 import { isFirstPlayer } from '../../game/piece/League';
 import { primaryTheme } from '../../util/theme/colorTheme';
 
 type GameType = 0 | 1 | null;
-type ColorType = typeof primaryTheme.blackPiece | typeof primaryTheme.redPiece | 'transparent';
-type GeneralMessage = 'Game Started...' | 'Game Running...' | 'Game Drawn!' | 'AI Thinking...';
+type ColorType =
+    | typeof primaryTheme.blackPiece
+    | typeof primaryTheme.redPiece
+    | 'transparent';
+type GeneralMessage =
+    | 'Game Started...'
+    | 'Game Running...'
+    | 'Game Drawn!'
+    | 'AI Thinking...';
 type TicTacToeMessage = 'O Has Won!' | 'X Has Won!' | GeneralMessage;
 type ConnectFourMessage = 'Black Has Won!' | 'Red Has Won!' | GeneralMessage;
 
@@ -17,7 +34,10 @@ interface GameOptionsProps {
     readonly setGameToTicTacToe: () => void;
 }
 
-const GameOptions = ({ setGameToConnectFour, setGameToTicTacToe }: GameOptionsProps) => (
+const GameOptions = ({
+    setGameToConnectFour,
+    setGameToTicTacToe,
+}: GameOptionsProps) => (
     <div>
         <ConnectFourGameOptionContainer onClick={setGameToConnectFour}>
             <GameOption>Connect4</GameOption>
@@ -48,10 +68,24 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => {
             const index = tileNumber * 7 + i;
             const tile = board.tileList[index];
             if (tile.isTileOccupied && tile.getPiece !== null) {
-                const color = isFirstPlayer(tile.getPiece.league) ? primaryTheme.blackPiece : primaryTheme.redPiece;
-                columns.push(<ConnectFourTile key={index} onClick={() => updateBoard(index)} color={color} />);
+                const color = isFirstPlayer(tile.getPiece.league)
+                    ? primaryTheme.blackPiece
+                    : primaryTheme.redPiece;
+                columns.push(
+                    <ConnectFourTile
+                        key={index}
+                        onClick={() => updateBoard(index)}
+                        color={color}
+                    />
+                );
             } else {
-                columns.push(<ConnectFourTile key={index} onClick={() => updateBoard(index)} color={'transparent'} />);
+                columns.push(
+                    <ConnectFourTile
+                        key={index}
+                        onClick={() => updateBoard(index)}
+                        color={'transparent'}
+                    />
+                );
             }
         }
         return <tr key={tileNumber * tileNumber}>{columns}</tr>;
@@ -60,15 +94,13 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => {
     const CreateRows = (): JSX.Element => {
         const rows = [];
         for (let i = 0; i < 6; i++) {
-            rows.push(<CreateColumns key={i} tileNumber={i}/>);
-            rows.push(<tr key={`${i}${i}${i}`}/>);
+            rows.push(<CreateColumns key={i} tileNumber={i} />);
+            rows.push(<tr key={`${i}${i}${i}`} />);
         }
         return <tbody>{rows}</tbody>;
     };
 
-    return (
-        <CreateRows/>
-    );
+    return <CreateRows />;
 };
 
 const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => {
@@ -79,9 +111,21 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => {
             const tile = board.tileList[index];
             if (tile.isTileOccupied && tile.getPiece !== null) {
                 const word = isFirstPlayer(tile.getPiece.league) ? 'X' : 'O';
-                columns.push(<TicTacToeTile key={index} onClick={() => updateBoard(index)}>{word}</TicTacToeTile>);
+                columns.push(
+                    <TicTacToeTile
+                        key={index}
+                        onClick={() => updateBoard(index)}
+                    >
+                        {word}
+                    </TicTacToeTile>
+                );
             } else {
-                columns.push(<TicTacToeTile key={index} onClick={() => updateBoard(index)}/>);
+                columns.push(
+                    <TicTacToeTile
+                        key={index}
+                        onClick={() => updateBoard(index)}
+                    />
+                );
             }
         }
         return <tr key={tileNumber * tileNumber}>{columns}</tr>;
@@ -90,16 +134,14 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => {
     const CreateRows = (): JSX.Element => {
         const rows = [];
         for (let i = 0; i < 3; i++) {
-            rows.push(<CreateColumns key={i} tileNumber={i}/>);
-            rows.push(<tr key={`${i}${i}${i}`}/>);
+            rows.push(<CreateColumns key={i} tileNumber={i} />);
+            rows.push(<tr key={`${i}${i}${i}`} />);
         }
         return <tbody>{rows}</tbody>;
     };
 
-    return (
-        <CreateRows/>
-    );
-}
+    return <CreateRows />;
+};
 
 interface GameTableProps {
     readonly gameType: GameType;
@@ -118,37 +160,71 @@ interface GameSectionProps extends GameTileListener {
     readonly secondPlayerAI: boolean;
 }
 
-const GameSection = ({ secondPlayerLabel,
-                       firstPlayerLabel,
-                       gameType,
-                       onBack,
-                       updateBoard,
-                       restartBoard,
-                       board,
-                       gameMessage,
-                       changeFirstPlayerAI,
-                       changeSecondPlayerAI,
-                       firstPlayerAI,
-                       secondPlayerAI }: GameSectionProps): JSX.Element => {
-
-    const ShowGameSection = () => gameType === 1 ? <ConnectFour updateBoard={updateBoard} board={board}/> : <TicTacToe updateBoard={updateBoard} board={board}/>;
+const GameSection = ({
+    secondPlayerLabel,
+    firstPlayerLabel,
+    gameType,
+    onBack,
+    updateBoard,
+    restartBoard,
+    board,
+    gameMessage,
+    changeFirstPlayerAI,
+    changeSecondPlayerAI,
+    firstPlayerAI,
+    secondPlayerAI,
+}: GameSectionProps): JSX.Element => {
+    const ShowGameSection = () =>
+        gameType === 1 ? (
+            <ConnectFour updateBoard={updateBoard} board={board} />
+        ) : (
+            <TicTacToe updateBoard={updateBoard} board={board} />
+        );
 
     return (
         <div>
             <div>
                 <Panel>
-                    <div><AiLabel>{secondPlayerLabel} as AI:<input type='checkbox' checked={secondPlayerAI} onChange={changeSecondPlayerAI}/></AiLabel></div>
-                    <div><BackButton onClick={onBack}>Back</BackButton></div>
-                    <div><AiLabel>{firstPlayerLabel} as AI:<input type='checkbox' checked={firstPlayerAI} onChange={changeFirstPlayerAI}/></AiLabel></div>
+                    <div>
+                        <AiLabel>
+                            {secondPlayerLabel} as AI:
+                            <input
+                                type="checkbox"
+                                checked={secondPlayerAI}
+                                onChange={changeSecondPlayerAI}
+                            />
+                        </AiLabel>
+                    </div>
+                    <div>
+                        <BackButton onClick={onBack}>Back</BackButton>
+                    </div>
+                    <div>
+                        <AiLabel>
+                            {firstPlayerLabel} as AI:
+                            <input
+                                type="checkbox"
+                                checked={firstPlayerAI}
+                                onChange={changeFirstPlayerAI}
+                            />
+                        </AiLabel>
+                    </div>
                 </Panel>
                 <Panel>
                     <GameTable gameType={gameType}>
-                        <ShowGameSection/>
+                        <ShowGameSection />
                     </GameTable>
                 </Panel>
                 <Panel>
-                    <div><RestartButton onClick={restartBoard}>Restart</RestartButton></div>
-                    <div><MessagesToPlayerParagraph>{gameMessage}</MessagesToPlayerParagraph></div>
+                    <div>
+                        <RestartButton onClick={restartBoard}>
+                            Restart
+                        </RestartButton>
+                    </div>
+                    <div>
+                        <MessagesToPlayerParagraph>
+                            {gameMessage}
+                        </MessagesToPlayerParagraph>
+                    </div>
                 </Panel>
             </div>
         </div>
@@ -156,31 +232,49 @@ const GameSection = ({ secondPlayerLabel,
 };
 
 const Game = (): JSX.Element => {
-
-    const [connectFourFirstPlayerAI, setConnectFourFirstPlayerAI] = useState(false);
-    const [connectFourSecondPlayerAI, setConnectFourSecondPlayerAI] = useState(false);
+    const [connectFourFirstPlayerAI, setConnectFourFirstPlayerAI] =
+        useState(false);
+    const [connectFourSecondPlayerAI, setConnectFourSecondPlayerAI] =
+        useState(false);
 
     const [ticTacToeFirstPlayerAI, setTicTacToeFirstPlayerAI] = useState(false);
-    const [ticTacToeSecondPlayerAI, setTicTacToeSecondPlayerAI] = useState(false);
+    const [ticTacToeSecondPlayerAI, setTicTacToeSecondPlayerAI] =
+        useState(false);
 
     const [gameType, setGameType] = useState<GameType>(null);
 
-    const [connectFourBoard, setConnectFourBoard] = useState(createStandardConnectFourBoard());
-    const [ticTacToeBoard, setTicTacToeBoard] = useState(createStandardTicTacToeBoard());
+    const [connectFourBoard, setConnectFourBoard] = useState(
+        createStandardConnectFourBoard()
+    );
+    const [ticTacToeBoard, setTicTacToeBoard] = useState(
+        createStandardTicTacToeBoard()
+    );
 
-    const updateBoard = (tileNumber: number, board: BoardType, dispatch: Dispatch<SetStateAction<BoardType>>) => {
-        if (checkmate(board) || stalemate(board) || board.tileList[tileNumber].isTileOccupied) {
+    const updateBoard = (
+        tileNumber: number,
+        board: BoardType,
+        dispatch: Dispatch<SetStateAction<BoardType>>
+    ) => {
+        if (
+            checkmate(board) ||
+            stalemate(board) ||
+            board.tileList[tileNumber].isTileOccupied
+        ) {
             return;
         }
-        const newBoard = board.currentPlayer.makeMoveFromTileNumber(tileNumber, board);
+        const newBoard = board.currentPlayer.makeMoveFromTileNumber(
+            tileNumber,
+            board
+        );
         dispatch(newBoard);
     };
 
-
-    const restartBoard = (board: BoardType, 
-                          boardDispatch: Dispatch<SetStateAction<BoardType>>,
-                          firstPlayer: Dispatch<SetStateAction<boolean>>,
-                          secondPlayer: Dispatch<SetStateAction<boolean>>) => {
+    const restartBoard = (
+        board: BoardType,
+        boardDispatch: Dispatch<SetStateAction<BoardType>>,
+        firstPlayer: Dispatch<SetStateAction<boolean>>,
+        secondPlayer: Dispatch<SetStateAction<boolean>>
+    ) => {
         if (window.confirm('confirmation to restart game')) {
             boardDispatch(board);
             firstPlayer(false);
@@ -188,92 +282,198 @@ const Game = (): JSX.Element => {
         }
     };
 
-    const restartTicTacToeBoard = useCallback(() => restartBoard(createStandardTicTacToeBoard(), setTicTacToeBoard, setTicTacToeFirstPlayerAI, setTicTacToeSecondPlayerAI), []);
-    const restartConnectFourBoard = useCallback(() => restartBoard(createStandardConnectFourBoard(), setConnectFourBoard, setConnectFourFirstPlayerAI, setConnectFourSecondPlayerAI), []);
+    const restartTicTacToeBoard = useCallback(
+        () =>
+            restartBoard(
+                createStandardTicTacToeBoard(),
+                setTicTacToeBoard,
+                setTicTacToeFirstPlayerAI,
+                setTicTacToeSecondPlayerAI
+            ),
+        []
+    );
+    const restartConnectFourBoard = useCallback(
+        () =>
+            restartBoard(
+                createStandardConnectFourBoard(),
+                setConnectFourBoard,
+                setConnectFourFirstPlayerAI,
+                setConnectFourSecondPlayerAI
+            ),
+        []
+    );
 
-    const updateTicTacToeBoard = useCallback((tileNumber: number) => updateBoard(tileNumber, ticTacToeBoard, setTicTacToeBoard), [ticTacToeBoard]);
-    const updateConnectFourBoard = useCallback((tileNumber: number) => updateBoard(tileNumber, connectFourBoard, setConnectFourBoard), [connectFourBoard]);
+    const updateTicTacToeBoard = useCallback(
+        (tileNumber: number) =>
+            updateBoard(tileNumber, ticTacToeBoard, setTicTacToeBoard),
+        [ticTacToeBoard]
+    );
+    const updateConnectFourBoard = useCallback(
+        (tileNumber: number) =>
+            updateBoard(tileNumber, connectFourBoard, setConnectFourBoard),
+        [connectFourBoard]
+    );
 
-    const formNewVirtualConnectFourBoard = useCallback((connectFourMessage: ConnectFourMessage): JSX.Element => {
-        return <GameSection
-            key={'ConnectFour'}
-            secondPlayerLabel={'Red'}
-            firstPlayerLabel={'Black'}
-            gameType={1} 
-            onBack={() => setGameType(null)}
-            updateBoard={updateConnectFourBoard}
-            restartBoard={restartConnectFourBoard}
-            board={connectFourBoard}
-            gameMessage={connectFourMessage}
-            changeFirstPlayerAI={() => setConnectFourFirstPlayerAI(prev => !prev)}
-            changeSecondPlayerAI={() => setConnectFourSecondPlayerAI(prev => !prev)}
-            firstPlayerAI={connectFourFirstPlayerAI}
-            secondPlayerAI={connectFourSecondPlayerAI}
-        />;
-    }, [connectFourBoard, connectFourFirstPlayerAI, connectFourSecondPlayerAI, restartConnectFourBoard, updateConnectFourBoard]);
+    const formNewVirtualConnectFourBoard = useCallback(
+        (connectFourMessage: ConnectFourMessage): JSX.Element => {
+            return (
+                <GameSection
+                    key={'ConnectFour'}
+                    secondPlayerLabel={'Red'}
+                    firstPlayerLabel={'Black'}
+                    gameType={1}
+                    onBack={() => setGameType(null)}
+                    updateBoard={updateConnectFourBoard}
+                    restartBoard={restartConnectFourBoard}
+                    board={connectFourBoard}
+                    gameMessage={connectFourMessage}
+                    changeFirstPlayerAI={() =>
+                        setConnectFourFirstPlayerAI((prev) => !prev)
+                    }
+                    changeSecondPlayerAI={() =>
+                        setConnectFourSecondPlayerAI((prev) => !prev)
+                    }
+                    firstPlayerAI={connectFourFirstPlayerAI}
+                    secondPlayerAI={connectFourSecondPlayerAI}
+                />
+            );
+        },
+        [
+            connectFourBoard,
+            connectFourFirstPlayerAI,
+            connectFourSecondPlayerAI,
+            restartConnectFourBoard,
+            updateConnectFourBoard,
+        ]
+    );
 
-    const formNewVirtualTicTacToeBoard = useCallback((ticTacToeMessage: TicTacToeMessage): JSX.Element => {
-        return <GameSection
-            key={'TicTacToe'}
-            secondPlayerLabel={'O'}
-            firstPlayerLabel={'X'}
-            gameType={0}
-            onBack={() => setGameType(null)}
-            updateBoard={updateTicTacToeBoard}
-            restartBoard={restartTicTacToeBoard}
-            board={ticTacToeBoard}
-            gameMessage={ticTacToeMessage}
-            changeFirstPlayerAI={() => setTicTacToeFirstPlayerAI(prev => !prev)}
-            changeSecondPlayerAI={() => setTicTacToeSecondPlayerAI(prev => !prev)}
-            firstPlayerAI={ticTacToeFirstPlayerAI}
-            secondPlayerAI={ticTacToeSecondPlayerAI}
-        />;
-    }, [restartTicTacToeBoard, ticTacToeBoard, ticTacToeFirstPlayerAI, ticTacToeSecondPlayerAI, updateTicTacToeBoard]);
+    const formNewVirtualTicTacToeBoard = useCallback(
+        (ticTacToeMessage: TicTacToeMessage): JSX.Element => {
+            return (
+                <GameSection
+                    key={'TicTacToe'}
+                    secondPlayerLabel={'O'}
+                    firstPlayerLabel={'X'}
+                    gameType={0}
+                    onBack={() => setGameType(null)}
+                    updateBoard={updateTicTacToeBoard}
+                    restartBoard={restartTicTacToeBoard}
+                    board={ticTacToeBoard}
+                    gameMessage={ticTacToeMessage}
+                    changeFirstPlayerAI={() =>
+                        setTicTacToeFirstPlayerAI((prev) => !prev)
+                    }
+                    changeSecondPlayerAI={() =>
+                        setTicTacToeSecondPlayerAI((prev) => !prev)
+                    }
+                    firstPlayerAI={ticTacToeFirstPlayerAI}
+                    secondPlayerAI={ticTacToeSecondPlayerAI}
+                />
+            );
+        },
+        [
+            restartTicTacToeBoard,
+            ticTacToeBoard,
+            ticTacToeFirstPlayerAI,
+            ticTacToeSecondPlayerAI,
+            updateTicTacToeBoard,
+        ]
+    );
 
-    const [virtualConnectFourBoard, setVirtualConnectFourBoard] = useState(formNewVirtualConnectFourBoard('Game Running...'));
-    const [virtualTicTacToeBoard, setVirtualTicTacToeBoard] = useState(formNewVirtualTicTacToeBoard('Game Running...'));
+    const [virtualConnectFourBoard, setVirtualConnectFourBoard] = useState(
+        formNewVirtualConnectFourBoard('Game Running...')
+    );
+    const [virtualTicTacToeBoard, setVirtualTicTacToeBoard] = useState(
+        formNewVirtualTicTacToeBoard('Game Running...')
+    );
 
     const formConnectFourMessage = useCallback((): ConnectFourMessage => {
         if (checkmate(connectFourBoard)) {
-            const word = isFirstPlayer(connectFourBoard.currentPlayer.opponentLeague) ? 'Black' : 'Red';
+            const word = isFirstPlayer(
+                connectFourBoard.currentPlayer.opponentLeague
+            )
+                ? 'Black'
+                : 'Red';
             return `${word} Has Won!`;
         } else if (stalemate(connectFourBoard)) {
             return 'Game Drawn!';
-        } return 'Game Running...';
+        }
+        return 'Game Running...';
     }, [connectFourBoard]);
 
     const formTicTacToeMessage = useCallback((): TicTacToeMessage => {
         if (checkmate(ticTacToeBoard)) {
-            const word = isFirstPlayer(ticTacToeBoard.currentPlayer.opponentLeague) ? 'X' : 'O';
+            const word = isFirstPlayer(
+                ticTacToeBoard.currentPlayer.opponentLeague
+            )
+                ? 'X'
+                : 'O';
             return `${word} Has Won!`;
         } else if (stalemate(ticTacToeBoard)) {
             return 'Game Drawn!';
-        } return 'Game Running...';
+        }
+        return 'Game Running...';
     }, [ticTacToeBoard]);
 
     useEffect(() => {
-        setVirtualConnectFourBoard(formNewVirtualConnectFourBoard(formConnectFourMessage()));
+        setVirtualConnectFourBoard(
+            formNewVirtualConnectFourBoard(formConnectFourMessage())
+        );
         if (checkmate(connectFourBoard) || stalemate(connectFourBoard)) {
             return;
         }
-        if (currentPlayerIsAI(connectFourBoard, connectFourFirstPlayerAI, connectFourSecondPlayerAI)) {
-            setVirtualConnectFourBoard(formNewVirtualConnectFourBoard('AI Thinking...'));
+        if (
+            currentPlayerIsAI(
+                connectFourBoard,
+                connectFourFirstPlayerAI,
+                connectFourSecondPlayerAI
+            )
+        ) {
+            setVirtualConnectFourBoard(
+                formNewVirtualConnectFourBoard('AI Thinking...')
+            );
             setConnectFourBoard(minimaxMakeMove(connectFourBoard));
-            setVirtualConnectFourBoard(formNewVirtualConnectFourBoard(formConnectFourMessage()));
+            setVirtualConnectFourBoard(
+                formNewVirtualConnectFourBoard(formConnectFourMessage())
+            );
         }
-    }, [connectFourBoard, connectFourFirstPlayerAI, connectFourSecondPlayerAI, formConnectFourMessage, formNewVirtualConnectFourBoard]);
+    }, [
+        connectFourBoard,
+        connectFourFirstPlayerAI,
+        connectFourSecondPlayerAI,
+        formConnectFourMessage,
+        formNewVirtualConnectFourBoard,
+    ]);
 
     useEffect(() => {
-        setVirtualTicTacToeBoard(formNewVirtualTicTacToeBoard(formTicTacToeMessage()));
+        setVirtualTicTacToeBoard(
+            formNewVirtualTicTacToeBoard(formTicTacToeMessage())
+        );
         if (checkmate(ticTacToeBoard) || stalemate(ticTacToeBoard)) {
             return;
         }
-        if (currentPlayerIsAI(ticTacToeBoard, ticTacToeFirstPlayerAI, ticTacToeSecondPlayerAI)) {
-            setVirtualTicTacToeBoard(formNewVirtualTicTacToeBoard('AI Thinking...'));
+        if (
+            currentPlayerIsAI(
+                ticTacToeBoard,
+                ticTacToeFirstPlayerAI,
+                ticTacToeSecondPlayerAI
+            )
+        ) {
+            setVirtualTicTacToeBoard(
+                formNewVirtualTicTacToeBoard('AI Thinking...')
+            );
             setTicTacToeBoard(minimaxMakeMove(ticTacToeBoard));
-            setVirtualTicTacToeBoard(formNewVirtualTicTacToeBoard(formTicTacToeMessage()));
+            setVirtualTicTacToeBoard(
+                formNewVirtualTicTacToeBoard(formTicTacToeMessage())
+            );
         }
-    }, [formNewVirtualTicTacToeBoard, formTicTacToeMessage, ticTacToeBoard, ticTacToeFirstPlayerAI, ticTacToeSecondPlayerAI]);
+    }, [
+        formNewVirtualTicTacToeBoard,
+        formTicTacToeMessage,
+        ticTacToeBoard,
+        ticTacToeFirstPlayerAI,
+        ticTacToeSecondPlayerAI,
+    ]);
 
     const ShowGame = (): JSX.Element | null => {
         if (gameType === 1) {
@@ -286,27 +486,39 @@ const Game = (): JSX.Element => {
         throw new Error('gameType is only 0, 1, or null');
     };
 
-    const currentPlayerIsAI = (board: BoardType, firstPlayerChecked: boolean, secondPlayerChecked: boolean) => {
-        const first = isFirstPlayer(board.currentPlayer.league) && firstPlayerChecked;
-        const second = !isFirstPlayer(board.currentPlayer.league) && secondPlayerChecked;
+    const currentPlayerIsAI = (
+        board: BoardType,
+        firstPlayerChecked: boolean,
+        secondPlayerChecked: boolean
+    ) => {
+        const first =
+            isFirstPlayer(board.currentPlayer.league) && firstPlayerChecked;
+        const second =
+            !isFirstPlayer(board.currentPlayer.league) && secondPlayerChecked;
         return first || second;
     };
 
     const ShowGameOption = () => {
         if (gameType === null) {
-            return <GameOptions setGameToConnectFour={() => setGameType(1)} setGameToTicTacToe={() => setGameType(0)}/>;
-        } return null;
+            return (
+                <GameOptions
+                    setGameToConnectFour={() => setGameType(1)}
+                    setGameToTicTacToe={() => setGameType(0)}
+                />
+            );
+        }
+        return null;
     };
 
     return (
         <GameContainer>
             <div>
-                <ShowGameOption/>
-                <ShowGame/>
+                <ShowGameOption />
+                <ShowGame />
             </div>
         </GameContainer>
     );
-}
+};
 
 const GameStyle = css`
     display: flex;
@@ -385,7 +597,8 @@ const BackButton = styled.button`
 `;
 
 const GameTable = styled.table`
-    border-spacing: ${({ gameType }: GameTableProps) => gameType === 1 ? '10px'  : '0px'};
+    border-spacing: ${({ gameType }: GameTableProps) =>
+        gameType === 1 ? '10px' : '0px'};
 `;
 
 const ConnectFourTile = styled.td`
@@ -394,10 +607,14 @@ const ConnectFourTile = styled.td`
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    cursor: ${({ color }: ConnectFourTileProps) => color === 'transparent' ? 'cursor' : 'default'};
+    cursor: ${({ color }: ConnectFourTileProps) =>
+        color === 'transparent' ? 'cursor' : 'default'};
     background: ${({ color }: ConnectFourTileProps) => color};
     &:hover {
-        background-color: ${({ color }: ConnectFourTileProps) => color === 'transparent' ? ({ theme }) => theme.theme.hoverColor : color};
+        background-color: ${({ color }: ConnectFourTileProps) =>
+            color === 'transparent'
+                ? ({ theme }) => theme.theme.hoverColor
+                : color};
     }
     @media (max-width: 506px) {
         width: 40px;

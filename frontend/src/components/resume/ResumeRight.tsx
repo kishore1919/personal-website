@@ -2,7 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface SectionProps {
-    readonly title: 'Programming Languages' | 'Technologies' | 'Achievements' | 'Personal Skills';
+    readonly title:
+        | 'Programming Languages'
+        | 'Technologies'
+        | 'Achievements'
+        | 'Personal Skills';
     readonly list: ReadonlyArray<string>;
 }
 
@@ -10,7 +14,9 @@ const SkillSection = ({ title, list }: SectionProps) => (
     <Section>
         <SectionTitle>{title}</SectionTitle>
         <ul>
-            {list.map(skill => <List key={skill}>{skill}</List>)}
+            {list.map((skill) => (
+                <List key={skill}>{skill}</List>
+            ))}
         </ul>
     </Section>
 );
@@ -18,34 +24,46 @@ const SkillSection = ({ title, list }: SectionProps) => (
 const ResumeRight = () => (
     <ResumeRightContainer>
         <SkillSection
-            title='Programming Languages'
+            title="Programming Languages"
             list={['TypeScript & JavaScript', 'Java', 'C#', 'Python']}
         />
         <SkillSection
-            title='Technologies'
-            list={['JavaFX & Java Swing & JUnit & Gradle', 'React & React Native & NodeJS & Jest', 'Basic Linux & Git Commands', 'Basic MySQL, SQL & MongoDB']}
+            title="Technologies"
+            list={[
+                'JavaFX & Java Swing & JUnit & Gradle',
+                'React & React Native & NodeJS & Jest',
+                'Basic Linux & Git Commands',
+                'Basic MySQL, SQL & MongoDB',
+            ]}
         />
         <SkillSection
-            title='Achievements'
-            list={['Building an Intelligent Room Finder System through collaboration with a friend',
-            'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
-            'Dean\'s List for January 2021 Trimester',
-            'Built a functional Notepad similar to Window\'s Notepad in Java Swing and JavaFX',
-            'Built my very own website']}
+            title="Achievements"
+            list={[
+                'Building an Intelligent Room Finder System through collaboration with a friend',
+                'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
+                "Dean's List for January 2021 Trimester",
+                "Built a functional Notepad similar to Window's Notepad in Java Swing and JavaFX",
+                'Built my very own website',
+            ]}
         />
         <SkillSection
-            title='Personal Skills'
-            list={['Proficient verbal communication skills in English, Mandarin and Cantonese; satisfactory in Malay',
-            'Excellent writing skills in English and Mandarin; satisfactory in Malay',
-            'Highly organised',
-            'Able to learn new skills efficiently',
-            'Able to work independently or as part of a team',
-            'Able to take on and fulfill own responsibilities']}
+            title="Personal Skills"
+            list={[
+                'Proficient verbal communication skills in English, Mandarin and Cantonese; satisfactory in Malay',
+                'Excellent writing skills in English and Mandarin; satisfactory in Malay',
+                'Highly organised',
+                'Able to learn new skills efficiently',
+                'Able to work independently or as part of a team',
+                'Able to take on and fulfill own responsibilities',
+            ]}
         />
 
         <Section>
             <SectionTitle>Education</SectionTitle>
-            <Subtitle>Bachelor of Science (Honours) Software Engineering (May 2019 - Present)</Subtitle>
+            <Subtitle>
+                Bachelor of Science (Honours) Software Engineering (May 2019 -
+                Present)
+            </Subtitle>
             <div>Universiti Tunku Abdul Rahman</div>
             <ul>
                 <List>CGPA - 3.4356</List>
@@ -53,7 +71,9 @@ const ResumeRight = () => (
             </ul>
             <Subtitle>SPM(2017)</Subtitle>
             <div>S. M. Chung Hwa Tenom</div>
-            <ul><List>7As 3Bs</List></ul>
+            <ul>
+                <List>7As 3Bs</List>
+            </ul>
         </Section>
 
         <Section>
@@ -99,7 +119,8 @@ const SectionTitle = styled.h1`
     margin: 0 0 25px 0;
     letter-spacing: 5.5px !important;
     text-transform: uppercase;
-    text-shadow: 4px 1px ${({ theme }) => theme.greenColor}, -4px 1px ${({ theme }) => theme.redColor};
+    text-shadow: 4px 1px ${({ theme }) => theme.greenColor},
+        -4px 1px ${({ theme }) => theme.redColor};
 `;
 
 const ResumeRightContainer = styled(ResumeSection)`

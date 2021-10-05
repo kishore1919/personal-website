@@ -14,32 +14,47 @@ interface NavLinkProps {
 }
 
 const NavLink = ({ href, title, close }: NavLinkProps) => {
-
     if (useLocation().pathname === href) {
         return (
             <NavLinkWrapperActive>
-                <Link onClick={close} to={href}>{title}</Link>
+                <Link onClick={close} to={href}>
+                    {title}
+                </Link>
             </NavLinkWrapperActive>
         );
-    } return (
+    }
+    return (
         <NavLinkWrapper>
-            <Link onClick={close} to={href}>{title}</Link>
+            <Link onClick={close} to={href}>
+                {title}
+            </Link>
         </NavLinkWrapper>
     );
 };
 
 const NavLinks = ({ fullScreen, close }: NavLinksProps) => {
     const links: ReadonlyArray<NavLinkProps> = [
-        {href: '/', title: 'Home', close: close},
-        {href: '/portfolio', title: 'Portfolio', close: close},
-        {href: '/about', title: 'About', close: close},
-        {href: '/contact', title: 'Contact', close: close},
-        {href: '/resume', title: 'Resume', close: close},
+        { href: '/', title: 'Home', close: close },
+        { href: '/portfolio', title: 'Portfolio', close: close },
+        { href: '/about', title: 'About', close: close },
+        { href: '/contact', title: 'Contact', close: close },
+        { href: '/resume', title: 'Resume', close: close },
     ];
 
-    const navLinks: ReadonlyArray<JSX.Element> = links.map((link, index) => <NavLink close={close} key={index} href={link.href} title={link.title}/>);
+    const navLinks: ReadonlyArray<JSX.Element> = links.map((link, index) => (
+        <NavLink
+            close={close}
+            key={index}
+            href={link.href}
+            title={link.title}
+        />
+    ));
 
-    return fullScreen ? <NavMenu>{navLinks}</NavMenu> : <LeftSide>{navLinks}</LeftSide>;
+    return fullScreen ? (
+        <NavMenu>{navLinks}</NavMenu>
+    ) : (
+        <LeftSide>{navLinks}</LeftSide>
+    );
 };
 
 const NavLinkWrapperStyled = styled.div`
@@ -62,7 +77,7 @@ const NavLinkWrapperStyled = styled.div`
         &:focus {
             outline: none;
         }
-        &:hover{
+        &:hover {
             color: ${({ theme }) => theme.theme.secondaryColor} !important;
         }
     }
@@ -103,6 +118,5 @@ const NavMenu = styled.div`
         }
     }
 `;
-
 
 export default NavLinks;

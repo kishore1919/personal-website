@@ -69,7 +69,8 @@ export const secondaryTheme: DefaultTheme = {
     theme: lightTheme,
 };
 
-export const getTheme = (theme: DefaultTheme) => isPrimary(theme) ? secondaryTheme : primaryTheme;
+export const getTheme = (theme: DefaultTheme) =>
+    isPrimary(theme) ? secondaryTheme : primaryTheme;
 export const isPrimary = (theme: DefaultTheme) => theme.theme === darkTheme;
 
 export const KEY = '8bf5222d-038e-4dfd-ab93-ab6267f8dc55';

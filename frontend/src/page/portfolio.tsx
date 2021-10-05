@@ -9,11 +9,10 @@ import { portfolioURL, portfolioQuery } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
 interface PortfolioImageBackgroundProps {
-    readonly backgroundImage: string
+    readonly backgroundImage: string;
 }
 
 const Portfolio = (): JSX.Element => {
-
     const history = useHistory();
     const location = useLocation();
 
@@ -42,10 +41,13 @@ const Portfolio = (): JSX.Element => {
 
     useEffect(() => {
         if (!initialLoad) {
-            fetch(url).then(response => response.json()).then((json: Data) => {
-                setPortfolio(json);
-                setQueryLanguage(json.selectedLanguage);
-            }).catch(error => console.error(error.message));
+            fetch(url)
+                .then((response) => response.json())
+                .then((json: Data) => {
+                    setPortfolio(json);
+                    setQueryLanguage(json.selectedLanguage);
+                })
+                .catch((error) => console.error(error.message));
         }
     }, [url, initialLoad]);
 
@@ -78,7 +80,13 @@ const Portfolio = (): JSX.Element => {
         return (
             <Container>
                 <PortfolioContainer>
-                    {portfolio.portfolioForPagingQueried.map(portfolio => <ShowPortfolio key={portfolio.path} path={portfolio.path} caption={portfolio.caption}/>)}
+                    {portfolio.portfolioForPagingQueried.map((portfolio) => (
+                        <ShowPortfolio
+                            key={portfolio.path}
+                            path={portfolio.path}
+                            caption={portfolio.caption}
+                        />
+                    ))}
                 </PortfolioContainer>
             </Container>
         );
@@ -90,10 +98,17 @@ const Portfolio = (): JSX.Element => {
 
         return (
             <PortfolioItemContainer>
-                <PortfolioImageBackground backgroundImage={backgroundPath}/>
+                <PortfolioImageBackground backgroundImage={backgroundPath} />
                 <ImageTextContainer>
                     <div>
-                        <PortfolioLink href={`https://github.com/GervinFung/${path}`}><PortfolioLogo src={logoPath} alt={`${path}.webp`}/></PortfolioLink>
+                        <PortfolioLink
+                            href={`https://github.com/GervinFung/${path}`}
+                        >
+                            <PortfolioLogo
+                                src={logoPath}
+                                alt={`${path}.webp`}
+                            />
+                        </PortfolioLink>
                     </div>
                     <Caption>{caption}</Caption>
                 </ImageTextContainer>
@@ -110,7 +125,7 @@ const Portfolio = (): JSX.Element => {
         } else {
             queryPortfolio(finalPage, language as string);
         }
-    }
+    };
 
     const getNextPage = (portfolio: Data): number => {
         const paging = getPagingNumber();
@@ -120,7 +135,7 @@ const Portfolio = (): JSX.Element => {
     const getPrevPage = (portfolio: Data): number => {
         const paging = getPagingNumber();
         return paging === 0 ? portfolio.numberOfPagesQueried - 1 : paging - 1;
-    }
+    };
 
     const Buttons = (): JSX.Element | null => {
         if (portfolio === undefined || portfolio.numberOfPagesQueried === 1) {
@@ -128,8 +143,16 @@ const Portfolio = (): JSX.Element => {
         }
         return (
             <div>
-                <LeftButton onClick={() => sidePortfolio(getPrevPage(portfolio))}><LeftImage/></LeftButton>
-                <RightButton onClick={() => sidePortfolio(getNextPage(portfolio))}><RightImage/></RightButton>
+                <LeftButton
+                    onClick={() => sidePortfolio(getPrevPage(portfolio))}
+                >
+                    <LeftImage />
+                </LeftButton>
+                <RightButton
+                    onClick={() => sidePortfolio(getNextPage(portfolio))}
+                >
+                    <RightImage />
+                </RightButton>
             </div>
         );
     };
@@ -148,7 +171,7 @@ const Portfolio = (): JSX.Element => {
         const url = new URLSearchParams(location.search);
         const language = url.get('language');
         queryPortfolio(page, language === null ? 'All' : language);
-    }
+    };
 
     const DotsNav = (): JSX.Element | null => {
         if (portfolio === undefined || portfolio.numberOfPagesQueried === 1) {
@@ -157,12 +180,15 @@ const Portfolio = (): JSX.Element => {
         const paging = getPagingNumber();
         const dotArr = [];
         for (let i = 0; i < portfolio.numberOfPagesQueried; i++) {
-            const dot = paging === i ? <ActiveDot onClick={() => dotClick(i)} key={i}/> : <Dot onClick={() => dotClick(i)} key={i}/>;
+            const dot =
+                paging === i ? (
+                    <ActiveDot onClick={() => dotClick(i)} key={i} />
+                ) : (
+                    <Dot onClick={() => dotClick(i)} key={i} />
+                );
             dotArr.push(dot);
         }
-        return (
-            <Dots>{dotArr}</Dots>
-        );
+        return <Dots>{dotArr}</Dots>;
     };
 
     const queryPortfolio = (page: number, language: string) => {
@@ -179,8 +205,13 @@ const Portfolio = (): JSX.Element => {
 
         return (
             <LanguageChooser>
-                <Languages value={queryLanguage} onChange={e => queryPortfolio(0, e.target.value)}>
-                    {languages.map(language => <option key={language}>{language}</option>)}
+                <Languages
+                    value={queryLanguage}
+                    onChange={(e) => queryPortfolio(0, e.target.value)}
+                >
+                    {languages.map((language) => (
+                        <option key={language}>{language}</option>
+                    ))}
                 </Languages>
             </LanguageChooser>
         );
@@ -188,14 +219,19 @@ const Portfolio = (): JSX.Element => {
 
     return (
         <ContentContainer>
-            <Title title={'Portfolio'} content={'PoolOfDeath20 or Gervin\'s repositories on github, the portfolio page'}/>
-            <LanguageSelector/>
-            <ShowPortfolios/>
-            <Buttons/>
-            <DotsNav/>
+            <Title
+                title={'Portfolio'}
+                content={
+                    "PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
+                }
+            />
+            <LanguageSelector />
+            <ShowPortfolios />
+            <Buttons />
+            <DotsNav />
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading/>}>
-                    <Surprise show={show} closeMessage={() => setShow(false)}/>
+                <Suspense fallback={<HashLoading />}>
+                    <Surprise show={show} closeMessage={() => setShow(false)} />
                 </Suspense>
             </ErrorBoundary>
         </ContentContainer>
@@ -236,7 +272,7 @@ const PortfolioContainer = styled.div`
     min-width: 100vw;
     animation: fadeIn ease 0.5s;
     @media (max-width: 877px) {
-        flex-direction: column
+        flex-direction: column;
     }
 `;
 
@@ -246,9 +282,11 @@ const PortfolioImageBackground = styled.div`
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(${({ backgroundImage }: PortfolioImageBackgroundProps) => backgroundImage});
-    @media (max-width: 877px) {
-        height: 250px
+    background-image: url(${({
+        backgroundImage,
+    }: PortfolioImageBackgroundProps) => backgroundImage});
+    @media (max-width: 877px;) {
+        height: 250px;
     }
 `;
 
@@ -262,7 +300,7 @@ const PortfolioItemContainer = styled.div`
         filter: brightness(20%);
     }
     @media (max-width: 877px) {
-        width: 100%
+        width: 100%;
     }
 `;
 
@@ -294,13 +332,13 @@ const ImageTextContainer = styled.div`
     padding-right: 100px;
     width: calc(100% - 200px);
     &:hover ${Caption} {
-       color: ${({ theme }) => theme.greenColor};
+        color: ${({ theme }) => theme.greenColor};
     }
 `;
 
 const PortfolioLink = styled.a.attrs({
     target: 'blank',
-    rel: 'noopener noreferrer' 
+    rel: 'noopener noreferrer',
 })`
     display: block;
 `;
@@ -365,7 +403,7 @@ const PortfolioNavImage = styled.img`
 
 const LeftImage = styled(PortfolioNavImage).attrs({
     src: 'asset/images/others/previousButton.webp',
-    alt: 'previousButton.webp'
+    alt: 'previousButton.webp',
 })`
     &:hover {
         transform: rotate(360deg) scale(1.15);
@@ -374,7 +412,7 @@ const LeftImage = styled(PortfolioNavImage).attrs({
 
 const RightImage = styled(PortfolioNavImage).attrs({
     src: 'asset/images/others/nextButton.webp',
-    alt: 'nextButton.webp'
+    alt: 'nextButton.webp',
 })`
     &:hover {
         transform: rotate(-360deg) scale(1.15);
@@ -403,7 +441,7 @@ const Dot = styled.div`
         width: 20px;
     }
     @media (max-width: 586px) {
-        display: none
+        display: none;
     }
 `;
 

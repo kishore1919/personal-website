@@ -1,13 +1,20 @@
 import express from 'express';
-import { githubAPI,
-         portfolioDataPromise,
-         queryLanguageSelector,
-         queryPortfolioForPaging,
-         queryPortfolio,
-         validatePageQuery,
-         validatePortfolioLanguageQuery
+import {
+    githubAPI,
+    portfolioDataPromise,
+    queryLanguageSelector,
+    queryPortfolioForPaging,
+    queryPortfolio,
+    validatePageQuery,
+    validatePortfolioLanguageQuery,
 } from './util/portfolio.js';
-import { getNameError, getEmailError, getMessageError, allValueValid, status } from './util/contact.js';
+import {
+    getNameError,
+    getEmailError,
+    getMessageError,
+    allValueValid,
+    status,
+} from './util/contact.js';
 import nodemailer from 'nodemailer';
 import path from 'path';
 import cors from 'cors';
@@ -15,8 +22,8 @@ import compression from 'compression';
 
 const { static: expressStatic, json, urlencoded } = express;
 const app = express();
-app.use(json({ limit: '10mb'}));
-app.use(urlencoded({ extended: true }))
+app.use(json({ limit: '10mb' }));
+app.use(urlencoded({ extended: true }));
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
     console.log(`listening at port ${port}`);
@@ -28,24 +35,48 @@ const build = 'frontend/build';
 
 app.use(expressStatic(path.resolve(build)));
 
-const returnResponse = async (paging, numberOfPortfolioPerPage, all, language) => {
+const returnResponse = async (
+    paging,
+    numberOfPortfolioPerPage,
+    all,
+    language
+) => {
     const github = await githubAPI;
 
-    const selectedLanguage = validatePortfolioLanguageQuery(github, language, all);
+    const selectedLanguage = validatePortfolioLanguageQuery(
+        github,
+        language,
+        all
+    );
     const portfolioData = await portfolioDataPromise;
-    const portfolioQueried = queryPortfolio(selectedLanguage, github, portfolioData, all);
+    const portfolioQueried = queryPortfolio(
+        selectedLanguage,
+        github,
+        portfolioData,
+        all
+    );
     const totalNumberOfPortfolio = portfolioQueried.length;
 
-    const portfolioForPagingQueried = queryPortfolioForPaging(paging, portfolioQueried, totalNumberOfPortfolio);
-    const numberOfPagesQueried = Math.ceil(totalNumberOfPortfolio / numberOfPortfolioPerPage);
+    const portfolioForPagingQueried = queryPortfolioForPaging(
+        paging,
+        portfolioQueried,
+        totalNumberOfPortfolio
+    );
+    const numberOfPagesQueried = Math.ceil(
+        totalNumberOfPortfolio / numberOfPortfolioPerPage
+    );
 
-    const portfolioLanguageQueried = queryLanguageSelector(github, portfolioData, all);
+    const portfolioLanguageQueried = queryLanguageSelector(
+        github,
+        portfolioData,
+        all
+    );
     return {
         numberOfPagesQueried,
         portfolioLanguageQueried,
         portfolioForPagingQueried,
-        selectedLanguage
-    }
+        selectedLanguage,
+    };
 };
 
 app.get('/api/portfolio', async (req, res) => {
@@ -56,10 +87,20 @@ app.get('/api/portfolio', async (req, res) => {
         const language = req.query.language;
         if (typeof page === 'string' && typeof language === 'string') {
             const paging = validatePageQuery(page, numberOfPortfolioPerPage);
-            const response = await returnResponse(paging, numberOfPortfolioPerPage, all, language);
+            const response = await returnResponse(
+                paging,
+                numberOfPortfolioPerPage,
+                all,
+                language
+            );
             res.status(200).json(response);
         } else {
-            const response = await returnResponse(0, numberOfPortfolioPerPage, all, all);
+            const response = await returnResponse(
+                0,
+                numberOfPortfolioPerPage,
+                all,
+                all
+            );
             res.status(200).json(response);
         }
     } else {
@@ -74,7 +115,7 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false,
     tls: {
-        ciphers:'SSLv3',
+        ciphers: 'SSLv3',
     },
     auth: {
         user: myEmail,
@@ -93,9 +134,18 @@ app.post('/api/contact', (req, res) => {
         const nameError = getNameError(name);
         const messageError = getMessageError(message);
 
-        if (allValueValid(name, email, message, nameError, emailError, messageError)) {
+        if (
+            allValueValid(
+                name,
+                email,
+                message,
+                nameError,
+                emailError,
+                messageError
+            )
+        ) {
             const options = {
-                from:  `${name} <${myEmail}>`,
+                from: `${name} <${myEmail}>`,
                 to: `Gervin Fung Da Xuen <${myEmail}>`,
                 subject: 'Personal Website Contact Form',
                 text: `Hello, my name is ${name}.\n\nYou can reach me at ${email}.\n\nI would like to ${message}`,
@@ -104,15 +154,15 @@ app.post('/api/contact', (req, res) => {
             transporter.sendMail(options, (error, info) => {
                 if (error) {
                     console.error(error.message);
-                    res.status(200).json({ status: status.failed });
+                    res.status(200).json({ type: status.failed });
                 } else {
                     console.log(info);
-                    res.status(200).json({ status: status.succeed });
+                    res.status(200).json({ type: status.succeed });
                 }
             });
         } else {
             res.json({
-                status: status.input,
+                type: status.input,
                 messageErr: messageError,
                 nameErr: nameError,
                 emailErr: emailError,

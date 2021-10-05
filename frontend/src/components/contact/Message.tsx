@@ -1,7 +1,11 @@
 import React, { Suspense, lazy } from 'react';
 import styled from 'styled-components';
 const CloseFullScreen = lazy(() => import('../CloseFullScreen'));
-const FullScreenContainer = lazy(() => import('../../util/theme/GlobalTheme').then(module => ({ default: module.FullScreenContainer })));
+const FullScreenContainer = lazy(() =>
+    import('../../util/theme/GlobalTheme').then((module) => ({
+        default: module.FullScreenContainer,
+    }))
+);
 import { HashLoading, ErrorBoundary } from '../HashLoading';
 import HashLoader from 'react-spinners/HashLoader';
 import { primaryTheme } from '../../util/theme/colorTheme';
@@ -11,42 +15,60 @@ interface MessageProps {
     readonly closeMessage: () => void;
 }
 
-const FinalMessage = ({ show, closeMessage }: MessageProps): JSX.Element | null => {
+const FinalMessage = ({
+    show,
+    closeMessage,
+}: MessageProps): JSX.Element | null => {
     if (show) {
         return (
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading/>}>
+                <Suspense fallback={<HashLoading />}>
                     <Background onClick={closeMessage}>
                         <FinalContent>
-                        <CloseFinal onClick={closeMessage}>&times;</CloseFinal>
-                        <FinalContentImage/>
-                        <FinalContentParagraph>Your Message Has Been Successfully Sent!</FinalContentParagraph>
-                        <FinalContentParagraph>Thank You!</FinalContentParagraph>
+                            <CloseFinal onClick={closeMessage}>
+                                &times;
+                            </CloseFinal>
+                            <FinalContentImage />
+                            <FinalContentParagraph>
+                                Your Message Has Been Successfully Sent!
+                            </FinalContentParagraph>
+                            <FinalContentParagraph>
+                                Thank You!
+                            </FinalContentParagraph>
                         </FinalContent>
                     </Background>
                 </Suspense>
             </ErrorBoundary>
         );
-    } return null;
+    }
+    return null;
 };
 
-const SendingMessage = ({ show, closeMessage }: MessageProps): JSX.Element | null => {
+const SendingMessage = ({
+    show,
+    closeMessage,
+}: MessageProps): JSX.Element | null => {
     if (show) {
         return (
-            <ErrorBoundary>       
-                <Suspense fallback={<HashLoading/>}>
+            <ErrorBoundary>
+                <Suspense fallback={<HashLoading />}>
                     <Background onClick={closeMessage}>
-                        <CloseFullScreen close={closeMessage}/>
-                        
+                        <CloseFullScreen close={closeMessage} />
+
                         <SendingContent>
                             <Sending>Sending...</Sending>
-                            <HashLoader loading={true} size={100} color={primaryTheme.theme.secondaryColor}/>
+                            <HashLoader
+                                loading={true}
+                                size={100}
+                                color={primaryTheme.theme.secondaryColor}
+                            />
                         </SendingContent>
                     </Background>
                 </Suspense>
             </ErrorBoundary>
         );
-    } return null;
+    }
+    return null;
 };
 
 const Background = styled(FullScreenContainer)`
@@ -76,7 +98,7 @@ const FinalContentParagraph = styled.p`
 
 const FinalContentImage = styled.img.attrs({
     src: 'asset/images/others/tick.webp',
-    alt: 'tick.webp'
+    alt: 'tick.webp',
 })`
     width: auto;
     height: 7vw;
@@ -84,12 +106,13 @@ const FinalContentImage = styled.img.attrs({
 `;
 
 const CloseFinal = styled.span`
-    color: #AAAAAA;
+    color: #aaaaaa;
     float: right;
     margin-top: -15px;
     font-size: 1.5em;
     font-weight: bold;
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         color: ${({ theme }) => theme.theme.primaryColor};
         text-decoration: none;
         cursor: pointer;
@@ -102,9 +125,9 @@ const Sending = styled.p`
     margin: 0 0 50px 0 !important;
 `;
 
-
 const SendingContent = styled(Content)`
-    background-color: transparent;    display: grid;
+    background-color: transparent;
+    display: grid;
     place-items: center;
 `;
 

@@ -9,7 +9,7 @@ interface TitleProps {
 const Title = ({ title, content }: TitleProps) => {
     return (
         <Helmet>
-            <meta charSet='utf-8' name='description' content={content}/>
+            <meta charSet="utf-8" name="description" content={content} />
             <title>{title}</title>
         </Helmet>
     );

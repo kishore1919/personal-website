@@ -9,7 +9,10 @@ export const HashLoading = (): JSX.Element => {
         <Container>
             <InnerContainer>
                 <LoadingMessage>Loading...</LoadingMessage>
-                <FadeLoader loading={true} color={primaryTheme.theme.secondaryColor}/>
+                <FadeLoader
+                    loading={true}
+                    color={primaryTheme.theme.secondaryColor}
+                />
             </InnerContainer>
         </Container>
     );
@@ -24,30 +27,34 @@ interface State {
 }
 
 export class ErrorBoundary extends Component<Props, State> {
-
     public state: State = {
-        hasError: false
+        hasError: false,
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public static getDerivedStateFromError = (_: Error): State => ({
-        hasError: true
+        hasError: true,
     });
 
-    public componentDidCatch = (error: Error, errorInfo: ErrorInfo) => console.error('Uncaught error: ', error, errorInfo);
+    public componentDidCatch = (error: Error, errorInfo: ErrorInfo) =>
+        console.error('Uncaught error: ', error, errorInfo);
 
     public render = (): JSX.Element | ReactNode => {
         if (this.state.hasError) {
             return (
                 <Container>
                     <InnerContainer>
-                        <LoadingMessage>Oops! Seems like there&apos;s a problem loading the content</LoadingMessage>
+                        <LoadingMessage>
+                            Oops! Seems like there&apos;s a problem loading the
+                            content
+                        </LoadingMessage>
                         <LoadingMessage>Please try again</LoadingMessage>
                     </InnerContainer>
                 </Container>
-            )
-        } return this.props.children;
-    }
+            );
+        }
+        return this.props.children;
+    };
 }
 
 const Container = styled(GlobalContainer)`

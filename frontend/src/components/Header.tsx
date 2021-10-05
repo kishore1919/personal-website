@@ -15,7 +15,6 @@ interface BackToTopProps {
 }
 
 const BackToTop = ({ scroll }: BackToTopProps) => {
-
     const [animate, setAnimate] = useState(scroll);
     const [load, setLoad] = useState(scroll);
 
@@ -27,13 +26,19 @@ const BackToTop = ({ scroll }: BackToTopProps) => {
     if (load) {
         return (
             <BackToTopContainer>
-                <ArrowUpContainer slideIn={animate} onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                    <ArrowUp/>
+                <ArrowUpContainer
+                    slideIn={animate}
+                    onClick={() =>
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }
+                >
+                    <ArrowUp />
                 </ArrowUpContainer>
             </BackToTopContainer>
         );
-    } return null;
-}
+    }
+    return null;
+};
 
 interface HeaderProps {
     readonly theme: DefaultTheme;
@@ -41,39 +46,61 @@ interface HeaderProps {
 }
 
 const Header = ({ theme, updateTheme }: HeaderProps) => {
-
     const [show, setShow] = useState(false);
     const [scroll, setScroll] = useState(false);
 
     useEffect(() => {
-        window.addEventListener('scroll', () => setScroll(window.pageYOffset > 100));
+        window.addEventListener('scroll', () =>
+            setScroll(window.pageYOffset > 100)
+        );
     }, [scroll]);
 
-    const ToggleComponent = () => isPrimary(theme) ? <ToggleThemeSun aria-hidden={true}/> : <ToggleThemeMoon aria-hidden={true}/>;
+    const ToggleComponent = () =>
+        isPrimary(theme) ? (
+            <ToggleThemeSun aria-hidden={true} />
+        ) : (
+            <ToggleThemeMoon aria-hidden={true} />
+        );
 
     return (
         <Container>
             <NavWrapper>
                 <ErrorBoundary>
-                    <Suspense fallback={<HashLoading/>}>
-                        <NavLinks fullScreen={false} close={() => setShow(false)}/>
+                    <Suspense fallback={<HashLoading />}>
+                        <NavLinks
+                            fullScreen={false}
+                            close={() => setShow(false)}
+                        />
                         <RightSide>
                             <ToggleThemeContainer>
                                 <ToggleThemeButton onClick={updateTheme}>
-                                    <ToggleComponent/>
+                                    <ToggleComponent />
                                 </ToggleThemeButton>
                             </ToggleThemeContainer>
-                            <Brand><Name onClick={() => window.scrollTo(0, document.body.scrollHeight)}>PoolOfDeath20</Name></Brand>
-                            <HamburgerNav onClick={() => setShow(true)}><HamburgerButton>☰</HamburgerButton></HamburgerNav>
+                            <Brand>
+                                <Name
+                                    onClick={() =>
+                                        window.scrollTo(
+                                            0,
+                                            document.body.scrollHeight
+                                        )
+                                    }
+                                >
+                                    PoolOfDeath20
+                                </Name>
+                            </Brand>
+                            <HamburgerNav onClick={() => setShow(true)}>
+                                <HamburgerButton>☰</HamburgerButton>
+                            </HamburgerNav>
                         </RightSide>
                         <FullScreen show={show} close={() => setShow(false)} />
                     </Suspense>
                 </ErrorBoundary>
             </NavWrapper>
-            <BackToTop scroll={scroll}/>
+            <BackToTop scroll={scroll} />
         </Container>
     );
-}
+};
 
 const Container = styled.div`
     background-color: transparent;
@@ -133,8 +160,12 @@ const ToggleTheme = css`
     font-size: 1.5em !important;
 `;
 
-const ToggleThemeSun = styled(FaSun)`${ToggleTheme}`;
-const ToggleThemeMoon = styled(FaMoon)`${ToggleTheme}`;
+const ToggleThemeSun = styled(FaSun)`
+    ${ToggleTheme}
+`;
+const ToggleThemeMoon = styled(FaMoon)`
+    ${ToggleTheme}
+`;
 
 const Brand = styled.div`
     color: ${({ theme }) => theme.theme.secondaryColor};
@@ -202,11 +233,21 @@ const ArrowUpContainer = styled.div`
     background-color: ${({ theme }) => theme.theme.secondaryColor};
     padding: 15px;
     margin: 10px;
-    animation: ${({ slideIn: show }: BackToTopAnimation) => show ? FadeIn : FadeOut} ease 0.5s;
-    -moz-animation: ${({ slideIn: show }: BackToTopAnimation) => show ? FadeIn : FadeOut} ease 0.5s;
-    -webkit-animation: ${({ slideIn: show }: BackToTopAnimation) => show ? FadeIn : FadeOut} ease 0.5s;
-    -o-animation: ${({ slideIn: show }: BackToTopAnimation) => show ? FadeIn : FadeOut} ease 0.5s;
-    -ms-animation: ${({ slideIn: show }: BackToTopAnimation) => show ? FadeIn : FadeOut} ease 0.5s;
+    animation: ${({ slideIn: show }: BackToTopAnimation) =>
+            show ? FadeIn : FadeOut}
+        ease 0.5s;
+    -moz-animation: ${({ slideIn: show }: BackToTopAnimation) =>
+            show ? FadeIn : FadeOut}
+        ease 0.5s;
+    -webkit-animation: ${({ slideIn: show }: BackToTopAnimation) =>
+            show ? FadeIn : FadeOut}
+        ease 0.5s;
+    -o-animation: ${({ slideIn: show }: BackToTopAnimation) =>
+            show ? FadeIn : FadeOut}
+        ease 0.5s;
+    -ms-animation: ${({ slideIn: show }: BackToTopAnimation) =>
+            show ? FadeIn : FadeOut}
+        ease 0.5s;
     &:hover {
         cursor: pointer;
         transition: 0.1s ease all;

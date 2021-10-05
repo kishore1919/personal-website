@@ -5,19 +5,48 @@ import Title from '../components/Title';
 
 const About = (): JSX.Element => (
     <ContentContainer>
-        <Title title={'About'} content={'Everything you need to know about PoolOfDeath20 or Gervin can be found here'}/>
+        <Title
+            title={'About'}
+            content={
+                'Everything you need to know about PoolOfDeath20 or Gervin can be found here'
+            }
+        />
         <Container>
             <TwoRowsContainer>
                 <ProfileImageContainer>
-                    <ProfileImage/>
+                    <ProfileImage />
                 </ProfileImageContainer>
                 <div>
-                    <ProfileContentContainerHeaderOne>Bonjour! Je vous remercie de votre visite!</ProfileContentContainerHeaderOne>
-                    <ProfileContentContainerParagraph>See that guy? It is me! I am Gervin Fung Da Xuen and I am not a French</ProfileContentContainerParagraph>
-                    <ProfileContentContainerParagraph>I am an undergraduate studying Software Engineering. Java is my primary language in programming and currently I am trying to learn web development and python.</ProfileContentContainerParagraph>
-                    <ProfileContentContainerParagraph>Never in a million years would I have thought the subject that I once hated the most would become my hobby. My 1<sup>st</sup> Program, a.k.a. The Hello World Program was written in C language during my foundation UTAR</ProfileContentContainerParagraph>
-                    <ProfileContentContainerParagraph>However during that time I am not interested in programming, it was not until I decided to do some projects myself, that I discover programming can also be very fun, the sheer joy of making things in your own design is simply fantastic and frustrating</ProfileContentContainerParagraph>
-                    <ProfileContentContainerParagraph>The Projects in Portfolio Page are what I have programmed during my free time. Hoped you enjoyed!</ProfileContentContainerParagraph>
+                    <ProfileContentContainerHeaderOne>
+                        Bonjour! Je vous remercie de votre visite!
+                    </ProfileContentContainerHeaderOne>
+                    <ProfileContentContainerParagraph>
+                        See that guy? It is me! I am Gervin Fung Da Xuen and I
+                        am not a French
+                    </ProfileContentContainerParagraph>
+                    <ProfileContentContainerParagraph>
+                        I am an undergraduate studying Software Engineering.
+                        Java is my primary language in programming and currently
+                        I am trying to learn web development and python.
+                    </ProfileContentContainerParagraph>
+                    <ProfileContentContainerParagraph>
+                        Never in a million years would I have thought the
+                        subject that I once hated the most would become my
+                        hobby. My 1<sup>st</sup> Program, a.k.a. The Hello World
+                        Program was written in C language during my foundation
+                        UTAR
+                    </ProfileContentContainerParagraph>
+                    <ProfileContentContainerParagraph>
+                        However during that time I am not interested in
+                        programming, it was not until I decided to do some
+                        projects myself, that I discover programming can also be
+                        very fun, the sheer joy of making things in your own
+                        design is simply fantastic and frustrating
+                    </ProfileContentContainerParagraph>
+                    <ProfileContentContainerParagraph>
+                        The Projects in Portfolio Page are what I have
+                        programmed during my free time. Hoped you enjoyed!
+                    </ProfileContentContainerParagraph>
                 </div>
             </TwoRowsContainer>
         </Container>
@@ -53,7 +82,7 @@ const ProfileImageContainer = styled.div`
 
 const ProfileImage = styled.img.attrs({
     src: 'asset/images/others/about.webp',
-    alt: 'profile-picture'
+    alt: 'profile-picture',
 })`
     border-radius: 50%;
     width: 25%;
@@ -68,7 +97,8 @@ const ProfileContentContainerHeaderOne = styled.h1`
     font-size: 2.5em;
     color: ${({ theme }) => theme.theme.highEmphasesTextColor};
     letter-spacing: 5.5px;
-    text-shadow: 4px 2px ${({ theme }) => theme.greenColor}, -4px 2px ${({ theme }) => theme.redColor};
+    text-shadow: 4px 2px ${({ theme }) => theme.greenColor},
+        -4px 2px ${({ theme }) => theme.redColor};
     @media (max-width: 586px) {
         font-size: 1.5em;
     }

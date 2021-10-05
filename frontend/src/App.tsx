@@ -12,11 +12,18 @@ const Footer = lazy(() => import('./components/Footer'));
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import GlobalStyle from './util/theme/GlobalTheme';
 import { ThemeProvider } from 'styled-components';
-import { primaryTheme, getTheme, isPrimary, secondaryTheme, KEY, PRIMARY, SECONDARY } from './util/theme/colorTheme';
+import {
+    primaryTheme,
+    getTheme,
+    isPrimary,
+    secondaryTheme,
+    KEY,
+    PRIMARY,
+    SECONDARY,
+} from './util/theme/colorTheme';
 import { HashLoading, ErrorBoundary } from './components/HashLoading';
 
 const App = () => {
-
     const [theme, setTheme] = useState(() => {
         const value = localStorage.getItem(KEY);
         return value === SECONDARY ? secondaryTheme : primaryTheme;
@@ -29,22 +36,32 @@ const App = () => {
     return (
         <BrowserRouter>
             <ThemeProvider theme={theme}>
-            <ErrorBoundary>
-                <Suspense fallback={<HashLoading/>}>
-                    <GlobalStyle/>
-                    <link href='https://fonts.googleapis.com/css2?family=Orbitron&display=swap' rel='stylesheet'/>
-                    <Header theme={theme} updateTheme={() => setTheme(getTheme(theme))}/>
+                <ErrorBoundary>
+                    <Suspense fallback={<HashLoading />}>
+                        <GlobalStyle />
+                        <link
+                            href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap"
+                            rel="stylesheet"
+                        />
+                        <Header
+                            theme={theme}
+                            updateTheme={() => setTheme(getTheme(theme))}
+                        />
                         <Switch>
-                            <Route path='/' exact component={Home}/>
-                            <Route path='/portfolio' exact component={Portfolio}/>
-                            <Route path='/contact' exact component={Contact}/>
-                            <Route path='/about' exact component={About}/>
-                            <Route path='/resume' exact component={Resume}/>
-                            <Route component={Error}/>
+                            <Route path="/" exact component={Home} />
+                            <Route
+                                path="/portfolio"
+                                exact
+                                component={Portfolio}
+                            />
+                            <Route path="/contact" exact component={Contact} />
+                            <Route path="/about" exact component={About} />
+                            <Route path="/resume" exact component={Resume} />
+                            <Route component={Error} />
                         </Switch>
-                    <Footer/>
-                </Suspense>
-            </ErrorBoundary>
+                        <Footer />
+                    </Suspense>
+                </ErrorBoundary>
             </ThemeProvider>
         </BrowserRouter>
     );
