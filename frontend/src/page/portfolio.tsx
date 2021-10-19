@@ -15,6 +15,7 @@ interface PortfolioImageBackgroundProps {
 const Portfolio = (): JSX.Element => {
     const history = useHistory();
     const location = useLocation();
+    const dotBreakPoint = 586;
 
     const processQuery = (search: string) => {
         const query = new URLSearchParams(search);
@@ -34,6 +35,7 @@ const Portfolio = (): JSX.Element => {
     });
     const [initialLoad, setInitialLoad] = useState(true);
     const [show, setShow] = useState(false);
+    const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
         if (!initialLoad) {
@@ -57,6 +59,14 @@ const Portfolio = (): JSX.Element => {
             }
         });
     }, [history]);
+
+    useEffect(() => {
+        const handleResizeWindow = () => setWidth(window.innerWidth);
+        window.addEventListener('resize', handleResizeWindow);
+        return () => {
+            window.removeEventListener('resize', handleResizeWindow);
+        };
+    }, []);
 
     const showSurprise = () => {
         const viewedKey = 'VIEWED_KEY';
@@ -156,7 +166,11 @@ const Portfolio = (): JSX.Element => {
     };
 
     const DotsNav = (): JSX.Element | null => {
-        if (portfolio === undefined || portfolio.numberOfPagesQueried === 1) {
+        if (
+            portfolio === undefined ||
+            portfolio.numberOfPagesQueried === 1 ||
+            width <= dotBreakPoint
+        ) {
             return null;
         }
         const paging = getPagingNumber();
@@ -270,6 +284,7 @@ const PortfolioImageBackground = styled.div`
     background-image: url(${({
         backgroundImage,
     }: PortfolioImageBackgroundProps) => backgroundImage});
+
     @media (max-width: 877px;) {
         height: 250px;
     }
@@ -424,9 +439,6 @@ const Dot = styled.div`
     @media (max-width: 877px) {
         height: 10px;
         width: 20px;
-    }
-    @media (max-width: 586px) {
-        display: none;
     }
 `;
 

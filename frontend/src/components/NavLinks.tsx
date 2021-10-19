@@ -120,18 +120,13 @@ const LeftSide = styled.div`
         justify-content: center;
         margin-bottom: 20px;
     }
-    @media (max-width: 586px) {
-        display: none !important;
-    }
 `;
 
 const NavMenu = styled.div`
     text-align: center;
-    @media (max-width: 586px) {
-        > div {
-            font-size: 1.75em;
-            margin: 25px;
-        }
+    > div {
+        font-size: 1.75em;
+        margin: 25px;
     }
 `;
 

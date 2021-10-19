@@ -48,6 +48,9 @@ interface HeaderProps {
 const Header = ({ theme, updateTheme }: HeaderProps) => {
     const [show, setShow] = useState(false);
     const [scroll, setScroll] = useState(false);
+    const [width, setWidth] = useState(window.innerWidth);
+
+    const hamburgerBreakPoint = 646;
 
     useEffect(() => {
         const handlePageOffset = () => setScroll(window.pageYOffset > 100);
@@ -64,15 +67,32 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
             <ToggleThemeMoon aria-hidden={true} />
         );
 
+    useEffect(() => {
+        const handleResizeWindow = () => setWidth(window.innerWidth);
+        window.addEventListener('resize', handleResizeWindow);
+        return () => {
+            window.removeEventListener('resize', handleResizeWindow);
+        };
+    }, []);
+
+    const NavLinksElem = () =>
+        width > hamburgerBreakPoint ? (
+            <NavLinks fullScreen={false} close={() => setShow(false)} />
+        ) : null;
+
+    const HamburgerNavElem = () =>
+        width <= hamburgerBreakPoint ? (
+            <HamburgerNav onClick={() => setShow(true)}>
+                <HamburgerButton>☰</HamburgerButton>
+            </HamburgerNav>
+        ) : null;
+
     return (
         <Container>
             <NavWrapper>
                 <ErrorBoundary>
                     <Suspense fallback={<HashLoading />}>
-                        <NavLinks
-                            fullScreen={false}
-                            close={() => setShow(false)}
-                        />
+                        <NavLinksElem />
                         <RightSide>
                             <ToggleThemeContainer>
                                 <ToggleThemeButton onClick={updateTheme}>
@@ -91,9 +111,7 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
                                     PoolOfDeath20
                                 </Name>
                             </Brand>
-                            <HamburgerNav onClick={() => setShow(true)}>
-                                <HamburgerButton>☰</HamburgerButton>
-                            </HamburgerNav>
+                            <HamburgerNavElem />
                         </RightSide>
                         <FullScreen show={show} close={() => setShow(false)} />
                     </Suspense>
@@ -127,11 +145,11 @@ const RightSide = styled.div`
         justify-content: center;
         margin-bottom: 20px;
     }
-    @media (max-width: 586px) {
+    @media (max-width: 646px) {
         display: grid;
         text-align: center;
         > div {
-            margin: 10px 0 10px 0;
+            margin: 7px 0 7px 0;
         }
     }
 `;
@@ -187,11 +205,8 @@ const Name = styled.span`
 
 const HamburgerNav = styled.div`
     justify-content: center;
-    display: none;
+    display: flex;
     align-items: center;
-    @media (max-width: 586px) {
-        display: flex;
-    }
 `;
 
 const HamburgerButton = styled.button`

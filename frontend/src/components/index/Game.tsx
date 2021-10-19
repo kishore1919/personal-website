@@ -497,7 +497,7 @@ const Game = (): JSX.Element => {
     };
 
     const ShowGameOption = () => {
-        if (gameType) {
+        if (gameType === null) {
             return (
                 <GameOptions
                     setGameToConnectFour={() => setGameType(1)}

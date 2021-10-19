@@ -1,5 +1,5 @@
-Room,A website build with rental information by web scraping from UTAR Accommodation list and build a better website using the information through collaboration with Eugene Yong
 LibGDX-Chess-Game,A Parallel AI Chess Game made with LibGDX Framework. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
+Room,A website build with rental information by web scraping from UTAR Accommodation list and build a better website using the information through collaboration with Eugene Yong
 SimpleParallelChessAI,A Parallel AI Chess Game made with Java Swing. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
 AndroidSimpleAIChess,First Android Project - Parallel AI Chess Game. Choose against AI from Level 1 to Level 10. You can play against your friend as well.
 RealTimeMarkdown,First React Project - A Markdown Editor made with React + TypeScript
