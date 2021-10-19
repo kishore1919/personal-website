@@ -2,15 +2,13 @@ import fetch from 'node-fetch';
 import { createReadStream } from 'fs';
 
 const fetchGithubAPI = async () => {
-    const res = await new Promise((resolve, reject) =>
-        resolve(
-            fetch('https://api.github.com/users/GervinFung/repos?per_page=50')
-        )
+    const res = await fetch(
+        'https://api.github.com/users/GervinFung/repos?per_page=50'
     );
     return await res.json();
 };
 
-const readPortfolio = async () => {
+const readPortfolio = () => {
     const filename = 'src/asset/files/portfolio.txt';
     return new Promise((resolve, reject) => {
         let fetchData = [];
@@ -18,12 +16,13 @@ const readPortfolio = async () => {
             .on('data', (data) => {
                 fetchData = data
                     .toString()
+                    .replace('\r', '')
                     .split('\n')
                     .map((stringData) => {
                         const commaSplit = stringData.toString().split(',');
                         return {
                             path: commaSplit[0],
-                            caption: commaSplit[1].replace('\r', ''),
+                            caption: commaSplit[1],
                         };
                     });
             })
@@ -40,13 +39,9 @@ export const queryLanguageSelector = (github, portfolioData, all) => {
                 .filter((repo) => repo.name === name)
                 .map((repo) => repo.language);
         })
-        .filter((portfolio) => portfolio.length !== 0)
+        .filter((portfolio) => portfolio.length)
         .flat(1);
-
-    const uniqueLanguages = Array.from(new Set(languages));
-    const allArray = [all];
-
-    return allArray.concat(uniqueLanguages);
+    return [...Array.from(new Set(languages)), all];
 };
 
 export const queryPortfolio = (
@@ -69,7 +64,7 @@ export const queryPortfolio = (
                 )
                 .map((_) => portfolio);
         })
-        .filter((portfolio) => portfolio.length !== 0)
+        .filter((portfolio) => portfolio.length)
         .flat(1);
 
     return portfolioQueried;
@@ -100,9 +95,7 @@ export const validatePortfolioLanguageQuery = (github, language, all) => {
     }
     const finalizedLang = processLanguage(language).toLowerCase();
     const langFound = github.find(
-        (repo) =>
-            repo.language !== null &&
-            repo.language.toLowerCase() === finalizedLang
+        (repo) => repo.language && repo.language.toLowerCase() === finalizedLang
     );
     return langFound === undefined ? all : langFound.language;
 };

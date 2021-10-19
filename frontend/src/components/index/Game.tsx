@@ -67,7 +67,7 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => {
         for (let i = 0; i < 7; i++) {
             const index = tileNumber * 7 + i;
             const tile = board.tileList[index];
-            if (tile.isTileOccupied && tile.getPiece !== null) {
+            if (tile.isTileOccupied && tile.getPiece) {
                 const color = isFirstPlayer(tile.getPiece.league)
                     ? primaryTheme.blackPiece
                     : primaryTheme.redPiece;
@@ -83,7 +83,7 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => {
                     <ConnectFourTile
                         key={index}
                         onClick={() => updateBoard(index)}
-                        color={'transparent'}
+                        color="transparent"
                     />
                 );
             }
@@ -109,7 +109,7 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => {
         for (let i = 0; i < 3; i++) {
             const index = tileNumber * 3 + i;
             const tile = board.tileList[index];
-            if (tile.isTileOccupied && tile.getPiece !== null) {
+            if (tile.isTileOccupied && tile.getPiece) {
                 const word = isFirstPlayer(tile.getPiece.league) ? 'X' : 'O';
                 columns.push(
                     <TicTacToeTile
@@ -318,9 +318,9 @@ const Game = (): JSX.Element => {
         (connectFourMessage: ConnectFourMessage): JSX.Element => {
             return (
                 <GameSection
-                    key={'ConnectFour'}
-                    secondPlayerLabel={'Red'}
-                    firstPlayerLabel={'Black'}
+                    key="ConnectFour"
+                    secondPlayerLabel="Red"
+                    firstPlayerLabel="Black"
                     gameType={1}
                     onBack={() => setGameType(null)}
                     updateBoard={updateConnectFourBoard}
@@ -351,9 +351,9 @@ const Game = (): JSX.Element => {
         (ticTacToeMessage: TicTacToeMessage): JSX.Element => {
             return (
                 <GameSection
-                    key={'TicTacToe'}
-                    secondPlayerLabel={'O'}
-                    firstPlayerLabel={'X'}
+                    key="TicTacToe"
+                    secondPlayerLabel="O"
+                    firstPlayerLabel="X"
                     gameType={0}
                     onBack={() => setGameType(null)}
                     updateBoard={updateTicTacToeBoard}
@@ -480,10 +480,8 @@ const Game = (): JSX.Element => {
             return virtualConnectFourBoard;
         } else if (gameType === 0) {
             return virtualTicTacToeBoard;
-        } else if (gameType === null) {
-            return null;
         }
-        throw new Error('gameType is only 0, 1, or null');
+        return null;
     };
 
     const currentPlayerIsAI = (
@@ -499,7 +497,7 @@ const Game = (): JSX.Element => {
     };
 
     const ShowGameOption = () => {
-        if (gameType === null) {
+        if (gameType) {
             return (
                 <GameOptions
                     setGameToConnectFour={() => setGameType(1)}

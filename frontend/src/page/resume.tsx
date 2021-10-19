@@ -9,7 +9,7 @@ import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 const Resume = (): JSX.Element => (
     <ContentContainer>
         <Title
-            title={'Resume'}
+            title="Resume"
             content={"PoolOfDeath20 or Gervin's resume page"}
         />
         <link

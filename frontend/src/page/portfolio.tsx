@@ -20,7 +20,7 @@ const Portfolio = (): JSX.Element => {
         const query = new URLSearchParams(search);
         const page = query.get('page');
         const language = query.get('language');
-        if (page !== null && language !== null) {
+        if (page && language) {
             return portfolioQuery(parseInt(page, 10), language);
         }
         return portfolioURL;
@@ -30,11 +30,7 @@ const Portfolio = (): JSX.Element => {
     const [queryLanguage, setQueryLanguage] = useState('All');
     const [url, setURL] = useState(() => {
         const search = location.search;
-        if (search.length === 0) {
-            return portfolioURL;
-        } else {
-            return processQuery(search);
-        }
+        return search ? portfolioURL : processQuery(search);
     });
     const [initialLoad, setInitialLoad] = useState(true);
     const [show, setShow] = useState(false);
@@ -116,15 +112,11 @@ const Portfolio = (): JSX.Element => {
         );
     };
 
-    const sidePortfolio = (finalPage: number) => {
-        const url = new URLSearchParams(location.search);
-        const page = url.get('page');
-        const language = url.get('language');
-        if (page === null && language === null) {
-            queryPortfolio(1, 'All');
-        } else {
-            queryPortfolio(finalPage, language as string);
-        }
+    const customQueryPortfolio = (page: number) => {
+        queryPortfolio(
+            page,
+            new URLSearchParams(location.search).get('language') || 'All'
+        );
     };
 
     const getNextPage = (portfolio: Data): number => {
@@ -144,12 +136,12 @@ const Portfolio = (): JSX.Element => {
         return (
             <div>
                 <LeftButton
-                    onClick={() => sidePortfolio(getPrevPage(portfolio))}
+                    onClick={() => customQueryPortfolio(getPrevPage(portfolio))}
                 >
                     <LeftImage />
                 </LeftButton>
                 <RightButton
-                    onClick={() => sidePortfolio(getNextPage(portfolio))}
+                    onClick={() => customQueryPortfolio(getNextPage(portfolio))}
                 >
                     <RightImage />
                 </RightButton>
@@ -160,17 +152,7 @@ const Portfolio = (): JSX.Element => {
     const getPagingNumber = () => {
         const url = new URLSearchParams(location.search);
         const page = url.get('page');
-        if (page === null) {
-            return 0;
-        }
-        const parsedPage = parseInt(page as string, 10);
-        return parsedPage ? parsedPage : 0;
-    };
-
-    const dotClick = (page: number) => {
-        const url = new URLSearchParams(location.search);
-        const language = url.get('language');
-        queryPortfolio(page, language === null ? 'All' : language);
+        return page === null ? 0 : parseInt(page, 10) ?? 0;
     };
 
     const DotsNav = (): JSX.Element | null => {
@@ -182,9 +164,12 @@ const Portfolio = (): JSX.Element => {
         for (let i = 0; i < portfolio.numberOfPagesQueried; i++) {
             const dot =
                 paging === i ? (
-                    <ActiveDot onClick={() => dotClick(i)} key={i} />
+                    <ActiveDot
+                        onClick={() => customQueryPortfolio(i)}
+                        key={i}
+                    />
                 ) : (
-                    <Dot onClick={() => dotClick(i)} key={i} />
+                    <Dot onClick={() => customQueryPortfolio(i)} key={i} />
                 );
             dotArr.push(dot);
         }
@@ -220,7 +205,7 @@ const Portfolio = (): JSX.Element => {
     return (
         <ContentContainer>
             <Title
-                title={'Portfolio'}
+                title="Portfolio"
                 content={
                     "PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
                 }

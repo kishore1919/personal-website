@@ -112,7 +112,7 @@ const Contact = (): JSX.Element => {
     return (
         <ContentContainer>
             <Title
-                title={'Contact'}
+                title="Contact"
                 content={
                     "PoolOfDeath20 or Gervin's contact page. Come to this page to contact him"
                 }

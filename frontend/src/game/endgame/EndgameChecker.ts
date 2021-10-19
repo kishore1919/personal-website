@@ -20,7 +20,7 @@ const ticTacToeWinner: EndgameChecker<BoardType> = {
         for (let i = 0; i < numberOfTiles; i++) {
             const tile = board.tileList[i];
             numberOfTilesOccupied = i % row === 0 ? 0 : numberOfTilesOccupied;
-            if (tile.isTileOccupied && tile.getPiece !== null) {
+            if (tile.isTileOccupied && tile.getPiece) {
                 numberOfTilesOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
                         ? numberOfTilesOccupied + 1
@@ -41,7 +41,7 @@ const ticTacToeWinner: EndgameChecker<BoardType> = {
             max = row * (row - 1) + begin;
         for (let i = begin; i <= max; i += row) {
             const tile = board.tileList[i];
-            if (tile.isTileOccupied && tile.getPiece !== null) {
+            if (tile.isTileOccupied && tile.getPiece) {
                 numberOfTilesOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
                         ? numberOfTilesOccupied + 1
@@ -103,7 +103,7 @@ const connectFourWinner: EndgameChecker<BoardType> = {
             begin = 0;
         for (let i = begin; i < numberOfTiles; i++) {
             const tile = board.tileList[i];
-            if (tile.isTileOccupied && tile.getPiece !== null) {
+            if (tile.isTileOccupied && tile.getPiece) {
                 numTileOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
                         ? numTileOccupied + 1
@@ -128,7 +128,7 @@ const connectFourWinner: EndgameChecker<BoardType> = {
             max = column * 5;
         for (let i = begin; i <= max; i += column) {
             const tile = board.tileList[i];
-            if (tile.isTileOccupied && tile.getPiece !== null) {
+            if (tile.isTileOccupied && tile.getPiece) {
                 numTileOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
                         ? numTileOccupied + 1
@@ -159,7 +159,7 @@ const connectFourWinner: EndgameChecker<BoardType> = {
         let goEdge = false;
         for (let i = begin; i <= max; i += increment) {
             const tile = board.tileList[i];
-            if (tile.isTileOccupied && tile.getPiece !== null) {
+            if (tile.isTileOccupied && tile.getPiece) {
                 numTileOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
                         ? numTileOccupied + 1

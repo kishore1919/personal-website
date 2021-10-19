@@ -22,14 +22,11 @@ const Error = () => {
         );
     }, [countDown]);
 
-    const backToHomeCountDown = () =>
-        countDown < 10 ? `0${countDown}` : countDown;
-
     return (
         <Container>
             <Title
-                title={'Page Not Found'}
-                content={'You took the wrong turn and came here'}
+                title="Page Not Found"
+                content="You took the wrong turn and came here"
             />
             <ErrorContentContainer>
                 <ErrorLeft>
@@ -49,11 +46,12 @@ const Error = () => {
                     </ErrorMessageDescription>
 
                     <BackToHomeTimer>
-                        Back to Home in: 00:00:{backToHomeCountDown()}
+                        Back to Home in: 00:00:
+                        {countDown < 10 ? `0${countDown}` : countDown}
                     </BackToHomeTimer>
                     <BackToHomeAlternative>OR</BackToHomeAlternative>
                     <BackToHomeButton>
-                        Go <Link to={'/'}>Home</Link> Immediately
+                        Go <Link to="/">Home</Link> Immediately
                     </BackToHomeButton>
                 </ErrorLeft>
                 <ErrorRight>

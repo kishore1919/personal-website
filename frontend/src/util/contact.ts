@@ -18,7 +18,7 @@ const contactUtil = {
 const checkForBlankString = (string: string) =>
     string.split('').filter((char) => contactUtil.blankString === char)
         .length === string.length;
-const checkStringNullOrUndefined = (string: string) =>
+const checkStringNullOrUndefined = (string: string): string is string =>
     undefined === string || string === null;
 const checkForEmptyString = (string: string) => string.length === 0;
 const sufficientMessageLength = (message: string) => message.length > 10;

@@ -33,7 +33,7 @@ const ResumeRight = () => (
                 'JavaFX & Java Swing & JUnit & Gradle',
                 'React & React Native & NodeJS & Jest',
                 'Basic Linux & Git Commands',
-                'Basic MySQL, SQL & MongoDB',
+                'Basic PostgreSQL & MongoDB',
             ]}
         />
         <SkillSection
@@ -41,7 +41,7 @@ const ResumeRight = () => (
             list={[
                 'Building an Intelligent Room Finder System through collaboration with a friend',
                 'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
-                "Dean's List for January 2021 Trimester",
+                "Dean's List for January & May 2021 Trimester",
                 "Built a functional Notepad similar to Window's Notepad in Java Swing and JavaFX",
                 'Built my very own website',
             ]}
@@ -66,13 +66,8 @@ const ResumeRight = () => (
             </Subtitle>
             <div>Universiti Tunku Abdul Rahman</div>
             <ul>
-                <List>CGPA - 3.4356</List>
-                <List>GPA - 3.7033</List>
-            </ul>
-            <Subtitle>SPM(2017)</Subtitle>
-            <div>S. M. Chung Hwa Tenom</div>
-            <ul>
-                <List>7As 3Bs</List>
+                <List>CGPA - 3.4728</List>
+                <List>GPA - 3.6133</List>
             </ul>
         </Section>
 

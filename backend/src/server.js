@@ -31,7 +31,7 @@ app.listen(port, () => {
 app.use(cors());
 app.use(compression());
 
-const build = 'frontend/build';
+const build = '../frontend/build';
 
 app.use(expressStatic(path.resolve(build)));
 

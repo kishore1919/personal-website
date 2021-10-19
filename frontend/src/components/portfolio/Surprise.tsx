@@ -22,7 +22,7 @@ const Surprise = ({
             <ErrorBoundary>
                 <Suspense fallback={<HashLoading />}>
                     <FullScreen>
-                        <CloseFullScreen color={'black'} close={closeMessage} />
+                        <CloseFullScreen color="black" close={closeMessage} />
                         <SurpriseContent>
                             <img
                                 src="asset/images/others/surprised.gif"

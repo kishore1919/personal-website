@@ -7,53 +7,69 @@ interface NavLinksProps {
     readonly close: () => void;
 }
 
+type Home = {
+    readonly href: '/';
+    readonly title: 'Home';
+};
+
+type Portfolio = {
+    readonly href: '/portfolio';
+    readonly title: 'Portfolio';
+};
+
+type About = {
+    readonly href: '/about';
+    readonly title: 'About';
+};
+
+type Roommate = {
+    readonly href: '/contact';
+    readonly title: 'Contact';
+};
+
+type Resume = {
+    readonly href: '/resume';
+    readonly title: 'Resume';
+};
+
+export type NavLinkType = Home | Portfolio | About | Roommate | Resume;
+
 interface NavLinkProps {
-    readonly href: '/' | '/portfolio' | '/about' | '/contact' | '/resume';
-    readonly title: 'Home' | 'Portfolio' | 'About' | 'Contact' | 'Resume';
+    readonly navLink: NavLinkType;
     readonly close: () => void;
 }
 
-const NavLink = ({ href, title, close }: NavLinkProps) => {
-    if (useLocation().pathname === href) {
-        return (
-            <NavLinkWrapperActive>
-                <Link onClick={close} to={href}>
-                    {title}
-                </Link>
-            </NavLinkWrapperActive>
-        );
-    }
+const NavLink = ({ navLink: { href, title }, close }: NavLinkProps) => {
+    const CustomNavLink =
+        useLocation().pathname === href ? NavLinkWrapperActive : NavLinkWrapper;
     return (
-        <NavLinkWrapper>
+        <CustomNavLink>
             <Link onClick={close} to={href}>
                 {title}
             </Link>
-        </NavLinkWrapper>
+        </CustomNavLink>
     );
 };
 
 const NavLinks = ({ fullScreen, close }: NavLinksProps) => {
-    const links: ReadonlyArray<NavLinkProps> = [
-        { href: '/', title: 'Home', close: close },
-        { href: '/portfolio', title: 'Portfolio', close: close },
-        { href: '/about', title: 'About', close: close },
-        { href: '/contact', title: 'Contact', close: close },
-        { href: '/resume', title: 'Resume', close: close },
+    const navLinks: ReadonlyArray<NavLinkType> = [
+        { href: '/', title: 'Home' },
+        { href: '/portfolio', title: 'Portfolio' },
+        { href: '/about', title: 'About' },
+        { href: '/contact', title: 'Contact' },
+        { href: '/resume', title: 'Resume' },
     ];
 
-    const navLinks: ReadonlyArray<JSX.Element> = links.map((link, index) => (
-        <NavLink
-            close={close}
-            key={index}
-            href={link.href}
-            title={link.title}
-        />
-    ));
+    const navLinksElement: ReadonlyArray<JSX.Element> = navLinks.map(
+        (navLink, index) => (
+            <NavLink close={close} key={index} navLink={navLink} />
+        )
+    );
 
     return fullScreen ? (
-        <NavMenu>{navLinks}</NavMenu>
+        <NavMenu>{navLinksElement}</NavMenu>
     ) : (
-        <LeftSide>{navLinks}</LeftSide>
+        <LeftSide>{navLinksElement}</LeftSide>
     );
 };
 

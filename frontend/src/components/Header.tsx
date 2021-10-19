@@ -50,10 +50,12 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     const [scroll, setScroll] = useState(false);
 
     useEffect(() => {
-        window.addEventListener('scroll', () =>
-            setScroll(window.pageYOffset > 100)
-        );
-    }, [scroll]);
+        const handlePageOffset = () => setScroll(window.pageYOffset > 100);
+        window.addEventListener('scroll', handlePageOffset);
+        return () => {
+            window.removeEventListener('scroll', handlePageOffset);
+        };
+    }, []);
 
     const ToggleComponent = () =>
         isPrimary(theme) ? (
@@ -102,7 +104,7 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     );
 };
 
-const Container = styled.div`
+const Container = styled.header`
     background-color: transparent;
     letter-spacing: 1.5px;
     font-family: 'Orbitron', sans-serif !important;

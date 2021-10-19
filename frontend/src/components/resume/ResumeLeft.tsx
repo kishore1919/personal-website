@@ -32,7 +32,7 @@ const ResumeLeft = () => {
                 <SelfIntro>
                     <div>
                         <img
-                            src={'asset/images/others/resume.webp'}
+                            src="asset/images/others/resume.webp"
                             alt="resume.webp"
                         />
                     </div>

@@ -9,7 +9,7 @@ import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
 const Home = (): JSX.Element => (
     <ContentContainer>
-        <Title title={'Home'} content={"PoolOfDeath20 or Gervin's home page"} />
+        <Title title="Home" content={"PoolOfDeath20 or Gervin's home page"} />
         <TwoColumnWrapper>
             <ErrorBoundary>
                 <Suspense fallback={<HashLoading />}>

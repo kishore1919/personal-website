@@ -26,7 +26,12 @@ import { HashLoading, ErrorBoundary } from './components/HashLoading';
 const App = () => {
     const [theme, setTheme] = useState(() => {
         const value = localStorage.getItem(KEY);
-        return value === SECONDARY ? secondaryTheme : primaryTheme;
+        if (value) {
+            return value === SECONDARY ? secondaryTheme : primaryTheme;
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? primaryTheme
+            : secondaryTheme;
     });
 
     useEffect(() => {

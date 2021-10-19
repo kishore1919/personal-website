@@ -10,7 +10,7 @@ export default interface Tile {
 export const createTile = (index: number, piece: Piece | null): Tile => {
     return {
         index: index,
-        isTileOccupied: piece !== null,
+        isTileOccupied: !!piece,
         getPiece: piece,
         stringFormat: piece === null ? '-' : piece.league.toString(),
     };

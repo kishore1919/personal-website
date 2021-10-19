@@ -251,9 +251,7 @@ const getAllHorizontalRow = (
     for (let i = begin; i < connectFour.numberOfTiles; i++) {
         const tile = board.tileList[i];
         leagues.push(
-            tile.isTileOccupied && tile.getPiece !== null
-                ? tile.getPiece.league
-                : null
+            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );
         if (i - begin === connectFour.row) {
             begin += connectFour.column;
@@ -275,9 +273,7 @@ const getAllVerticalColumn = (
     for (let i = begin; i <= max; i += connectFour.column) {
         const tile = board.tileList[i];
         leagues.push(
-            tile.isTileOccupied && tile.getPiece !== null
-                ? tile.getPiece.league
-                : null
+            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );
         if (i === max) {
             listOfLeagues.push(leagues as ReadonlyArray<League | null>);
@@ -305,9 +301,7 @@ const getPositiveSlopeRow = (
     for (let i = begin; i <= max; i += increment) {
         const tile = board.tileList[i];
         leagues.push(
-            tile.isTileOccupied && tile.getPiece !== null
-                ? tile.getPiece.league
-                : null
+            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );
         if (i === max) {
             listOfLeagues.push(leagues as ReadonlyArray<League | null>);
@@ -341,9 +335,7 @@ const getNegativeSlopeRow = (
     for (let i = begin; i <= max; i += increment) {
         const tile = board.tileList[i];
         leagues.push(
-            tile.isTileOccupied && tile.getPiece !== null
-                ? tile.getPiece.league
-                : null
+            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );
         if (i === max) {
             listOfLeagues.push(leagues as ReadonlyArray<League | null>);

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { NavLinkType } from './NavLinks';
 
 interface TitleProps {
-    readonly title: string;
+    readonly title: NavLinkType['title'] | 'Page Not Found';
     readonly content: string;
 }
 

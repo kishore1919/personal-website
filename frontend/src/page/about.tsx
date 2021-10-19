@@ -6,7 +6,7 @@ import Title from '../components/Title';
 const About = (): JSX.Element => (
     <ContentContainer>
         <Title
-            title={'About'}
+            title="About"
             content={
                 'Everything you need to know about PoolOfDeath20 or Gervin can be found here'
             }

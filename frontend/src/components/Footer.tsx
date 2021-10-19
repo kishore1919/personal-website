@@ -29,7 +29,7 @@ const Footer = () => (
     </Container>
 );
 
-const Container = styled.div`
+const Container = styled.footer`
     height: fit-content;
     text-align: center;
     background-color: transparent;
