@@ -10,7 +10,7 @@ const HomeMessage = () => (
 );
 
 const IndexMessage = styled.div`
-    @media (max-width: 877px) {
+    @media (max-width: 962px) {
         margin-bottom: 30px;
     }
 `;
@@ -20,7 +20,7 @@ const IndexMessageParagraph = styled.p`
     font-size: 5em;
     color: ${({ theme }) => theme.theme.highEmphasesTextColor};
     margin: 2vw;
-    @media (max-width: 877px) {
+    @media (max-width: 994px) {
         font-size: 4em;
         text-align: center;
     }

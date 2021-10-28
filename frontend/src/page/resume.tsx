@@ -8,10 +8,7 @@ import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
 const Resume = (): JSX.Element => (
     <ContentContainer>
-        <Title
-            title="Resume"
-            content={"PoolOfDeath20 or Gervin's resume page"}
-        />
+        <Title title="Resume" content="PoolOfDeath20 or Gervin's resume page" />
         <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap"
             rel="stylesheet"

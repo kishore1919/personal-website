@@ -220,9 +220,7 @@ const Portfolio = (): JSX.Element => {
         <ContentContainer>
             <Title
                 title="Portfolio"
-                content={
-                    "PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
-                }
+                content="PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
             />
             <LanguageSelector />
             <ShowPortfolios />

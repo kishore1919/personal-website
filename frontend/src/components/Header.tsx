@@ -76,16 +76,16 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     }, []);
 
     const NavLinksElem = () =>
-        width > hamburgerBreakPoint ? (
+        width <= hamburgerBreakPoint ? null : (
             <NavLinks fullScreen={false} close={() => setShow(false)} />
-        ) : null;
+        );
 
     const HamburgerNavElem = () =>
-        width <= hamburgerBreakPoint ? (
+        width > hamburgerBreakPoint ? null : (
             <HamburgerNav onClick={() => setShow(true)}>
                 <HamburgerButton>☰</HamburgerButton>
             </HamburgerNav>
-        ) : null;
+        );
 
     return (
         <Container>
@@ -132,7 +132,7 @@ const NavWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 38px;
-    @media (max-width: 877px) {
+    @media (max-width: 962px) {
         display: block;
     }
 `;
@@ -141,7 +141,7 @@ const RightSide = styled.div`
     display: flex;
     align-items: center;
     text-align: center;
-    @media (max-width: 877px) {
+    @media (max-width: 994px) {
         justify-content: center;
         margin-bottom: 20px;
     }
@@ -250,20 +250,20 @@ const ArrowUpContainer = styled.div`
     background-color: ${({ theme }) => theme.theme.secondaryColor};
     padding: 15px;
     margin: 10px;
-    animation: ${({ slideIn: show }: BackToTopAnimation) =>
-            show ? FadeIn : FadeOut}
+    animation: ${({ slideIn }: BackToTopAnimation) =>
+            slideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -moz-animation: ${({ slideIn: show }: BackToTopAnimation) =>
-            show ? FadeIn : FadeOut}
+    -moz-animation: ${({ slideIn }: BackToTopAnimation) =>
+            slideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -webkit-animation: ${({ slideIn: show }: BackToTopAnimation) =>
-            show ? FadeIn : FadeOut}
+    -webkit-animation: ${({ slideIn }: BackToTopAnimation) =>
+            slideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -o-animation: ${({ slideIn: show }: BackToTopAnimation) =>
-            show ? FadeIn : FadeOut}
+    -o-animation: ${({ slideIn }: BackToTopAnimation) =>
+            slideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -ms-animation: ${({ slideIn: show }: BackToTopAnimation) =>
-            show ? FadeIn : FadeOut}
+    -ms-animation: ${({ slideIn }: BackToTopAnimation) =>
+            slideIn ? FadeIn : FadeOut}
         ease 0.5s;
     &:hover {
         cursor: pointer;

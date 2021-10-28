@@ -60,16 +60,22 @@ const NavLinks = ({ fullScreen, close }: NavLinksProps) => {
         { href: '/resume', title: 'Resume' },
     ];
 
-    const navLinksElement: ReadonlyArray<JSX.Element> = navLinks.map(
-        (navLink, index) => (
-            <NavLink close={close} key={index} navLink={navLink} />
-        )
+    const NavLinksElem = (): JSX.Element => (
+        <>
+            {navLinks.map((navLink, index) => (
+                <NavLink close={close} key={index} navLink={navLink} />
+            ))}
+        </>
     );
 
     return fullScreen ? (
-        <NavMenu>{navLinksElement}</NavMenu>
+        <NavMenu>
+            <NavLinksElem />
+        </NavMenu>
     ) : (
-        <LeftSide>{navLinksElement}</LeftSide>
+        <LeftSide>
+            <NavLinksElem />
+        </LeftSide>
     );
 };
 
@@ -115,7 +121,7 @@ const NavLinkWrapper = styled(NavLinkWrapperStyled)`
 
 const LeftSide = styled.div`
     display: flex;
-    @media (max-width: 877px) {
+    @media (max-width: 994px) {
         align-items: center;
         justify-content: center;
         margin-bottom: 20px;

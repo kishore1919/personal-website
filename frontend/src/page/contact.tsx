@@ -113,9 +113,7 @@ const Contact = (): JSX.Element => {
         <ContentContainer>
             <Title
                 title="Contact"
-                content={
-                    "PoolOfDeath20 or Gervin's contact page. Come to this page to contact him"
-                }
+                content="PoolOfDeath20 or Gervin's contact page. Come to this page to contact him"
             />
 
             <ErrorBoundary>

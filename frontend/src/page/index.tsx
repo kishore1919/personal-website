@@ -9,7 +9,7 @@ import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
 const Home = (): JSX.Element => (
     <ContentContainer>
-        <Title title="Home" content={"PoolOfDeath20 or Gervin's home page"} />
+        <Title title="Home" content="PoolOfDeath20 or Gervin's home page" />
         <TwoColumnWrapper>
             <ErrorBoundary>
                 <Suspense fallback={<HashLoading />}>
@@ -31,7 +31,7 @@ const TwoColumnWrapper = styled.div`
     align-items: center;
     display: flex;
     transition: 0.5s ease all;
-    @media (max-width: 877px) {
+    @media (max-width: 994px) {
         justify-content: center;
         display: block;
     }

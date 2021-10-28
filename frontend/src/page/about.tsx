@@ -7,9 +7,7 @@ const About = (): JSX.Element => (
     <ContentContainer>
         <Title
             title="About"
-            content={
-                'Everything you need to know about PoolOfDeath20 or Gervin can be found here'
-            }
+            content="Everything you need to know about PoolOfDeath20 or Gervin can be found here"
         />
         <Container>
             <TwoRowsContainer>

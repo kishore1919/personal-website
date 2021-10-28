@@ -62,20 +62,20 @@ const FullScreenSlideOut = keyframes`
 
 const FullScreenNav = styled(FullScreenContainer)`
     background-color: ${({ theme }) => theme.theme.primaryColor};
-    animation: ${({ slideIn: show }: FullScreenAnimation) =>
-            show ? FullScreenSlideIn : FullScreenSlideOut}
+    animation: ${({ slideIn }: FullScreenAnimation) =>
+            slideIn ? FullScreenSlideIn : FullScreenSlideOut}
         ease 0.5s;
-    -moz-animation: ${({ slideIn: show }: FullScreenAnimation) =>
-            show ? FullScreenSlideIn : FullScreenSlideOut}
+    -moz-animation: ${({ slideIn }: FullScreenAnimation) =>
+            slideIn ? FullScreenSlideIn : FullScreenSlideOut}
         ease 0.5s;
-    -webkit-animation: ${({ slideIn: show }: FullScreenAnimation) =>
-            show ? FullScreenSlideIn : FullScreenSlideOut}
+    -webkit-animation: ${({ slideIn }: FullScreenAnimation) =>
+            slideIn ? FullScreenSlideIn : FullScreenSlideOut}
         ease 0.5s;
-    -o-animation: ${({ slideIn: show }: FullScreenAnimation) =>
-            show ? FullScreenSlideIn : FullScreenSlideOut}
+    -o-animation: ${({ slideIn }: FullScreenAnimation) =>
+            slideIn ? FullScreenSlideIn : FullScreenSlideOut}
         ease 0.5s;
-    -ms-animation: ${({ slideIn: show }: FullScreenAnimation) =>
-            show ? FullScreenSlideIn : FullScreenSlideOut}
+    -ms-animation: ${({ slideIn }: FullScreenAnimation) =>
+            slideIn ? FullScreenSlideIn : FullScreenSlideOut}
         ease 0.5s;
 `;
 
