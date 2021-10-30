@@ -31,7 +31,7 @@ const Portfolio = (): JSX.Element => {
     const [queryLanguage, setQueryLanguage] = useState('All');
     const [url, setURL] = useState(() => {
         const search = location.search;
-        return search ? portfolioURL : processQuery(search);
+        return search ? processQuery(search) : portfolioURL;
     });
     const [initialLoad, setInitialLoad] = useState(true);
     const [show, setShow] = useState(false);

@@ -7,6 +7,7 @@ Connect4,A Connect-4 Game written in C# WinForms. This program was written to fa
 TicTacToe,Simple AI Tic-Tac-Toe Game made with Java Swing. Choose against AI or human. You can play in 3x3 grid up to 10x10.
 TextEditorFX,A Simple Text Editor similar to NotePad. My first JavaFX project. I wrote this as an upgraded version of the previous TextEditor.
 TextEditor,A Simple Text Editor similar to NotePad. I wrote this because the undo option of Notepad can only undo once. But with this software you can undo all of your edit.
+reversito,A NPM package to reverse a string and number and array. Written for fun and to learn to publish NPM package
 MinimalTicTacToe,Simple unbeatable AI TicTacToe made with React + TypeScript and Styled-Components. Emphasis is placed not on the design but the functionality.
 KnapsackProblem,Do you know how to solve the knapsack? Come and find out how to solve Knapsack in 5 different ways.
 SimpleParallelDispatcher,Simple Basic Parallel Program. A Java program that use thread and semaphore to simulate dispatcher.
