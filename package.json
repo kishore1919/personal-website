@@ -10,7 +10,7 @@
         "install-both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
         "build-backend": "cd backend && yarn build",
         "build-frontend": "cd frontend && yarn build",
-        "build": "yarn && yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
+        "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
         "sync-start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\""
     },
     "devDependencies": {
