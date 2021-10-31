@@ -9,8 +9,7 @@ const contactUtil = {
     emailEmptyErr: '*Please do not leave email section empty*',
     emailInvalidErr: '*Please enter valid email format*',
     regexEmail:
-        /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     emptyString: '',
     blankString: ' ',
 } as const;
@@ -24,16 +23,6 @@ const checkForEmptyString = (string: string) => string.length === 0;
 const sufficientMessageLength = (message: string) => message.length > 10;
 const validateEmail = (email: string) => contactUtil.regexEmail.test(email);
 
-const status = {
-    succeed: 'succeed',
-    failed: 'failed',
-    input: 'input',
-} as const;
-
-export type StatusType =
-    | typeof status.failed
-    | typeof status.succeed
-    | typeof status.input;
 export type NameErr =
     | typeof contactUtil.nameEmptyErr
     | typeof contactUtil.nameBlankErr

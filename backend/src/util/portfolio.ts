@@ -1,6 +1,18 @@
 import fetch from 'node-fetch';
 import { createReadStream } from 'fs';
 
+export interface PortfolioData {
+    readonly path: string;
+    readonly caption: string;
+}
+
+export interface Data {
+    readonly numberOfPagesQueried: number;
+    readonly portfolioLanguageQueried: ReadonlyArray<string>;
+    readonly portfolioForPagingQueried: ReadonlyArray<PortfolioData>;
+    readonly selectedLanguage: string;
+}
+
 const fetchGithubAPI = async () => {
     const res = await fetch(
         'https://api.github.com/users/GervinFung/repos?per_page=50'
@@ -8,10 +20,10 @@ const fetchGithubAPI = async () => {
     return await res.json();
 };
 
-const readPortfolio = () => {
+const readPortfolio = (): Promise<ReadonlyArray<PortfolioData>> => {
     const filename = 'src/asset/files/portfolio.txt';
     return new Promise((resolve, reject) => {
-        let fetchData = [];
+        let fetchData: ReadonlyArray<PortfolioData> = [];
         createReadStream(filename)
             .on('data', (data) => {
                 fetchData = data
@@ -31,25 +43,29 @@ const readPortfolio = () => {
     });
 };
 
-export const queryLanguageSelector = (github, portfolioData, all) => {
+export const queryLanguageSelector = (
+    github: any,
+    portfolioData: ReadonlyArray<PortfolioData>,
+    all: 'All'
+): ReadonlyArray<string> => {
     const languages = portfolioData
         .map((portfolio) => {
             const name = portfolio.path;
             return github
-                .filter((repo) => repo.name === name)
-                .map((repo) => repo.language);
+                .filter((repo: any) => repo.name === name)
+                .map((repo: any) => repo.language);
         })
         .filter((portfolio) => portfolio.length)
         .flat(1);
-    return [...Array.from(new Set(languages)), all];
+    return [all, ...Array.from(new Set(languages))];
 };
 
 export const queryPortfolio = (
-    selectedLanguage,
-    github,
-    portfolioData,
-    all
-) => {
+    selectedLanguage: string,
+    github: any,
+    portfolioData: ReadonlyArray<PortfolioData>,
+    all: 'All'
+): ReadonlyArray<PortfolioData> => {
     if (selectedLanguage === all) {
         return portfolioData;
     }
@@ -59,10 +75,10 @@ export const queryPortfolio = (
             const name = portfolio.path;
             return github
                 .filter(
-                    (repo) =>
+                    (repo: any) =>
                         repo.name === name && repo.language === selectedLanguage
                 )
-                .map((_) => portfolio);
+                .map((_: any) => portfolio);
         })
         .filter((portfolio) => portfolio.length)
         .flat(1);
@@ -70,7 +86,10 @@ export const queryPortfolio = (
     return portfolioQueried;
 };
 
-export const validatePageQuery = (page, numberOfPortfolioPerPage) => {
+export const validatePageQuery = (
+    page: string | null,
+    numberOfPortfolioPerPage: number
+): number => {
     if (page === null) {
         throw new Error('Portfolio query/param cannot be null');
     }
@@ -80,7 +99,7 @@ export const validatePageQuery = (page, numberOfPortfolioPerPage) => {
     return 0;
 };
 
-const processLanguage = (language) => {
+const processLanguage = (language: string): string => {
     if (language === 'CPP') {
         return 'C++';
     } else if (language === 'C') {
@@ -89,22 +108,27 @@ const processLanguage = (language) => {
     return language;
 };
 
-export const validatePortfolioLanguageQuery = (github, language, all) => {
+export const validatePortfolioLanguageQuery = (
+    github: any,
+    language: string,
+    all: 'All'
+): string | 'All' => {
     if (language === null) {
         throw new Error('Portfolio query/param cannot be null');
     }
     const finalizedLang = processLanguage(language).toLowerCase();
     const langFound = github.find(
-        (repo) => repo.language && repo.language.toLowerCase() === finalizedLang
+        (repo: any) =>
+            repo.language && repo.language.toLowerCase() === finalizedLang
     );
     return langFound === undefined ? all : langFound.language;
 };
 
 export const queryPortfolioForPaging = (
-    pageNumber,
-    portfolioData,
-    totalPortfolioData
-) => {
+    pageNumber: number,
+    portfolioData: ReadonlyArray<PortfolioData>,
+    totalPortfolioData: number
+): ReadonlyArray<PortfolioData> => {
     const portfolioQueried = [];
     for (let i = pageNumber; i < totalPortfolioData; i++) {
         portfolioQueried.push(portfolioData[i]);

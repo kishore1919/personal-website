@@ -36,10 +36,10 @@ const build = '../frontend/build';
 app.use(expressStatic(path.resolve(build)));
 
 const returnResponse = async (
-    paging,
-    numberOfPortfolioPerPage,
-    all,
-    language
+    paging: number,
+    numberOfPortfolioPerPage: number,
+    all: 'All',
+    language: string
 ) => {
     const github = await githubAPI;
 
@@ -173,6 +173,6 @@ app.post('/api/contact', (req, res) => {
     }
 });
 
-app.get('*', (req, res) => {
+app.get('*', (_, res) => {
     res.sendFile(path.resolve(build, 'index.html'));
 });

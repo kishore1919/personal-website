@@ -6,9 +6,11 @@
     "license": "MIT",
     "scripts": {
         "start": "cd backend && yarn start",
-        "dev": "nodemon --exec backend/src/server.js",
-        "install-both": "cd backend && yarn && cd ../frontend && yarn",
-        "build": "yarn install-both && cd frontend && yarn build",
+        "dev": "nodemon --exec backend/lib/server.js",
+        "install-both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
+        "build-backend": "cd backend && yarn build",
+        "build-frontend": "cd frontend && yarn build",
+        "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
         "sync-start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\""
     },
     "devDependencies": {
