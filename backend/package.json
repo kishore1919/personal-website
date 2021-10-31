@@ -9,7 +9,7 @@
     "scripts": {
         "start": "node build/server.js",
         "compile": "ts-node src/server.ts",
-        "build": "rm -rf build && tsc"
+        "build": "rm -rf build && npx tsc"
     },
     "dependencies": {
         "compression": "^1.7.4",
