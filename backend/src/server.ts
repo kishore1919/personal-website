@@ -17,7 +17,6 @@ import {
 } from './util/contact.js';
 import nodemailer from 'nodemailer';
 import path from 'path';
-import cors from 'cors';
 import compression from 'compression';
 
 const { static: expressStatic, json, urlencoded } = express;
@@ -28,7 +27,6 @@ const port = process.env.PORT || 8080;
 app.listen(port, () => {
     console.log(`listening at port ${port}`);
 });
-app.use(cors());
 app.use(compression());
 
 const build = '../frontend/build';
