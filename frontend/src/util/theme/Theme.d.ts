@@ -1,6 +1,7 @@
 import 'styled-components';
 
 interface Theme {
+    readonly type: 'primary' | 'secondary';
     readonly primaryColor: '#FEFEFE' | '#121212';
     readonly secondaryColor: '#121212' | '#FEFEFE';
     readonly contactMeLabel: '#0FFBF9' | '#00539C';

@@ -1,7 +1,7 @@
-import React, { Suspense, lazy } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-const CloseFullScreen = lazy(() => import('../CloseFullScreen'));
-const FullScreenContainer = lazy(() =>
+const CloseFullScreen = React.lazy(() => import('../CloseFullScreen'));
+const FullScreenContainer = React.lazy(() =>
     import('../../util/theme/GlobalTheme').then((module) => ({
         default: module.FullScreenContainer,
     }))
@@ -22,8 +22,17 @@ const FinalMessage = ({
     if (show) {
         return (
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
-                    <Background onClick={closeMessage}>
+                <React.Suspense fallback={<HashLoading />}>
+                    <Background
+                        onClick={(
+                            event: React.MouseEvent<HTMLDivElement, MouseEvent>
+                        ) => {
+                            const { currentTarget, target } = event;
+                            if (currentTarget === target) {
+                                closeMessage();
+                            }
+                        }}
+                    >
                         <FinalContent>
                             <CloseFinal onClick={closeMessage}>
                                 &times;
@@ -37,7 +46,7 @@ const FinalMessage = ({
                             </FinalContentParagraph>
                         </FinalContent>
                     </Background>
-                </Suspense>
+                </React.Suspense>
             </ErrorBoundary>
         );
     }
@@ -51,8 +60,17 @@ const SendingMessage = ({
     if (show) {
         return (
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
-                    <Background onClick={closeMessage}>
+                <React.Suspense fallback={<HashLoading />}>
+                    <Background
+                        onClick={(
+                            event: React.MouseEvent<HTMLDivElement, MouseEvent>
+                        ) => {
+                            const { currentTarget, target } = event;
+                            if (currentTarget === target) {
+                                closeMessage();
+                            }
+                        }}
+                    >
                         <CloseFullScreen close={closeMessage} />
 
                         <SendingContent>
@@ -64,7 +82,7 @@ const SendingMessage = ({
                             />
                         </SendingContent>
                     </Background>
-                </Suspense>
+                </React.Suspense>
             </ErrorBoundary>
         );
     }

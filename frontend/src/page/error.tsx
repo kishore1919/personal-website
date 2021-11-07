@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
@@ -10,9 +10,9 @@ const TIME_TO_CHARGE = 10 + DELAY;
 const Error = () => {
     const history = useHistory();
 
-    const [countDown, setCountDown] = useState(TIME_TO_CHARGE - DELAY);
+    const [countDown, setCountDown] = React.useState(TIME_TO_CHARGE - DELAY);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (countDown === 0) {
             history.push('/');
         }

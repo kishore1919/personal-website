@@ -6,15 +6,16 @@
     "license": "MIT",
     "scripts": {
         "start": "cd backend && yarn start",
-        "dev": "nodemon --exec backend/lib/server.js",
+        "install": "yarn && yarn install-both",
         "install-both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
         "build-backend": "cd backend && yarn build",
         "build-frontend": "cd frontend && yarn build",
         "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
-        "sync-start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\""
+        "sync-start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\"",
+        "sync-start-dev": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-dev\"",
+        "clean": "concurrently \"rm -rf node_modules\" \"cd backend && rm -rf node_modules\" \"cd backend && rm -rf node_modules\" && install"
     },
     "devDependencies": {
-        "concurrently": "^6.2.2",
-        "nodemon": "^2.0.13"
+        "concurrently": "^6.2.2"
     }
 }

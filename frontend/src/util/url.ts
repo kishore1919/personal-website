@@ -1,5 +1,5 @@
-const serverURL = '/api';
-export const portfolioURL = `${serverURL}/portfolio`;
-export const contactURL = `${serverURL}/contact`;
+const api = '/api';
+export const portfolioURL = `${api}/portfolio`;
+export const contactURL = `${api}/contact`;
 export const portfolioQuery = (page: number, language: string) =>
-    `${serverURL}/portfolio?page=${page}&language=${language}`;
+    `${portfolioURL}?page=${page}&language=${language}`;

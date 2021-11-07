@@ -1,9 +1,9 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react';
+import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Data, PortfolioData } from '../util/portfolio';
+import { Data } from '../util/portfolio';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
-const Surprise = lazy(() => import('../components/portfolio/Surprise'));
+const Surprise = React.lazy(() => import('../components/portfolio/Surprise'));
 import { useHistory, useLocation } from 'react-router-dom';
 import { portfolioURL, portfolioQuery } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
@@ -12,56 +12,81 @@ interface PortfolioImageBackgroundProps {
     readonly backgroundImage: string;
 }
 
+type PortfolioState = {
+    readonly portfolio: Data | undefined;
+    readonly queryLanguage: string;
+    readonly url: string;
+    readonly initialLoad: boolean;
+    readonly show: boolean;
+    readonly width: number;
+};
+
 const Portfolio = (): JSX.Element => {
     const history = useHistory();
     const location = useLocation();
     const dotBreakPoint = 586;
 
-    const processQuery = (search: string) => {
-        const query = new URLSearchParams(search);
-        const page = query.get('page');
-        const language = query.get('language');
-        if (page && language) {
-            return portfolioQuery(parseInt(page, 10), language);
+    const processQuery = (search: string | null) => {
+        if (search) {
+            const query = new URLSearchParams(search);
+            const page = query.get('page');
+            const language = query.get('language');
+            if (page && language) {
+                return portfolioQuery(parseInt(page, 10), language);
+            }
         }
         return portfolioURL;
     };
 
-    const [portfolio, setPortfolio] = useState<Data>();
-    const [queryLanguage, setQueryLanguage] = useState('All');
-    const [url, setURL] = useState(() => {
-        const search = location.search;
-        return search ? processQuery(search) : portfolioURL;
+    const [state, setState] = React.useState<PortfolioState>({
+        portfolio: undefined,
+        queryLanguage: 'All',
+        url: processQuery(location.search),
+        initialLoad: true,
+        show: false,
+        width: window.innerWidth,
     });
-    const [initialLoad, setInitialLoad] = useState(true);
-    const [show, setShow] = useState(false);
-    const [width, setWidth] = useState(window.innerWidth);
 
-    useEffect(() => {
+    const { portfolio, queryLanguage, url, initialLoad, show, width } = state;
+
+    React.useEffect(() => {
         if (!initialLoad) {
             fetch(url)
                 .then((response) => response.json())
-                .then((json: Data) => {
-                    setPortfolio(json);
-                    setQueryLanguage(json.selectedLanguage);
-                })
+                .then((json: Data) =>
+                    setState((prevState) => ({
+                        ...prevState,
+                        portfolio: json,
+                        queryLanguage: json.selectedLanguage,
+                    }))
+                )
                 .catch((error) => console.error(error.message));
         }
     }, [url, initialLoad]);
 
-    useEffect(() => {
-        setInitialLoad(false);
+    React.useEffect(() => {
+        setState((prevState) => ({
+            ...prevState,
+            initialLoad: false,
+        }));
         showSurprise();
         return history.listen((location) => {
             const { pathname, search } = location;
             if (pathname.startsWith('/portfolio')) {
-                setURL(processQuery(search));
+                setState((prevState) => ({
+                    ...prevState,
+                    url: processQuery(search),
+                }));
             }
         });
     }, [history]);
 
-    useEffect(() => {
-        const handleResizeWindow = () => setWidth(window.innerWidth);
+    React.useEffect(() => {
+        const handleResizeWindow = () =>
+            setState((prevState) => ({
+                ...prevState,
+                width: window.innerWidth,
+            }));
         window.addEventListener('resize', handleResizeWindow);
         return () => {
             window.removeEventListener('resize', handleResizeWindow);
@@ -69,56 +94,55 @@ const Portfolio = (): JSX.Element => {
     }, []);
 
     const showSurprise = () => {
-        const viewedKey = 'VIEWED_KEY';
+        const viewedKey = '20799527-d73d-4ebd-87a9-efdca713af3e';
         const value = window.sessionStorage.getItem(viewedKey);
         if (value === null) {
             setTimeout(() => {
-                setShow(true);
+                setState((prevState) => ({
+                    ...prevState,
+                    show: true,
+                }));
                 window.sessionStorage.setItem(viewedKey, JSON.stringify(true));
             }, 5500);
         }
     };
 
     const ShowPortfolios = (): JSX.Element | null => {
-        if (portfolio === undefined) {
+        if (!portfolio) {
             return null;
         }
         return (
             <Container>
                 <PortfolioContainer>
-                    {portfolio.portfolioForPagingQueried.map((portfolio) => (
-                        <ShowPortfolio
-                            key={portfolio.path}
-                            path={portfolio.path}
-                            caption={portfolio.caption}
-                        />
-                    ))}
+                    {portfolio.portfolioForPagingQueried.map(
+                        ({ path, caption }) => {
+                            const backgroundPath = `asset/images/portfolioBackground/${path}.webp`;
+                            const logoPath = `asset/images/logo/${path}.webp`;
+
+                            return (
+                                <PortfolioItemContainer key={path}>
+                                    <PortfolioImageBackground
+                                        backgroundImage={backgroundPath}
+                                    />
+                                    <ImageTextContainer>
+                                        <div>
+                                            <PortfolioLink
+                                                href={`https://github.com/GervinFung/${path}`}
+                                            >
+                                                <PortfolioLogo
+                                                    src={logoPath}
+                                                    alt={`${path}.webp`}
+                                                />
+                                            </PortfolioLink>
+                                        </div>
+                                        <Caption>{caption}</Caption>
+                                    </ImageTextContainer>
+                                </PortfolioItemContainer>
+                            );
+                        }
+                    )}
                 </PortfolioContainer>
             </Container>
-        );
-    };
-
-    const ShowPortfolio = ({ path, caption }: PortfolioData) => {
-        const backgroundPath = `asset/images/portfolioBackground/${path}.webp`;
-        const logoPath = `asset/images/logo/${path}.webp`;
-
-        return (
-            <PortfolioItemContainer>
-                <PortfolioImageBackground backgroundImage={backgroundPath} />
-                <ImageTextContainer>
-                    <div>
-                        <PortfolioLink
-                            href={`https://github.com/GervinFung/${path}`}
-                        >
-                            <PortfolioLogo
-                                src={logoPath}
-                                alt={`${path}.webp`}
-                            />
-                        </PortfolioLink>
-                    </div>
-                    <Caption>{caption}</Caption>
-                </ImageTextContainer>
-            </PortfolioItemContainer>
         );
     };
 
@@ -174,26 +198,39 @@ const Portfolio = (): JSX.Element => {
             return null;
         }
         const paging = getPagingNumber();
-        const dotArr = [];
-        for (let i = 0; i < portfolio.numberOfPagesQueried; i++) {
-            const dot =
-                paging === i ? (
-                    <ActiveDot
-                        onClick={() => customQueryPortfolio(i)}
-                        key={i}
-                    />
-                ) : (
-                    <Dot onClick={() => customQueryPortfolio(i)} key={i} />
-                );
-            dotArr.push(dot);
-        }
-        return <Dots>{dotArr}</Dots>;
+        const DotList = () => (
+            <>
+                {Array.from({ length: portfolio.numberOfPagesQueried }).map(
+                    (_, i) => {
+                        return paging === i ? (
+                            <ActiveDot
+                                onClick={() => customQueryPortfolio(i)}
+                                key={i}
+                            />
+                        ) : (
+                            <Dot
+                                onClick={() => customQueryPortfolio(i)}
+                                key={i}
+                            />
+                        );
+                    }
+                )}
+            </>
+        );
+        return (
+            <Dots>
+                <DotList />
+            </Dots>
+        );
     };
 
-    const queryPortfolio = (page: number, language: string) => {
-        setURL(portfolioQuery(page, language));
-        setQueryLanguage(language);
-        history.push(`/portfolio?page=${page}&language=${language}`);
+    const queryPortfolio = (page: number, queryLanguage: string) => {
+        setState((prevState) => ({
+            ...prevState,
+            url: portfolioQuery(page, queryLanguage),
+            queryLanguage,
+        }));
+        history.push(`/portfolio?page=${page}&language=${queryLanguage}`);
     };
 
     const LanguageSelector = (): JSX.Element | null => {
@@ -227,9 +264,17 @@ const Portfolio = (): JSX.Element => {
             <Buttons />
             <DotsNav />
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
-                    <Surprise show={show} closeMessage={() => setShow(false)} />
-                </Suspense>
+                <React.Suspense fallback={<HashLoading />}>
+                    <Surprise
+                        show={show}
+                        closeMessage={() =>
+                            setState((prevState) => ({
+                                ...prevState,
+                                show: false,
+                            }))
+                        }
+                    />
+                </React.Suspense>
             </ErrorBoundary>
         </ContentContainer>
     );
@@ -282,8 +327,7 @@ const PortfolioImageBackground = styled.div`
     background-image: url(${({
         backgroundImage,
     }: PortfolioImageBackgroundProps) => backgroundImage});
-
-    @media (max-width: 877px;) {
+    @media (max-width: 877px) {
         height: 250px;
     }
 `;

@@ -1,9 +1,9 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react';
+import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { HashLoading, ErrorBoundary } from './HashLoading';
 import NavLinks from './NavLinks';
-const CloseFullScreen = lazy(() => import('./CloseFullScreen'));
-const FullScreenContainer = lazy(() =>
+const CloseFullScreen = React.lazy(() => import('./CloseFullScreen'));
+const FullScreenContainer = React.lazy(() =>
     import('../util/theme/GlobalTheme').then((module) => ({
         default: module.FullScreenContainer,
     }))
@@ -19,31 +19,43 @@ interface FullScreenProps {
 }
 
 const FullScreen = ({ show, close }: FullScreenProps): JSX.Element | null => {
-    const [animate, setAnimate] = useState(show);
-    const [load, setLoad] = useState(show);
+    const [state, setState] = React.useState({
+        animate: show,
+        load: show,
+    });
 
-    useEffect(() => {
-        setAnimate(show);
-        setLoad(show);
+    React.useEffect(() => {
+        setState(() => ({
+            animate: show,
+            load: show,
+        }));
     }, [show]);
+
+    const { animate, load } = state;
 
     if (load) {
         return (
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
+                <React.Suspense fallback={<HashLoading />}>
                     <FullScreenNav slideIn={animate}>
                         <CloseFullScreen
                             close={() => {
-                                setAnimate(false);
+                                setState((prevState) => ({
+                                    ...prevState,
+                                    animate: false,
+                                }));
                                 setTimeout(() => {
                                     close();
-                                    setLoad(false);
+                                    setState((prevState) => ({
+                                        ...prevState,
+                                        load: false,
+                                    }));
                                 }, 350);
                             }}
                         />
                         <NavLinks fullScreen={true} close={close} />
                     </FullScreenNav>
-                </Suspense>
+                </React.Suspense>
             </ErrorBoundary>
         );
     }

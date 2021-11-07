@@ -1,9 +1,9 @@
 import League, { isFirstPlayer } from '../../piece/League';
 import { connectFour } from '../../board/BoardUtil';
-import { BoardType } from '../../board/Board';
+import { Board } from '../../board/Board';
 
 export const evaluateConnectFourBoard = (
-    board: BoardType,
+    board: Board,
     league: League,
     depth: number,
     searchDepth: number
@@ -29,7 +29,7 @@ export const evaluateConnectFourBoard = (
 
 const numberOfConsecutivePieceEval = (
     league: League,
-    board: BoardType,
+    board: Board,
     currentLeague: League,
     enemyLeague: League
 ): number => {
@@ -243,7 +243,7 @@ const computeScore = (
 };
 
 const getAllHorizontalRow = (
-    board: BoardType
+    board: Board
 ): ReadonlyArray<ReadonlyArray<League | null>> => {
     const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
     let begin = 0;
@@ -264,7 +264,7 @@ const getAllHorizontalRow = (
 };
 
 const getAllVerticalColumn = (
-    board: BoardType
+    board: Board
 ): ReadonlyArray<ReadonlyArray<League | null>> => {
     const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
     let begin = 0,
@@ -290,7 +290,7 @@ const getAllVerticalColumn = (
 };
 
 const getPositiveSlopeRow = (
-    board: BoardType
+    board: Board
 ): ReadonlyArray<ReadonlyArray<League | null>> => {
     const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
     const increment = connectFour.column - 1;
@@ -324,7 +324,7 @@ const getPositiveSlopeRow = (
 };
 
 const getNegativeSlopeRow = (
-    board: BoardType
+    board: Board
 ): ReadonlyArray<ReadonlyArray<League | null>> => {
     const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
     const increment = connectFour.column + 1;

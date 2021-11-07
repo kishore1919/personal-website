@@ -1,14 +1,10 @@
-import {
-    createConnectFourMove,
-    createTicTacToeMove,
-    MoveType,
-} from '../move/Move';
+import { createConnectFourMove, createTicTacToeMove, Move } from '../move/Move';
 import League, { isFirstPlayer } from '../piece/League';
 import Tile from '../board/Tile';
-import { BoardType } from '../board/Board';
+import { Board } from '../board/Board';
 import { connectFour } from '../board/BoardUtil';
 
-interface Player<Board extends BoardType, Move extends MoveType> {
+export type Player = {
     readonly legalMoves: ReadonlyArray<Move>;
     readonly league: League;
     readonly opponentLeague: League;
@@ -17,16 +13,14 @@ interface Player<Board extends BoardType, Move extends MoveType> {
         tileNumber: number,
         board: Board
     ) => Board;
-}
-
-export type PlayerType = Player<BoardType, MoveType>;
+};
 
 const createConnectFourMoves = (
     column: number,
     numberOfTiles: number,
     league: League,
     tileList: ReadonlyArray<Tile>
-): ReadonlyArray<MoveType> => {
+): ReadonlyArray<Move> => {
     const emptyRows: Array<Tile> = [];
     let begin = column * 5,
         min = 0;
@@ -54,7 +48,7 @@ const createConnectFourMoves = (
 const createTicTactToeLegalMoves = (
     league: League,
     tileList: ReadonlyArray<Tile>
-): ReadonlyArray<MoveType> => {
+): ReadonlyArray<Move> => {
     return tileList
         .filter((tile) => !tile.isTileOccupied)
         .map((tile) => createTicTacToeMove(league, tile.index));
@@ -63,20 +57,17 @@ const createTicTactToeLegalMoves = (
 const createTicTacToePlayer = (
     league: League,
     tileList: ReadonlyArray<Tile>
-): PlayerType => {
+): Player => {
     return {
         legalMoves: createTicTactToeLegalMoves(league, tileList),
         league,
         opponentLeague: isFirstPlayer(league) ? League.second : League.first,
-        makeMove(movePassed: MoveType, board: BoardType): BoardType {
+        makeMove(movePassed: Move, board: Board): Board {
             return makeMove(this.legalMoves, movePassed, board);
         },
-        makeMoveFromTileNumber(
-            tileNumber: number,
-            board: BoardType
-        ): BoardType {
+        makeMoveFromTileNumber(tileNumber: number, board: Board): Board {
             const movePassed = this.legalMoves.find(
-                (move: MoveType) => move.piece.index === tileNumber
+                (move: Move) => move.piece.index === tileNumber
             );
             return makeMoveFromTileNumber(movePassed, board);
         },
@@ -86,7 +77,7 @@ const createTicTacToePlayer = (
 const createConnectFourPlayer = (
     league: League,
     tileList: ReadonlyArray<Tile>
-): PlayerType => {
+): Player => {
     const { column, numberOfTiles } = connectFour;
     return {
         legalMoves: createConnectFourMoves(
@@ -97,16 +88,13 @@ const createConnectFourPlayer = (
         ),
         league,
         opponentLeague: isFirstPlayer(league) ? League.second : League.first,
-        makeMove(movePassed: MoveType, board: BoardType): BoardType {
+        makeMove(movePassed: Move, board: Board): Board {
             return makeMove(this.legalMoves, movePassed, board);
         },
-        makeMoveFromTileNumber(
-            tileNumber: number,
-            board: BoardType
-        ): BoardType {
+        makeMoveFromTileNumber(tileNumber: number, board: Board): Board {
             const col = tileNumber % column;
             const moveFound = this.legalMoves.find(
-                (move: MoveType) => move.piece.index % column === col
+                (move: Move) => move.piece.index % column === col
             );
             return makeMoveFromTileNumber(moveFound, board);
         },
@@ -114,34 +102,32 @@ const createConnectFourPlayer = (
 };
 
 const makeMove = (
-    legalMoves: ReadonlyArray<MoveType>,
-    movePassed: MoveType,
-    board: BoardType
-): BoardType => {
-    const moveFound = legalMoves.find((move: MoveType) =>
-        move.equals(movePassed)
-    );
+    legalMoves: ReadonlyArray<Move>,
+    movePassed: Move,
+    board: Board
+): Board => {
+    const moveFound = legalMoves.find((move: Move) => move.equals(movePassed));
     return makeMoveFromTileNumber(moveFound, board);
 };
 
 const makeMoveFromTileNumber = (
-    moveFound: MoveType | undefined,
-    board: BoardType
-): BoardType => {
+    moveFound: Move | undefined,
+    board: Board
+): Board => {
     if (moveFound === undefined) {
         throw new Error(
             'move found in makeMoveFromTileNumber function cannot be undefined'
         );
     }
-    return (moveFound as MoveType).execute(board);
+    return (moveFound as Move).execute(board);
 };
 
-export const createCrossPlayer = (tileList: ReadonlyArray<Tile>): PlayerType =>
+export const createCrossPlayer = (tileList: ReadonlyArray<Tile>): Player =>
     createTicTacToePlayer(League.first, tileList);
-export const createNoughtPlayer = (tileList: ReadonlyArray<Tile>): PlayerType =>
+export const createNoughtPlayer = (tileList: ReadonlyArray<Tile>): Player =>
     createTicTacToePlayer(League.second, tileList);
 
-export const createBlackPlayer = (tileList: ReadonlyArray<Tile>): PlayerType =>
+export const createBlackPlayer = (tileList: ReadonlyArray<Tile>): Player =>
     createConnectFourPlayer(League.first, tileList);
-export const createRedPlayer = (tileList: ReadonlyArray<Tile>): PlayerType =>
+export const createRedPlayer = (tileList: ReadonlyArray<Tile>): Player =>
     createConnectFourPlayer(League.second, tileList);

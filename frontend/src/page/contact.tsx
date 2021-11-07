@@ -1,23 +1,23 @@
-import React, { Suspense, lazy, useState, FormEvent, ChangeEvent } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-const SendingMessage = lazy(() =>
+const SendingMessage = React.lazy(() =>
     import('../components/contact/Message').then((module) => ({
         default: module.SendingMessage,
     }))
 );
-const FinalMessage = lazy(() =>
+const FinalMessage = React.lazy(() =>
     import('../components/contact/Message').then((module) => ({
         default: module.FinalMessage,
     }))
 );
 import {
-    getNameError,
-    getEmailError,
-    getMessageError,
+    getName,
+    getEmail,
+    getMessage,
     allValueValid,
-    NameErr,
-    EmailErr,
-    MessageErr,
+    Name,
+    Email,
+    Message,
     Data,
 } from '../util/contact';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
@@ -25,24 +25,48 @@ import Title from '../components/Title';
 import { contactURL } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
+type ContactState = {
+    readonly name: Name;
+    readonly email: Email;
+    readonly message: Message;
+    readonly showFinal: boolean;
+    readonly showWaiting: boolean;
+};
+
 const Contact = (): JSX.Element => {
-    const [nameErr, setNameErr] = useState<NameErr>('');
-    const [emailErr, setEmailErr] = useState<EmailErr>('');
-    const [messageErr, setMessageErr] = useState<MessageErr>('');
+    const [state, setState] = React.useState<ContactState>({
+        name: {
+            value: '',
+            error: '',
+        },
+        email: {
+            value: '',
+            error: '',
+        },
+        message: {
+            value: '',
+            error: '',
+        },
+        showFinal: false,
+        showWaiting: false,
+    });
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
+    const { email, message, name, showFinal, showWaiting } = state;
 
-    const [showFinal, setShowFinal] = useState(false);
-    const [showWaiting, setShowWaiting] = useState(false);
+    const setShowWaiting = (showWaiting: boolean) =>
+        setState((prevState) => ({
+            ...prevState,
+            showWaiting,
+        }));
 
-    const submit = (e: FormEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        if (
-            allValueValid(name, email, message, nameErr, emailErr, messageErr)
-        ) {
-            const data = JSON.stringify({ name, email, message });
+    const submit = (event: React.FormEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        if (allValueValid(name, email, message)) {
+            const data = JSON.stringify({
+                name: name.value,
+                email: email.value,
+                message: message.value,
+            });
             const option = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -57,7 +81,10 @@ const Contact = (): JSX.Element => {
                     showMessage(json);
                 })
                 .catch((err) => {
-                    console.error(err.message);
+                    const isError = (error: any): error is Error =>
+                        Object.prototype.toString.call(error) ===
+                        '[object Error]';
+                    console.log(isError(err) ? err.stack : err);
                     setShowWaiting(false);
                     alert(
                         "I am sorry to inform you that there's an error in sending email. Please write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you"
@@ -66,48 +93,61 @@ const Contact = (): JSX.Element => {
         }
     };
 
+    const setShowMessage = ({
+        email,
+        message,
+        name,
+        showFinal,
+    }: {
+        readonly name: ContactState['name'];
+        readonly email: ContactState['email'];
+        readonly message: ContactState['message'];
+        readonly showFinal: ContactState['showFinal'];
+    }) => {
+        setState((prevState) => ({
+            ...prevState,
+            name,
+            email,
+            message,
+            showFinal,
+        }));
+    };
+
     const showMessage = (json: Data) => {
-        switch (json.type) {
+        const { type } = json;
+        switch (type) {
             case 'input':
-                setNameErr(json.nameErr);
-                setEmailErr(json.emailErr);
-                setMessageErr(json.messageErr);
-                break;
             case 'succeed':
-                setName('');
-                setEmail('');
-                setMessage('');
-                setShowFinal(true);
+                setShowMessage({
+                    ...json,
+                    showFinal: type === 'succeed',
+                });
                 break;
             case 'failed':
                 alert(
                     "I am sorry to inform you that there's an error in sending email. Please write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you"
                 );
                 break;
-            default:
-                throw new Error(
-                    'type of Data can only be input, success or failed only'
-                );
         }
     };
 
-    const changeName = (e: ChangeEvent<HTMLInputElement>) => {
-        const name = e.target.value;
-        setNameErr(getNameError(name));
-        setName(name);
-    };
+    const changeName = (event: React.ChangeEvent<HTMLInputElement>) =>
+        setState((prevState) => ({
+            ...prevState,
+            name: getName(event.target.value),
+        }));
 
-    const changeEmail = (e: ChangeEvent<HTMLInputElement>) => {
-        const email = e.target.value;
-        setEmailErr(getEmailError(email));
-        setEmail(email);
-    };
+    const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
+        setState((prevState) => ({
+            ...prevState,
+            email: getEmail(event.target.value),
+        }));
 
-    const changeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const message = e.target.value;
-        setMessageErr(getMessageError(message));
-        setMessage(message);
-    };
+    const changeMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
+        setState((prevState) => ({
+            ...prevState,
+            message: getMessage(event.target.value),
+        }));
 
     return (
         <ContentContainer>
@@ -117,20 +157,25 @@ const Contact = (): JSX.Element => {
             />
 
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
+                <React.Suspense fallback={<HashLoading />}>
                     <SendingMessage
                         show={showWaiting}
                         closeMessage={() => setShowWaiting(false)}
                     />
-                </Suspense>
+                </React.Suspense>
             </ErrorBoundary>
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
+                <React.Suspense fallback={<HashLoading />}>
                     <FinalMessage
                         show={showFinal}
-                        closeMessage={() => setShowFinal(false)}
+                        closeMessage={() =>
+                            setState((prevState) => ({
+                                ...prevState,
+                                showFinal: false,
+                            }))
+                        }
                     />
-                </Suspense>
+                </React.Suspense>
             </ErrorBoundary>
 
             <Container>
@@ -148,14 +193,14 @@ const Contact = (): JSX.Element => {
                             <InputInfo htmlFor="name">
                                 Hello, my name is
                             </InputInfo>
-                            <ErrorMessage>{nameErr}</ErrorMessage>
+                            <ErrorMessage>{name.error}</ErrorMessage>
                             <InputLabel>
                                 <InputDiv>
                                     <InputField
                                         type="text"
                                         name="name"
                                         id="name"
-                                        value={name}
+                                        value={name.value}
                                         placeholder="Tony Stark"
                                         required
                                         onChange={changeName}
@@ -166,14 +211,14 @@ const Contact = (): JSX.Element => {
                             <InputInfo htmlFor="email">
                                 You can reach me at
                             </InputInfo>
-                            <ErrorMessage>{emailErr}</ErrorMessage>
+                            <ErrorMessage>{email.error}</ErrorMessage>
                             <InputLabel>
                                 <InputDiv>
                                     <InputField
                                         type="email"
                                         name="email"
                                         id="email"
-                                        value={email}
+                                        value={email.value}
                                         placeholder="tonystark@gmail.com"
                                         required
                                         onChange={changeEmail}
@@ -184,13 +229,13 @@ const Contact = (): JSX.Element => {
                             <InputInfo htmlFor="message">
                                 I would like to
                             </InputInfo>
-                            <ErrorMessage>{messageErr}</ErrorMessage>
+                            <ErrorMessage>{message.error}</ErrorMessage>
                             <InputLabel>
                                 <InputDiv>
                                     <TextArea
                                         name="message"
                                         id="message"
-                                        value={message}
+                                        value={message.value}
                                         placeholder="Ask you a question/Tell you something"
                                         rows={8}
                                         required

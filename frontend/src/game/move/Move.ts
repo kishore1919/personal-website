@@ -1,59 +1,51 @@
 import Piece, { createPiece } from '../piece/Piece';
 import League, { isFirstPlayer } from '../piece/League';
 import {
-    BoardType,
+    Board,
     createConnectFourBoard,
     createTicTacToeBoard,
 } from '../board/Board';
 import Tile, { createTile } from '../board/Tile';
 
-interface Move<Board extends BoardType> {
+export type Move = {
     readonly piece: Piece;
-    readonly equals: (move: Move<Board>) => boolean;
+    readonly equals: (move: Move) => boolean;
     readonly execute: (board: Board) => Board;
-}
+};
 
-export type MoveType = Move<BoardType>;
-
-export const createTicTacToeMove = (
-    league: League,
-    index: number
-): MoveType => {
+export const createTicTacToeMove = (league: League, index: number): Move => {
     return {
         piece: createPiece(league, index),
-        equals(move: MoveType): boolean {
+        equals(move: Move): boolean {
             return (
                 move.piece.index === this.piece.index &&
                 move.piece.league === this.piece.league
             );
         },
-        execute(board: BoardType): BoardType {
+        execute(board: Board): Board {
             const { league, tileList } = execute(board, this.piece);
             return createTicTacToeBoard(league, tileList);
         },
     };
 };
 
-export const createConnectFourMove = (
-    league: League,
-    index: number
-): MoveType => {
+export const createConnectFourMove = (league: League, index: number): Move => {
     return {
         piece: createPiece(league, index),
-        equals(move: MoveType): boolean {
+        equals(move: Move): boolean {
             return (
                 move.piece.index === this.piece.index &&
                 move.piece.league === this.piece.league
             );
         },
-        execute(board: BoardType): BoardType {
+        execute(board: Board): Board {
             const { league, tileList } = execute(board, this.piece);
             return createConnectFourBoard(league, tileList);
         },
     };
 };
 
-const execute = (board: BoardType, piece: Piece) => {
+const execute = (board: Board, piece: Piece) => {
     const league = isFirstPlayer(board.currentPlayer.league)
         ? League.second
         : League.first;

@@ -1,10 +1,10 @@
-import React, { Suspense, lazy, useState, useEffect } from 'react';
+import * as React from 'react';
 import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 import { FaSun, FaMoon, FaArrowUp } from 'react-icons/fa';
 import { isPrimary } from '../util/theme/colorTheme';
 import { HashLoading, ErrorBoundary } from './HashLoading';
-const NavLinks = lazy(() => import('./NavLinks'));
-const FullScreen = lazy(() => import('./FullScreenNav'));
+const NavLinks = React.lazy(() => import('./NavLinks'));
+const FullScreen = React.lazy(() => import('./FullScreenNav'));
 
 interface BackToTopAnimation {
     readonly slideIn: boolean;
@@ -15,13 +15,27 @@ interface BackToTopProps {
 }
 
 const BackToTop = ({ scroll }: BackToTopProps) => {
-    const [animate, setAnimate] = useState(scroll);
-    const [load, setLoad] = useState(scroll);
+    const [state, setState] = React.useState({
+        animate: scroll,
+        load: scroll,
+    });
 
-    useEffect(() => {
-        setAnimate(scroll);
-        scroll ? setLoad(scroll) : setTimeout(() => setLoad(scroll), 350);
+    React.useEffect(() => {
+        setState((prevState) => ({
+            ...prevState,
+            animate: scroll,
+        }));
+        setTimeout(
+            () =>
+                setState((prevState) => ({
+                    ...prevState,
+                    load: scroll,
+                })),
+            scroll ? 350 : 0
+        );
     }, [scroll]);
+
+    const { animate, load } = state;
 
     if (load) {
         return (
@@ -46,34 +60,48 @@ interface HeaderProps {
 }
 
 const Header = ({ theme, updateTheme }: HeaderProps) => {
-    const [show, setShow] = useState(false);
-    const [scroll, setScroll] = useState(false);
-    const [width, setWidth] = useState(window.innerWidth);
-
     const hamburgerBreakPoint = 646;
 
-    useEffect(() => {
-        const handlePageOffset = () => setScroll(window.pageYOffset > 100);
+    const [state, setState] = React.useState({
+        show: false,
+        scroll: false,
+        width: window.innerWidth,
+    });
+
+    React.useEffect(() => {
+        const handlePageOffset = () =>
+            setState((prevState) => ({
+                ...prevState,
+                scroll: window.pageYOffset > 100,
+            }));
         window.addEventListener('scroll', handlePageOffset);
         return () => {
             window.removeEventListener('scroll', handlePageOffset);
         };
     }, []);
 
-    const ToggleComponent = () =>
-        isPrimary(theme) ? (
-            <ToggleThemeSun aria-hidden={true} />
-        ) : (
-            <ToggleThemeMoon aria-hidden={true} />
-        );
-
-    useEffect(() => {
-        const handleResizeWindow = () => setWidth(window.innerWidth);
+    React.useEffect(() => {
+        const handleResizeWindow = () =>
+            setState((prevState) => ({
+                ...prevState,
+                width: window.innerWidth,
+            }));
         window.addEventListener('resize', handleResizeWindow);
         return () => {
             window.removeEventListener('resize', handleResizeWindow);
         };
     }, []);
+
+    const setShow = (show: boolean) =>
+        setState((prevState) => ({
+            ...prevState,
+            show,
+        }));
+
+    const { show, scroll, width } = state;
+
+    const ToggleComponent = () =>
+        isPrimary(theme) ? <ToggleThemeSun /> : <ToggleThemeMoon />;
 
     const NavLinksElem = () =>
         width <= hamburgerBreakPoint ? null : (
@@ -91,7 +119,7 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
         <Container>
             <NavWrapper>
                 <ErrorBoundary>
-                    <Suspense fallback={<HashLoading />}>
+                    <React.Suspense fallback={<HashLoading />}>
                         <NavLinksElem />
                         <RightSide>
                             <ToggleThemeContainer>
@@ -114,7 +142,7 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
                             <HamburgerNavElem />
                         </RightSide>
                         <FullScreen show={show} close={() => setShow(false)} />
-                    </Suspense>
+                    </React.Suspense>
                 </ErrorBoundary>
             </NavWrapper>
             <BackToTop scroll={scroll} />

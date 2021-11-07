@@ -1,20 +1,20 @@
-import { BoardType } from '../board/Board';
+import { Board } from '../board/Board';
 import {
     connectFour,
     instanceOfTicTacToe,
     ticTacToe,
 } from '../board/BoardUtil';
 
-interface EndgameChecker<Board extends BoardType> {
+type EndgameChecker<Board> = {
     readonly horizontalWin: (board: Board) => boolean;
     readonly verticalWin: (board: Board) => boolean;
     readonly diagonalWin: (board: Board, positiveSlope: boolean) => boolean;
     readonly checkMate: (board: Board) => boolean;
     readonly staleMate: (board: Board) => boolean;
-}
+};
 
-const ticTacToeWinner: EndgameChecker<BoardType> = {
-    horizontalWin: (board: BoardType): boolean => {
+const ticTacToeWinner: EndgameChecker<Board> = {
+    horizontalWin: (board: Board): boolean => {
         const { row, numberOfTiles, numberOfTilesToWin } = ticTacToe;
         let numberOfTilesOccupied = 0;
         for (let i = 0; i < numberOfTiles; i++) {
@@ -33,7 +33,7 @@ const ticTacToeWinner: EndgameChecker<BoardType> = {
 
         return false;
     },
-    verticalWin: (board: BoardType): boolean => {
+    verticalWin: (board: Board): boolean => {
         const { row, numberOfTiles, numberOfTilesToWin } = ticTacToe;
         const limit = numberOfTiles - 1;
         let numberOfTilesOccupied = 0,
@@ -60,7 +60,7 @@ const ticTacToeWinner: EndgameChecker<BoardType> = {
 
         return false;
     },
-    diagonalWin: (board: BoardType, positiveSlope: boolean): boolean => {
+    diagonalWin: (board: Board, positiveSlope: boolean): boolean => {
         const { row, numberOfTiles, numberOfTilesToWin } = ticTacToe;
         let numberOfTilesOccupied = 0;
         const begin = positiveSlope ? row - 1 : 0;
@@ -83,7 +83,7 @@ const ticTacToeWinner: EndgameChecker<BoardType> = {
         }
         return numberOfTilesOccupied === numberOfTilesToWin;
     },
-    checkMate(board: BoardType): boolean {
+    checkMate(board: Board): boolean {
         const verticalWin = this.verticalWin(board);
         const horizontalWin = this.horizontalWin(board);
         const positiveSlopeWin = this.diagonalWin(board, true);
@@ -92,12 +92,12 @@ const ticTacToeWinner: EndgameChecker<BoardType> = {
             verticalWin || horizontalWin || positiveSlopeWin || negativeSlopeWin
         );
     },
-    staleMate: (board: BoardType): boolean =>
+    staleMate: (board: Board): boolean =>
         !board.tileList.some((tile) => !tile.isTileOccupied),
 };
 
-const connectFourWinner: EndgameChecker<BoardType> = {
-    horizontalWin: (board: BoardType): boolean => {
+const connectFourWinner: EndgameChecker<Board> = {
+    horizontalWin: (board: Board): boolean => {
         const { row, column, numberOfTiles, numberOfTilesToWin } = connectFour;
         let numTileOccupied = 0,
             begin = 0;
@@ -121,7 +121,7 @@ const connectFourWinner: EndgameChecker<BoardType> = {
         }
         return false;
     },
-    verticalWin: (board: BoardType): boolean => {
+    verticalWin: (board: Board): boolean => {
         const { column, numberOfTiles, numberOfTilesToWin } = connectFour;
         let numTileOccupied = 0,
             begin = 0,
@@ -148,7 +148,7 @@ const connectFourWinner: EndgameChecker<BoardType> = {
         }
         return false;
     },
-    diagonalWin: (board: BoardType, positiveSlope: boolean): boolean => {
+    diagonalWin: (board: Board, positiveSlope: boolean): boolean => {
         const { column, numberOfTiles, numberOfTilesToWin } = connectFour;
         const vector = positiveSlope ? -1 : 1;
         const negativeVector = vector * -1;
@@ -190,7 +190,7 @@ const connectFourWinner: EndgameChecker<BoardType> = {
         }
         return false;
     },
-    checkMate(board: BoardType): boolean {
+    checkMate(board: Board): boolean {
         const verticalWin = this.verticalWin(board);
         const horizontalWin = this.horizontalWin(board);
         const positiveSlopeWin = this.diagonalWin(board, true);
@@ -199,18 +199,18 @@ const connectFourWinner: EndgameChecker<BoardType> = {
             verticalWin || horizontalWin || positiveSlopeWin || negativeSlopeWin
         );
     },
-    staleMate: (board: BoardType): boolean =>
+    staleMate: (board: Board): boolean =>
         !board.tileList.some((tile) => !tile.isTileOccupied),
 };
 
-export const checkmate = (board: BoardType) => {
+export const checkmate = (board: Board) => {
     return instanceOfTicTacToe(board)
-        ? ticTacToeWinner.checkMate(board as BoardType)
-        : connectFourWinner.checkMate(board as BoardType);
+        ? ticTacToeWinner.checkMate(board as Board)
+        : connectFourWinner.checkMate(board as Board);
 };
 
-export const stalemate = (board: BoardType) => {
+export const stalemate = (board: Board) => {
     return instanceOfTicTacToe(board)
-        ? ticTacToeWinner.staleMate(board as BoardType)
-        : connectFourWinner.staleMate(board as BoardType);
+        ? ticTacToeWinner.staleMate(board as Board)
+        : connectFourWinner.staleMate(board as Board);
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import styled, { css } from 'styled-components';
 import {
     FaGithub,
@@ -11,20 +11,26 @@ import {
     FaPhone,
 } from 'react-icons/fa';
 import { TiSocialLinkedin, TiSocialFacebook } from 'react-icons/ti';
-import { KEY, SECONDARY } from '../../util/theme/colorTheme';
+import { keyConfig, isDarkResume } from '../../util/theme/colorTheme';
+
+type ResumeState = {
+    readonly path: `asset/files/resume/GervinFungDaXuenResume_UTAR_${
+        | 'dark'
+        | 'light'}.pdf`;
+};
 
 const ResumeLeft = () => {
-    const resumePath = (light: boolean) =>
-        `asset/files/resume/GervinFungDaXuenResume_UTAR_${
-            light ? 'light' : 'dark'
-        }.pdf`;
+    const { key } = keyConfig;
 
-    const [isSecondary, setIsSecondary] = useState(
-        localStorage.getItem(KEY) === SECONDARY
-    );
+    const [state, setState] = React.useState<ResumeState>();
 
     const downloadResume = () =>
-        setIsSecondary(localStorage.getItem(KEY) === SECONDARY);
+        setState(() => ({
+            path: `asset/files/resume/GervinFungDaXuenResume_UTAR_${isDarkResume(
+                localStorage.getItem(key) ??
+                    window.matchMedia('(prefers-color-scheme: dark)').matches
+            )}.pdf`,
+        }));
 
     return (
         <ResumeLeftContainer>
@@ -44,7 +50,7 @@ const ResumeLeft = () => {
                     </SelfIntroLabel>
                     <ResumeDownloadContainer>
                         <ResumeDownloadLink
-                            href={resumePath(isSecondary)}
+                            href={state?.path}
                             onClick={downloadResume}
                         >
                             Download

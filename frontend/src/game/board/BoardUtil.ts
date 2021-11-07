@@ -1,25 +1,18 @@
-import { BoardType } from './Board';
+import { Board } from './Board';
 
-export default interface BoardUtil {
-    readonly row: 3 | 6;
-    readonly column: 3 | 7;
-    readonly numberOfTiles: 9 | 42;
-    readonly numberOfTilesToWin: 3 | 4;
-}
-
-export const ticTacToe: BoardUtil = {
+export const ticTacToe = {
     row: 3,
     numberOfTiles: 9,
     column: 3,
     numberOfTilesToWin: 3,
-};
+} as const;
 
-export const connectFour: BoardUtil = {
+export const connectFour = {
     row: 6,
     numberOfTiles: 42,
     column: 7,
     numberOfTilesToWin: 4,
-};
+} as const;
 
-export const instanceOfTicTacToe = (board: BoardType): boolean =>
+export const instanceOfTicTacToe = (board: Board): boolean =>
     board.identifier % 2 === 0;

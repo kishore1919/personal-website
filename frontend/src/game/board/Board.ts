@@ -3,13 +3,13 @@ import {
     createCrossPlayer,
     createNoughtPlayer,
     createRedPlayer,
-    PlayerType,
+    Player,
 } from '../player/Player';
 import League from '../piece/League';
 import Tile, { createTile } from './Tile';
 import { connectFour, ticTacToe } from './BoardUtil';
 
-interface Board<Player> {
+export type Board = {
     readonly league: League;
     readonly firstPlayer: Player;
     readonly secondPlayer: Player;
@@ -17,30 +17,26 @@ interface Board<Player> {
     readonly tileList: ReadonlyArray<Tile>;
     readonly stringFormat: () => string;
     readonly identifier: 0 | 1;
-}
+};
 
-export type BoardType = Board<PlayerType>;
-
-export const createStandardTicTacToeBoard = (): BoardType => {
-    const tileList = [];
-    for (let i = 0; i < ticTacToe.numberOfTiles; i++) {
-        tileList.push(createTile(i, null));
-    }
+export const createStandardTicTacToeBoard = (): Board => {
+    const tileList: ReadonlyArray<Tile> = Array.from({
+        length: ticTacToe.numberOfTiles,
+    }).map((_, i) => createTile(i, null));
     return createTicTacToeBoard(League.first, tileList);
 };
 
-export const createStandardConnectFourBoard = (): BoardType => {
-    const tileList = [];
-    for (let i = 0; i < connectFour.numberOfTiles; i++) {
-        tileList.push(createTile(i, null));
-    }
+export const createStandardConnectFourBoard = (): Board => {
+    const tileList: ReadonlyArray<Tile> = Array.from({
+        length: connectFour.numberOfTiles,
+    }).map((_, i) => createTile(i, null));
     return createConnectFourBoard(League.first, tileList);
 };
 
 export const createTicTacToeBoard = (
     league: League,
     tileList: ReadonlyArray<Tile>
-): BoardType => {
+): Board => {
     const { column } = ticTacToe;
     const firstPlayer = createCrossPlayer(tileList);
     const secondPlayer = createNoughtPlayer(tileList);
@@ -50,7 +46,7 @@ export const createTicTacToeBoard = (
 export const createConnectFourBoard = (
     league: League,
     tileList: ReadonlyArray<Tile>
-): BoardType => {
+): Board => {
     const { column } = connectFour;
     const firstPlayer = createBlackPlayer(tileList);
     const secondPlayer = createRedPlayer(tileList);
@@ -60,11 +56,11 @@ export const createConnectFourBoard = (
 const createBoard = (
     column: number,
     league: League,
-    firstPlayer: PlayerType,
-    secondPlayer: PlayerType,
+    firstPlayer: Player,
+    secondPlayer: Player,
     tileList: ReadonlyArray<Tile>,
     identifier: 0 | 1
-): BoardType => {
+): Board => {
     return {
         league,
         firstPlayer,

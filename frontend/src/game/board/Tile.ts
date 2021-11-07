@@ -1,11 +1,11 @@
 import Piece from '../piece/Piece';
 
-export default interface Tile {
+type Tile = {
     readonly index: number;
     readonly isTileOccupied: boolean;
     readonly getPiece: Piece | null;
     readonly stringFormat: string;
-}
+};
 
 export const createTile = (index: number, piece: Piece | null): Tile => {
     return {
@@ -15,3 +15,5 @@ export const createTile = (index: number, piece: Piece | null): Tile => {
         stringFormat: piece === null ? '-' : piece.league.toString(),
     };
 };
+
+export default Tile;

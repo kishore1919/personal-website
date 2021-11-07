@@ -1,8 +1,8 @@
-import React, { Suspense, lazy } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { HashLoading, ErrorBoundary } from '../HashLoading';
-const CloseFullScreen = lazy(() => import('../CloseFullScreen'));
-const FullScreenContainer = lazy(() =>
+const CloseFullScreen = React.lazy(() => import('../CloseFullScreen'));
+const FullScreenContainer = React.lazy(() =>
     import('../../util/theme/GlobalTheme').then((module) => ({
         default: module.FullScreenContainer,
     }))
@@ -20,7 +20,7 @@ const Surprise = ({
     if (show) {
         return (
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
+                <React.Suspense fallback={<HashLoading />}>
                     <FullScreen>
                         <CloseFullScreen color="black" close={closeMessage} />
                         <SurpriseContent>
@@ -35,7 +35,7 @@ const Surprise = ({
                             </ParagraphMessage>
                         </SurpriseContent>
                     </FullScreen>
-                </Suspense>
+                </React.Suspense>
             </ErrorBoundary>
         );
     }

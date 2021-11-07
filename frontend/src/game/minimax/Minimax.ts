@@ -1,11 +1,11 @@
-import { BoardType } from '../board/Board';
+import { Board } from '../board/Board';
 import { instanceOfTicTacToe } from '../board/BoardUtil';
 import { checkmate, stalemate } from '../endgame/EndgameChecker';
-import { MoveType } from '../move/Move';
+import { Move } from '../move/Move';
 import League, { isFirstPlayer } from '../piece/League';
 import { evaluateConnectFourBoard } from './connectFourEval/ConnectFourEvaluator';
 
-interface Minimax<Board extends BoardType> {
+type Minimax<Board> = {
     readonly min: (
         board: Board,
         depth: number,
@@ -20,18 +20,18 @@ interface Minimax<Board extends BoardType> {
     ) => number;
     readonly execute: () => Board;
     readonly depth: number;
-}
+};
 
-export interface ConnectFourMinimax extends Minimax<BoardType> {
+export type ConnectFourMinimax = {
     readonly positionEval: ReadonlyArray<number>;
     readonly league: League;
-}
+} & Minimax<Board>;
 
-const createTicTacToeMinimax = (board: BoardType): Minimax<BoardType> => {
+const createTicTacToeMinimax = (board: Board): Minimax<Board> => {
     return {
         depth: 4,
         min(
-            board: BoardType,
+            board: Board,
             depth: number,
             highestValue: number,
             lowestValue: number
@@ -62,7 +62,7 @@ const createTicTacToeMinimax = (board: BoardType): Minimax<BoardType> => {
             return currentLowest;
         },
         max(
-            board: BoardType,
+            board: Board,
             depth: number,
             highestValue: number,
             lowestValue: number
@@ -92,12 +92,12 @@ const createTicTacToeMinimax = (board: BoardType): Minimax<BoardType> => {
             }
             return currentHighest;
         },
-        execute(): BoardType {
+        execute(): Board {
             const currentPlayer = board.currentPlayer;
             let highestSeenValue = Number.NEGATIVE_INFINITY,
                 lowestSeenValue = Number.POSITIVE_INFINITY;
 
-            let bestMove: MoveType | null = null;
+            let bestMove: Move | null = null;
 
             for (const move of currentPlayer.legalMoves) {
                 const latestBoard = currentPlayer.makeMove(move, board);
@@ -140,9 +140,9 @@ const createTicTacToeMinimax = (board: BoardType): Minimax<BoardType> => {
     };
 };
 
-const createConnectFourMinimax = (board: BoardType): ConnectFourMinimax => {
+const createConnectFourMinimax = (board: Board): ConnectFourMinimax => {
     return {
-        execute(): BoardType {
+        execute(): Board {
             const currentPlayer = board.currentPlayer;
             let highestSeenValue = Number.NEGATIVE_INFINITY,
                 lowestSeenValue = Number.POSITIVE_INFINITY;
@@ -153,8 +153,7 @@ const createConnectFourMinimax = (board: BoardType): ConnectFourMinimax => {
             );
             let bestMove = sortedMove[0];
 
-            for (let i = 0; i < sortedMove.length; i++) {
-                const move = sortedMove[i];
+            for (const move of sortedMove) {
                 const latestBoard = currentPlayer.makeMove(move, board);
                 if (checkmate(latestBoard)) {
                     return latestBoard;
@@ -189,7 +188,7 @@ const createConnectFourMinimax = (board: BoardType): ConnectFourMinimax => {
             return currentPlayer.makeMove(bestMove, board);
         },
         max(
-            board: BoardType,
+            board: Board,
             depth: number,
             highestValue: number,
             lowestValue: number
@@ -207,8 +206,7 @@ const createConnectFourMinimax = (board: BoardType): ConnectFourMinimax => {
                 this.positionEval,
                 board.currentPlayer.legalMoves
             );
-            for (let i = 0; i < sortedMove.length; i++) {
-                const move = sortedMove[i];
+            for (const move of sortedMove) {
                 const latestBoard = board.currentPlayer.makeMove(move, board);
                 currentHighest = Math.max(
                     currentHighest,
@@ -226,7 +224,7 @@ const createConnectFourMinimax = (board: BoardType): ConnectFourMinimax => {
             return currentHighest;
         },
         min(
-            board: BoardType,
+            board: Board,
             depth: number,
             highestValue: number,
             lowestValue: number
@@ -244,8 +242,7 @@ const createConnectFourMinimax = (board: BoardType): ConnectFourMinimax => {
                 this.positionEval,
                 board.currentPlayer.legalMoves
             );
-            for (let i = 0; i < sortedMove.length; i++) {
-                const move = sortedMove[i];
+            for (const move of sortedMove) {
                 const latestBoard = board.currentPlayer.makeMove(move, board);
                 currentLowest = Math.min(
                     currentLowest,
@@ -273,8 +270,8 @@ const createConnectFourMinimax = (board: BoardType): ConnectFourMinimax => {
 
 const generateSortedMoves = (
     positionEval: ReadonlyArray<number>,
-    legalMoves: ReadonlyArray<MoveType>
-): ReadonlyArray<MoveType> => {
+    legalMoves: ReadonlyArray<Move>
+): ReadonlyArray<Move> => {
     const moveScore = legalMoves.map((move) => {
         return {
             key: move,
@@ -293,8 +290,8 @@ const generateSortedMoves = (
     return moveScore.map((score) => score.key);
 };
 
-export const minimaxMakeMove = (board: BoardType): BoardType => {
+export const minimaxMakeMove = (board: Board): Board => {
     return instanceOfTicTacToe(board)
-        ? createTicTacToeMinimax(board as BoardType).execute()
-        : createConnectFourMinimax(board as BoardType).execute();
+        ? createTicTacToeMinimax(board as Board).execute()
+        : createConnectFourMinimax(board as Board).execute();
 };

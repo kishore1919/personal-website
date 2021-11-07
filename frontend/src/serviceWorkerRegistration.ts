@@ -21,8 +21,8 @@ const isLocalhost = Boolean(
 );
 
 type Config = {
-    onSuccess?: (registration: ServiceWorkerRegistration) => void;
-    onUpdate?: (registration: ServiceWorkerRegistration) => void;
+    readonly onSuccess?: (registration: ServiceWorkerRegistration) => void;
+    readonly onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
 export const register = (config?: Config) => {

@@ -1,7 +1,7 @@
-import React, { Suspense, lazy } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-const HomeMessage = lazy(() => import('../components/index/HomeMessage'));
-const Game = lazy(() => import('../components/index/Game'));
+const HomeMessage = React.lazy(() => import('../components/index/HomeMessage'));
+const Game = React.lazy(() => import('../components/index/Game'));
 import { Link } from 'react-router-dom';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
@@ -12,10 +12,10 @@ const Home = (): JSX.Element => (
         <Title title="Home" content="PoolOfDeath20 or Gervin's home page" />
         <TwoColumnWrapper>
             <ErrorBoundary>
-                <Suspense fallback={<HashLoading />}>
+                <React.Suspense fallback={<HashLoading />}>
                     <HomeMessage />
                     <Game />
-                </Suspense>
+                </React.Suspense>
             </ErrorBoundary>
         </TwoColumnWrapper>
         <PortfolioButtonContainer>

@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import FadeLoader from 'react-spinners/FadeLoader';
@@ -19,14 +19,14 @@ export const HashLoading = (): JSX.Element => {
 };
 
 interface Props {
-    readonly children: ReactNode;
+    readonly children: React.ReactNode;
 }
 
 interface State {
     readonly hasError: boolean;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends React.Component<Props, State> {
     public state: State = {
         hasError: false,
     };
@@ -36,10 +36,10 @@ export class ErrorBoundary extends Component<Props, State> {
         hasError: true,
     });
 
-    public componentDidCatch = (error: Error, errorInfo: ErrorInfo) =>
+    public componentDidCatch = (error: Error, errorInfo: React.ErrorInfo) =>
         console.error('Uncaught error: ', error, errorInfo);
 
-    public render = (): JSX.Element | ReactNode => {
+    public render = (): JSX.Element | React.ReactNode => {
         if (this.state.hasError) {
             return (
                 <Container>
