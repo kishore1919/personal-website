@@ -14,7 +14,7 @@
         "remove-js-extension": "ts-add-js-extension --src --remove",
         "build": "yarn build-dev && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
-        "remove-devDep": "yarn remove @types/koa @types/koa-bodyparser @types/koa-router @types/koa-static @types/node @types/nodemailer typescript",
+        "remove-devDep": "yarn remove @types/koa @types/koa-bodyparser @types/koa-router @types/koa-static @types/node @types/nodemailer typescript ts-add-js-extension",
         "cleanup": "echo cleaning up backend && concurrently \"rm -rf src\" \"yarn remove-devDep\""
     },
     "dependencies": {
@@ -30,9 +30,7 @@
         "koa-static": "^5.0.0",
         "node-fetch": "^3.0.0",
         "nodemailer": "^6.6.1",
-        "typescript": "^4.5.2"
-    },
-    "devDependencies": {
+        "typescript": "^4.5.2",
         "ts-add-js-extension": "^0.0.0"
     }
 }
