@@ -62,29 +62,27 @@ const Contact = (): JSX.Element => {
     const submit = (event: React.FormEvent<HTMLDivElement>) => {
         event.preventDefault();
         if (allValueValid(name, email, message)) {
-            const data = JSON.stringify({
-                name: name.value,
-                email: email.value,
-                message: message.value,
-            });
-            const option = {
+            setShowWaiting(true);
+            fetch(contactURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 referrer: 'no-referrer',
-                body: data,
-            };
-            setShowWaiting(true);
-            fetch(contactURL, option)
-                .then((res) => res.json())
+                body: JSON.stringify({
+                    name: name.value,
+                    email: email.value,
+                    message: message.value,
+                }),
+            })
+                .then((res) => {
+                    console.log({ res });
+                    return res.json();
+                })
                 .then((json: Data) => {
                     setShowWaiting(false);
                     showMessage(json);
                 })
                 .catch((err) => {
-                    const isError = (error: any): error is Error =>
-                        Object.prototype.toString.call(error) ===
-                        '[object Error]';
-                    console.log(isError(err) ? err.stack : err);
+                    console.error(err);
                     setShowWaiting(false);
                     alert(
                         "I am sorry to inform you that there's an error in sending email. Please write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you"

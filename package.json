@@ -10,10 +10,11 @@
         "install-both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
         "build-backend": "cd backend && yarn build",
         "build-frontend": "cd frontend && yarn build",
+        "clean-backend": "cd backend && yarn clean",
+        "clean-frontend": "cd frontend && yarn clean",
         "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
-        "sync-start": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start\"",
-        "sync-start-dev": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-dev\"",
-        "clean": "concurrently \"rm -rf node_modules\" \"cd backend && rm -rf node_modules\" \"cd backend && rm -rf node_modules\" && yarn install-dev"
+        "start-dev": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-dev\"",
+        "clean": "concurrently \"rm -rf node_modules\" \"yarn clean-backend\" \"yarn clean-frontend\" && yarn"
     },
     "devDependencies": {
         "concurrently": "^6.2.2"

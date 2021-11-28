@@ -271,27 +271,19 @@ const createConnectFourMinimax = (board: Board): ConnectFourMinimax => {
 const generateSortedMoves = (
     positionEval: ReadonlyArray<number>,
     legalMoves: ReadonlyArray<Move>
-): ReadonlyArray<Move> => {
-    const moveScore = legalMoves.map((move) => {
-        return {
-            key: move,
-            value: positionEval[move.piece.index],
-        };
-    });
-    //descending sort
-    moveScore.sort((a, b) => {
-        if (a.value > b.value) {
-            return -1;
-        } else if (a.value === b.value) {
-            return 0;
-        }
-        return 1;
-    });
-    return moveScore.map((score) => score.key);
-};
+): ReadonlyArray<Move> =>
+    legalMoves
+        .map((move) => {
+            return {
+                key: move,
+                value: positionEval[move.piece.index],
+            };
+        })
+        .sort((a, b) => b.value - a.value)
+        .map((score) => score.key);
 
 export const minimaxMakeMove = (board: Board): Board => {
     return instanceOfTicTacToe(board)
-        ? createTicTacToeMinimax(board as Board).execute()
-        : createConnectFourMinimax(board as Board).execute();
+        ? createTicTacToeMinimax(board).execute()
+        : createConnectFourMinimax(board).execute();
 };

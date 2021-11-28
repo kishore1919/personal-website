@@ -19,20 +19,21 @@ const fetchGithubAPI = async () =>
     ).json();
 
 const readPortfolio = (): Promise<ReadonlyArray<PortfolioData>> => {
-    const filename = 'src/asset/files/portfolio.txt';
     return new Promise((resolve, reject) => {
         let fetchData: ReadonlyArray<PortfolioData> = [];
-        createReadStream(filename)
+        createReadStream('src/asset/portfolio.txt')
             .on('data', (data) => {
                 fetchData = data
                     .toString()
                     .replace('\r', '')
                     .split('\n')
                     .map((stringData) => {
-                        const commaSplit = stringData.toString().split(',');
+                        const [path, caption] = stringData
+                            .toString()
+                            .split(',');
                         return {
-                            path: commaSplit[0],
-                            caption: commaSplit[1],
+                            path,
+                            caption,
                         };
                     });
             })

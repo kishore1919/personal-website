@@ -1,4 +1,3 @@
-import express from 'express';
 import {
     githubAPI,
     portfolioDataPromise,
@@ -17,16 +16,23 @@ import {
 } from './util/contact.js';
 import nodemailer from 'nodemailer';
 import path from 'path';
-import compression from 'compression';
 
-const { static: expressStatic, json, urlencoded } = express;
-const app = express();
-const port = process.env.PORT || 8080;
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import koaStatic from 'koa-static';
+import Router from 'koa-router';
 
-app.use(json({ limit: '10mb' }));
-app.use(urlencoded({ extended: true }));
-app.listen(port, () => console.log(`listening at port ${port}`));
-app.use(compression());
+const app = new Koa();
+const router = new Router();
+
+app.use(
+    bodyParser({
+        jsonLimit: '10mb',
+    })
+);
+
+app.listen(process.env.PORT || 8080).on('error', console.error);
+app.use(router.routes()).use(router.allowedMethods());
 
 const returnResponse = async ({
     all,
@@ -75,43 +81,42 @@ const returnResponse = async ({
     };
 };
 
-app.get('/api/portfolio', async (req, res) => {
-    if (req.method === 'GET') {
+router.get('/api/portfolio', async (context, next) => {
+    const { request, response } = context;
+    if (request.method === 'GET') {
         const all = 'All';
         const numberOfPortfolioPerPage = 9;
-        const page = req.query.page;
-        const language = req.query.language;
+        const page = request.query.page;
+        const language = request.query.language;
         if (typeof page === 'string' && typeof language === 'string') {
             const paging = validatePageQuery({
                 numberOfPortfolioPerPage,
                 page,
             });
-            res.status(200).json(
-                await returnResponse({
-                    all,
-                    language,
-                    numberOfPortfolioPerPage,
-                    pageNumber: paging,
-                })
-            );
+            response.body = await returnResponse({
+                all,
+                language,
+                numberOfPortfolioPerPage,
+                pageNumber: paging,
+            });
         } else {
-            res.status(200).json(
-                await returnResponse({
-                    all,
-                    language: all,
-                    numberOfPortfolioPerPage,
-                    pageNumber: 0,
-                })
-            );
+            response.body = await returnResponse({
+                all,
+                language: all,
+                numberOfPortfolioPerPage,
+                pageNumber: 0,
+            });
         }
     } else {
         throw new Error('Only accept GET request');
     }
+    await next();
 });
 
-app.post('/api/contact', (req, res) => {
-    if (req.method === 'POST') {
-        const body = req.body;
+router.post('/api/contact', async (context, next) => {
+    const { request, response } = context;
+    if (request.method === 'POST') {
+        const body = request.body;
         const name = getName(body.name);
         const email = getEmail(body.email);
         const message = getMessage(body.message);
@@ -124,62 +129,58 @@ app.post('/api/contact', (req, res) => {
                 subject: 'Personal Website Contact Form',
                 text: `Hello, my name is ${name.value}\n\nYou can reach me at ${email.value}\n\nI would like to ${message.value}`,
             };
-            nodemailer
-                .createTransport({
-                    host: 'smtp-mail.outlook.com',
-                    port: 587,
-                    secure: false,
-                    tls: {
-                        ciphers: 'SSLv3',
-                    },
-                    auth: {
-                        user: myEmail,
-                        pass: 'Qh9ehdDdyzTTRg9a',
-                    },
-                })
-                .sendMail(options, (error, info) => {
-                    if (error) {
-                        console.log(error.stack);
-                        const failed: Data = {
-                            type: 'failed',
-                        };
-                        res.status(200).json(failed);
-                    } else {
-                        console.log(info);
-                        const succeed: Data = {
-                            type: 'succeed',
-                            name: {
-                                ...name,
-                                value: '',
-                            },
-                            email: {
-                                ...email,
-                                value: '',
-                            },
-                            message: {
-                                ...message,
-                                value: '',
-                            },
-                        };
-                        res.status(200).json(succeed);
-                    }
-                });
+            const data: Data = await new Promise((resolve) => {
+                nodemailer
+                    .createTransport({
+                        host: 'smtp-mail.outlook.com',
+                        port: 587,
+                        secure: false,
+                        tls: {
+                            ciphers: 'SSLv3',
+                        },
+                        auth: {
+                            user: myEmail,
+                            pass: 'Qh9ehdDdyzTTRg9a',
+                        },
+                    })
+                    .sendMail(options, (error) => {
+                        resolve(
+                            error
+                                ? {
+                                      type: 'failed',
+                                  }
+                                : {
+                                      type: 'succeed',
+                                      name: {
+                                          ...name,
+                                          value: '',
+                                      },
+                                      email: {
+                                          ...email,
+                                          value: '',
+                                      },
+                                      message: {
+                                          ...message,
+                                          value: '',
+                                      },
+                                  }
+                        );
+                    });
+            });
+            response.body = data;
         } else {
-            const input: Data = {
+            response.body = {
                 type: 'input',
                 name,
                 email,
                 message,
-            };
-            res.status(200).json(input);
+            } as Data;
         }
     } else {
         throw new Error('Only accept POST request');
     }
+    await next();
 });
 
-const build = '../frontend/build';
-app.use(expressStatic(path.resolve(build)));
-app.get('*', (_, res) => {
-    res.sendFile(path.resolve(build, 'index.html'));
-});
+const build = path.resolve('../frontend/build');
+app.use(koaStatic(build));
