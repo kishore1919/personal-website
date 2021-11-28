@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# testing local npm package
+/.yalc
+/yalc.lock
+
 # testing
 /coverage
 

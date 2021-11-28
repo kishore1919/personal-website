@@ -9,25 +9,30 @@
     "scripts": {
         "start": "node build/server.js",
         "start-dev": "yarn build-dev && yarn start",
-        "build-dev": "rm -rf build && tsc",
+        "build-dev": "yarn add-js-extension && rm -rf build && tsc && yarn remove-js-extension",
+        "add-js-extension": "ts-add-js-extension --src --add",
+        "remove-js-extension": "ts-add-js-extension --src --remove",
         "build": "yarn build-dev && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "remove-devDep": "yarn remove @types/koa @types/koa-bodyparser @types/koa-router @types/koa-static @types/node @types/nodemailer typescript",
         "cleanup": "echo cleaning up backend && concurrently \"rm -rf src\" \"yarn remove-devDep\""
     },
     "dependencies": {
-        "koa": "^2.13.4",
-        "koa-bodyparser": "^4.3.0",
-        "koa-router": "^10.1.1",
-        "koa-static": "^5.0.0",
-        "node-fetch": "^3.0.0",
-        "nodemailer": "^6.6.1",
         "@types/koa": "^2.13.4",
         "@types/koa-bodyparser": "^4.3.4",
         "@types/koa-router": "^7.4.4",
         "@types/koa-static": "^4.0.2",
         "@types/node": "^16.11.6",
         "@types/nodemailer": "^6.4.4",
+        "koa": "^2.13.4",
+        "koa-bodyparser": "^4.3.0",
+        "koa-router": "^10.1.1",
+        "koa-static": "^5.0.0",
+        "node-fetch": "^3.0.0",
+        "nodemailer": "^6.6.1",
         "typescript": "^4.5.2"
+    },
+    "devDependencies": {
+        "ts-add-js-extension": "^0.0.0"
     }
 }

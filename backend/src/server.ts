@@ -6,14 +6,14 @@ import {
     queryPortfolio,
     validatePageQuery,
     validatePortfolioLanguageQuery,
-} from './util/portfolio.js';
+} from './util/portfolio';
 import {
     getName,
     getEmail,
     getMessage,
     allValueValid,
     Data,
-} from './util/contact.js';
+} from './util/contact';
 import nodemailer from 'nodemailer';
 import path from 'path';
 
