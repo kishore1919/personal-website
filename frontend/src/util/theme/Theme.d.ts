@@ -13,12 +13,6 @@ interface Theme {
     readonly resumeListText: '#000000B2' | '#FFFFFFE2';
     readonly hoverColor: '#000000B2' | '#00000019';
 
-    readonly portfolioButtonBrightness:
-        | 'brightness(0%) invert(1)'
-        | 'brightness(0%) invert(0.2)';
-    readonly portfolioButtonBrightnessHover:
-        | 'brightness(0%) invert(0.1)'
-        | 'brightness(0%) invert(0.9)';
     readonly contactTickBrightness:
         | 'brightness(0%) invert(0)'
         | 'brightness(0%) invert(1)';

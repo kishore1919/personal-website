@@ -30,8 +30,6 @@ export const primaryTheme = createDefaultTheme({
 
     hoverColor: '#000000B2',
 
-    portfolioButtonBrightness: 'brightness(0%) invert(1)',
-    portfolioButtonBrightnessHover: 'brightness(0%) invert(0.1)',
     contactTickBrightness: 'brightness(0%) invert(0)',
     googleIconBackground: '#FFF',
     scrollBarBackground: '#000D0D',
@@ -52,8 +50,6 @@ export const secondaryTheme = createDefaultTheme({
 
     hoverColor: '#00000019',
 
-    portfolioButtonBrightness: 'brightness(0%) invert(0.2)',
-    portfolioButtonBrightnessHover: 'brightness(0%) invert(0.9)',
     contactTickBrightness: 'brightness(0%) invert(1)',
     googleIconBackground: '#1D1E1f',
     scrollBarBackground: '#F5F5F5',

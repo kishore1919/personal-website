@@ -21,7 +21,7 @@ const fetchGithubAPI = async () =>
 const readPortfolio = (): Promise<ReadonlyArray<PortfolioData>> => {
     return new Promise((resolve, reject) => {
         let fetchData: ReadonlyArray<PortfolioData> = [];
-        createReadStream('src/asset/portfolio.txt')
+        createReadStream('public/portfolio.txt')
             .on('data', (data) => {
                 fetchData = data
                     .toString()

@@ -6,15 +6,18 @@
     "license": "MIT",
     "scripts": {
         "start": "cd backend && yarn start",
+        "start-dev": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-dev\"",
         "install-dev": "yarn && yarn install-both",
         "install-both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
+        "build-dev-backend": "cd backend && yarn build-dev",
+        "build-dev-frontend": "cd frontend && yarn build-dev",
+        "build-dev": "yarn install-both && concurrently \"yarn build-dev-frontend\" \"yarn build-dev-backend\"",
         "build-backend": "cd backend && yarn build",
         "build-frontend": "cd frontend && yarn build",
+        "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
         "clean-backend": "cd backend && yarn clean",
         "clean-frontend": "cd frontend && yarn clean",
-        "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
-        "start-dev": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-dev\"",
-        "clean": "concurrently \"rm -rf node_modules\" \"yarn clean-backend\" \"yarn clean-frontend\" && yarn"
+        "clean": "concurrently \"rm -rf node_modules && yarn\" \"yarn clean-backend\" \"yarn clean-frontend\""
     },
     "devDependencies": {
         "concurrently": "^6.2.2"

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { Data } from '../util/portfolio';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
@@ -7,7 +7,7 @@ const Surprise = React.lazy(() => import('../components/portfolio/Surprise'));
 import { useHistory, useLocation } from 'react-router-dom';
 import { portfolioURL, portfolioQuery } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
-
+import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 interface PortfolioImageBackgroundProps {
     readonly backgroundImage: string;
 }
@@ -40,7 +40,7 @@ const Portfolio = (): JSX.Element => {
 
     const [state, setState] = React.useState<PortfolioState>({
         portfolio: undefined,
-        queryLanguage: 'All',
+        queryLanguage: 'Select a language',
         url: processQuery(location.search),
         initialLoad: true,
         show: false,
@@ -146,12 +146,11 @@ const Portfolio = (): JSX.Element => {
         );
     };
 
-    const customQueryPortfolio = (page: number) => {
+    const customQueryPortfolio = (page: number) =>
         queryPortfolio(
             page,
             new URLSearchParams(location.search).get('language') || 'All'
         );
-    };
 
     const getNextPage = (portfolio: Data): number => {
         const paging = getPagingNumber();
@@ -172,12 +171,12 @@ const Portfolio = (): JSX.Element => {
                 <LeftButton
                     onClick={() => customQueryPortfolio(getPrevPage(portfolio))}
                 >
-                    <LeftImage />
+                    <LeftCircle />
                 </LeftButton>
                 <RightButton
                     onClick={() => customQueryPortfolio(getNextPage(portfolio))}
                 >
-                    <RightImage />
+                    <RightCircle />
                 </RightButton>
             </div>
         );
@@ -245,9 +244,15 @@ const Portfolio = (): JSX.Element => {
                     value={queryLanguage}
                     onChange={(e) => queryPortfolio(0, e.target.value)}
                 >
-                    {languages.map((language) => (
-                        <option key={language}>{language}</option>
-                    ))}
+                    {[
+                        <option key={0} disabled={true}>
+                            Language
+                        </option>,
+                    ].concat(
+                        languages.map((language) => (
+                            <option key={language}>{language}</option>
+                        ))
+                    )}
                 </Languages>
             </LanguageChooser>
         );
@@ -432,33 +437,25 @@ const RightButton = styled(PortfolioNavButton)`
     -ms-animation: ${RightButtonSlideIn} ease 1.5s;
 `;
 
-const PortfolioNavImage = styled.img`
+const FaChevronCircle = css`
     height: auto;
     width: 50px;
     border-radius: 50%;
-    filter: ${({ theme }) => theme.theme.portfolioButtonBrightness};
+    color: ${({ theme }) => theme.theme.secondaryColor};
     transition: all 0.2s ease;
     &:hover {
-        filter: ${({ theme }) => theme.theme.portfolioButtonBrightnessHover};
+        color: ${({ theme }) => theme.theme.primaryColor};
     }
 `;
 
-const LeftImage = styled(PortfolioNavImage).attrs({
-    src: 'asset/images/others/previousButton.webp',
-    alt: 'previousButton.webp',
-})`
-    &:hover {
-        transform: rotate(360deg) scale(1.15);
-    }
+const LeftCircle = styled(FaChevronCircleLeft)`
+    ${FaChevronCircle};
+    padding: 0 0 0 2px;
 `;
 
-const RightImage = styled(PortfolioNavImage).attrs({
-    src: 'asset/images/others/nextButton.webp',
-    alt: 'nextButton.webp',
-})`
-    &:hover {
-        transform: rotate(-360deg) scale(1.15);
-    }
+const RightCircle = styled(FaChevronCircleRight)`
+    ${FaChevronCircle};
+    padding: 0 2px 0 0;
 `;
 
 const Dots = styled.div`

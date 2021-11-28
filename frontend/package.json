@@ -4,6 +4,10 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@types/react": "^17.0.37",
+        "@types/react-dom": "^17.0.11",
+        "@types/react-router-dom": "^5.3.2",
+        "@types/styled-components": "^5.1.15",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-helmet-async": "^1.1.2",
@@ -29,8 +33,11 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "rm -rf build && react-scripts build",
-        "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn"
+        "build-dev": "rm -rf build && react-scripts build",
+        "build": "yarn build-dev && yarn cleanup",
+        "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
+        "remove-devDep": "yarn remove @types/react @types/react-dom @types/react-router-dom @types/styled-components",
+        "cleanup": "echo cleaning up frontend && concurrently \"rm -rf src\" \"yarn remove-devDep\""
     },
     "eslintConfig": {
         "extends": [
@@ -49,11 +56,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "devDependencies": {
-        "@types/react": "^17.0.37",
-        "@types/react-dom": "^17.0.11",
-        "@types/react-router-dom": "^5.3.2",
-        "@types/styled-components": "^5.1.15"
     }
 }
