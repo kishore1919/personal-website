@@ -10,8 +10,7 @@
         "start": "node build/server.js",
         "start-dev": "yarn build && yarn start",
         "build": "rm -rf build && tsc",
-        "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
-        "postinstall": "rm -rf src"
+        "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn"
     },
     "dependencies": {
         "koa": "^2.13.4",

@@ -30,8 +30,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "rm -rf build && react-scripts build",
-        "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
-        "postinstall": "rm -rf src"
+        "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn"
     },
     "eslintConfig": {
         "extends": [
