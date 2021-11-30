@@ -14,7 +14,7 @@
         "remove-js-extension": "ts-add-js-extension --src --remove",
         "build": "yarn build-dev && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
-        "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension",
+        "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript",
         "cleanup": "echo cleaning up backend && concurrently \"rm -rf src\" \"yarn remove-devDep\""
     },
     "dependencies": {
