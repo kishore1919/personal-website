@@ -1,7 +1,6 @@
 {
     "name": "my-first-web",
-    "version": "1",
-    "main": "server.js",
+    "version": "0.0.0",
     "author": "PoolOfDeath20",
     "license": "MIT",
     "scripts": {

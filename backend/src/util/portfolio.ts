@@ -1,5 +1,4 @@
 import fetch from 'node-fetch';
-import { createReadStream } from 'fs';
 
 export interface PortfolioData {
     readonly path: string;
@@ -17,30 +16,6 @@ const fetchGithubAPI = async () =>
     (
         await fetch('https://api.github.com/users/GervinFung/repos?per_page=50')
     ).json();
-
-const readPortfolio = (): Promise<ReadonlyArray<PortfolioData>> => {
-    return new Promise((resolve, reject) => {
-        let fetchData: ReadonlyArray<PortfolioData> = [];
-        createReadStream('public/portfolio.txt')
-            .on('data', (data) => {
-                fetchData = data
-                    .toString()
-                    .replace('\r', '')
-                    .split('\n')
-                    .map((stringData) => {
-                        const [path, caption] = stringData
-                            .toString()
-                            .split(',');
-                        return {
-                            path,
-                            caption,
-                        };
-                    });
-            })
-            .on('end', () => resolve(fetchData))
-            .on('error', reject);
-    });
-};
 
 export const queryLanguageSelector = ({
     all,
@@ -140,4 +115,70 @@ export const queryPortfolioForPaging = ({
     });
 
 export const githubAPI = fetchGithubAPI();
-export const portfolioDataPromise = readPortfolio();
+export const portfolioData = [
+    {
+        path: 'LibGDX-Chess-Game',
+        caption:
+            'A Parallel AI Chess Game made with LibGDX Framework. Choose against AI from Level 1 to Level 10. You can play against your friend as well.',
+    },
+    {
+        path: 'MinimalTicTacToe',
+        caption:
+            'Simple AI TicTacToe made with React + TypeScript and Styled-Components. Choose against AI or human. You can play in 3x3 grid up to 5x5.',
+    },
+    {
+        path: 'TextEditorFX',
+        caption:
+            'A Simple Text Editor similar to NotePad. My first JavaFX project. I wrote this as an upgraded version of the previous TextEditor.',
+    },
+    {
+        path: 'SimpleParallelChessAI',
+        caption:
+            'A Parallel AI Chess Game made with Java Swing. Choose against AI from Level 1 to Level 10. You can play against your friend as well.',
+    },
+    {
+        path: 'AndroidSimpleAIChess',
+        caption:
+            'First Android Project - Parallel AI Chess Game. Choose against AI from Level 1 to Level 10. You can play against your friend as well.',
+    },
+    {
+        path: 'RealTimeMarkdown',
+        caption:
+            'First React Project - A Markdown Editor made with React + TypeScript',
+    },
+    {
+        path: 'Connect4',
+        caption:
+            'A Connect-4 Game written in C# WinForms. This program was written to familiarize myself with C# syntax since C# is very similar to Java.',
+    },
+    {
+        path: 'TicTacToe',
+        caption:
+            'Simple AI Tic-Tac-Toe Game made with Java Swing. Choose against AI or human. You can play in 3x3 grid up to 10x10.',
+    },
+    {
+        path: 'TextEditor',
+        caption:
+            'A Simple Text Editor similar to NotePad. I wrote this because the undo option of Notepad can only undo once. But with this software you can undo all of your edit.',
+    },
+    {
+        path: 'reversito',
+        caption:
+            'A NPM package to reverse a string and number and array. Written for fun and to learn to publish NPM package',
+    },
+    {
+        path: 'Room',
+        caption:
+            'A website build with rental information by web scraping from UTAR Accommodation list and build a better website using the information through collaboration with Eugene Yong',
+    },
+    {
+        path: 'KnapsackProblem',
+        caption:
+            'Do you know how to solve the knapsack? Come and find out how to solve Knapsack in 5 different ways.',
+    },
+    {
+        path: 'SimpleParallelDispatcher',
+        caption:
+            'Simple Basic Parallel Program. A Java program that use thread and semaphore to simulate dispatcher.',
+    },
+];
