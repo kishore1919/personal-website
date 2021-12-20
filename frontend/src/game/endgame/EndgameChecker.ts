@@ -19,6 +19,9 @@ const ticTacToeWinner: EndgameChecker<Board> = {
         let numberOfTilesOccupied = 0;
         for (let i = 0; i < numberOfTiles; i++) {
             const tile = board.tileList[i];
+            if (!tile) {
+                throw new Error(`Tile: ${tile} is undefined`);
+            }
             numberOfTilesOccupied = i % row === 0 ? 0 : numberOfTilesOccupied;
             if (tile.isTileOccupied && tile.getPiece) {
                 numberOfTilesOccupied =
@@ -41,6 +44,9 @@ const ticTacToeWinner: EndgameChecker<Board> = {
             max = row * (row - 1) + begin;
         for (let i = begin; i <= max; i += row) {
             const tile = board.tileList[i];
+            if (!tile) {
+                throw new Error(`Tile: ${tile} is undefined`);
+            }
             if (tile.isTileOccupied && tile.getPiece) {
                 numberOfTilesOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
@@ -68,6 +74,9 @@ const ticTacToeWinner: EndgameChecker<Board> = {
         const increment = positiveSlope ? row - 1 : row + 1;
         for (let i = begin; i < max; i += increment) {
             const tile = board.tileList[i];
+            if (!tile) {
+                throw new Error(`Tile: ${tile} is undefined`);
+            }
             if (!tile.isTileOccupied) {
                 return false;
             }
@@ -103,6 +112,9 @@ const connectFourWinner: EndgameChecker<Board> = {
             begin = 0;
         for (let i = begin; i < numberOfTiles; i++) {
             const tile = board.tileList[i];
+            if (!tile) {
+                throw new Error(`Tile: ${tile} is undefined`);
+            }
             if (tile.isTileOccupied && tile.getPiece) {
                 numTileOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
@@ -128,6 +140,9 @@ const connectFourWinner: EndgameChecker<Board> = {
             max = column * 5;
         for (let i = begin; i <= max; i += column) {
             const tile = board.tileList[i];
+            if (!tile) {
+                throw new Error(`Tile: ${tile} is undefined`);
+            }
             if (tile.isTileOccupied && tile.getPiece) {
                 numTileOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
@@ -159,6 +174,9 @@ const connectFourWinner: EndgameChecker<Board> = {
         let goEdge = false;
         for (let i = begin; i <= max; i += increment) {
             const tile = board.tileList[i];
+            if (!tile) {
+                throw new Error(`Tile: ${tile} is undefined`);
+            }
             if (tile.isTileOccupied && tile.getPiece) {
                 numTileOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague

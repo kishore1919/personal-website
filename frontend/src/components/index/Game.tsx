@@ -62,6 +62,9 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => {
                 {Array.from({ length: 7 }).map((_, i) => {
                     const index = tileNumber * 7 + i;
                     const tile = board.tileList[index];
+                    if (!tile) {
+                        throw new Error(`Tile: ${tile} is undefined`);
+                    }
                     if (tile.isTileOccupied && tile.getPiece) {
                         const color = isFirstPlayer(tile.getPiece.league)
                             ? primaryTheme.blackPiece
@@ -126,6 +129,9 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => {
                 }).map((_, i) => {
                     const index = tileNumber * 3 + i;
                     const tile = board.tileList[index];
+                    if (!tile) {
+                        throw new Error(`Tile: ${tile} is undefined`);
+                    }
                     if (tile.isTileOccupied && tile.getPiece) {
                         const word = isFirstPlayer(tile.getPiece.league)
                             ? 'X'
@@ -285,29 +291,23 @@ type ConnectFourState = BoardState & {
     readonly type: 'connectFour';
 };
 
-type GameState = {
-    readonly connectFour: ConnectFourState;
-    readonly ticTacToe: TicTacToeState;
-    readonly gameType: GameType;
-};
-
 const Game = (): JSX.Element => {
-    const [state, setState] = React.useState<GameState>({
+    const [state, setState] = React.useState({
         connectFour: {
             type: 'connectFour',
             firstPlayerAI: false,
             secondPlayerAI: false,
             board: createStandardConnectFourBoard(),
             gameMessage: 'Game Running...',
-        },
+        } as ConnectFourState,
         ticTacToe: {
             type: 'ticTacToe',
             firstPlayerAI: false,
             secondPlayerAI: false,
             board: createStandardTicTacToeBoard(),
             gameMessage: 'Game Running...',
-        },
-        gameType: null,
+        } as TicTacToeState,
+        gameType: null as GameType | null,
     });
 
     const { connectFour, gameType, ticTacToe } = state;
@@ -360,12 +360,12 @@ const Game = (): JSX.Element => {
         readonly gameState: TicTacToeState | ConnectFourState;
     }) => {
         const { type, board } = gameState;
-        if (
-            checkmate(board) ||
-            stalemate(board) ||
-            board.tileList[tileNumber].isTileOccupied
-        ) {
-            return;
+        if (checkmate(board) || stalemate(board)) {
+            const tile = board.tileList[tileNumber];
+            if (tile) {
+                return;
+            }
+            throw new Error(`Tile: ${tile} is undefined`);
         }
         const newBoard = board.currentPlayer.makeMoveFromTileNumber(
             tileNumber,

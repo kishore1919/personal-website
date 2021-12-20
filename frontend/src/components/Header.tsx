@@ -68,24 +68,26 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
         width: window.innerWidth,
     });
 
+    const handlePageOffset = () =>
+        setState((prevState) => ({
+            ...prevState,
+            scroll: window.pageYOffset > 100,
+        }));
+
     React.useEffect(() => {
-        const handlePageOffset = () =>
-            setState((prevState) => ({
-                ...prevState,
-                scroll: window.pageYOffset > 100,
-            }));
         window.addEventListener('scroll', handlePageOffset);
         return () => {
             window.removeEventListener('scroll', handlePageOffset);
         };
     }, []);
 
+    const handleResizeWindow = () =>
+        setState((prevState) => ({
+            ...prevState,
+            width: window.innerWidth,
+        }));
+
     React.useEffect(() => {
-        const handleResizeWindow = () =>
-            setState((prevState) => ({
-                ...prevState,
-                width: window.innerWidth,
-            }));
         window.addEventListener('resize', handleResizeWindow);
         return () => {
             window.removeEventListener('resize', handleResizeWindow);

@@ -29,6 +29,9 @@ const createConnectFourMoves = (
             break;
         }
         const tile = tileList[i];
+        if (!tile) {
+            throw new Error(`Tile: ${tile} is undefined`);
+        }
         if (!tile.isTileOccupied) {
             emptyRows.push(tile);
             min++;

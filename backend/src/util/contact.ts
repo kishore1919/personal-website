@@ -1,30 +1,54 @@
-const regexEmail =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import { parseAsString } from 'parse-dont-validate';
+import nodemailer from 'nodemailer';
+import { contactInfo } from '../config/config';
 
-const checkForBlankString = (string: string) =>
-    string.split('').filter((char) => ' ' === char).length === string.length;
-const checkForEmptyString = (string: string) => string === '';
-const sufficientMessageLength = (message: string) => message.length > 10;
-const validateEmail = (email: string) => regexEmail.test(email);
+declare global {
+    interface String {
+        isEmpty: () => boolean;
+        isBlank: () => boolean;
+        hasSufficientLength: (length: number) => boolean;
+    }
+}
+
+String.prototype.isBlank = function () {
+    return this.split('').filter((char) => ' ' === char).length === this.length;
+};
+
+String.prototype.isEmpty = function () {
+    return this === '';
+};
+
+String.prototype.hasSufficientLength = function (length: number) {
+    return (
+        this.split('').filter((char) => !(char.isBlank() || char.isEmpty()))
+            .length >= length
+    );
+};
+
+const validateEmail = (email: string) =>
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+    );
 
 type EmptyString = '';
 
-export type Name = {
+type Name = {
     readonly value: string;
     readonly error:
         | `*Please do not leave name section ${'empty' | 'blank'}*`
         | EmptyString;
 };
 
-export type Email = {
+type Email = {
     readonly value: string;
     readonly error:
         | '*Please do not leave email section empty*'
+        | '*Please do not leave email section blank*'
         | '*Please enter valid email format*'
         | EmptyString;
 };
 
-export type Message = {
+type Message = {
     readonly value: string;
     readonly error:
         | `*Please do not leave message section ${'empty' | 'blank'}*`
@@ -32,7 +56,7 @@ export type Message = {
         | EmptyString;
 };
 
-export type Data =
+type Data =
     | {
           readonly type: 'succeed' | 'input';
           readonly message: Message;
@@ -41,81 +65,136 @@ export type Data =
       }
     | {
           readonly type: 'failed';
+          readonly error: string;
       };
 
-export const getName = (value: string): Name => {
-    if (checkForEmptyString(value)) {
-        return {
-            value,
-            error: '*Please do not leave name section empty*',
-        };
-    } else if (checkForBlankString(value)) {
-        return {
-            value,
-            error: '*Please do not leave name section blank*',
-        };
-    }
-    return {
-        value,
-        error: '',
-    };
-};
+const getName = (value: string): Name => ({
+    value,
+    error: value.isEmpty()
+        ? '*Please do not leave name section empty*'
+        : value.isBlank()
+        ? '*Please do not leave name section blank*'
+        : '',
+});
 
-export const getEmail = (value: string): Email => {
-    if (checkForEmptyString(value)) {
-        return {
-            value,
-            error: '*Please do not leave email section empty*',
-        };
-    } else if (validateEmail(value)) {
-        return {
-            value,
-            error: '',
-        };
-    }
-    return {
-        value,
-        error: '*Please enter valid email format*',
-    };
-};
+const getEmail = (value: string): Email => ({
+    value,
+    error: value.isEmpty()
+        ? '*Please do not leave email section empty*'
+        : value.isBlank()
+        ? '*Please do not leave email section blank*'
+        : validateEmail(value)
+        ? ''
+        : '*Please enter valid email format*',
+});
 
-export const getMessage = (value: string): Message => {
-    if (checkForEmptyString(value)) {
-        return {
-            value,
-            error: '*Please do not leave message section empty*',
-        };
-    } else if (checkForBlankString(value)) {
-        return {
-            value,
-            error: '*Please do not leave message section blank*',
-        };
-    } else if (sufficientMessageLength(value)) {
-        return {
-            value,
-            error: '',
-        };
-    }
-    return {
-        value,
-        error: '*At least 10 words are required*',
-    };
-};
+const getMessage = (value: string): Message => ({
+    value,
+    error: value.isEmpty()
+        ? '*Please do not leave message section empty*'
+        : value.isBlank()
+        ? '*Please do not leave message section blank*'
+        : value.hasSufficientLength(10)
+        ? ''
+        : '*At least 10 words are required*',
+});
 
-export const allValueValid = (
+const allValueValid = (
     { value: name, error: nameErr }: Name,
     { value: email, error: emailErr }: Email,
     { value: message, error: messageErr }: Message
 ): boolean => {
     const noError =
-        checkForEmptyString(nameErr) &&
-        checkForEmptyString(emailErr) &&
-        checkForEmptyString(messageErr);
-    const nameInvalid = checkForBlankString(name) || checkForEmptyString(name);
+        nameErr.isEmpty() && emailErr.isEmpty() && messageErr.isEmpty();
+    const nameInvalid = name.isBlank() || name.isEmpty();
     const messageInvalid =
-        checkForBlankString(message) ||
-        checkForEmptyString(message) ||
-        !sufficientMessageLength(message);
+        message.isBlank() ||
+        message.isEmpty() ||
+        !message.hasSufficientLength(10);
     const inputValid = messageInvalid && validateEmail(email) && !nameInvalid;
     return noError && !inputValid;
 };
+
+export default ({
+    name,
+    email,
+    message,
+}: {
+    readonly name: unknown;
+    readonly email: unknown;
+    readonly message: unknown;
+}): Promise<Data> =>
+    new Promise((resolve) => {
+        try {
+            const parsedName = getName(
+                parseAsString(name).orElseThrowError('name')
+            );
+            const parsedEmail = getEmail(
+                parseAsString(email).orElseThrowError('email')
+            );
+            const parsedMessage = getMessage(
+                parseAsString(message).orElseThrowError('message')
+            );
+            if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
+                const myEmail = contactInfo.email;
+                const options = {
+                    from: `${parsedName.value.trim()} <${myEmail}>`,
+                    to: `Gervin Fung Da Xuen <${myEmail}>`,
+                    subject: 'Personal Website Contact Form',
+                    text: `Hello, my name is ${parsedName.value.trim()}\n\nYou can reach me at ${
+                        parsedEmail.value
+                    }\n\nI would like to ${parsedMessage.value.trim()}`,
+                };
+                nodemailer
+                    .createTransport({
+                        host: 'smtp-mail.outlook.com',
+                        port: 587,
+                        secure: false,
+                        tls: {
+                            ciphers: 'SSLv3',
+                        },
+                        auth: {
+                            user: myEmail,
+                            pass: contactInfo.pass,
+                        },
+                    })
+                    .sendMail(options, (error) => {
+                        resolve(
+                            (error
+                                ? {
+                                      type: 'failed',
+                                      error: error.message,
+                                  }
+                                : {
+                                      type: 'succeed',
+                                      name: {
+                                          ...parsedName,
+                                          value: '',
+                                      },
+                                      email: {
+                                          ...parsedEmail,
+                                          value: '',
+                                      },
+                                      message: {
+                                          ...parsedMessage,
+                                          value: '',
+                                      },
+                                  }) as Data
+                        );
+                    });
+            } else {
+                resolve({
+                    type: 'input',
+                    name,
+                    email,
+                    message,
+                } as Data);
+            }
+        } catch (error) {
+            console.error(error);
+            resolve({
+                type: 'failed',
+                error: (error as Error).message,
+            } as Data);
+        }
+    });

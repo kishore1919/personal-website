@@ -37,8 +37,11 @@ const numberOfConsecutivePieceEval = (
 
     const vertical = getAllVerticalColumn(board);
     for (let k = 0; k < vertical.length; k++) {
-        const eLeagues = vertical[k],
-            maxRun = 3;
+        const eLeagues = vertical[k];
+        if (!eLeagues) {
+            throw new Error(`ELeagues: ${eLeagues} is undefined`);
+        }
+        const maxRun = 3;
         let currentTile = 0,
             emptyTile = 0,
             enemyTile = 0;
@@ -77,8 +80,11 @@ const numberOfConsecutivePieceEval = (
 
     const horizontal = getAllHorizontalRow(board);
     for (let k = 0; k < horizontal.length; k++) {
-        const eLeagues = horizontal[k],
-            maxRun = 4;
+        const eLeagues = horizontal[k];
+        if (!eLeagues) {
+            throw new Error(`ELeagues: ${eLeagues} is undefined`);
+        }
+        const maxRun = 4;
         let begin = 0,
             max = 3,
             currentTile = 0,
@@ -118,6 +124,9 @@ const numberOfConsecutivePieceEval = (
     const positiveSlope = getPositiveSlopeRow(board);
     for (let k = 0; k < positiveSlope.length; k++) {
         const eLeagues = positiveSlope[k];
+        if (!eLeagues) {
+            throw new Error(`ELeagues: ${eLeagues} is undefined`);
+        }
         let begin = 0,
             max = 3,
             currentTile = 0,
@@ -158,6 +167,9 @@ const numberOfConsecutivePieceEval = (
     const negativeSlope = getNegativeSlopeRow(board);
     for (let k = 0; k < negativeSlope.length; k++) {
         const eLeagues = negativeSlope[k];
+        if (!eLeagues) {
+            throw new Error(`ELeagues: ${eLeagues} is undefined`);
+        }
         let begin = 0,
             max = 3,
             currentTile = 0,
@@ -250,6 +262,9 @@ const getAllHorizontalRow = (
     let leagues: Array<League | null> = [];
     for (let i = begin; i < connectFour.numberOfTiles; i++) {
         const tile = board.tileList[i];
+        if (!tile) {
+            throw new Error(`Tile: ${tile} is undefined`);
+        }
         leagues.push(
             tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );
@@ -272,6 +287,9 @@ const getAllVerticalColumn = (
     let leagues: Array<League | null> = [];
     for (let i = begin; i <= max; i += connectFour.column) {
         const tile = board.tileList[i];
+        if (!tile) {
+            throw new Error(`Tile: ${tile} is undefined`);
+        }
         leagues.push(
             tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );
@@ -300,6 +318,9 @@ const getPositiveSlopeRow = (
         leagues: Array<League | null> = [];
     for (let i = begin; i <= max; i += increment) {
         const tile = board.tileList[i];
+        if (!tile) {
+            throw new Error(`Tile: ${tile} is undefined`);
+        }
         leagues.push(
             tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );
@@ -334,6 +355,9 @@ const getNegativeSlopeRow = (
         leagues: Array<League | null> = [];
     for (let i = begin; i <= max; i += increment) {
         const tile = board.tileList[i];
+        if (!tile) {
+            throw new Error(`Tile: ${tile} is undefined`);
+        }
         leagues.push(
             tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
         );

@@ -185,7 +185,10 @@ const createConnectFourMinimax = (board: Board): ConnectFourMinimax => {
                     bestMove = move;
                 }
             }
-            return currentPlayer.makeMove(bestMove, board);
+            if (bestMove) {
+                return currentPlayer.makeMove(bestMove, board);
+            }
+            throw new Error(`Best move : ${bestMove} is undefined`);
         },
         max(
             board: Board,
@@ -274,9 +277,13 @@ const generateSortedMoves = (
 ): ReadonlyArray<Move> =>
     legalMoves
         .map((move) => {
+            const value = positionEval[move.piece.index];
+            if (value === undefined) {
+                throw new Error(`Value of ${value} is undefined`);
+            }
             return {
                 key: move,
-                value: positionEval[move.piece.index],
+                value,
             };
         })
         .sort((a, b) => b.value - a.value)

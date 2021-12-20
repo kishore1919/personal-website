@@ -1,11 +1,13 @@
-export interface PortfolioData {
-    readonly path: string;
-    readonly caption: string;
-}
+export type PortfolioData = {
+    readonly name: string;
+    readonly description: string;
+    readonly language: string;
+    readonly url: string;
+};
 
-export interface Data {
+export type Data = {
     readonly numberOfPagesQueried: number;
-    readonly portfolioLanguageQueried: ReadonlyArray<string>;
-    readonly portfolioForPagingQueried: ReadonlyArray<PortfolioData>;
+    readonly portfolioLanguages: ReadonlyArray<string>;
+    readonly portfolioPaginated: ReadonlyArray<PortfolioData>;
     readonly selectedLanguage: string;
-}
+};

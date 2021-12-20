@@ -9,10 +9,11 @@
     "scripts": {
         "start": "node build/index.js",
         "start-dev": "yarn build-dev && yarn start",
-        "build-dev": "yarn add-js-extension && rm -rf build && tsc && yarn remove-js-extension",
-        "add-js-extension": "ts-add-js-extension --src --add",
-        "remove-js-extension": "ts-add-js-extension --src --remove",
-        "build": "yarn build-dev && yarn cleanup",
+        "start-watch": "nodemon",
+        "add-js-extension": "ts-add-js-extension add --dir=build",
+        "add-js-extension-prod": "ts-add-js-extension add --dir=build --keepComments=true --minify true",
+        "build-dev": "rm -rf build && tsc && yarn add-js-extension",
+        "build": "yarn build-dev && yarn add-js-extension-prod && yarn cleanup",
         "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
         "remove-devDep": "yarn remove @types/express @types/node @types/nodemailer ts-add-js-extension typescript",
         "cleanup": "echo cleaning up backend && concurrently \"rm -rf src\" \"yarn remove-devDep\""
@@ -21,10 +22,15 @@
         "@types/express": "^4.17.13",
         "@types/node": "^16.11.6",
         "@types/nodemailer": "^6.4.4",
+        "dotenv": "^10.0.0",
         "express": "^4.16.3",
         "node-fetch": "^3.0.0",
         "nodemailer": "^6.6.1",
-        "typescript": "^4.5.2",
-        "ts-add-js-extension": "^0.0.0"
+        "parse-dont-validate": "^0.0.2",
+        "ts-add-js-extension": "^0.0.5",
+        "typescript": "^4.5.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.15"
     }
 }

@@ -12,15 +12,6 @@ interface PortfolioImageBackgroundProps {
     readonly backgroundImage: string;
 }
 
-type PortfolioState = {
-    readonly portfolio: Data | undefined;
-    readonly queryLanguage: string;
-    readonly url: string;
-    readonly initialLoad: boolean;
-    readonly show: boolean;
-    readonly width: number;
-};
-
 const Portfolio = (): JSX.Element => {
     const history = useHistory();
     const location = useLocation();
@@ -38,9 +29,9 @@ const Portfolio = (): JSX.Element => {
         return portfolioURL;
     };
 
-    const [state, setState] = React.useState<PortfolioState>({
-        portfolio: undefined,
-        queryLanguage: 'Select a language',
+    const [state, setState] = React.useState({
+        portfolio: undefined as Data | undefined,
+        queryLanguage: 'All' as string,
         url: processQuery(location.search),
         initialLoad: true,
         show: false,
@@ -81,12 +72,13 @@ const Portfolio = (): JSX.Element => {
         });
     }, [history]);
 
+    const handleResizeWindow = () =>
+        setState((prevState) => ({
+            ...prevState,
+            width: window.innerWidth,
+        }));
+
     React.useEffect(() => {
-        const handleResizeWindow = () =>
-            setState((prevState) => ({
-                ...prevState,
-                width: window.innerWidth,
-            }));
         window.addEventListener('resize', handleResizeWindow);
         return () => {
             window.removeEventListener('resize', handleResizeWindow);
@@ -114,32 +106,25 @@ const Portfolio = (): JSX.Element => {
         return (
             <Container>
                 <PortfolioContainer>
-                    {portfolio.portfolioForPagingQueried.map(
-                        ({ path, caption }) => {
-                            const backgroundPath = `asset/images/portfolioBackground/${path}.webp`;
-                            const logoPath = `asset/images/logo/${path}.webp`;
-
-                            return (
-                                <PortfolioItemContainer key={path}>
-                                    <PortfolioImageBackground
-                                        backgroundImage={backgroundPath}
-                                    />
-                                    <ImageTextContainer>
-                                        <div>
-                                            <PortfolioLink
-                                                href={`https://github.com/GervinFung/${path}`}
-                                            >
-                                                <PortfolioLogo
-                                                    src={logoPath}
-                                                    alt={`${path}.webp`}
-                                                />
-                                            </PortfolioLink>
-                                        </div>
-                                        <Caption>{caption}</Caption>
-                                    </ImageTextContainer>
-                                </PortfolioItemContainer>
-                            );
-                        }
+                    {portfolio.portfolioPaginated.map(
+                        ({ name, description, url }) => (
+                            <PortfolioItemContainer key={name}>
+                                <PortfolioImageBackground
+                                    backgroundImage={`asset/images/portfolioBackground/${name}.webp`}
+                                />
+                                <ImageTextContainer>
+                                    <div>
+                                        <PortfolioLink href={url}>
+                                            <PortfolioLogo
+                                                src={`asset/images/logo/${name}.webp`}
+                                                alt={`${name}.webp`}
+                                            />
+                                        </PortfolioLink>
+                                    </div>
+                                    <Caption>{description}</Caption>
+                                </ImageTextContainer>
+                            </PortfolioItemContainer>
+                        )
                     )}
                 </PortfolioContainer>
             </Container>
@@ -236,7 +221,7 @@ const Portfolio = (): JSX.Element => {
         if (portfolio === undefined) {
             return null;
         }
-        const languages = portfolio.portfolioLanguageQueried;
+        const languages = portfolio.portfolioLanguages;
 
         return (
             <LanguageChooser>

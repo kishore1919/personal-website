@@ -1,7 +1,13 @@
 {
+    "workbench.colorTheme": "Monokai",
+    "workbench.iconTheme": "material-icon-theme",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "prettier.requireConfig": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "terminal.integrated.shell.linux": "/usr/bin/fish",
     "prettier.configPath": ".prettierrc.json",
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.tabSize": 4,
     "editor.formatOnSave": true,
     "[typescript]": {
@@ -19,5 +25,7 @@
     "errorLens.infoTextColor": "rgba(0,200,0,0.4)",
     "errorLens.warningColor": "rgb(0,0,0,0)",
     "errorLens.warningTextColor": "rgba(180,180,0,0.4)",
-    "editor.fontSize": 12
+    "editor.fontLigatures": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs": "active"
 }

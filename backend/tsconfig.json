@@ -27,7 +27,8 @@
 
         /* Advanced Options */
         "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
-        "resolveJsonModule": false /* Allow import of json file. */
+        "resolveJsonModule": false /* Allow import of json file. */,
+        "noUncheckedIndexedAccess": true
         // "emitDeclarationOnly": true
     },
     // Most ts-node options can be specified here using their programmatic names.

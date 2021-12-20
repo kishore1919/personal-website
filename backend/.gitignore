@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+.env
+
 # testing local npm package
 /.yalc
 /yalc.lock

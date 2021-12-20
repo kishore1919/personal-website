@@ -6,6 +6,7 @@
     "scripts": {
         "start": "cd backend && yarn start",
         "start-dev": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-dev\"",
+        "start-dev-watch": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-watch\"",
         "install-dev": "yarn && yarn install-both",
         "install-both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
         "build-dev-backend": "cd backend && yarn build-dev",
@@ -20,5 +21,6 @@
     },
     "devDependencies": {
         "concurrently": "^6.2.2"
-    }
+    },
+    "dependencies": {}
 }

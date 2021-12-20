@@ -10,14 +10,21 @@ const TIME_TO_CHARGE = 10 + DELAY;
 const Error = () => {
     const history = useHistory();
 
-    const [countDown, setCountDown] = React.useState(TIME_TO_CHARGE - DELAY);
+    const [state, setState] = React.useState({
+        countDown: TIME_TO_CHARGE - DELAY,
+    });
+
+    const { countDown } = state;
 
     React.useEffect(() => {
         if (countDown === 0) {
             history.push('/');
         }
         setTimeout(
-            () => setCountDown((prevCountDown) => prevCountDown - 1),
+            () =>
+                setState((prev) => ({
+                    countDown: prev.countDown - 1,
+                })),
             1000
         );
     }, [countDown]);
