@@ -49,11 +49,12 @@ const numberOfConsecutivePieceEval = (
             max = 3,
             i = 0;
         for (let j = begin; j <= max; j++) {
-            if (eLeagues[j] === currentLeague) {
+            const eLeague = eLeagues[j];
+            if (eLeague === currentLeague) {
                 currentTile++;
-            } else if (eLeagues[j] === enemyLeague) {
+            } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeagues[j] === null) {
+            } else if (eLeague === null) {
                 emptyTile++;
             }
 
@@ -92,11 +93,12 @@ const numberOfConsecutivePieceEval = (
             enemyTile = 0,
             i = 0;
         for (let j = begin; j <= max; j++) {
-            if (eLeagues[j] === currentLeague) {
+            const eLeague = eLeagues[j];
+            if (eLeague === currentLeague) {
                 currentTile++;
-            } else if (eLeagues[j] === enemyLeague) {
+            } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeagues[j] === null) {
+            } else if (eLeague === null) {
                 emptyTile++;
             }
 
@@ -135,11 +137,12 @@ const numberOfConsecutivePieceEval = (
             i = 0;
         const maxRun = eLeagues.length - connectFour.numberOfTilesToWin;
         for (let j = begin; j <= max; j++) {
-            if (eLeagues[j] === currentLeague) {
+            const eLeague = eLeagues[j];
+            if (eLeague === currentLeague) {
                 currentTile++;
-            } else if (eLeagues[j] === enemyLeague) {
+            } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeagues[j] === null) {
+            } else if (eLeague === null) {
                 emptyTile++;
             }
 
@@ -178,11 +181,12 @@ const numberOfConsecutivePieceEval = (
             i = 0;
         const maxRun = eLeagues.length - connectFour.numberOfTilesToWin;
         for (let j = begin; j <= max; j++) {
-            if (eLeagues[j] === currentLeague) {
+            const eLeague = eLeagues[j];
+            if (eLeague === currentLeague) {
                 currentTile++;
-            } else if (eLeagues[j] === enemyLeague) {
+            } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeagues[j] === null) {
+            } else if (eLeague === null) {
                 emptyTile++;
             }
 

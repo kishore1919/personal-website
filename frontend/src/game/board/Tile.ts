@@ -12,7 +12,7 @@ export const createTile = (index: number, piece: Piece | null): Tile => {
         index: index,
         isTileOccupied: !!piece,
         getPiece: piece,
-        stringFormat: piece === null ? '-' : piece.league.toString(),
+        stringFormat: !piece ? '-' : piece.league.toString(),
     };
 };
 

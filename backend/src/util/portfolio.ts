@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { parseAsNumber, parseAsString } from 'parse-dont-validate';
+import { parseAsReadonlyArray, parseAsString } from 'parse-dont-validate';
 
 type PortfolioData = {
     readonly name: string;
@@ -8,22 +8,17 @@ type PortfolioData = {
     readonly url: string;
 };
 
-type Data = {
-    readonly numberOfPagesQueried: number;
-    readonly portfolioLanguages: ReadonlyArray<string>;
-    readonly portfolioPaginated: ReadonlyArray<PortfolioData>;
-    readonly selectedLanguage: string;
-};
-
-const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> => {
-    const repositories = await (
-        await fetch('https://api.github.com/users/GervinFung/repos?per_page=50')
-    ).json();
-    if (Array.isArray(repositories)) {
-        return repositories.flatMap((repo) => {
+const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
+    parseAsReadonlyArray(
+        await (
+            await fetch(
+                'https://api.github.com/users/GervinFung/repos?per_page=50'
+            )
+        ).json(),
+        (repo) => {
             const { name, language, html_url, description } = repo;
-            const parsedName = parseAsString(name).orElseThrowError('name');
-            const repoName = [
+            const parsedName = parseAsString(name).orElseThrowDefault('name');
+            return ![
                 'LibGDX-Chess-Game',
                 'MinimalTicTacToe',
                 'TextEditorFX',
@@ -36,81 +31,73 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> => {
                 'Room',
                 'KnapsackProblem',
                 'SimpleParallelDispatcher',
-            ].find((portfolioName) => parsedName === portfolioName);
-            if (repoName) {
-                return [
-                    {
-                        name: parsedName,
-                        language:
-                            parseAsString(language).orElseThrowError(
-                                'language'
-                            ),
-                        description:
-                            parseAsString(description).orElseThrowError(
-                                'description'
-                            ),
-                        url: parseAsString(html_url).orElseThrowError(
-                            'html_url'
-                        ),
-                    },
-                ];
-            }
-            return [];
-        });
-    }
-    throw new Error('Response returned from Github User API is not array type');
-};
+            ].find((portfolioName) => parsedName === portfolioName)
+                ? []
+                : [
+                      {
+                          name: parsedName,
+                          language:
+                              parseAsString(language).orElseThrowDefault(
+                                  'language'
+                              ),
+                          description:
+                              parseAsString(description).orElseThrowDefault(
+                                  'description'
+                              ),
+                          url: parseAsString(html_url).orElseThrowDefault(
+                              'html_url'
+                          ),
+                      },
+                  ];
+        }
+    )
+        .orElseThrowDefault('repositories')
+        .flat();
 
 const fetchGithubOrganization = async (): Promise<PortfolioData> => {
-    const repositories = await (
-        await fetch('https://api.github.com/orgs/P-YNPM/repos')
-    ).json();
-    if (Array.isArray(repositories)) {
-        const { language } = Array.from(
-            repositories
-                .reduce((prev: Map<string, number>, repo) => {
-                    const { language } = repo;
-                    const parsedLanguage =
-                        parseAsString(language).orElseThrowError('language');
-                    if (parsedLanguage) {
-                        const prevItem = prev.get(parsedLanguage);
-                        return prev.set(
-                            language,
-                            prevItem === undefined ? 1 : prevItem + 1
-                        );
-                    }
-                    return prev;
-                }, new Map<string, number>())
-                .entries()
-        ).reduce(
-            (prev, [language, count]) => {
-                return prev.count < count
-                    ? {
-                          language,
-                          count,
-                      }
-                    : prev;
-            },
-            {
-                language: '',
-                count: 0,
-            }
-        );
-        const organization: any = await (
-            await fetch('https://api.github.com/orgs/P-YNPM')
-        ).json();
-        const { login, description, html_url } = organization;
-        return {
-            name: parseAsString(login).orElseThrowError('login'),
-            language,
-            description:
-                parseAsString(description).orElseThrowError('description'),
-            url: parseAsString(html_url).orElseThrowError('html_url'),
-        };
-    }
-    throw new Error(
-        'Response returned from Github Organization API is not array type'
+    const { language } = Array.from(
+        parseAsReadonlyArray(
+            await (
+                await fetch('https://api.github.com/orgs/P-YNPM/repos')
+            ).json(),
+            (repo) =>
+                parseAsString(repo.language).orElseThrowDefault('language')
+        )
+            .orElseThrowDefault('repositories')
+            .reduce((prev: Map<string, number>, language) => {
+                if (language) {
+                    const prevItem = prev.get(language);
+                    return prev.set(
+                        language,
+                        prevItem === undefined ? 1 : prevItem + 1
+                    );
+                }
+                return prev;
+            }, new Map<string, number>())
+    ).reduce(
+        (prev, [language, count]) =>
+            prev.count < count
+                ? {
+                      language,
+                      count,
+                  }
+                : prev,
+        {
+            language: '' as string,
+            count: 0 as number,
+        } as const
     );
+    const organization: any = await (
+        await fetch('https://api.github.com/orgs/P-YNPM')
+    ).json();
+    const { login, description, html_url } = organization;
+    return {
+        name: parseAsString(login).orElseThrowDefault('login'),
+        language,
+        description:
+            parseAsString(description).orElseThrowDefault('description'),
+        url: parseAsString(html_url).orElseThrowDefault('html_url'),
+    };
 };
 
 const portfolioLanguagesList = (
@@ -132,7 +119,7 @@ const parsePageQuery = (
     page: string,
     numberOfPortfolioPerPage: number
 ): number => {
-    const parsedPage = Number.parseInt(page, 10);
+    const parsedPage = parseInt(page, 10);
     return parsedPage >= 0 ? parsedPage * numberOfPortfolioPerPage : 0;
 };
 
@@ -163,9 +150,14 @@ const portfolioData = (await fetchGithubUser()).concat(
 );
 
 export const getSpecifiedResponse = (
-    page: number | string,
+    page: string | number,
     language: string
-): Data => {
+): {
+    readonly numberOfPagesQueried: number;
+    readonly portfolioLanguages: ReadonlyArray<string>;
+    readonly portfolioPaginated: ReadonlyArray<PortfolioData>;
+    readonly selectedLanguage: string;
+} => {
     const numberOfPortfolioPerPage = 9;
 
     const selectedLanguage = findLanguageQueried(portfolioData, language);
@@ -181,9 +173,9 @@ export const getSpecifiedResponse = (
         portfolioLanguages: portfolioLanguagesList(portfolioData),
         portfolioPaginated: paginatePortfolio(
             portfolioQueried,
-            parseAsNumber(page, 'PositiveInteger').orElse(
-                parsePageQuery(page as string, numberOfPortfolioPerPage)
-            )
+            typeof page === 'number'
+                ? page
+                : parsePageQuery(page, numberOfPortfolioPerPage)
         ),
         selectedLanguage,
     };

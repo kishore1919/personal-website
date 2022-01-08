@@ -8,13 +8,8 @@ import {
 import { checkmate, stalemate } from '../../game/endgame/EndgameChecker';
 import { minimaxMakeMove } from '../../game/minimax/Minimax';
 import { isFirstPlayer } from '../../game/piece/League';
-import { primaryTheme } from '../../util/theme/colorTheme';
 
 type GameType = 0 | 1 | null;
-type ColorType =
-    | typeof primaryTheme.blackPiece
-    | typeof primaryTheme.redPiece
-    | 'transparent';
 type GeneralMessage =
     | 'Game Started...'
     | 'Game Running...'
@@ -23,15 +18,13 @@ type GeneralMessage =
 type TicTacToeMessage = 'O Has Won!' | 'X Has Won!' | GeneralMessage;
 type ConnectFourMessage = 'Black Has Won!' | 'Red Has Won!' | GeneralMessage;
 
-interface GameOptionsProps {
-    readonly setGameToConnectFour: () => void;
-    readonly setGameToTicTacToe: () => void;
-}
-
 const GameOptions = ({
     setGameToConnectFour,
     setGameToTicTacToe,
-}: GameOptionsProps) => (
+}: {
+    readonly setGameToConnectFour: () => void;
+    readonly setGameToTicTacToe: () => void;
+}) => (
     <div>
         <ConnectFourGameOptionContainer onClick={setGameToConnectFour}>
             <GameOption>Connect4</GameOption>
@@ -47,149 +40,78 @@ interface GameTileListener {
     readonly board: Board;
 }
 
-interface TileNumber {
-    readonly tileNumber: number;
-}
-
 interface ConnectFourTileProps {
-    readonly color: ColorType;
+    readonly transparent: boolean;
+    readonly isFirstPlayer: boolean;
 }
 
-const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => {
-    const CreateColumns = ({ tileNumber }: TileNumber): JSX.Element => {
-        const Columns = (): JSX.Element => (
+const ConnectFour = ({ updateBoard, board }: GameTileListener): JSX.Element => (
+    <tbody>
+        {Array.from({
+            length: 6,
+        }).map((_, tileNumber) => (
             <>
-                {Array.from({ length: 7 }).map((_, i) => {
-                    const index = tileNumber * 7 + i;
-                    const tile = board.tileList[index];
-                    if (!tile) {
-                        throw new Error(`Tile: ${tile} is undefined`);
-                    }
-                    if (tile.isTileOccupied && tile.getPiece) {
-                        const color = isFirstPlayer(tile.getPiece.league)
-                            ? primaryTheme.blackPiece
-                            : primaryTheme.redPiece;
+                <tr key={`${tileNumber}${tileNumber}`}>
+                    {Array.from({ length: 7 }).map((_, i) => {
+                        const index = tileNumber * 7 + i;
+                        const tile = board.tileList[index];
+                        if (!tile) {
+                            throw new Error(`Tile: ${tile} is undefined`);
+                        }
                         return (
                             <ConnectFourTile
                                 key={index}
                                 onClick={() => updateBoard(index)}
-                                color={color}
+                                transparent={!tile.isTileOccupied}
+                                isFirstPlayer={Boolean(
+                                    tile.isTileOccupied &&
+                                        tile.getPiece &&
+                                        isFirstPlayer(tile.getPiece.league)
+                                )}
                             />
                         );
-                    }
-                    return (
-                        <ConnectFourTile
-                            key={index}
-                            onClick={() => updateBoard(index)}
-                            color="transparent"
-                        />
-                    );
-                })}
-            </>
-        );
-        return (
-            <>
-                <tr>
-                    <Columns />
+                    })}
                 </tr>
                 <tr />
             </>
-        );
-    };
+        ))}
+    </tbody>
+);
 
-    const CreateRows = (): JSX.Element => {
-        const Rows = (): JSX.Element => (
+const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => (
+    <tbody>
+        {Array.from({
+            length: 3,
+        }).map((_, tileNumber) => (
             <>
-                {Array.from({
-                    length: 6,
-                }).map((_, index) => (
-                    <CreateColumns
-                        key={`${index}${index}`}
-                        tileNumber={index}
-                    />
-                ))}
-            </>
-        );
-        return (
-            <tbody>
-                <Rows />
-            </tbody>
-        );
-    };
-
-    return <CreateRows />;
-};
-
-const TicTacToe = ({ updateBoard, board }: GameTileListener): JSX.Element => {
-    const CreateColumns = ({ tileNumber }: TileNumber): JSX.Element => {
-        const Columns = (): JSX.Element => (
-            <>
-                {Array.from({
-                    length: 3,
-                }).map((_, i) => {
-                    const index = tileNumber * 3 + i;
-                    const tile = board.tileList[index];
-                    if (!tile) {
-                        throw new Error(`Tile: ${tile} is undefined`);
-                    }
-                    if (tile.isTileOccupied && tile.getPiece) {
-                        const word = isFirstPlayer(tile.getPiece.league)
-                            ? 'X'
-                            : 'O';
+                <tr key={tileNumber * tileNumber}>
+                    {Array.from({
+                        length: 3,
+                    }).map((_, i) => {
+                        const index = tileNumber * 3 + i;
+                        const tile = board.tileList[index];
+                        if (!tile) {
+                            throw new Error(`Tile: ${tile} is undefined`);
+                        }
                         return (
                             <TicTacToeTile
                                 key={index}
                                 onClick={() => updateBoard(index)}
                             >
-                                {word}
+                                {tile.isTileOccupied && tile.getPiece
+                                    ? isFirstPlayer(tile.getPiece.league)
+                                        ? 'X'
+                                        : 'O'
+                                    : ''}
                             </TicTacToeTile>
                         );
-                    }
-                    return (
-                        <TicTacToeTile
-                            key={index}
-                            onClick={() => updateBoard(index)}
-                        />
-                    );
-                })}
-            </>
-        );
-        return (
-            <>
-                <tr key={tileNumber * tileNumber}>
-                    <Columns />
+                    })}
                 </tr>
                 <tr />
             </>
-        );
-    };
-
-    const CreateRows = (): JSX.Element => {
-        const Rows = (): JSX.Element => (
-            <>
-                {Array.from({
-                    length: 3,
-                }).map((_, index) => (
-                    <CreateColumns
-                        key={`${index}${index}`}
-                        tileNumber={index}
-                    />
-                ))}
-            </>
-        );
-        return (
-            <tbody>
-                <Rows />
-            </tbody>
-        );
-    };
-
-    return <CreateRows />;
-};
-
-interface GameTableProps {
-    readonly gameType: GameType;
-}
+        ))}
+    </tbody>
+);
 
 interface GameSectionProps extends GameTileListener {
     readonly secondPlayerLabel: 'Red' | 'O';
@@ -307,7 +229,7 @@ const Game = (): JSX.Element => {
             board: createStandardTicTacToeBoard(),
             gameMessage: 'Game Running...',
         } as TicTacToeState,
-        gameType: null as GameType | null,
+        gameType: null as GameType,
     });
 
     const { connectFour, gameType, ticTacToe } = state;
@@ -682,7 +604,7 @@ const BackButton = styled.button`
 `;
 
 const GameTable = styled.table`
-    border-spacing: ${({ gameType }: GameTableProps) =>
+    border-spacing: ${({ gameType }: { readonly gameType: GameType }) =>
         gameType === 1 ? '10px' : '0px'};
 `;
 
@@ -692,14 +614,18 @@ const ConnectFourTile = styled.td`
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    cursor: ${({ color }: ConnectFourTileProps) =>
-        color === 'transparent' ? 'cursor' : 'default'};
-    background: ${({ color }: ConnectFourTileProps) => color};
+    cursor: ${({ transparent }: ConnectFourTileProps) =>
+        transparent ? 'cursor' : 'default'};
+    background: ${({ transparent, isFirstPlayer }: ConnectFourTileProps) =>
+        transparent
+            ? 'transparent'
+            : ({ theme }) =>
+                  isFirstPlayer ? theme.blackPiece : theme.redPiece};
     &:hover {
-        background-color: ${({ color }: ConnectFourTileProps) =>
-            color === 'transparent'
+        background-color: ${({ transparent }: ConnectFourTileProps) =>
+            transparent
                 ? ({ theme }) => theme.theme.hoverColor
-                : color};
+                : 'transparent'};
     }
     @media (max-width: 506px) {
         width: 40px;

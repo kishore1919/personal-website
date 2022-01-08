@@ -6,23 +6,20 @@ import {
     FaHeadphones,
     FaDumbbell,
     FaBook,
-    FaMapMarkerAlt,
     FaEnvelope,
     FaPhone,
 } from 'react-icons/fa';
 import { TiSocialLinkedin, TiSocialFacebook } from 'react-icons/ti';
 import { keyConfig, isDarkResume } from '../../util/theme/colorTheme';
 
-type ResumeState = {
-    readonly path: `asset/files/resume/GervinFungDaXuenResume_UTAR_${
-        | 'dark'
-        | 'light'}.pdf`;
-};
-
 const ResumeLeft = () => {
     const { key } = keyConfig;
 
-    const [state, setState] = React.useState<ResumeState>();
+    const [state, setState] = React.useState<{
+        readonly path: `asset/files/resume/GervinFungDaXuenResume_UTAR_${
+            | 'dark'
+            | 'light'}.pdf`;
+    }>();
 
     const downloadResume = () =>
         setState(() => ({
@@ -64,15 +61,6 @@ const ResumeLeft = () => {
                 </SelfIntro>
 
                 <div>
-                    <ContactInfo>
-                        <div>
-                            <Address />
-                        </div>
-                        <MediumTextSpan>
-                            P.O Box 64 A308, Blok F Jalan Datuk Haji Yassin,
-                            Tenom, Sabah
-                        </MediumTextSpan>
-                    </ContactInfo>
                     <ContactInfo>
                         <div>
                             <Email />
@@ -267,10 +255,6 @@ const MediumTextParagraph = styled.p`
 const ResumeFAS = css`
     font-size: 1.35em !important;
     padding: 0 20px 0 0 !important;
-`;
-
-const Address = styled(FaMapMarkerAlt)`
-    ${ResumeFAS}
 `;
 
 const Email = styled(FaEnvelope)`

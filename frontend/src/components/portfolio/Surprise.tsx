@@ -7,43 +7,56 @@ const FullScreenContainer = React.lazy(() =>
         default: module.FullScreenContainer,
     }))
 );
+import SyncLoader from 'react-spinners/SyncLoader';
+import { primaryTheme } from '../../util/theme/colorTheme';
 
 interface SurpriseProps {
     readonly show: boolean;
     readonly closeMessage: () => void;
 }
 
-const Surprise = ({
-    show,
-    closeMessage,
-}: SurpriseProps): JSX.Element | null => {
-    if (show) {
-        return (
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <FullScreen>
-                        <CloseFullScreen color="black" close={closeMessage} />
-                        <SurpriseContent>
-                            <img
-                                src="asset/images/others/surprised.gif"
-                                alt="surprised.gif"
-                            />
-                            <HeaderMessage>WOW</HeaderMessage>
-                            <ParagraphMessage>
-                                You have seen my portfolio for more than 5
-                                seconds, Thank You!
-                            </ParagraphMessage>
-                        </SurpriseContent>
-                    </FullScreen>
-                </React.Suspense>
-            </ErrorBoundary>
-        );
-    }
-    return null;
-};
+const LoadingPortoflio = (): JSX.Element => (
+    <ErrorBoundary>
+        <React.Suspense fallback={<HashLoading />}>
+            <LoadingPortoflioFullScreen>
+                <SyncLoader
+                    loading={true}
+                    size={20}
+                    color={primaryTheme.theme.secondaryColor}
+                />
+            </LoadingPortoflioFullScreen>
+        </React.Suspense>
+    </ErrorBoundary>
+);
 
-const FullScreen = styled(FullScreenContainer)`
+const Surprise = ({ show, closeMessage }: SurpriseProps): JSX.Element | null =>
+    !show ? null : (
+        <ErrorBoundary>
+            <React.Suspense fallback={<HashLoading />}>
+                <SurpriseFullScreen>
+                    <CloseFullScreen color="black" close={closeMessage} />
+                    <SurpriseContent>
+                        <img
+                            src="asset/images/others/surprised.gif"
+                            alt="surprised.gif"
+                        />
+                        <HeaderMessage>WOW</HeaderMessage>
+                        <ParagraphMessage>
+                            You have seen my portfolio for more than 5 seconds,
+                            Thank You!
+                        </ParagraphMessage>
+                    </SurpriseContent>
+                </SurpriseFullScreen>
+            </React.Suspense>
+        </ErrorBoundary>
+    );
+
+const SurpriseFullScreen = styled(FullScreenContainer)`
     background-color: #fff44f;
+`;
+
+const LoadingPortoflioFullScreen = styled(FullScreenContainer)`
+    background-color: #00000066;
 `;
 
 const SurpriseContent = styled.div`
@@ -60,4 +73,4 @@ const ParagraphMessage = styled.p`
     font-size: 1.25em;
 `;
 
-export default Surprise;
+export { Surprise, LoadingPortoflio };

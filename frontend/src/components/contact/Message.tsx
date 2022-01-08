@@ -18,76 +18,66 @@ interface MessageProps {
 const FinalMessage = ({
     show,
     closeMessage,
-}: MessageProps): JSX.Element | null => {
-    if (show) {
-        return (
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <Background
-                        onClick={(
-                            event: React.MouseEvent<HTMLDivElement, MouseEvent>
-                        ) => {
-                            const { currentTarget, target } = event;
-                            if (currentTarget === target) {
-                                closeMessage();
-                            }
-                        }}
-                    >
-                        <FinalContent>
-                            <CloseFinal onClick={closeMessage}>
-                                &times;
-                            </CloseFinal>
-                            <FinalContentImage />
-                            <FinalContentParagraph>
-                                Your Message Has Been Successfully Sent!
-                            </FinalContentParagraph>
-                            <FinalContentParagraph>
-                                Thank You!
-                            </FinalContentParagraph>
-                        </FinalContent>
-                    </Background>
-                </React.Suspense>
-            </ErrorBoundary>
-        );
-    }
-    return null;
-};
+}: MessageProps): JSX.Element | null =>
+    !show ? null : (
+        <ErrorBoundary>
+            <React.Suspense fallback={<HashLoading />}>
+                <Background
+                    onClick={(
+                        event: React.MouseEvent<HTMLDivElement, MouseEvent>
+                    ) => {
+                        const { currentTarget, target } = event;
+                        if (currentTarget === target) {
+                            closeMessage();
+                        }
+                    }}
+                >
+                    <FinalContent>
+                        <CloseFinal onClick={closeMessage}>&times;</CloseFinal>
+                        <FinalContentImage />
+                        <FinalContentParagraph>
+                            Your Message Has Been Successfully Sent!
+                        </FinalContentParagraph>
+                        <FinalContentParagraph>
+                            Thank You!
+                        </FinalContentParagraph>
+                    </FinalContent>
+                </Background>
+            </React.Suspense>
+        </ErrorBoundary>
+    );
 
 const SendingMessage = ({
     show,
     closeMessage,
-}: MessageProps): JSX.Element | null => {
-    if (show) {
-        return (
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <Background
-                        onClick={(
-                            event: React.MouseEvent<HTMLDivElement, MouseEvent>
-                        ) => {
-                            const { currentTarget, target } = event;
-                            if (currentTarget === target) {
-                                closeMessage();
-                            }
-                        }}
-                    >
-                        <CloseFullScreen close={closeMessage} />
+}: MessageProps): JSX.Element | null =>
+    !show ? null : (
+        <ErrorBoundary>
+            <React.Suspense fallback={<HashLoading />}>
+                <Background
+                    onClick={(
+                        event: React.MouseEvent<HTMLDivElement, MouseEvent>
+                    ) => {
+                        const { currentTarget, target } = event;
+                        if (currentTarget === target) {
+                            closeMessage();
+                        }
+                    }}
+                >
+                    <CloseFullScreen close={closeMessage} />
 
-                        <SendingContent>
-                            <Sending>Sending...</Sending>
-                            <HashLoader
-                                loading={true}
-                                size={100}
-                                color={primaryTheme.theme.secondaryColor}
-                            />
-                        </SendingContent>
-                    </Background>
-                </React.Suspense>
-            </ErrorBoundary>
-        );
-    }
-    return null;
-};
+                    <SendingContent>
+                        <Sending>Sending...</Sending>
+                        <HashLoader
+                            loading={true}
+                            size={100}
+                            color={primaryTheme.theme.secondaryColor}
+                        />
+                    </SendingContent>
+                </Background>
+            </React.Suspense>
+        </ErrorBoundary>
+    );
 
 const Background = styled(FullScreenContainer)`
     background-color: #00000066;

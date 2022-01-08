@@ -132,7 +132,7 @@ const createTicTacToeMinimax = (board: Board): Minimax<Board> => {
                     bestMove = move;
                 }
             }
-            if (bestMove === null) {
+            if (!bestMove) {
                 throw new Error('best move cannot be undefined');
             }
             return currentPlayer.makeMove(bestMove, board);

@@ -80,13 +80,13 @@ const ticTacToeWinner: EndgameChecker<Board> = {
             if (!tile.isTileOccupied) {
                 return false;
             }
-            if (tile.getPiece === null) {
+            if (!tile.getPiece) {
                 throw new Error(
                     'if tile is occupied, then it contains a piece'
                 );
             }
             numberOfTilesOccupied =
-                tile.getPiece.league === board.currentPlayer.opponentLeague
+                tile?.getPiece.league === board.currentPlayer.opponentLeague
                     ? numberOfTilesOccupied + 1
                     : 0;
         }

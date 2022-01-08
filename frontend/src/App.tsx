@@ -8,7 +8,6 @@ const Contact = React.lazy(() => import('./page/contact'));
 const Error = React.lazy(() => import('./page/error'));
 const Header = React.lazy(() => import('./components/Header'));
 const Footer = React.lazy(() => import('./components/Footer'));
-
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import GlobalStyle from './util/theme/GlobalTheme';
 import { ThemeProvider } from 'styled-components';
@@ -32,9 +31,10 @@ const App = () => {
               );
     });
 
-    React.useEffect(() => {
-        localStorage.setItem(key, getConfigKey(theme));
-    }, [theme]);
+    React.useEffect(
+        () => localStorage.setItem(key, getConfigKey(theme)),
+        [theme]
+    );
 
     return (
         <BrowserRouter>

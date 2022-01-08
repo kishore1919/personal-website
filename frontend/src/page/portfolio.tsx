@@ -1,15 +1,29 @@
 import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Data } from '../util/portfolio';
+import { Data, parseAsPortfolioData } from '../util/portfolio';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
-const Surprise = React.lazy(() => import('../components/portfolio/Surprise'));
+const Surprise = React.lazy(() =>
+    import('../components/portfolio/Surprise').then((module) => ({
+        default: module.Surprise,
+    }))
+);
+const LoadingPortoflio = React.lazy(() =>
+    import('../components/portfolio/Surprise').then((module) => ({
+        default: module.LoadingPortoflio,
+    }))
+);
 import { useHistory, useLocation } from 'react-router-dom';
 import { portfolioURL, portfolioQuery } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
+
 interface PortfolioImageBackgroundProps {
     readonly backgroundImage: string;
+}
+
+interface Portfolio {
+    readonly portfolio: Data;
 }
 
 const Portfolio = (): JSX.Element => {
@@ -17,7 +31,7 @@ const Portfolio = (): JSX.Element => {
     const location = useLocation();
     const dotBreakPoint = 586;
 
-    const processQuery = (search: string | null) => {
+    const processQuery = (search: string) => {
         if (search) {
             const query = new URLSearchParams(search);
             const page = query.get('page');
@@ -36,22 +50,26 @@ const Portfolio = (): JSX.Element => {
         initialLoad: true,
         show: false,
         width: window.innerWidth,
+        fetched: false,
     });
 
-    const { portfolio, queryLanguage, url, initialLoad, show, width } = state;
+    const { portfolio, queryLanguage, url, initialLoad, show, width, fetched } =
+        state;
 
     React.useEffect(() => {
         if (!initialLoad) {
             fetch(url)
                 .then((response) => response.json())
-                .then((json: Data) =>
+                .then((json) => {
+                    const portfolio = parseAsPortfolioData(json);
                     setState((prevState) => ({
                         ...prevState,
-                        portfolio: json,
-                        queryLanguage: json.selectedLanguage,
-                    }))
-                )
-                .catch((error) => console.error(error.message));
+                        portfolio,
+                        fetched: true,
+                        queryLanguage: portfolio.selectedLanguage,
+                    }));
+                })
+                .catch(console.error);
         }
     }, [url, initialLoad]);
 
@@ -99,37 +117,32 @@ const Portfolio = (): JSX.Element => {
         }
     };
 
-    const ShowPortfolios = (): JSX.Element | null => {
-        if (!portfolio) {
-            return null;
-        }
-        return (
-            <Container>
-                <PortfolioContainer>
-                    {portfolio.portfolioPaginated.map(
-                        ({ name, description, url }) => (
-                            <PortfolioItemContainer key={name}>
-                                <PortfolioImageBackground
-                                    backgroundImage={`asset/images/portfolioBackground/${name}.webp`}
-                                />
-                                <ImageTextContainer>
-                                    <div>
-                                        <PortfolioLink href={url}>
-                                            <PortfolioLogo
-                                                src={`asset/images/logo/${name}.webp`}
-                                                alt={`${name}.webp`}
-                                            />
-                                        </PortfolioLink>
-                                    </div>
-                                    <Caption>{description}</Caption>
-                                </ImageTextContainer>
-                            </PortfolioItemContainer>
-                        )
-                    )}
-                </PortfolioContainer>
-            </Container>
-        );
-    };
+    const ShowPortfolios = ({ portfolio }: Portfolio): JSX.Element => (
+        <Container>
+            <PortfolioContainer>
+                {portfolio.portfolioPaginated.map(
+                    ({ name, description, url }) => (
+                        <PortfolioItemContainer key={name}>
+                            <PortfolioImageBackground
+                                backgroundImage={`asset/images/portfolioBackground/${name}.webp`}
+                            />
+                            <ImageTextContainer>
+                                <div>
+                                    <PortfolioLink href={url}>
+                                        <PortfolioLogo
+                                            src={`asset/images/logo/${name}.webp`}
+                                            alt={`${name}.webp`}
+                                        />
+                                    </PortfolioLink>
+                                </div>
+                                <Caption>{description}</Caption>
+                            </ImageTextContainer>
+                        </PortfolioItemContainer>
+                    )
+                )}
+            </PortfolioContainer>
+        </Container>
+    );
 
     const customQueryPortfolio = (page: number) =>
         queryPortfolio(
@@ -147,11 +160,8 @@ const Portfolio = (): JSX.Element => {
         return paging === 0 ? portfolio.numberOfPagesQueried - 1 : paging - 1;
     };
 
-    const Buttons = (): JSX.Element | null => {
-        if (portfolio === undefined || portfolio.numberOfPagesQueried === 1) {
-            return null;
-        }
-        return (
+    const Buttons = ({ portfolio }: Portfolio): JSX.Element | null =>
+        portfolio.numberOfPagesQueried === 1 ? null : (
             <div>
                 <LeftButton
                     onClick={() => customQueryPortfolio(getPrevPage(portfolio))}
@@ -165,7 +175,6 @@ const Portfolio = (): JSX.Element => {
                 </RightButton>
             </div>
         );
-    };
 
     const getPagingNumber = () => {
         const url = new URLSearchParams(location.search);
@@ -173,37 +182,24 @@ const Portfolio = (): JSX.Element => {
         return page === null ? 0 : parseInt(page, 10) ?? 0;
     };
 
-    const DotsNav = (): JSX.Element | null => {
-        if (
-            portfolio === undefined ||
-            portfolio.numberOfPagesQueried === 1 ||
-            width <= dotBreakPoint
-        ) {
+    const DotsNav = ({ portfolio }: Portfolio): JSX.Element | null => {
+        if (portfolio.numberOfPagesQueried === 1 || width <= dotBreakPoint) {
             return null;
         }
         const paging = getPagingNumber();
-        const DotList = () => (
-            <>
+        return (
+            <Dots>
                 {Array.from({ length: portfolio.numberOfPagesQueried }).map(
                     (_, i) => {
-                        return paging === i ? (
-                            <ActiveDot
-                                onClick={() => customQueryPortfolio(i)}
-                                key={i}
-                            />
-                        ) : (
-                            <Dot
+                        const Component = paging === i ? ActiveDot : Dot;
+                        return (
+                            <Component
                                 onClick={() => customQueryPortfolio(i)}
                                 key={i}
                             />
                         );
                     }
                 )}
-            </>
-        );
-        return (
-            <Dots>
-                <DotList />
             </Dots>
         );
     };
@@ -217,31 +213,24 @@ const Portfolio = (): JSX.Element => {
         history.push(`/portfolio?page=${page}&language=${queryLanguage}`);
     };
 
-    const LanguageSelector = (): JSX.Element | null => {
-        if (portfolio === undefined) {
-            return null;
-        }
-        const languages = portfolio.portfolioLanguages;
-
-        return (
-            <LanguageChooser>
-                <Languages
-                    value={queryLanguage}
-                    onChange={(e) => queryPortfolio(0, e.target.value)}
-                >
-                    {[
-                        <option key={0} disabled={true}>
-                            Language
-                        </option>,
-                    ].concat(
-                        languages.map((language) => (
-                            <option key={language}>{language}</option>
-                        ))
-                    )}
-                </Languages>
-            </LanguageChooser>
-        );
-    };
+    const LanguageSelector = ({ portfolio }: Portfolio): JSX.Element => (
+        <LanguageChooser>
+            <Languages
+                value={queryLanguage}
+                onChange={(e) => queryPortfolio(0, e.target.value)}
+            >
+                {[
+                    <option key={0} disabled={true}>
+                        Language
+                    </option>,
+                ].concat(
+                    portfolio.portfolioLanguages.map((language) => (
+                        <option key={language}>{language}</option>
+                    ))
+                )}
+            </Languages>
+        </LanguageChooser>
+    );
 
     return (
         <ContentContainer>
@@ -249,10 +238,16 @@ const Portfolio = (): JSX.Element => {
                 title="Portfolio"
                 content="PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
             />
-            <LanguageSelector />
-            <ShowPortfolios />
-            <Buttons />
-            <DotsNav />
+            {portfolio ? (
+                <>
+                    <LanguageSelector portfolio={portfolio} />
+                    <ShowPortfolios portfolio={portfolio} />
+                    <Buttons portfolio={portfolio} />
+                    <DotsNav portfolio={portfolio} />
+                </>
+            ) : fetched ? null : (
+                <LoadingPortoflio />
+            )}
             <ErrorBoundary>
                 <React.Suspense fallback={<HashLoading />}>
                     <Surprise

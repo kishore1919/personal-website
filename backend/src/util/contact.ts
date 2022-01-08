@@ -1,29 +1,7 @@
-import { parseAsString } from 'parse-dont-validate';
+import { GranulaString, isEmpty } from 'granula-string';
 import nodemailer from 'nodemailer';
+import { parseAsString } from 'parse-dont-validate';
 import { contactInfo } from '../config/config';
-
-declare global {
-    interface String {
-        isEmpty: () => boolean;
-        isBlank: () => boolean;
-        hasSufficientLength: (length: number) => boolean;
-    }
-}
-
-String.prototype.isBlank = function () {
-    return this.split('').filter((char) => ' ' === char).length === this.length;
-};
-
-String.prototype.isEmpty = function () {
-    return this === '';
-};
-
-String.prototype.hasSufficientLength = function (length: number) {
-    return (
-        this.split('').filter((char) => !(char.isBlank() || char.isEmpty()))
-            .length >= length
-    );
-};
 
 const validateEmail = (email: string) =>
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -33,23 +11,22 @@ const validateEmail = (email: string) =>
 type EmptyString = '';
 
 type Name = {
-    readonly value: string;
+    readonly value: GranulaString;
     readonly error:
         | `*Please do not leave name section ${'empty' | 'blank'}*`
         | EmptyString;
 };
 
 type Email = {
-    readonly value: string;
+    readonly value: GranulaString;
     readonly error:
-        | '*Please do not leave email section empty*'
-        | '*Please do not leave email section blank*'
+        | `*Please do not leave email section ${'empty' | 'blank'}*`
         | '*Please enter valid email format*'
         | EmptyString;
 };
 
 type Message = {
-    readonly value: string;
+    readonly value: GranulaString;
     readonly error:
         | `*Please do not leave message section ${'empty' | 'blank'}*`
         | '*At least 10 words are required*'
@@ -68,7 +45,7 @@ type Data =
           readonly error: string;
       };
 
-const getName = (value: string): Name => ({
+const getName = (value: GranulaString): Name => ({
     value,
     error: value.isEmpty()
         ? '*Please do not leave name section empty*'
@@ -77,24 +54,27 @@ const getName = (value: string): Name => ({
         : '',
 });
 
-const getEmail = (value: string): Email => ({
+const getEmail = (value: GranulaString): Email => ({
     value,
     error: value.isEmpty()
         ? '*Please do not leave email section empty*'
         : value.isBlank()
         ? '*Please do not leave email section blank*'
-        : validateEmail(value)
+        : validateEmail(value.valueOf())
         ? ''
         : '*Please enter valid email format*',
 });
 
-const getMessage = (value: string): Message => ({
+const getMessage = (value: GranulaString): Message => ({
     value,
     error: value.isEmpty()
         ? '*Please do not leave message section empty*'
         : value.isBlank()
         ? '*Please do not leave message section blank*'
-        : value.hasSufficientLength(10)
+        : value.inRangeOf({
+              min: 10,
+              excludeBlankSpace: true,
+          })
         ? ''
         : '*At least 10 words are required*',
 });
@@ -105,13 +85,17 @@ const allValueValid = (
     { value: message, error: messageErr }: Message
 ): boolean => {
     const noError =
-        nameErr.isEmpty() && emailErr.isEmpty() && messageErr.isEmpty();
+        isEmpty(nameErr) && isEmpty(emailErr) && isEmpty(messageErr);
     const nameInvalid = name.isBlank() || name.isEmpty();
     const messageInvalid =
         message.isBlank() ||
         message.isEmpty() ||
-        !message.hasSufficientLength(10);
-    const inputValid = messageInvalid && validateEmail(email) && !nameInvalid;
+        !message.inRangeOf({
+            min: 10,
+            excludeBlankSpace: true,
+        });
+    const inputValid =
+        messageInvalid && validateEmail(email.valueOf()) && !nameInvalid;
     return noError && !inputValid;
 };
 
@@ -127,13 +111,19 @@ export default ({
     new Promise((resolve) => {
         try {
             const parsedName = getName(
-                parseAsString(name).orElseThrowError('name')
+                GranulaString.createFromString(
+                    parseAsString(name).orElseThrowDefault('name')
+                )
             );
             const parsedEmail = getEmail(
-                parseAsString(email).orElseThrowError('email')
+                GranulaString.createFromString(
+                    parseAsString(email).orElseThrowDefault('email')
+                )
             );
             const parsedMessage = getMessage(
-                parseAsString(message).orElseThrowError('message')
+                GranulaString.createFromString(
+                    parseAsString(message).orElseThrowDefault('message')
+                )
             );
             if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
                 const myEmail = contactInfo.email;

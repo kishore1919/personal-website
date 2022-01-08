@@ -19,23 +19,25 @@ import {
     Email,
     Message,
     Data,
+    parseAsData,
 } from '../util/contact';
 import { GlobalContainer } from '../util/theme/GlobalTheme';
 import Title from '../components/Title';
 import { contactURL } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
+import { GranulaString } from 'granula-string';
 const Contact = (): JSX.Element => {
     const [state, setState] = React.useState({
         name: {
-            value: '',
+            value: GranulaString.createFromString(''),
             error: '',
         } as Name,
         email: {
-            value: '',
+            value: GranulaString.createFromString(''),
             error: '',
         } as Email,
         message: {
-            value: '',
+            value: GranulaString.createFromString(''),
             error: '',
         } as Message,
         showFinal: false,
@@ -65,9 +67,9 @@ const Contact = (): JSX.Element => {
                 }),
             })
                 .then((res) => res.json())
-                .then((json: Data) => {
+                .then((json) => {
                     setShowWaiting(false);
-                    showMessage(json);
+                    showMessage(parseAsData(json));
                 })
                 .catch((error) => {
                     console.error(error);
@@ -94,7 +96,7 @@ const Contact = (): JSX.Element => {
         readonly email: Email;
         readonly message: Message;
         readonly showFinal: boolean;
-    }) => {
+    }) =>
         setState((prevState) => ({
             ...prevState,
             name,
@@ -102,7 +104,6 @@ const Contact = (): JSX.Element => {
             message,
             showFinal,
         }));
-    };
 
     const showMessage = (json: Data) => {
         const { type } = json;
@@ -130,19 +131,21 @@ const Contact = (): JSX.Element => {
     const changeName = (event: React.ChangeEvent<HTMLInputElement>) =>
         setState((prevState) => ({
             ...prevState,
-            name: getName(event.target.value),
+            name: getName(GranulaString.createFromString(event.target.value)),
         }));
 
     const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
         setState((prevState) => ({
             ...prevState,
-            email: getEmail(event.target.value),
+            email: getEmail(GranulaString.createFromString(event.target.value)),
         }));
 
     const changeMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
         setState((prevState) => ({
             ...prevState,
-            message: getMessage(event.target.value),
+            message: getMessage(
+                GranulaString.createFromString(event.target.value)
+            ),
         }));
 
     return (
@@ -196,7 +199,7 @@ const Contact = (): JSX.Element => {
                                         type="text"
                                         name="name"
                                         id="name"
-                                        value={name.value}
+                                        value={name.value.valueOf()}
                                         placeholder="Tony Stark"
                                         required
                                         onChange={changeName}
@@ -214,7 +217,7 @@ const Contact = (): JSX.Element => {
                                         type="email"
                                         name="email"
                                         id="email"
-                                        value={email.value}
+                                        value={email.value.valueOf()}
                                         placeholder="tonystark@gmail.com"
                                         required
                                         onChange={changeEmail}
@@ -231,7 +234,7 @@ const Contact = (): JSX.Element => {
                                     <TextArea
                                         name="message"
                                         id="message"
-                                        value={message.value}
+                                        value={message.value.valueOf()}
                                         placeholder="Ask you a question/Tell you something"
                                         rows={8}
                                         required

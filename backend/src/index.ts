@@ -42,6 +42,4 @@ app.post('/api/contact', async (req, res) => {
 
 const build = '../frontend/build';
 app.use(expressStatic(path.resolve(build)));
-app.get('*', (_, res) => {
-    res.sendFile(path.resolve(build, 'index.html'));
-});
+app.get('*', (_, res) => res.sendFile(path.resolve(build, 'index.html')));

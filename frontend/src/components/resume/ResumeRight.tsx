@@ -1,16 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-interface SectionProps {
+const SkillSection = ({
+    title,
+    list,
+}: {
     readonly title:
         | 'Programming Languages'
         | 'Technologies'
         | 'Achievements'
         | 'Personal Skills';
     readonly list: ReadonlyArray<string>;
-}
-
-const SkillSection = ({ title, list }: SectionProps) => (
+}) => (
     <Section>
         <SectionTitle>{title}</SectionTitle>
         <ul>
@@ -30,8 +31,8 @@ const ResumeRight = () => (
         <SkillSection
             title="Technologies"
             list={[
-                'JavaFX & Java Swing & JUnit & Gradle',
                 'React & React Native & NodeJS & Jest',
+                'JavaFX & Java Swing & JUnit & Gradle',
                 'Basic Linux & Git Commands',
                 'Basic PostgreSQL & MongoDB',
             ]}
@@ -39,7 +40,8 @@ const ResumeRight = () => (
         <SkillSection
             title="Achievements"
             list={[
-                'Building an Intelligent Room Finder System through collaboration with a friend',
+                'Building an Room Finder System through collaboration with a friend',
+                'Wrote my own NPM package to solve my problems',
                 'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
                 "Dean's List for January & May 2021 Trimester",
                 "Built a functional Notepad similar to Window's Notepad in Java Swing and JavaFX",
@@ -57,6 +59,15 @@ const ResumeRight = () => (
                 'Able to take on and fulfill own responsibilities',
             ]}
         />
+
+        <Section>
+            <SectionTitle>Working Experience</SectionTitle>
+            <Subtitle>Internship (Oct 2021 - Dec 2021)</Subtitle>
+            <div>Didian Sdn Bhd</div>
+            <ul>
+                <List>Full Stack Developer</List>
+            </ul>
+        </Section>
 
         <Section>
             <SectionTitle>Education</SectionTitle>

@@ -117,7 +117,7 @@ const makeMoveFromTileNumber = (
     moveFound: Move | undefined,
     board: Board
 ): Board => {
-    if (moveFound === undefined) {
+    if (!moveFound) {
         throw new Error(
             'move found in makeMoveFromTileNumber function cannot be undefined'
         );

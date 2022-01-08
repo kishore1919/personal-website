@@ -18,6 +18,8 @@
         "@types/react-router-dom": "^5.3.2",
         "@types/styled-components": "^5.1.15",
         "craco-esbuild": "^0.4.3",
+        "granula-string": "^1.0.3",
+        "parse-dont-validate": "^1.0.1",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
         "react-helmet-async": "^1.1.2",
