@@ -10,10 +10,10 @@ import { HashLoading, ErrorBoundary } from '../HashLoading';
 import HashLoader from 'react-spinners/HashLoader';
 import { primaryTheme } from '../../util/theme/colorTheme';
 
-interface MessageProps {
-    readonly show: boolean;
-    readonly closeMessage: () => void;
-}
+type MessageProps = Readonly<{
+    show: boolean;
+    closeMessage: () => void;
+}>;
 
 const FinalMessage = ({
     show,

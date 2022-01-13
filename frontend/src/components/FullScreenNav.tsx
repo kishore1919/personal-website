@@ -9,16 +9,17 @@ const FullScreenContainer = React.lazy(() =>
     }))
 );
 
-interface FullScreenAnimation {
-    readonly slideIn: boolean;
-}
+type FullScreenAnimation = Readonly<{
+    slideIn: boolean;
+}>;
 
-interface FullScreenProps {
-    readonly show: boolean;
-    readonly close: () => void;
-}
-
-const FullScreen = ({ show, close }: FullScreenProps): JSX.Element | null => {
+const FullScreen = ({
+    show,
+    close,
+}: Readonly<{
+    show: boolean;
+    close: () => void;
+}>): JSX.Element | null => {
     const [state, setState] = React.useState({
         animate: show,
         load: show,
@@ -40,14 +41,14 @@ const FullScreen = ({ show, close }: FullScreenProps): JSX.Element | null => {
                     <FullScreenNav slideIn={animate}>
                         <CloseFullScreen
                             close={() => {
-                                setState((prevState) => ({
-                                    ...prevState,
+                                setState((prev) => ({
+                                    ...prev,
                                     animate: false,
                                 }));
                                 setTimeout(() => {
                                     close();
-                                    setState((prevState) => ({
-                                        ...prevState,
+                                    setState((prev) => ({
+                                        ...prev,
                                         load: false,
                                     }));
                                 }, 350);

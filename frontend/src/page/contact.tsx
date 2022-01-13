@@ -47,8 +47,8 @@ const Contact = (): JSX.Element => {
     const { email, message, name, showFinal, showWaiting } = state;
 
     const setShowWaiting = (showWaiting: boolean) =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             showWaiting,
         }));
 
@@ -91,14 +91,14 @@ const Contact = (): JSX.Element => {
         message,
         name,
         showFinal,
-    }: {
-        readonly name: Name;
-        readonly email: Email;
-        readonly message: Message;
-        readonly showFinal: boolean;
-    }) =>
-        setState((prevState) => ({
-            ...prevState,
+    }: Readonly<{
+        name: Name;
+        email: Email;
+        message: Message;
+        showFinal: boolean;
+    }>) =>
+        setState((prev) => ({
+            ...prev,
             name,
             email,
             message,
@@ -129,20 +129,20 @@ const Contact = (): JSX.Element => {
     };
 
     const changeName = (event: React.ChangeEvent<HTMLInputElement>) =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             name: getName(GranulaString.createFromString(event.target.value)),
         }));
 
     const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             email: getEmail(GranulaString.createFromString(event.target.value)),
         }));
 
     const changeMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             message: getMessage(
                 GranulaString.createFromString(event.target.value)
             ),
@@ -168,8 +168,8 @@ const Contact = (): JSX.Element => {
                     <FinalMessage
                         show={showFinal}
                         closeMessage={() =>
-                            setState((prevState) => ({
-                                ...prevState,
+                            setState((prev) => ({
+                                ...prev,
                                 showFinal: false,
                             }))
                         }

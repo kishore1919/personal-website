@@ -5,7 +5,7 @@ import path from 'path';
 
 const { static: expressStatic, json, urlencoded } = express;
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.use(json({ limit: '10mb' }));
 app.use(urlencoded({ extended: true }));

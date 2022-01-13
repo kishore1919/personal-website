@@ -6,29 +6,29 @@ import { HashLoading, ErrorBoundary } from './HashLoading';
 const NavLinks = React.lazy(() => import('./NavLinks'));
 const FullScreen = React.lazy(() => import('./FullScreenNav'));
 
-interface BackToTopAnimation {
-    readonly slideIn: boolean;
-}
+type BackToTopAnimation = Readonly<{
+    slideIn: boolean;
+}>;
 
-interface BackToTopProps {
-    readonly scroll: boolean;
-}
-
-const BackToTop = ({ scroll }: BackToTopProps) => {
+const BackToTop = ({
+    scroll,
+}: Readonly<{
+    scroll: boolean;
+}>) => {
     const [state, setState] = React.useState({
         animate: scroll,
         load: scroll,
     });
 
     React.useEffect(() => {
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             animate: scroll,
         }));
         setTimeout(
             () =>
-                setState((prevState) => ({
-                    ...prevState,
+                setState((prev) => ({
+                    ...prev,
                     load: scroll,
                 })),
             scroll ? 350 : 0
@@ -54,12 +54,13 @@ const BackToTop = ({ scroll }: BackToTopProps) => {
     return null;
 };
 
-interface HeaderProps {
-    readonly theme: DefaultTheme;
-    readonly updateTheme: () => void;
-}
-
-const Header = ({ theme, updateTheme }: HeaderProps) => {
+const Header = ({
+    theme,
+    updateTheme,
+}: Readonly<{
+    theme: DefaultTheme;
+    updateTheme: () => void;
+}>) => {
     const hamburgerBreakPoint = 646;
 
     const [state, setState] = React.useState({
@@ -69,8 +70,8 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     });
 
     const handlePageOffset = () =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             scroll: window.pageYOffset > 100,
         }));
 
@@ -82,8 +83,8 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     }, []);
 
     const handleResizeWindow = () =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             width: window.innerWidth,
         }));
 
@@ -95,8 +96,8 @@ const Header = ({ theme, updateTheme }: HeaderProps) => {
     }, []);
 
     const setShow = (show: boolean) =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             show,
         }));
 

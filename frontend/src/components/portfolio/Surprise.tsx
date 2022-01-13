@@ -10,11 +10,6 @@ const FullScreenContainer = React.lazy(() =>
 import SyncLoader from 'react-spinners/SyncLoader';
 import { primaryTheme } from '../../util/theme/colorTheme';
 
-interface SurpriseProps {
-    readonly show: boolean;
-    readonly closeMessage: () => void;
-}
-
 const LoadingPortoflio = (): JSX.Element => (
     <ErrorBoundary>
         <React.Suspense fallback={<HashLoading />}>
@@ -29,7 +24,13 @@ const LoadingPortoflio = (): JSX.Element => (
     </ErrorBoundary>
 );
 
-const Surprise = ({ show, closeMessage }: SurpriseProps): JSX.Element | null =>
+const Surprise = ({
+    show,
+    closeMessage,
+}: Readonly<{
+    show: boolean;
+    closeMessage: () => void;
+}>): JSX.Element | null =>
     !show ? null : (
         <ErrorBoundary>
             <React.Suspense fallback={<HashLoading />}>

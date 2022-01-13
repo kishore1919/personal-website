@@ -4,14 +4,14 @@ import styled from 'styled-components';
 const SkillSection = ({
     title,
     list,
-}: {
-    readonly title:
+}: Readonly<{
+    title:
         | 'Programming Languages'
         | 'Technologies'
         | 'Achievements'
         | 'Personal Skills';
-    readonly list: ReadonlyArray<string>;
-}) => (
+    list: Array<string>;
+}>) => (
     <Section>
         <SectionTitle>{title}</SectionTitle>
         <ul>

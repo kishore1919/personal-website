@@ -9,30 +9,31 @@ import League from '../piece/League';
 import Tile, { createTile } from './Tile';
 import { connectFour, ticTacToe } from './BoardUtil';
 
-export type Board = {
-    readonly league: League;
-    readonly firstPlayer: Player;
-    readonly secondPlayer: Player;
-    readonly currentPlayer: Player;
-    readonly tileList: ReadonlyArray<Tile>;
-    readonly stringFormat: () => string;
-    readonly identifier: 0 | 1;
-};
+export type Board = Readonly<{
+    league: League;
+    firstPlayer: Player;
+    secondPlayer: Player;
+    currentPlayer: Player;
+    tileList: ReadonlyArray<Tile>;
+    stringFormat: () => string;
+    identifier: 0 | 1;
+}>;
 
-export const createStandardTicTacToeBoard = (): Board => {
-    const tileList: ReadonlyArray<Tile> = Array.from({
-        length: ticTacToe.numberOfTiles,
-    }).map((_, i) => createTile(i, null));
-    return createTicTacToeBoard(League.first, tileList);
-};
+export const createStandardTicTacToeBoard = (): Board =>
+    createTicTacToeBoard(
+        League.first,
+        Array.from({
+            length: ticTacToe.numberOfTiles,
+        }).map((_, i) => createTile(i, null)) as ReadonlyArray<Tile>
+    );
 
-export const createStandardConnectFourBoard = (): Board => {
-    const tileList: ReadonlyArray<Tile> = Array.from({
-        length: connectFour.numberOfTiles,
-    }).map((_, i) => createTile(i, null));
-    return createConnectFourBoard(League.first, tileList);
-};
-
+export const createStandardConnectFourBoard = (): Board =>
+    createConnectFourBoard(
+        League.first,
+        Array.from({
+            length: connectFour.numberOfTiles,
+        }).map((_, i) => createTile(i, null)) as ReadonlyArray<Tile>
+    );
 export const createTicTacToeBoard = (
     league: League,
     tileList: ReadonlyArray<Tile>
@@ -60,23 +61,20 @@ const createBoard = (
     secondPlayer: Player,
     tileList: ReadonlyArray<Tile>,
     identifier: 0 | 1
-): Board => {
-    return {
-        league,
-        firstPlayer,
-        secondPlayer,
-        tileList,
-        currentPlayer:
-            league === firstPlayer.league ? firstPlayer : secondPlayer,
-        stringFormat(): string {
-            const stringFormat = this.tileList.map((tile: Tile, i: number) => {
+): Board => ({
+    league,
+    firstPlayer,
+    secondPlayer,
+    tileList,
+    currentPlayer: league === firstPlayer.league ? firstPlayer : secondPlayer,
+    stringFormat: () =>
+        tileList
+            .map((tile: Tile, i: number) => {
                 const newLine = i % column === 0 ? '\n' : '';
                 return `${newLine}${tile.stringFormat}(${String(
                     tile.index
                 )}) \t`;
-            });
-            return stringFormat.join('');
-        },
-        identifier,
-    };
-};
+            })
+            .join(''),
+    identifier,
+});

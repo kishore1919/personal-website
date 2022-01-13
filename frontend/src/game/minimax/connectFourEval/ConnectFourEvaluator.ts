@@ -7,25 +7,21 @@ export const evaluateConnectFourBoard = (
     league: League,
     depth: number,
     searchDepth: number
-): number => {
-    if (depth === 0) {
-        return numberOfConsecutivePieceEval(
-            league,
-            board,
-            board.secondPlayer.league,
-            board.firstPlayer.league
-        );
-    }
-    return (
-        numberOfConsecutivePieceEval(
-            league,
-            board,
-            board.secondPlayer.league,
-            board.firstPlayer.league
-        ) *
-        (searchDepth - depth)
-    );
-};
+): number =>
+    depth
+        ? numberOfConsecutivePieceEval(
+              league,
+              board,
+              board.secondPlayer.league,
+              board.firstPlayer.league
+          ) *
+          (searchDepth - depth)
+        : numberOfConsecutivePieceEval(
+              league,
+              board,
+              board.secondPlayer.league,
+              board.firstPlayer.league
+          );
 
 const numberOfConsecutivePieceEval = (
     league: League,

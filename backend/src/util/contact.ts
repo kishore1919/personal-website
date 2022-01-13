@@ -10,40 +10,41 @@ const validateEmail = (email: string) =>
 
 type EmptyString = '';
 
-type Name = {
-    readonly value: GranulaString;
-    readonly error:
+type Name = Readonly<{
+    value: GranulaString;
+    error:
         | `*Please do not leave name section ${'empty' | 'blank'}*`
         | EmptyString;
-};
+}>;
 
-type Email = {
-    readonly value: GranulaString;
-    readonly error:
+type Email = Readonly<{
+    value: GranulaString;
+    error:
         | `*Please do not leave email section ${'empty' | 'blank'}*`
         | '*Please enter valid email format*'
         | EmptyString;
-};
+}>;
 
-type Message = {
-    readonly value: GranulaString;
-    readonly error:
+type Message = Readonly<{
+    value: GranulaString;
+    error:
         | `*Please do not leave message section ${'empty' | 'blank'}*`
         | '*At least 10 words are required*'
         | EmptyString;
-};
+}>;
 
-type Data =
+type Data = Readonly<
     | {
-          readonly type: 'succeed' | 'input';
-          readonly message: Message;
-          readonly name: Name;
-          readonly email: Email;
+          type: 'succeed' | 'input';
+          message: Message;
+          name: Name;
+          email: Email;
       }
     | {
-          readonly type: 'failed';
-          readonly error: string;
-      };
+          type: 'failed';
+          error: string;
+      }
+>;
 
 const getName = (value: GranulaString): Name => ({
     value,
@@ -103,11 +104,11 @@ export default ({
     name,
     email,
     message,
-}: {
-    readonly name: unknown;
-    readonly email: unknown;
-    readonly message: unknown;
-}): Promise<Data> =>
+}: Readonly<{
+    name: unknown;
+    email: unknown;
+    message: unknown;
+}>): Promise<Data> =>
     new Promise((resolve) => {
         try {
             const parsedName = getName(

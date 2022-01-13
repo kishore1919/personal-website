@@ -2,44 +2,40 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
 
-interface NavLinksProps {
-    readonly fullScreen: boolean;
-    readonly close: () => void;
-}
+type Home = Readonly<{
+    href: '/';
+    title: 'Home';
+}>;
 
-type Home = {
-    readonly href: '/';
-    readonly title: 'Home';
-};
+type Portfolio = Readonly<{
+    href: '/portfolio';
+    title: 'Portfolio';
+}>;
 
-type Portfolio = {
-    readonly href: '/portfolio';
-    readonly title: 'Portfolio';
-};
+type About = Readonly<{
+    href: '/about';
+    title: 'About';
+}>;
 
-type About = {
-    readonly href: '/about';
-    readonly title: 'About';
-};
+type Roommate = Readonly<{
+    href: '/contact';
+    title: 'Contact';
+}>;
 
-type Roommate = {
-    readonly href: '/contact';
-    readonly title: 'Contact';
-};
-
-type Resume = {
-    readonly href: '/resume';
-    readonly title: 'Resume';
-};
+type Resume = Readonly<{
+    href: '/resume';
+    title: 'Resume';
+}>;
 
 export type NavLinkType = Home | Portfolio | About | Roommate | Resume;
 
-interface NavLinkProps {
-    readonly navLink: NavLinkType;
-    readonly close: () => void;
-}
-
-const NavLink = ({ navLink: { href, title }, close }: NavLinkProps) => {
+const NavLink = ({
+    navLink: { href, title },
+    close,
+}: Readonly<{
+    navLink: NavLinkType;
+    close: () => void;
+}>) => {
     const CustomNavLink =
         useLocation().pathname === href ? NavLinkWrapperActive : NavLinkWrapper;
     return (
@@ -51,31 +47,29 @@ const NavLink = ({ navLink: { href, title }, close }: NavLinkProps) => {
     );
 };
 
-const NavLinks = ({ fullScreen, close }: NavLinksProps) => {
-    const navLinks: ReadonlyArray<NavLinkType> = [
-        { href: '/', title: 'Home' },
-        { href: '/portfolio', title: 'Portfolio' },
-        { href: '/about', title: 'About' },
-        { href: '/contact', title: 'Contact' },
-        { href: '/resume', title: 'Resume' },
-    ];
+const NavLinks = ({
+    fullScreen,
+    close,
+}: Readonly<{
+    fullScreen: boolean;
+    close: () => void;
+}>) => {
+    const Container = fullScreen ? NavMenu : LeftSide;
 
-    const NavLinksElem = (): JSX.Element => (
-        <>
-            {navLinks.map((navLink, index) => (
+    return (
+        <Container>
+            {(
+                [
+                    { href: '/', title: 'Home' },
+                    { href: '/portfolio', title: 'Portfolio' },
+                    { href: '/about', title: 'About' },
+                    { href: '/contact', title: 'Contact' },
+                    { href: '/resume', title: 'Resume' },
+                ] as ReadonlyArray<NavLinkType>
+            ).map((navLink, index) => (
                 <NavLink close={close} key={index} navLink={navLink} />
             ))}
-        </>
-    );
-
-    return fullScreen ? (
-        <NavMenu>
-            <NavLinksElem />
-        </NavMenu>
-    ) : (
-        <LeftSide>
-            <NavLinksElem />
-        </LeftSide>
+        </Container>
     );
 };
 

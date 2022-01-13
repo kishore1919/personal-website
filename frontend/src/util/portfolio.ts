@@ -4,17 +4,19 @@ import {
     parseAsString,
 } from 'parse-dont-validate';
 
-export type Data = {
-    readonly numberOfPagesQueried: number;
-    readonly portfolioLanguages: ReadonlyArray<string>;
-    readonly portfolioPaginated: ReadonlyArray<{
-        readonly name: string;
-        readonly description: string;
-        readonly language: string;
-        readonly url: string;
-    }>;
-    readonly selectedLanguage: string;
-};
+type PortfolioData = Readonly<{
+    name: string;
+    description: string;
+    language: string;
+    url: string;
+}>;
+
+export type Data = Readonly<{
+    numberOfPagesQueried: number;
+    portfolioLanguages: ReadonlyArray<string>;
+    portfolioPaginated: ReadonlyArray<PortfolioData>;
+    selectedLanguage: string;
+}>;
 
 export const parseAsPortfolioData = (data: any): Data => ({
     numberOfPagesQueried: parseAsNumber(

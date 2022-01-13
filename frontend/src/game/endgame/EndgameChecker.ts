@@ -5,13 +5,13 @@ import {
     ticTacToe,
 } from '../board/BoardUtil';
 
-type EndgameChecker<Board> = {
-    readonly horizontalWin: (board: Board) => boolean;
-    readonly verticalWin: (board: Board) => boolean;
-    readonly diagonalWin: (board: Board, positiveSlope: boolean) => boolean;
-    readonly checkMate: (board: Board) => boolean;
-    readonly staleMate: (board: Board) => boolean;
-};
+type EndgameChecker<Board> = Readonly<{
+    horizontalWin: (board: Board) => boolean;
+    verticalWin: (board: Board) => boolean;
+    diagonalWin: (board: Board, positiveSlope: boolean) => boolean;
+    checkMate: (board: Board) => boolean;
+    staleMate: (board: Board) => boolean;
+}>;
 
 const ticTacToeWinner: EndgameChecker<Board> = {
     horizontalWin: (board: Board): boolean => {

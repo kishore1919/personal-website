@@ -5,22 +5,17 @@
     "license": "MIT",
     "scripts": {
         "start": "cd backend && yarn start",
-        "start-dev": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-dev\"",
-        "start-dev-watch": "concurrently \"cd frontend && yarn start\" \"cd backend && yarn start-watch\"",
-        "install-dev": "yarn && yarn install-both",
-        "install-both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
-        "build-dev-backend": "cd backend && yarn build-dev",
-        "build-dev-frontend": "cd frontend && yarn build-dev",
-        "build-dev": "yarn install-both && concurrently \"yarn build-dev-frontend\" \"yarn build-dev-backend\"",
-        "build-backend": "cd backend && yarn build",
-        "build-frontend": "cd frontend && yarn build",
-        "build": "yarn install-both && concurrently \"yarn build-frontend\" \"yarn build-backend\"",
-        "clean-backend": "cd backend && yarn clean",
-        "clean-frontend": "cd frontend && yarn clean",
-        "clean": "concurrently \"rm -rf node_modules && yarn\" \"yarn clean-backend\" \"yarn clean-frontend\""
+        "start:watch": "concurrently \"cd frontend && yarn start:watch\" \"cd backend && yarn start:watch\"",
+        "install:dev": "yarn && yarn install:both",
+        "install:both": "concurrently \"cd frontend && yarn\" \"cd backend && yarn\"",
+        "build:backend": "cd backend && yarn build",
+        "build:frontend": "cd frontend && yarn build",
+        "build": "yarn install:both && concurrently \"yarn build:frontend\" \"yarn build:backend\" \"rm -rf .git yarn.lock\" && rm -rf node_modules",
+        "clean:backend": "cd backend && yarn clean",
+        "clean:frontend": "cd frontend && yarn clean",
+        "clean": "concurrently \"rm -rf node_modules && yarn\" \"yarn clean:backend\" \"yarn clean-frontend\""
     },
     "devDependencies": {
         "concurrently": "^6.2.2"
-    },
-    "dependencies": {}
+    }
 }

@@ -18,13 +18,13 @@ import { portfolioURL, portfolioQuery } from '../util/url';
 import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 
-interface PortfolioImageBackgroundProps {
-    readonly backgroundImage: string;
-}
+type PortfolioImageBackgroundProps = Readonly<{
+    backgroundImage: string;
+}>;
 
-interface Portfolio {
-    readonly portfolio: Data;
-}
+type Portfolio = Readonly<{
+    portfolio: Data;
+}>;
 
 const Portfolio = (): JSX.Element => {
     const history = useHistory();
@@ -62,8 +62,8 @@ const Portfolio = (): JSX.Element => {
                 .then((response) => response.json())
                 .then((json) => {
                     const portfolio = parseAsPortfolioData(json);
-                    setState((prevState) => ({
-                        ...prevState,
+                    setState((prev) => ({
+                        ...prev,
                         portfolio,
                         fetched: true,
                         queryLanguage: portfolio.selectedLanguage,
@@ -74,16 +74,16 @@ const Portfolio = (): JSX.Element => {
     }, [url, initialLoad]);
 
     React.useEffect(() => {
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             initialLoad: false,
         }));
         showSurprise();
         return history.listen((location) => {
             const { pathname, search } = location;
             if (pathname.startsWith('/portfolio')) {
-                setState((prevState) => ({
-                    ...prevState,
+                setState((prev) => ({
+                    ...prev,
                     url: processQuery(search),
                 }));
             }
@@ -91,8 +91,8 @@ const Portfolio = (): JSX.Element => {
     }, [history]);
 
     const handleResizeWindow = () =>
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             width: window.innerWidth,
         }));
 
@@ -108,8 +108,8 @@ const Portfolio = (): JSX.Element => {
         const value = window.sessionStorage.getItem(viewedKey);
         if (value === null) {
             setTimeout(() => {
-                setState((prevState) => ({
-                    ...prevState,
+                setState((prev) => ({
+                    ...prev,
                     show: true,
                 }));
                 window.sessionStorage.setItem(viewedKey, JSON.stringify(true));
@@ -205,8 +205,8 @@ const Portfolio = (): JSX.Element => {
     };
 
     const queryPortfolio = (page: number, queryLanguage: string) => {
-        setState((prevState) => ({
-            ...prevState,
+        setState((prev) => ({
+            ...prev,
             url: portfolioQuery(page, queryLanguage),
             queryLanguage,
         }));
@@ -253,8 +253,8 @@ const Portfolio = (): JSX.Element => {
                     <Surprise
                         show={show}
                         closeMessage={() =>
-                            setState((prevState) => ({
-                                ...prevState,
+                            setState((prev) => ({
+                                ...prev,
                                 show: false,
                             }))
                         }

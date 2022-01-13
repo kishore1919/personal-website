@@ -1,15 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-interface CloseButtonProps {
-    readonly color?: string;
-}
+type CloseButtonProps = Readonly<{
+    color?: string;
+}>;
 
-interface CloseProps extends CloseButtonProps {
-    readonly close: () => void;
-}
-
-const CloseFullScreen = ({ close, color }: CloseProps) => (
+const CloseFullScreen = ({
+    close,
+    color,
+}: CloseButtonProps &
+    Readonly<{
+        close: () => void;
+    }>) => (
     <CloseButton color={color} onClick={() => close()}>
         &times;
     </CloseButton>

@@ -4,42 +4,41 @@ import { GlobalContainer } from '../util/theme/GlobalTheme';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { primaryTheme } from '../util/theme/colorTheme';
 
-export const HashLoading = (): JSX.Element => {
-    return (
-        <Container>
-            <InnerContainer>
-                <LoadingMessage>Loading...</LoadingMessage>
-                <FadeLoader
-                    loading={true}
-                    color={primaryTheme.theme.secondaryColor}
-                />
-            </InnerContainer>
-        </Container>
-    );
-};
+export const HashLoading = (): JSX.Element => (
+    <Container>
+        <InnerContainer>
+            <LoadingMessage>Loading...</LoadingMessage>
+            <FadeLoader
+                loading={true}
+                color={primaryTheme.theme.secondaryColor}
+            />
+        </InnerContainer>
+    </Container>
+);
 
-interface Props {
-    readonly children: React.ReactNode;
-}
+type State = Readonly<{
+    hasError: boolean;
+}>;
 
-interface State {
-    readonly hasError: boolean;
-}
-
-export class ErrorBoundary extends React.Component<Props, State> {
-    public state: State = {
+export class ErrorBoundary extends React.Component<
+    Readonly<{
+        children: React.ReactNode;
+    }>,
+    State
+> {
+    state: State = {
         hasError: false,
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public static getDerivedStateFromError = (_: Error): State => ({
+    static getDerivedStateFromError = (_: Error): State => ({
         hasError: true,
     });
 
-    public componentDidCatch = (error: Error, errorInfo: React.ErrorInfo) =>
+    componentDidCatch = (error: Error, errorInfo: React.ErrorInfo) =>
         console.error('Uncaught error: ', error, errorInfo);
 
-    public render = (): JSX.Element | React.ReactNode => {
+    render = (): JSX.Element | React.ReactNode => {
         if (this.state.hasError) {
             return (
                 <Container>

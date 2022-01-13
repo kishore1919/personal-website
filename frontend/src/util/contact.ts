@@ -8,60 +8,60 @@ const validateEmail = (email: string) =>
 
 type EmptyString = '';
 
-export type Name = {
-    readonly value: GranulaString;
-    readonly error:
+export type Name = Readonly<{
+    value: GranulaString;
+    error:
         | `*Please do not leave name section ${'empty' | 'blank'}*`
         | EmptyString;
-};
+}>;
 
-export type Email = {
-    readonly value: GranulaString;
-    readonly error:
+export type Email = Readonly<{
+    value: GranulaString;
+    error:
         | `*Please do not leave email section ${'empty' | 'blank'}*`
         | '*Please enter valid email format*'
         | EmptyString;
-};
+}>;
 
-export type Message = {
-    readonly value: GranulaString;
-    readonly error:
+export type Message = Readonly<{
+    value: GranulaString;
+    error:
         | `*Please do not leave message section ${'empty' | 'blank'}*`
         | '*At least 10 words are required*'
         | EmptyString;
-};
+}>;
 
-export type Data =
+export type Data = Readonly<
     | {
-          readonly type: 'succeed' | 'input';
-          readonly message: Message;
-          readonly name: Name;
-          readonly email: Email;
+          type: 'succeed' | 'input';
+          message: Message;
+          name: Name;
+          email: Email;
       }
     | {
-          readonly type: 'failed';
-          readonly error: string;
-      };
+          type: 'failed';
+          error: string;
+      }
+>;
 
 export const parseAsData = (data: any): Data => {
     if (data) {
-        const { type } = data;
-        const parsedType = parseAsString(type).orElseThrowDefault('type');
-        switch (parsedType) {
+        const type = parseAsString(data.type).orElseThrowDefault('type');
+        switch (type) {
             case 'input':
             case 'succeed': {
                 const { message, email, name } = data;
                 return {
-                    type: parsedType,
+                    type,
                     message: parseAsMessage(message),
                     email: parseAsEmail(email),
                     name: parseAsName(name),
                 };
             }
-            case 'failure': {
+            case 'failed': {
                 const { error } = data;
                 return {
-                    type: 'failed',
+                    type,
                     error: parseAsString(error).orElseThrowDefault('error'),
                 };
             }
