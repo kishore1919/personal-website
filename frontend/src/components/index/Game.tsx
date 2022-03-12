@@ -521,7 +521,7 @@ const BackButton = styled.button`
 `;
 
 const GameTable = styled.table`
-    border-spacing: ${({ gameType }: { readonly gameType: GameType }) =>
+    border-spacing: ${({ gameType }: Readonly<{ gameType: GameType }>) =>
         gameType === 1 ? '10px' : '0px'};
 `;
 

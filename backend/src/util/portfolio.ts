@@ -36,8 +36,6 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
                 'TextEditor',
                 'RealTimeMarkdown',
                 'Room',
-                'KnapsackProblem',
-                'SimpleParallelDispatcher',
             ].find((portfolioName) => parsedName === portfolioName)
                 ? []
                 : [
@@ -61,17 +59,28 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
         .orElseThrowDefault('repositories')
         .flat();
 
-const fetchGithubOrganization = async (): Promise<PortfolioData> => {
+const fetchGithubOrganization = async (
+    organizationName: string
+): Promise<PortfolioData> => {
     const { language } = Array.from(
         parseAsReadonlyArray(
             await (
-                await fetch('https://api.github.com/orgs/P-YNPM/repos')
+                await fetch(
+                    `https://api.github.com/orgs/${organizationName}/repos`
+                )
             ).json(),
-            (repo) =>
-                parseAsString(repo.language).orElseThrowDefault('language')
+            (repo) => {
+                if (repo.full_name === 'Utari-Room/diagram') {
+                    return [];
+                }
+                return [
+                    parseAsString(repo.language).orElseThrowDefault('language'),
+                ];
+            }
         )
             .orElseThrowDefault('repositories')
-            .reduce((prev: Map<string, number>, language) => {
+            .flat()
+            .reduce((prev, language) => {
                 if (language) {
                     const prevItem = prev.get(language);
                     return prev.set(
@@ -95,7 +104,7 @@ const fetchGithubOrganization = async (): Promise<PortfolioData> => {
         } as const
     );
     const organization: any = await (
-        await fetch('https://api.github.com/orgs/P-YNPM')
+        await fetch(`https://api.github.com/orgs/${organizationName}`)
     ).json();
     const { login, description, html_url } = organization;
     return {
@@ -152,19 +161,24 @@ const paginatePortfolio = (
         return index < 9 ? (data ? [data] : []) : [];
     });
 
-const portfolioData = (await fetchGithubUser()).concat(
-    await fetchGithubOrganization()
-);
+const portfolioDataPromise = async () =>
+    (
+        await Promise.all(['Utari-Room', 'P-YNPM'].map(fetchGithubOrganization))
+    ).concat(await fetchGithubUser());
 
-export const getSpecifiedResponse = (
+const portfolioData = portfolioDataPromise();
+
+export const getSpecifiedResponse = async (
     page: string | number,
     language: string
-): Data => {
+): Promise<Data> => {
     const numberOfPortfolioPerPage = 9;
 
-    const selectedLanguage = findLanguageQueried(portfolioData, language);
+    const portfolio = await portfolioData;
+
+    const selectedLanguage = findLanguageQueried(portfolio, language);
     const portfolioQueried = findPortfoliosFromLanguage(
-        portfolioData,
+        portfolio,
         selectedLanguage
     );
 
@@ -172,7 +186,7 @@ export const getSpecifiedResponse = (
         numberOfPagesQueried: Math.ceil(
             portfolioQueried.length / numberOfPortfolioPerPage
         ),
-        portfolioLanguages: portfolioLanguagesList(portfolioData),
+        portfolioLanguages: portfolioLanguagesList(portfolio),
         portfolioPaginated: paginatePortfolio(
             portfolioQueried,
             typeof page === 'number'

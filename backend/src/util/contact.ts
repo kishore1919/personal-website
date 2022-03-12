@@ -1,7 +1,7 @@
 import { GranulaString, isEmpty } from 'granula-string';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
-import { contactInfo } from '../config/config';
+import { contactConfig } from '../config/config';
 
 const validateEmail = (email: string) =>
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -127,7 +127,8 @@ export default ({
                 )
             );
             if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
-                const myEmail = contactInfo.email;
+                const { EMAIL, PASS } = contactConfig;
+                const myEmail = EMAIL;
                 const options = {
                     from: `${parsedName.value.trim()} <${myEmail}>`,
                     to: `Gervin Fung Da Xuen <${myEmail}>`,
@@ -146,7 +147,7 @@ export default ({
                         },
                         auth: {
                             user: myEmail,
-                            pass: contactInfo.pass,
+                            pass: PASS,
                         },
                     })
                     .sendMail(options, (error) => {

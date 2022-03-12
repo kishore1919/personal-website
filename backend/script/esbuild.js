@@ -1,19 +1,13 @@
 import { build } from 'esbuild';
-import dotenv from 'dotenv';
-dotenv.config();
 
-const main = ({ entryPoints, outfile, loader }) =>
+const main = ({ entryPoints, outfile }) =>
     build({
         entryPoints,
         outfile,
-        loader,
         bundle: true,
         minify: true,
-        platform: 'browser',
-        define: {
-            'process.env.NODE_ENV': `"${process.env.PUBLIC_URL}"`,
-            'process.env.PUBLIC_URL': `"${process.env.NODE_ENV}"`,
-        },
+        platform: 'node',
+        target: 'node16.13.1',
         logLevel: 'silent',
     })
         .then((r) => {
@@ -26,9 +20,6 @@ const main = ({ entryPoints, outfile, loader }) =>
         });
 
 main({
-    entryPoints: ['src/index.tsx'],
+    entryPoints: ['src/index.ts'],
     outfile: 'build/index.js',
-    loader: {
-        '.ts': 'tsx',
-    },
 });

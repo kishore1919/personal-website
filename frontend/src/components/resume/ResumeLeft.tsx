@@ -16,17 +16,17 @@ const ResumeLeft = () => {
     const { key } = keyConfig;
 
     const [state, setState] = React.useState<{
-        readonly path: `asset/files/resume/GervinFungDaXuenResume_UTAR_${
-            | 'dark'
-            | 'light'}.pdf`;
+        readonly path: `asset/files/resume/GervinFungDaXuenResume${
+            | 'Dark'
+            | 'Light'}Theme.pdf`;
     }>();
 
     const downloadResume = () =>
         setState(() => ({
-            path: `asset/files/resume/GervinFungDaXuenResume_UTAR_${isDarkResume(
+            path: `asset/files/resume/GervinFungDaXuenResume${isDarkResume(
                 localStorage.getItem(key) ??
                     window.matchMedia('(prefers-color-scheme: dark)').matches
-            )}.pdf`,
+            )}Theme.pdf`,
         }));
 
     return (

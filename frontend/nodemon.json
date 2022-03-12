@@ -1,6 +1,6 @@
 {
-    "watch": ["src"],
+    "watch": ["src", "public"],
     "ignore": ["node_modules"],
-    "ext": "ts, tsx",
-    "exec": "yarn start && echo Frontend Nodemon Done"
+    "ext": "ts, tsx, html",
+    "exec": "make start && echo Frontend Nodemon Done"
 }

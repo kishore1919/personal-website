@@ -2,5 +2,5 @@
     "watch": ["src"],
     "ignore": ["node_modules"],
     "ext": "ts",
-    "exec": "yarn build:dev && yarn start && echo Backend Nodemon Done"
+    "exec": "make start-dev && echo Backend Nodemon Done"
 }

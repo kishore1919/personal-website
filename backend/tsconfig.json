@@ -26,7 +26,10 @@
         "resolveJsonModule": false /* Allow import of json file. */,
         "noUncheckedIndexedAccess": true,
         "pretty": true,
-        "outDir": "build"
+        "outDir": "build",
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true
     },
     "include": ["src/"],
     "exclude": ["node_modules"]

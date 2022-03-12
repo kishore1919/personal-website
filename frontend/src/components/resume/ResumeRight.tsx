@@ -10,7 +10,7 @@ const SkillSection = ({
         | 'Technologies'
         | 'Achievements'
         | 'Personal Skills';
-    list: Array<string>;
+    list: ReadonlyArray<string>;
 }>) => (
     <Section>
         <SectionTitle>{title}</SectionTitle>
@@ -40,8 +40,8 @@ const ResumeRight = () => (
         <SkillSection
             title="Achievements"
             list={[
-                'Building an Room Finder System through collaboration with a friend',
-                'Wrote my own NPM package to solve my problems',
+                'Built an accommodation finder website around UTAR campus as my Final Year Project',
+                'Publish my own NPM package to solve my problems',
                 'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
                 "Dean's List for January & May 2021 Trimester",
                 "Built a functional Notepad similar to Window's Notepad in Java Swing and JavaFX",

@@ -94,9 +94,9 @@ const FacebookLogo = styled(TiSocialFacebook)`
 `;
 
 const Linkedin = styled(SocialIcon)`
-    background: #007bb5;
+    background: #1877f2;
     &:hover {
-        color: #007bb5;
+        color: #1877f2;
     }
 `;
 

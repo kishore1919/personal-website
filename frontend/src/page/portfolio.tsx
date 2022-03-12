@@ -69,7 +69,13 @@ const Portfolio = (): JSX.Element => {
                         queryLanguage: portfolio.selectedLanguage,
                     }));
                 })
-                .catch(console.error);
+                .catch((error) => {
+                    setState((prev) => ({
+                        ...prev,
+                        fetched: true,
+                    }));
+                    console.error(error);
+                });
         }
     }, [url, initialLoad]);
 
@@ -90,13 +96,12 @@ const Portfolio = (): JSX.Element => {
         });
     }, [history]);
 
-    const handleResizeWindow = () =>
-        setState((prev) => ({
-            ...prev,
-            width: window.innerWidth,
-        }));
-
     React.useEffect(() => {
+        const handleResizeWindow = () =>
+            setState((prev) => ({
+                ...prev,
+                width: window.innerWidth,
+            }));
         window.addEventListener('resize', handleResizeWindow);
         return () => {
             window.removeEventListener('resize', handleResizeWindow);

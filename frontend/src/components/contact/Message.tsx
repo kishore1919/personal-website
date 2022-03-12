@@ -65,7 +65,6 @@ const SendingMessage = ({
                     }}
                 >
                     <CloseFullScreen close={closeMessage} />
-
                     <SendingContent>
                         <Sending>Sending...</Sending>
                         <HashLoader

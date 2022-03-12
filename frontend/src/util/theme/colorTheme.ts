@@ -81,7 +81,7 @@ export const getTheme = (isDark: boolean) =>
 
 export const isDarkResume = (value: string | boolean) => {
     if (typeof value === 'string') {
-        return value === valueConfig.primary ? 'dark' : 'light';
+        return value === valueConfig.primary ? 'Dark' : 'Light';
     }
-    return value ? 'dark' : 'light';
+    return value ? 'Dark' : 'Light';
 };

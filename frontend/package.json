@@ -4,15 +4,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "make-build": "rm -rf build && cp -R public build",
-        "es-build": "yarn make-build && node script/esbuild.js && node script/terser.js",
-        "type-check": "tsc --pretty --skipLibCheck --noEmit",
-        "start": "yarn es-build",
-        "start:watch": "nodemon",
-        "build": "yarn es-build && yarn cleanup",
-        "clean": "rm -rf node_modules && rm -rf yarn.lock && yarn",
-        "clear-file": "rm -rf node_modules && rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json craco.config.js yarn.lock",
-        "cleanup": "echo cleaning up frontend && rm -rf src & yarn clear-file & rm -rf public"
+        "build": "yarn && make build && make clean-up"
     },
     "dependencies": {
         "dotenv": "^11.0.0",
