@@ -1,10 +1,9 @@
 {
-    "name": "my-first-web",
-    "version": "0.0.0",
-    "author": "PoolOfDeath20",
-    "license": "MIT",
-    "scripts": {
-        "start": "make start",
-        "build": "make build"
-    }
+  "name": "my-first-web",
+  "version": "0.0.0",
+  "author": "PoolOfDeath20",
+  "license": "MIT",
+  "scripts": {
+    "build": "make build"
+  }
 }

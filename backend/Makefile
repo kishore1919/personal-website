@@ -1,27 +1,23 @@
 ## declare PHONY
 .PHONY: build
 
+## serve
+serve:
+	node build
+
 ## start
 start:
-	node build/index.js
-
-start-watch:
-	node_modules/.bin/nodemon
-
-start-dev:
-	make build && make start
+	(trap 'kill 0' INT; make typecheck & make build)
 
 ## build
-clean-up:
-	rm -rf .eslintrc .gitattributes .gitignore .prettierrc tsconfig.json nodemon.json package.json yarn.lock && \
-		rm -rf src script && \
-		rm -rf node_modules
-
 build:
-	rm -rf build && \
-		node script/esbuild.js
+	rm -rf build && node script/esbuild.js
+
+## clean-up
+clean-up:
+	rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json yarn.lock && \
+		rm -rf src script node_modules
 
 ## type-check
-tsc=node_modules/.bin/tsc
-typecheck:
-	$(tsc) --pretty --skipLibCheck --noEmit
+typecheck-watch:
+	node_modules/.bin/tsc -p tsconfig.json --w

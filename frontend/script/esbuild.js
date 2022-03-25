@@ -1,20 +1,31 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
-dotenv.config();
 
-const main = ({ entryPoints, outfile, loader }) =>
+dotenv.config({});
+
+(() =>
     build({
-        entryPoints,
-        outfile,
-        loader,
+        entryPoints: ['src/index.tsx'],
+        outfile: 'build/index.js',
+        loader: {
+            '.ts': 'tsx',
+        },
         bundle: true,
         minify: true,
+        minifyWhitespace: true,
         platform: 'browser',
         define: {
-            'process.env.NODE_ENV': `"${process.env.PUBLIC_URL}"`,
-            'process.env.PUBLIC_URL': `"${process.env.NODE_ENV}"`,
+            'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
+            'process.env.PUBLIC_URL': `"${process.env.PUBLIC_URL}"`,
         },
         logLevel: 'silent',
+        watch:
+            process.env.NODE_ENV !== 'DEVELOPMENT'
+                ? undefined
+                : {
+                      onRebuild: (error, result) =>
+                          console.log(error ?? result),
+                  },
     })
         .then((r) => {
             console.dir(r);
@@ -23,12 +34,4 @@ const main = ({ entryPoints, outfile, loader }) =>
         .catch((e) => {
             console.log('Error building:', e.message);
             process.exit(1);
-        });
-
-main({
-    entryPoints: ['src/index.tsx'],
-    outfile: 'build/index.js',
-    loader: {
-        '.ts': 'tsx',
-    },
-});
+        }))();

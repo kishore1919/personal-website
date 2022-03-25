@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-export const contactConfig = {
-    EMAIL: process.env.EMAIL,
-    PASS: process.env.PASS,
+const contactConfig = {
+    email: process.env.EMAIL,
+    pass: process.env.PASS,
 };
+
+export default contactConfig;

@@ -69,14 +69,14 @@ const fetchGithubOrganization = async (
                     `https://api.github.com/orgs/${organizationName}/repos`
                 )
             ).json(),
-            (repo) => {
-                if (repo.full_name === 'Utari-Room/diagram') {
-                    return [];
-                }
-                return [
-                    parseAsString(repo.language).orElseThrowDefault('language'),
-                ];
-            }
+            (repo) =>
+                !repo.language
+                    ? []
+                    : [
+                          parseAsString(repo.language).orElseThrowDefault(
+                              'language'
+                          ),
+                      ]
         )
             .orElseThrowDefault('repositories')
             .flat()

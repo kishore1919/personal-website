@@ -27,9 +27,9 @@
         "@types/styled-components": "^5.1.15",
         "esbuild": "^0.14.11",
         "html-minifier-terser": "^7.0.0-alpha.1",
-        "nodemon": "^2.0.15",
         "terser": "^5.10.0",
-        "typescript": "^4.1.2"
+        "typescript": "^4.1.2",
+        "workbox-cli": "^6.5.1"
     },
     "eslintConfig": {
         "extends": [

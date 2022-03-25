@@ -1,27 +1,29 @@
 ## declare PHONY
 .PHONY: build
 
-## type check
-tsc=node_modules/.bin/tsc
-typecheck:
-	$(tsc) --pretty --skipLibCheck --noEmit
+## typecheck
+typecheck-watch:
+	node_modules/.bin/tsc -p tsconfig.json --w
 
 ## start
 start:
-	(trap 'kill 0' INT; make typecheck & make build)
-
-start-watch:
-	node_modules/.bin/nodemon
+	(trap 'kill 0' INT; make build & make typecheck-watch)
 
 ## build
-build:
-	rm -rf build\
-		&& cp -R public build\
-		&& node script/esbuild.js\
-		&& node script/terser.js
+pre-build:
+	rm -rf build && cp -R public build
+
+## pwa
+generate-sw:
+	node_modules/.bin/workbox generateSW workbox-config.cjs
+
+transpile:
+	node script/esbuild.js && node script/terser.js
+
+build: pre-build
+	make generate-sw && make transpile
 
 ## clean-up
 clean-up:
-	rm -rf src script public && \
-		rm -rf node_modules && \
-		rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json craco.config.js yarn.lock
+	rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json workbox-config.cjs yarn.lock && \
+		rm -rf src script public node_modules
