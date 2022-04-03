@@ -26,6 +26,7 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
             const { name, language, html_url, description } = repo;
             const parsedName = parseAsString(name).orElseThrowDefault('name');
             return ![
+                'my-web',
                 'LibGDX-Chess-Game',
                 'MinimalTicTacToe',
                 'TextEditorFX',
