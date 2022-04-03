@@ -21,3 +21,15 @@ clean-up:
 ## type-check
 typecheck-watch:
 	node_modules/.bin/tsc -p tsconfig.json --w
+
+## lint
+lint:
+	node_modules/.bin/eslint src/** -f='stylish' --color
+
+## format
+prettier=node_modules/.bin/prettier
+format:
+	$(prettier) --write src/
+
+format-check:
+	$(prettier) --check src/

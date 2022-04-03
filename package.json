@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "author": "PoolOfDeath20",
   "license": "MIT",
+  "engines": {
+    "yarn": "1.22.17"
+  },
   "scripts": {
-    "build": "make build"
+    "build": "make build && make clean-up"
   }
 }

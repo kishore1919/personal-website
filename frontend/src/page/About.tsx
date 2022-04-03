@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { GlobalContainer } from '../util/theme/GlobalTheme';
+import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
 
-const About = (): JSX.Element => (
+const About = () => (
     <ContentContainer>
         <Title
             title="About"

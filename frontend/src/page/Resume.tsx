@@ -1,14 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-const ResumeLeft = React.lazy(() => import('../components/resume/ResumeLeft'));
-const ResumeRight = React.lazy(
-    () => import('../components/resume/ResumeRight')
-);
-import { GlobalContainer } from '../util/theme/GlobalTheme';
+import ResumeLeft from '../components/resume/ResumeLeft';
+import ResumeRight from '../components/resume/ResumeRight';
+import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
-import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
-const Resume = (): JSX.Element => (
+const Resume = () => (
     <ContentContainer>
         <Title title="Resume" content="PoolOfDeath20 or Gervin's resume page" />
         <link
@@ -17,12 +14,8 @@ const Resume = (): JSX.Element => (
         />
         <Container>
             <ResumeContainer>
-                <ErrorBoundary>
-                    <React.Suspense fallback={<HashLoading />}>
-                        <ResumeLeft />
-                        <ResumeRight />
-                    </React.Suspense>
-                </ErrorBoundary>
+                <ResumeLeft />
+                <ResumeRight />
             </ResumeContainer>
         </Container>
     </ContentContainer>

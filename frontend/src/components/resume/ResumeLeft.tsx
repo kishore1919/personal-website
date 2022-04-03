@@ -10,7 +10,7 @@ import {
     FaPhone,
 } from 'react-icons/fa';
 import { TiSocialLinkedin, TiSocialFacebook } from 'react-icons/ti';
-import { keyConfig, isDarkResume } from '../../util/theme/colorTheme';
+import { keyConfig, isDarkResume } from '../../theme/colorTheme';
 
 const ResumeLeft = () => {
     const { key } = keyConfig;

@@ -1,15 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-const SendingMessage = React.lazy(() =>
-    import('../components/contact/Message').then((module) => ({
-        default: module.SendingMessage,
-    }))
-);
-const FinalMessage = React.lazy(() =>
-    import('../components/contact/Message').then((module) => ({
-        default: module.FinalMessage,
-    }))
-);
+import { FinalMessage } from '../components/contact/Message';
+import { SendingMessage } from '../components/contact/Message';
 import {
     getName,
     getEmail,
@@ -21,12 +13,12 @@ import {
     Data,
     parseAsData,
 } from '../util/contact';
-import { GlobalContainer } from '../util/theme/GlobalTheme';
+import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
 import { contactURL } from '../util/url';
-import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 import { GranulaString } from 'granula-string';
-const Contact = (): JSX.Element => {
+
+const Contact = () => {
     const [state, setState] = React.useState({
         name: {
             value: GranulaString.createFromString(''),
@@ -40,16 +32,16 @@ const Contact = (): JSX.Element => {
             value: GranulaString.createFromString(''),
             error: '',
         } as Message,
-        showFinal: false,
-        showWaiting: false,
+        isShowFinal: false,
+        isShowWaiting: false,
     });
 
-    const { email, message, name, showFinal, showWaiting } = state;
+    const { email, message, name, isShowFinal, isShowWaiting } = state;
 
-    const setShowWaiting = (showWaiting: boolean) =>
+    const setShowWaiting = (isShowWaiting: boolean) =>
         setState((prev) => ({
             ...prev,
-            showWaiting,
+            isShowWaiting,
         }));
 
     const submit = (event: React.FormEvent<HTMLDivElement>) => {
@@ -90,19 +82,19 @@ const Contact = (): JSX.Element => {
         email,
         message,
         name,
-        showFinal,
+        isShowFinal,
     }: Readonly<{
         name: Name;
         email: Email;
         message: Message;
-        showFinal: boolean;
+        isShowFinal: boolean;
     }>) =>
         setState((prev) => ({
             ...prev,
             name,
             email,
             message,
-            showFinal,
+            isShowFinal: isShowFinal,
         }));
 
     const showMessage = (json: Data) => {
@@ -112,7 +104,7 @@ const Contact = (): JSX.Element => {
             case 'succeed':
                 setShowMessage({
                     ...json,
-                    showFinal: type === 'succeed',
+                    isShowFinal: type === 'succeed',
                 });
                 break;
             case 'failed':
@@ -128,55 +120,25 @@ const Contact = (): JSX.Element => {
         }
     };
 
-    const changeName = (event: React.ChangeEvent<HTMLInputElement>) =>
-        setState((prev) => ({
-            ...prev,
-            name: getName(GranulaString.createFromString(event.target.value)),
-        }));
-
-    const changeEmail = (event: React.ChangeEvent<HTMLInputElement>) =>
-        setState((prev) => ({
-            ...prev,
-            email: getEmail(GranulaString.createFromString(event.target.value)),
-        }));
-
-    const changeMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) =>
-        setState((prev) => ({
-            ...prev,
-            message: getMessage(
-                GranulaString.createFromString(event.target.value)
-            ),
-        }));
-
     return (
         <ContentContainer>
             <Title
                 title="Contact"
                 content="PoolOfDeath20 or Gervin's contact page. Come to this page to contact him"
             />
-
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <SendingMessage
-                        show={showWaiting}
-                        closeMessage={() => setShowWaiting(false)}
-                    />
-                </React.Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <FinalMessage
-                        show={showFinal}
-                        closeMessage={() =>
-                            setState((prev) => ({
-                                ...prev,
-                                showFinal: false,
-                            }))
-                        }
-                    />
-                </React.Suspense>
-            </ErrorBoundary>
-
+            <SendingMessage
+                isShow={isShowWaiting}
+                closeMessage={() => setShowWaiting(false)}
+            />
+            <FinalMessage
+                isShow={isShowFinal}
+                closeMessage={() =>
+                    setState((prev) => ({
+                        ...prev,
+                        isShowFinal: false,
+                    }))
+                }
+            />
             <Container>
                 <ContactContainer>
                     <ContactMeContainer>
@@ -202,11 +164,19 @@ const Contact = (): JSX.Element => {
                                         value={name.value.valueOf()}
                                         placeholder="Tony Stark"
                                         required
-                                        onChange={changeName}
+                                        onChange={(event) =>
+                                            setState((prev) => ({
+                                                ...prev,
+                                                name: getName(
+                                                    GranulaString.createFromString(
+                                                        event.target.value
+                                                    )
+                                                ),
+                                            }))
+                                        }
                                     />
                                 </InputDiv>
                             </InputLabel>
-
                             <InputInfo htmlFor="email">
                                 You can reach me at
                             </InputInfo>
@@ -220,11 +190,19 @@ const Contact = (): JSX.Element => {
                                         value={email.value.valueOf()}
                                         placeholder="tonystark@gmail.com"
                                         required
-                                        onChange={changeEmail}
+                                        onChange={(event) =>
+                                            setState((prev) => ({
+                                                ...prev,
+                                                email: getEmail(
+                                                    GranulaString.createFromString(
+                                                        event.target.value
+                                                    )
+                                                ),
+                                            }))
+                                        }
                                     />
                                 </InputDiv>
                             </InputLabel>
-
                             <InputInfo htmlFor="message">
                                 I would like to
                             </InputInfo>
@@ -238,11 +216,19 @@ const Contact = (): JSX.Element => {
                                         placeholder="Ask you a question/Tell you something"
                                         rows={8}
                                         required
-                                        onChange={changeMessage}
+                                        onChange={(event) =>
+                                            setState((prev) => ({
+                                                ...prev,
+                                                message: getMessage(
+                                                    GranulaString.createFromString(
+                                                        event.target.value
+                                                    )
+                                                ),
+                                            }))
+                                        }
                                     />
                                 </InputDiv>
                             </InputLabel>
-
                             <SubmitButtonContainer>
                                 <SubmitButton />
                             </SubmitButtonContainer>

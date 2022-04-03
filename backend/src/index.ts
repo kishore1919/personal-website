@@ -1,8 +1,9 @@
 import express from 'express';
-import { getSpecifiedResponse, getUnspecifiedResponse } from './util/portfolio';
+import getResponse from './util/portfolio';
 import emailResponse from './util/contact';
 import path from 'path';
 import cors from 'cors';
+import { parseAsString } from 'parse-dont-validate';
 
 const { static: expressStatic, json, urlencoded } = express;
 
@@ -37,12 +38,12 @@ const { static: expressStatic, json, urlencoded } = express;
         if (req.method !== 'GET') {
             throw new Error('Only accept GET request');
         } else {
-            const page = req.query.page;
-            const language = req.query.language;
+            const { query } = req;
             res.status(200).json(
-                typeof page === 'string' && typeof language === 'string'
-                    ? await getSpecifiedResponse(page, language)
-                    : await getUnspecifiedResponse()
+                await getResponse(
+                    parseAsString(query.page).orElseLazyGet(() => '0'),
+                    parseAsString(query.language).orElseLazyGet(() => 'All')
+                )
             );
         }
     });
@@ -51,14 +52,7 @@ const { static: expressStatic, json, urlencoded } = express;
         if (req.method !== 'POST') {
             throw new Error('Only accept POST request');
         } else {
-            const { name, email, message } = req.body;
-            res.status(200).json(
-                await emailResponse({
-                    name,
-                    email,
-                    message,
-                })
-            );
+            res.status(200).json(await emailResponse(req.body));
         }
     });
 

@@ -1,8 +1,8 @@
-import League, { isFirstPlayer } from '../../piece/League';
+import { League, isFirstPlayer } from '../../piece/League';
 import { connectFour } from '../../board/BoardUtil';
 import { Board } from '../../board/Board';
 
-export const evaluateConnectFourBoard = (
+const evaluateConnectFourBoard = (
     board: Board,
     league: League,
     depth: number,
@@ -381,3 +381,5 @@ const getNegativeSlopeRow = (
     }
     return listOfLeagues;
 };
+
+export default evaluateConnectFourBoard;

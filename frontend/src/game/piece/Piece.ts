@@ -1,4 +1,4 @@
-import League from './League';
+import { League } from './League';
 
 type Piece = Readonly<{
     league: League;
@@ -10,4 +10,4 @@ export const createPiece = (league: League, index: number): Piece => ({
     league,
 });
 
-export default Piece;
+export type { Piece };

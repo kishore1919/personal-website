@@ -1,57 +1,52 @@
 import * as React from 'react';
 import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 import { FaSun, FaMoon, FaArrowUp } from 'react-icons/fa';
-import { isPrimary } from '../util/theme/colorTheme';
-import { HashLoading, ErrorBoundary } from './HashLoading';
-const NavLinks = React.lazy(() => import('./NavLinks'));
-const FullScreen = React.lazy(() => import('./FullScreenNav'));
+import { isPrimary } from '../theme/colorTheme';
+import NavLinks from './NavLinks';
+import FullScreen from './FullScreenNav';
+import useWindowResize from '../hook/windowWidthResize';
 
 type BackToTopAnimation = Readonly<{
-    slideIn: boolean;
+    isSlideIn: boolean;
 }>;
 
 const BackToTop = ({
-    scroll,
+    isScroll: scroll,
 }: Readonly<{
-    scroll: boolean;
+    isScroll: boolean;
 }>) => {
     const [state, setState] = React.useState({
-        animate: scroll,
-        load: scroll,
+        isAnimate: scroll,
+        isLoad: scroll,
     });
 
     React.useEffect(() => {
         setState((prev) => ({
             ...prev,
-            animate: scroll,
+            isAnimate: scroll,
         }));
         setTimeout(
             () =>
                 setState((prev) => ({
                     ...prev,
-                    load: scroll,
+                    isLoad: scroll,
                 })),
             scroll ? 350 : 0
         );
     }, [scroll]);
 
-    const { animate, load } = state;
+    const { isAnimate, isLoad } = state;
 
-    if (load) {
-        return (
-            <BackToTopContainer>
-                <ArrowUpContainer
-                    slideIn={animate}
-                    onClick={() =>
-                        window.scrollTo({ top: 0, behavior: 'smooth' })
-                    }
-                >
-                    <ArrowUp />
-                </ArrowUpContainer>
-            </BackToTopContainer>
-        );
-    }
-    return null;
+    return !isLoad ? null : (
+        <BackToTopContainer>
+            <ArrowUpContainer
+                isSlideIn={isAnimate}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+                <ArrowUp />
+            </ArrowUpContainer>
+        </BackToTopContainer>
+    );
 };
 
 const Header = ({
@@ -64,15 +59,17 @@ const Header = ({
     const hamburgerBreakPoint = 646;
 
     const [state, setState] = React.useState({
-        show: false,
-        scroll: false,
-        width: window.innerWidth,
+        isShow: false,
+        isScroll: false,
     });
+
+    const { isShow, isScroll } = state;
+    const { width } = useWindowResize();
 
     const handlePageOffset = () =>
         setState((prev) => ({
             ...prev,
-            scroll: window.pageYOffset > 100,
+            isScroll: window.pageYOffset > 100,
         }));
 
     React.useEffect(() => {
@@ -95,20 +92,18 @@ const Header = ({
         };
     }, []);
 
-    const setShow = (show: boolean) =>
+    const setShow = (isShow: boolean) =>
         setState((prev) => ({
             ...prev,
-            show,
+            isShow,
         }));
-
-    const { show, scroll, width } = state;
 
     const ToggleComponent = () =>
         isPrimary(theme) ? <ToggleThemeSun /> : <ToggleThemeMoon />;
 
     const NavLinksElem = () =>
         width <= hamburgerBreakPoint ? null : (
-            <NavLinks fullScreen={false} close={() => setShow(false)} />
+            <NavLinks isFullScreen={false} close={() => setShow(false)} />
         );
 
     const HamburgerNavElem = () =>
@@ -121,34 +116,27 @@ const Header = ({
     return (
         <Container>
             <NavWrapper>
-                <ErrorBoundary>
-                    <React.Suspense fallback={<HashLoading />}>
-                        <NavLinksElem />
-                        <RightSide>
-                            <ToggleThemeContainer>
-                                <ToggleThemeButton onClick={updateTheme}>
-                                    <ToggleComponent />
-                                </ToggleThemeButton>
-                            </ToggleThemeContainer>
-                            <Brand>
-                                <Name
-                                    onClick={() =>
-                                        window.scrollTo(
-                                            0,
-                                            document.body.scrollHeight
-                                        )
-                                    }
-                                >
-                                    PoolOfDeath20
-                                </Name>
-                            </Brand>
-                            <HamburgerNavElem />
-                        </RightSide>
-                        <FullScreen show={show} close={() => setShow(false)} />
-                    </React.Suspense>
-                </ErrorBoundary>
+                <NavLinksElem />
+                <RightSide>
+                    <ToggleThemeContainer>
+                        <ToggleThemeButton onClick={updateTheme}>
+                            <ToggleComponent />
+                        </ToggleThemeButton>
+                    </ToggleThemeContainer>
+                    <Brand>
+                        <Name
+                            onClick={() =>
+                                window.scrollTo(0, document.body.scrollHeight)
+                            }
+                        >
+                            PoolOfDeath20
+                        </Name>
+                    </Brand>
+                    <HamburgerNavElem />
+                </RightSide>
+                <FullScreen isShow={isShow} close={() => setShow(false)} />
             </NavWrapper>
-            <BackToTop scroll={scroll} />
+            <BackToTop isScroll={isScroll} />
         </Container>
     );
 };
@@ -281,20 +269,20 @@ const ArrowUpContainer = styled.div`
     background-color: ${({ theme }) => theme.theme.secondaryColor};
     padding: 15px;
     margin: 10px;
-    animation: ${({ slideIn }: BackToTopAnimation) =>
-            slideIn ? FadeIn : FadeOut}
+    animation: ${({ isSlideIn }: BackToTopAnimation) =>
+            isSlideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -moz-animation: ${({ slideIn }: BackToTopAnimation) =>
-            slideIn ? FadeIn : FadeOut}
+    -moz-animation: ${({ isSlideIn }: BackToTopAnimation) =>
+            isSlideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -webkit-animation: ${({ slideIn }: BackToTopAnimation) =>
-            slideIn ? FadeIn : FadeOut}
+    -webkit-animation: ${({ isSlideIn }: BackToTopAnimation) =>
+            isSlideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -o-animation: ${({ slideIn }: BackToTopAnimation) =>
-            slideIn ? FadeIn : FadeOut}
+    -o-animation: ${({ isSlideIn }: BackToTopAnimation) =>
+            isSlideIn ? FadeIn : FadeOut}
         ease 0.5s;
-    -ms-animation: ${({ slideIn }: BackToTopAnimation) =>
-            slideIn ? FadeIn : FadeOut}
+    -ms-animation: ${({ isSlideIn }: BackToTopAnimation) =>
+            isSlideIn ? FadeIn : FadeOut}
         ease 0.5s;
     &:hover {
         cursor: pointer;

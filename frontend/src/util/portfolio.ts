@@ -1,6 +1,7 @@
 import {
     parseAsNumber,
     parseAsReadonlyArray,
+    parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
 
@@ -11,34 +12,34 @@ type PortfolioData = Readonly<{
     url: string;
 }>;
 
-export type Data = Readonly<{
-    numberOfPagesQueried: number;
-    portfolioLanguages: ReadonlyArray<string>;
-    portfolioPaginated: ReadonlyArray<PortfolioData>;
-    selectedLanguage: string;
+type Data = Readonly<{
+    page: number;
+    languages: ReadonlyArray<string>;
+    portfolios: ReadonlyArray<PortfolioData>;
+    language: string;
 }>;
 
-export const parseAsPortfolioData = (data: any): Data => ({
-    numberOfPagesQueried: parseAsNumber(
-        data.numberOfPagesQueried
-    ).orElseThrowDefault('numberOfPagesQueried'),
-    portfolioLanguages: parseAsReadonlyArray(data.portfolioLanguages, (val) =>
-        parseAsString(val).orElseThrowDefault('portfolioLanguage')
-    ).orElseThrowDefault('portfolioLanguages'),
-    portfolioPaginated: parseAsReadonlyArray(
-        data.portfolioPaginated,
-        (val) => ({
-            name: parseAsString(val.name).orElseThrowDefault('name'),
-            description: parseAsString(val.description).orElseThrowDefault(
-                'description'
-            ),
-            language: parseAsString(val.language).orElseThrowDefault(
+const parseAsPortfolioData = (data: any): Data => {
+    const parseAsLanguage = (language: unknown) =>
+        parseAsString(language).orElseThrowDefault('language');
+    return parseAsReadonlyObject(data, (data) => ({
+        page: parseAsNumber(data.page).orElseThrowDefault('page'),
+        languages: parseAsReadonlyArray(data.languages, (language) =>
+            parseAsLanguage(language)
+        ).orElseThrowDefault('languages'),
+        portfolios: parseAsReadonlyArray(data.portfolios, (portfolio) => ({
+            name: parseAsString(portfolio.name).orElseThrowDefault('name'),
+            description: parseAsString(
+                portfolio.description
+            ).orElseThrowDefault('description'),
+            language: parseAsString(portfolio.language).orElseThrowDefault(
                 'language'
             ),
-            url: parseAsString(val.url).orElseThrowDefault('url'),
-        })
-    ).orElseThrowDefault('portfolioPaginated'),
-    selectedLanguage: parseAsString(data.selectedLanguage).orElseThrowDefault(
-        'selectedLanguage'
-    ),
-});
+            url: parseAsString(portfolio.url).orElseThrowDefault('url'),
+        })).orElseThrowDefault('portfolios'),
+        language: parseAsLanguage(data.language),
+    })).orElseThrowDefault('data');
+};
+
+export type { Data };
+export { parseAsPortfolioData };

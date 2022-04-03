@@ -5,53 +5,73 @@ import {
     createRedPlayer,
     Player,
 } from '../player/Player';
-import League from '../piece/League';
-import Tile, { createTile } from './Tile';
+import { League } from '../piece/League';
+import { Tile, createTile } from './Tile';
 import { connectFour, ticTacToe } from './BoardUtil';
 
-export type Board = Readonly<{
+type Board = Readonly<{
     league: League;
     firstPlayer: Player;
     secondPlayer: Player;
     currentPlayer: Player;
     tileList: ReadonlyArray<Tile>;
     stringFormat: () => string;
-    identifier: 0 | 1;
+    type: 'TicTacToe' | 'ConnectFour';
 }>;
 
-export const createStandardTicTacToeBoard = (): Board =>
+const createStandardTicTacToeBoard = (): Board =>
     createTicTacToeBoard(
-        League.first,
-        Array.from({
-            length: ticTacToe.numberOfTiles,
-        }).map((_, i) => createTile(i, null)) as ReadonlyArray<Tile>
+        'first',
+        Array.from(
+            {
+                length: ticTacToe.numberOfTiles,
+            },
+            (_, i) => createTile(i, undefined)
+        ) as ReadonlyArray<Tile>
     );
 
-export const createStandardConnectFourBoard = (): Board =>
+const createStandardConnectFourBoard = (): Board =>
     createConnectFourBoard(
-        League.first,
-        Array.from({
-            length: connectFour.numberOfTiles,
-        }).map((_, i) => createTile(i, null)) as ReadonlyArray<Tile>
+        'first',
+        Array.from(
+            {
+                length: connectFour.numberOfTiles,
+            },
+            (_, i) => createTile(i, undefined)
+        ) as ReadonlyArray<Tile>
     );
-export const createTicTacToeBoard = (
+const createTicTacToeBoard = (
     league: League,
     tileList: ReadonlyArray<Tile>
 ): Board => {
     const { column } = ticTacToe;
     const firstPlayer = createCrossPlayer(tileList);
     const secondPlayer = createNoughtPlayer(tileList);
-    return createBoard(column, league, firstPlayer, secondPlayer, tileList, 0);
+    return createBoard(
+        column,
+        league,
+        firstPlayer,
+        secondPlayer,
+        tileList,
+        'TicTacToe'
+    );
 };
 
-export const createConnectFourBoard = (
+const createConnectFourBoard = (
     league: League,
     tileList: ReadonlyArray<Tile>
 ): Board => {
     const { column } = connectFour;
     const firstPlayer = createBlackPlayer(tileList);
     const secondPlayer = createRedPlayer(tileList);
-    return createBoard(column, league, firstPlayer, secondPlayer, tileList, 1);
+    return createBoard(
+        column,
+        league,
+        firstPlayer,
+        secondPlayer,
+        tileList,
+        'ConnectFour'
+    );
 };
 
 const createBoard = (
@@ -60,7 +80,7 @@ const createBoard = (
     firstPlayer: Player,
     secondPlayer: Player,
     tileList: ReadonlyArray<Tile>,
-    identifier: 0 | 1
+    type: Board['type']
 ): Board => ({
     league,
     firstPlayer,
@@ -76,5 +96,13 @@ const createBoard = (
                 )}) \t`;
             })
             .join(''),
-    identifier,
+    type,
 });
+
+export {
+    createConnectFourBoard,
+    createTicTacToeBoard,
+    createStandardConnectFourBoard,
+    createStandardTicTacToeBoard,
+};
+export type { Board };

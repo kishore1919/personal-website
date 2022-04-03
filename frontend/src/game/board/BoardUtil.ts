@@ -1,18 +1,19 @@
 import { Board } from './Board';
 
-export const ticTacToe = {
+const ticTacToe = {
     row: 3,
     numberOfTiles: 9,
     column: 3,
     numberOfTilesToWin: 3,
 } as const;
 
-export const connectFour = {
+const connectFour = {
     row: 6,
     numberOfTiles: 42,
     column: 7,
     numberOfTilesToWin: 4,
 } as const;
 
-export const instanceOfTicTacToe = (board: Board): boolean =>
-    board.identifier % 2 === 0;
+const instanceOfTicTacToe = ({ type }: Board): boolean => type === 'TicTacToe';
+
+export { ticTacToe, connectFour, instanceOfTicTacToe };

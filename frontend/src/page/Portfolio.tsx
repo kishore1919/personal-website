@@ -1,22 +1,18 @@
 import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { Data, parseAsPortfolioData } from '../util/portfolio';
-import { GlobalContainer } from '../util/theme/GlobalTheme';
+import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
-const Surprise = React.lazy(() =>
-    import('../components/portfolio/Surprise').then((module) => ({
-        default: module.Surprise,
-    }))
-);
-const LoadingPortoflio = React.lazy(() =>
-    import('../components/portfolio/Surprise').then((module) => ({
-        default: module.LoadingPortoflio,
-    }))
-);
+import { Surprise } from '../components/portfolio/Surprise';
+import { LoadingPortoflio } from '../components/portfolio/Surprise';
 import { useHistory, useLocation } from 'react-router-dom';
-import { portfolioURL, portfolioQuery } from '../util/url';
-import { HashLoading, ErrorBoundary } from '../components/HashLoading';
+import {
+    portfolioQuery,
+    apiPortfolioQuery,
+    parseAsQueryParams,
+} from '../util/url';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
+import useWindowResize from '../hook/windowWidthResize';
 
 type PortfolioImageBackgroundProps = Readonly<{
     backgroundImage: string;
@@ -26,125 +22,108 @@ type Portfolio = Readonly<{
     portfolio: Data;
 }>;
 
-const Portfolio = (): JSX.Element => {
+const Portfolio = () => {
     const history = useHistory();
     const location = useLocation();
+    const { search } = location;
     const dotBreakPoint = 586;
-
-    const processQuery = (search: string) => {
-        if (search) {
-            const query = new URLSearchParams(search);
-            const page = query.get('page');
-            const language = query.get('language');
-            if (page && language) {
-                return portfolioQuery(parseInt(page, 10), language);
-            }
-        }
-        return portfolioURL;
-    };
 
     const [state, setState] = React.useState({
         portfolio: undefined as Data | undefined,
-        queryLanguage: 'All' as string,
-        url: processQuery(location.search),
-        initialLoad: true,
-        show: false,
-        width: window.innerWidth,
-        fetched: false,
+        queryParams: parseAsQueryParams(search),
+        isPush: false,
+        isShow: false,
+        isInitialLoad: true,
+        isFetched: false,
     });
 
-    const { portfolio, queryLanguage, url, initialLoad, show, width, fetched } =
+    const { portfolio, queryParams, isInitialLoad, isPush, isShow, isFetched } =
         state;
 
+    const { width } = useWindowResize();
+
+    const url = portfolioQuery(queryParams);
+
     React.useEffect(() => {
-        if (!initialLoad) {
-            fetch(url)
+        if (!isInitialLoad) {
+            if (isPush) {
+                history.push(`/portfolio?${url}`);
+            }
+            setState((prev) => ({
+                ...prev,
+                isFetched: false,
+            }));
+            fetch(apiPortfolioQuery(url))
                 .then((response) => response.json())
                 .then((json) => {
-                    const portfolio = parseAsPortfolioData(json);
                     setState((prev) => ({
                         ...prev,
-                        portfolio,
-                        fetched: true,
-                        queryLanguage: portfolio.selectedLanguage,
+                        portfolio: parseAsPortfolioData(json),
+                        isFetched: true,
                     }));
                 })
                 .catch((error) => {
                     setState((prev) => ({
                         ...prev,
-                        fetched: true,
+                        isFetched: true,
                     }));
                     console.error(error);
                 });
         }
-    }, [url, initialLoad]);
+    }, [url, isInitialLoad]);
 
     React.useEffect(() => {
         setState((prev) => ({
             ...prev,
-            initialLoad: false,
+            isInitialLoad: false,
         }));
         showSurprise();
-        return history.listen((location) => {
-            const { pathname, search } = location;
+        return history.listen(({ pathname, search }) => {
             if (pathname.startsWith('/portfolio')) {
                 setState((prev) => ({
                     ...prev,
-                    url: processQuery(search),
+                    isPush: false,
+                    queryParams: parseAsQueryParams(search),
                 }));
             }
         });
     }, [history]);
 
-    React.useEffect(() => {
-        const handleResizeWindow = () =>
-            setState((prev) => ({
-                ...prev,
-                width: window.innerWidth,
-            }));
-        window.addEventListener('resize', handleResizeWindow);
-        return () => {
-            window.removeEventListener('resize', handleResizeWindow);
-        };
-    }, []);
-
     const showSurprise = () => {
         const viewedKey = '20799527-d73d-4ebd-87a9-efdca713af3e';
-        const value = window.sessionStorage.getItem(viewedKey);
+        const value = localStorage.getItem(viewedKey);
         if (value === null) {
             setTimeout(() => {
                 setState((prev) => ({
                     ...prev,
-                    show: true,
+                    isShow: true,
                 }));
                 window.sessionStorage.setItem(viewedKey, JSON.stringify(true));
             }, 5500);
         }
     };
 
-    const ShowPortfolios = ({ portfolio }: Portfolio): JSX.Element => (
+    const ShowPortfolios = ({ portfolio }: Portfolio) => (
         <Container>
             <PortfolioContainer>
-                {portfolio.portfolioPaginated.map(
-                    ({ name, description, url }) => (
-                        <PortfolioItemContainer key={name}>
-                            <PortfolioImageBackground
-                                backgroundImage={`asset/images/portfolioBackground/${name}.webp`}
-                            />
-                            <ImageTextContainer>
-                                <div>
-                                    <PortfolioLink href={url}>
-                                        <PortfolioLogo
-                                            src={`asset/images/logo/${name}.webp`}
-                                            alt={`${name}.webp`}
-                                        />
-                                    </PortfolioLink>
-                                </div>
-                                <Caption>{description}</Caption>
-                            </ImageTextContainer>
-                        </PortfolioItemContainer>
-                    )
-                )}
+                {portfolio.portfolios.map(({ name, description, url }) => (
+                    <PortfolioItemContainer key={name}>
+                        <PortfolioImageBackground
+                            backgroundImage={`asset/images/portfolioBackground/${name}.webp`}
+                        />
+                        <ImageTextContainer>
+                            <div>
+                                <PortfolioLink href={url}>
+                                    <PortfolioLogo
+                                        src={`asset/images/logo/${name}.webp`}
+                                        alt={`${name}.webp`}
+                                    />
+                                </PortfolioLink>
+                            </div>
+                            <Caption>{description}</Caption>
+                        </ImageTextContainer>
+                    </PortfolioItemContainer>
+                ))}
             </PortfolioContainer>
         </Container>
     );
@@ -152,21 +131,21 @@ const Portfolio = (): JSX.Element => {
     const customQueryPortfolio = (page: number) =>
         queryPortfolio(
             page,
-            new URLSearchParams(location.search).get('language') || 'All'
+            new URLSearchParams(search).get('language') || 'All'
         );
 
     const getNextPage = (portfolio: Data): number => {
-        const paging = getPagingNumber();
-        return paging === portfolio.numberOfPagesQueried - 1 ? 0 : paging + 1;
+        const { page } = queryParams;
+        return page === portfolio.page - 1 ? 0 : page + 1;
     };
 
     const getPrevPage = (portfolio: Data): number => {
-        const paging = getPagingNumber();
-        return paging === 0 ? portfolio.numberOfPagesQueried - 1 : paging - 1;
+        const { page } = queryParams;
+        return page === 0 ? portfolio.page - 1 : page - 1;
     };
 
-    const Buttons = ({ portfolio }: Portfolio): JSX.Element | null =>
-        portfolio.numberOfPagesQueried === 1 ? null : (
+    const Buttons = ({ portfolio }: Portfolio) =>
+        portfolio.page === 1 ? null : (
             <div>
                 <LeftButton
                     onClick={() => customQueryPortfolio(getPrevPage(portfolio))}
@@ -181,47 +160,37 @@ const Portfolio = (): JSX.Element => {
             </div>
         );
 
-    const getPagingNumber = () => {
-        const url = new URLSearchParams(location.search);
-        const page = url.get('page');
-        return page === null ? 0 : parseInt(page, 10) ?? 0;
-    };
-
-    const DotsNav = ({ portfolio }: Portfolio): JSX.Element | null => {
-        if (portfolio.numberOfPagesQueried === 1 || width <= dotBreakPoint) {
-            return null;
-        }
-        const paging = getPagingNumber();
-        return (
+    const DotsNav = ({ portfolio }: Portfolio) =>
+        portfolio.page === 1 || width <= dotBreakPoint ? null : (
             <Dots>
-                {Array.from({ length: portfolio.numberOfPagesQueried }).map(
-                    (_, i) => {
-                        const Component = paging === i ? ActiveDot : Dot;
-                        return (
-                            <Component
-                                onClick={() => customQueryPortfolio(i)}
-                                key={i}
-                            />
-                        );
-                    }
-                )}
+                {Array.from({ length: portfolio.page }, (_, i) => {
+                    const Component = queryParams.page === i ? ActiveDot : Dot;
+                    return (
+                        <Component
+                            onClick={() => customQueryPortfolio(i)}
+                            key={i}
+                        />
+                    );
+                })}
             </Dots>
         );
-    };
 
-    const queryPortfolio = (page: number, queryLanguage: string) => {
+    const queryPortfolio = (page: number, language: string) => {
         setState((prev) => ({
             ...prev,
-            url: portfolioQuery(page, queryLanguage),
-            queryLanguage,
+            queryParams: {
+                ...prev.queryParams,
+                page,
+                language,
+            },
+            isPush: true,
         }));
-        history.push(`/portfolio?page=${page}&language=${queryLanguage}`);
     };
 
-    const LanguageSelector = ({ portfolio }: Portfolio): JSX.Element => (
+    const LanguageSelector = ({ portfolio }: Portfolio) => (
         <LanguageChooser>
             <Languages
-                value={queryLanguage}
+                value={portfolio.language}
                 onChange={(e) => queryPortfolio(0, e.target.value)}
             >
                 {[
@@ -229,7 +198,7 @@ const Portfolio = (): JSX.Element => {
                         Language
                     </option>,
                 ].concat(
-                    portfolio.portfolioLanguages.map((language) => (
+                    portfolio.languages.map((language) => (
                         <option key={language}>{language}</option>
                     ))
                 )}
@@ -250,22 +219,18 @@ const Portfolio = (): JSX.Element => {
                     <Buttons portfolio={portfolio} />
                     <DotsNav portfolio={portfolio} />
                 </>
-            ) : fetched ? null : (
+            ) : isFetched ? null : (
                 <LoadingPortoflio />
             )}
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <Surprise
-                        show={show}
-                        closeMessage={() =>
-                            setState((prev) => ({
-                                ...prev,
-                                show: false,
-                            }))
-                        }
-                    />
-                </React.Suspense>
-            </ErrorBoundary>
+            <Surprise
+                isShow={isShow}
+                closeMessage={() =>
+                    setState((prev) => ({
+                        ...prev,
+                        isShow: false,
+                    }))
+                }
+            />
         </ContentContainer>
     );
 };

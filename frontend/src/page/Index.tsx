@@ -1,22 +1,17 @@
 import * as React from 'react';
 import styled from 'styled-components';
-const HomeMessage = React.lazy(() => import('../components/index/HomeMessage'));
-const Game = React.lazy(() => import('../components/index/Game'));
+import HomeMessage from '../components/index/HomeMessage';
+import Game from '../components/index/Game';
 import { Link } from 'react-router-dom';
-import { GlobalContainer } from '../util/theme/GlobalTheme';
+import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
-import { HashLoading, ErrorBoundary } from '../components/HashLoading';
 
-const Home = (): JSX.Element => (
+const Home = () => (
     <ContentContainer>
         <Title title="Home" content="PoolOfDeath20 or Gervin's home page" />
         <TwoColumnWrapper>
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <HomeMessage />
-                    <Game />
-                </React.Suspense>
-            </ErrorBoundary>
+            <HomeMessage />
+            <Game />
         </TwoColumnWrapper>
         <PortfolioButtonContainer>
             <Link to="/portfolio">View My Work</Link>

@@ -1,81 +1,56 @@
 import * as React from 'react';
 import styled from 'styled-components';
-const CloseFullScreen = React.lazy(() => import('../CloseFullScreen'));
-const FullScreenContainer = React.lazy(() =>
-    import('../../util/theme/GlobalTheme').then((module) => ({
-        default: module.FullScreenContainer,
-    }))
-);
-import { HashLoading, ErrorBoundary } from '../HashLoading';
+import CloseFullScreen from '../CloseFullScreen';
+import { FullScreenContainer } from '../../theme/GlobalTheme';
 import HashLoader from 'react-spinners/HashLoader';
-import { primaryTheme } from '../../util/theme/colorTheme';
+import { primaryTheme } from '../../theme/colorTheme';
 
 type MessageProps = Readonly<{
-    show: boolean;
+    isShow: boolean;
     closeMessage: () => void;
 }>;
 
-const FinalMessage = ({
-    show,
-    closeMessage,
-}: MessageProps): JSX.Element | null =>
-    !show ? null : (
-        <ErrorBoundary>
-            <React.Suspense fallback={<HashLoading />}>
-                <Background
-                    onClick={(
-                        event: React.MouseEvent<HTMLDivElement, MouseEvent>
-                    ) => {
-                        const { currentTarget, target } = event;
-                        if (currentTarget === target) {
-                            closeMessage();
-                        }
-                    }}
-                >
-                    <FinalContent>
-                        <CloseFinal onClick={closeMessage}>&times;</CloseFinal>
-                        <FinalContentImage />
-                        <FinalContentParagraph>
-                            Your Message Has Been Successfully Sent!
-                        </FinalContentParagraph>
-                        <FinalContentParagraph>
-                            Thank You!
-                        </FinalContentParagraph>
-                    </FinalContent>
-                </Background>
-            </React.Suspense>
-        </ErrorBoundary>
+const FinalMessage = ({ isShow, closeMessage }: MessageProps) =>
+    !isShow ? null : (
+        <Background
+            onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                const { currentTarget, target } = event;
+                if (currentTarget === target) {
+                    closeMessage();
+                }
+            }}
+        >
+            <FinalContent>
+                <CloseFinal onClick={closeMessage}>&times;</CloseFinal>
+                <FinalContentImage />
+                <FinalContentParagraph>
+                    Your Message Has Been Successfully Sent!
+                </FinalContentParagraph>
+                <FinalContentParagraph>Thank You!</FinalContentParagraph>
+            </FinalContent>
+        </Background>
     );
 
-const SendingMessage = ({
-    show,
-    closeMessage,
-}: MessageProps): JSX.Element | null =>
-    !show ? null : (
-        <ErrorBoundary>
-            <React.Suspense fallback={<HashLoading />}>
-                <Background
-                    onClick={(
-                        event: React.MouseEvent<HTMLDivElement, MouseEvent>
-                    ) => {
-                        const { currentTarget, target } = event;
-                        if (currentTarget === target) {
-                            closeMessage();
-                        }
-                    }}
-                >
-                    <CloseFullScreen close={closeMessage} />
-                    <SendingContent>
-                        <Sending>Sending...</Sending>
-                        <HashLoader
-                            loading={true}
-                            size={100}
-                            color={primaryTheme.theme.secondaryColor}
-                        />
-                    </SendingContent>
-                </Background>
-            </React.Suspense>
-        </ErrorBoundary>
+const SendingMessage = ({ isShow, closeMessage }: MessageProps) =>
+    !isShow ? null : (
+        <Background
+            onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+                const { currentTarget, target } = event;
+                if (currentTarget === target) {
+                    closeMessage();
+                }
+            }}
+        >
+            <CloseFullScreen close={closeMessage} />
+            <SendingContent>
+                <Sending>Sending...</Sending>
+                <HashLoader
+                    loading={true}
+                    size={100}
+                    color={primaryTheme.theme.secondaryColor}
+                />
+            </SendingContent>
+        </Background>
     );
 
 const Background = styled(FullScreenContainer)`

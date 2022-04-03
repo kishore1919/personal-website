@@ -48,13 +48,13 @@ const NavLink = ({
 };
 
 const NavLinks = ({
-    fullScreen,
+    isFullScreen,
     close,
 }: Readonly<{
-    fullScreen: boolean;
+    isFullScreen: boolean;
     close: () => void;
 }>) => {
-    const Container = fullScreen ? NavMenu : LeftSide;
+    const Container = isFullScreen ? NavMenu : LeftSide;
 
     return (
         <Container>
@@ -66,8 +66,8 @@ const NavLinks = ({
                     { href: '/contact', title: 'Contact' },
                     { href: '/resume', title: 'Resume' },
                 ] as ReadonlyArray<NavLinkType>
-            ).map((navLink, index) => (
-                <NavLink close={close} key={index} navLink={navLink} />
+            ).map((navLink) => (
+                <NavLink close={close} key={navLink.title} navLink={navLink} />
             ))}
         </Container>
     );

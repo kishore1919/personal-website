@@ -27,3 +27,15 @@ build: pre-build
 clean-up:
 	rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json workbox-config.cjs yarn.lock && \
 		rm -rf src script public node_modules
+
+## lint
+lint:
+	node_modules/.bin/eslint src/** -f='stylish' --color
+
+## format
+prettier=node_modules/.bin/prettier
+format:
+	$(prettier) --write src/
+
+format-check:
+	$(prettier) --check src/

@@ -1,15 +1,17 @@
 import * as React from 'react';
 
-const Home = React.lazy(() => import('./page/index'));
-const Portfolio = React.lazy(() => import('./page/portfolio'));
-const About = React.lazy(() => import('./page/about'));
-const Resume = React.lazy(() => import('./page/resume'));
-const Contact = React.lazy(() => import('./page/contact'));
-const Error = React.lazy(() => import('./page/error'));
-const Header = React.lazy(() => import('./components/Header'));
-const Footer = React.lazy(() => import('./components/Footer'));
+const Home = React.lazy(() => import('./page/Index'));
+const Portfolio = React.lazy(() => import('./page/Portfolio'));
+const About = React.lazy(() => import('./page/About'));
+const Resume = React.lazy(() => import('./page/Resume'));
+const Contact = React.lazy(() => import('./page/Contact'));
+const Error = React.lazy(() => import('./page/Error'));
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import GlobalStyle from './util/theme/GlobalTheme';
+import GlobalStyle from './theme/GlobalTheme';
 import { ThemeProvider } from 'styled-components';
 import {
     getThemeFromPrevTheme,
@@ -17,7 +19,7 @@ import {
     keyConfig,
     getConfigKey,
     getThemeFromConfigKey,
-} from './util/theme/colorTheme';
+} from './theme/colorTheme';
 import { HashLoading, ErrorBoundary } from './components/HashLoading';
 
 const App = () => {

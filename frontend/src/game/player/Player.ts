@@ -1,10 +1,10 @@
 import { createConnectFourMove, createTicTacToeMove, Move } from '../move/Move';
-import League, { isFirstPlayer } from '../piece/League';
-import Tile from '../board/Tile';
+import { League, isFirstPlayer } from '../piece/League';
+import { Tile } from '../board/Tile';
 import { Board } from '../board/Board';
 import { connectFour } from '../board/BoardUtil';
 
-export type Player = Readonly<{
+type Player = Readonly<{
     legalMoves: ReadonlyArray<Move>;
     league: League;
     opponentLeague: League;
@@ -49,51 +49,54 @@ const createTicTactToeLegalMoves = (
     league: League,
     tileList: ReadonlyArray<Tile>
 ): ReadonlyArray<Move> =>
-    tileList.flatMap((tile) =>
-        tile.isTileOccupied ? [] : [createTicTacToeMove(league, tile.index)]
+    tileList.flatMap(({ isTileOccupied, index }) =>
+        isTileOccupied ? [] : [createTicTacToeMove(league, index)]
     );
 
 const createTicTacToePlayer = (
     league: League,
     tileList: ReadonlyArray<Tile>
-): Player => ({
-    legalMoves: createTicTactToeLegalMoves(league, tileList),
-    league,
-    opponentLeague: isFirstPlayer(league) ? League.second : League.first,
-    makeMove(movePassed: Move, board: Board): Board {
-        return makeMove(this.legalMoves, movePassed, board);
-    },
-    makeMoveFromTileNumber(tileNumber: number, board: Board): Board {
-        const movePassed = this.legalMoves.find(
-            (move: Move) => move.piece.index === tileNumber
-        );
-        return makeMoveFromTileNumber(movePassed, board);
-    },
-});
+): Player => {
+    const legalMoves = createTicTactToeLegalMoves(league, tileList);
+    return {
+        legalMoves,
+        league,
+        opponentLeague: isFirstPlayer(league) ? 'second' : 'first',
+        makeMove: (movePassed: Move, board: Board): Board =>
+            makeMove(legalMoves, movePassed, board),
+        makeMoveFromTileNumber: (tileNumber: number, board: Board): Board =>
+            makeMoveFromTileNumber(
+                legalMoves.find(({ piece: { index } }) => index === tileNumber),
+                board
+            ),
+    };
+};
 
 const createConnectFourPlayer = (
     league: League,
     tileList: ReadonlyArray<Tile>
 ): Player => {
     const { column, numberOfTiles } = connectFour;
-    return {
-        legalMoves: createConnectFourMoves(
-            column,
-            numberOfTiles,
-            league,
-            tileList
-        ),
+    const legalMoves = createConnectFourMoves(
+        column,
+        numberOfTiles,
         league,
-        opponentLeague: isFirstPlayer(league) ? League.second : League.first,
-        makeMove(movePassed: Move, board: Board): Board {
-            return makeMove(this.legalMoves, movePassed, board);
-        },
-        makeMoveFromTileNumber(tileNumber: number, board: Board): Board {
+        tileList
+    );
+    return {
+        legalMoves,
+        league,
+        opponentLeague: isFirstPlayer(league) ? 'second' : 'first',
+        makeMove: (movePassed: Move, board: Board): Board =>
+            makeMove(legalMoves, movePassed, board),
+        makeMoveFromTileNumber: (tileNumber: number, board: Board): Board => {
             const col = tileNumber % column;
-            const moveFound = this.legalMoves.find(
-                (move: Move) => move.piece.index % column === col
+            return makeMoveFromTileNumber(
+                legalMoves.find(
+                    ({ piece: { index } }) => index % column === col
+                ),
+                board
             );
-            return makeMoveFromTileNumber(moveFound, board);
         },
     };
 };
@@ -120,12 +123,20 @@ const makeMoveFromTileNumber = (
     return moveFound.execute(board);
 };
 
-export const createCrossPlayer = (tileList: ReadonlyArray<Tile>): Player =>
-    createTicTacToePlayer(League.first, tileList);
-export const createNoughtPlayer = (tileList: ReadonlyArray<Tile>): Player =>
-    createTicTacToePlayer(League.second, tileList);
+const createCrossPlayer = (tileList: ReadonlyArray<Tile>): Player =>
+    createTicTacToePlayer('first', tileList);
+const createNoughtPlayer = (tileList: ReadonlyArray<Tile>): Player =>
+    createTicTacToePlayer('second', tileList);
 
-export const createBlackPlayer = (tileList: ReadonlyArray<Tile>): Player =>
-    createConnectFourPlayer(League.first, tileList);
-export const createRedPlayer = (tileList: ReadonlyArray<Tile>): Player =>
-    createConnectFourPlayer(League.second, tileList);
+const createBlackPlayer = (tileList: ReadonlyArray<Tile>): Player =>
+    createConnectFourPlayer('first', tileList);
+const createRedPlayer = (tileList: ReadonlyArray<Tile>): Player =>
+    createConnectFourPlayer('second', tileList);
+
+export type { Player };
+export {
+    createRedPlayer,
+    createBlackPlayer,
+    createCrossPlayer,
+    createNoughtPlayer,
+};

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { GlobalContainer } from '../util/theme/GlobalTheme';
+import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
 import { Link, useHistory } from 'react-router-dom';
 

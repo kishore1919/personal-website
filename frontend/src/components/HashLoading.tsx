@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { GlobalContainer } from '../util/theme/GlobalTheme';
+import { GlobalContainer } from '../theme/GlobalTheme';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { primaryTheme } from '../util/theme/colorTheme';
+import { primaryTheme } from '../theme/colorTheme';
 
-export const HashLoading = (): JSX.Element => (
+export const HashLoading = () => (
     <Container>
         <InnerContainer>
             <LoadingMessage>Loading...</LoadingMessage>

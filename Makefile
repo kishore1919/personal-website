@@ -1,3 +1,6 @@
+## declare PHONY
+.PHONY: build
+
 serve:
 	cd backend && make serve
 

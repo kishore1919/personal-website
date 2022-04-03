@@ -9,10 +9,10 @@ type PortfolioData = Readonly<{
 }>;
 
 type Data = Readonly<{
-    numberOfPagesQueried: number;
-    portfolioLanguages: ReadonlyArray<string>;
-    portfolioPaginated: ReadonlyArray<PortfolioData>;
-    selectedLanguage: string;
+    page: number;
+    languages: ReadonlyArray<string>;
+    portfolios: ReadonlyArray<PortfolioData>;
+    language: string;
 }>;
 
 const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
@@ -82,10 +82,10 @@ const fetchGithubOrganization = async (
             .flat()
             .reduce((prev, language) => {
                 if (language) {
-                    const prevItem = prev.get(language);
+                    const prevCount = prev.get(language);
                     return prev.set(
                         language,
-                        prevItem === undefined ? 1 : prevItem + 1
+                        prevCount === undefined ? 1 : prevCount + 1
                     );
                 }
                 return prev;
@@ -116,7 +116,7 @@ const fetchGithubOrganization = async (
     };
 };
 
-const portfolioLanguagesList = (
+const portfolioLanguages = (
     portfolioData: ReadonlyArray<PortfolioData>
 ): ReadonlyArray<string> =>
     Array.from(new Set(portfolioData.map((data) => data.language)))
@@ -168,10 +168,7 @@ const portfolioDataPromise = async () =>
 
 const portfolioData = portfolioDataPromise();
 
-export const getSpecifiedResponse = async (
-    page: string | number,
-    language: string
-): Promise<Data> => {
+const getResponse = async (page: string, language: string): Promise<Data> => {
     const numberOfPortfolioPerPage = 9;
 
     const portfolio = await portfolioData;
@@ -183,18 +180,14 @@ export const getSpecifiedResponse = async (
     );
 
     return {
-        numberOfPagesQueried: Math.ceil(
-            portfolioQueried.length / numberOfPortfolioPerPage
-        ),
-        portfolioLanguages: portfolioLanguagesList(portfolio),
-        portfolioPaginated: paginatePortfolio(
+        page: Math.ceil(portfolioQueried.length / numberOfPortfolioPerPage),
+        languages: portfolioLanguages(portfolio),
+        portfolios: paginatePortfolio(
             portfolioQueried,
-            typeof page === 'number'
-                ? page
-                : parsePageQuery(page, numberOfPortfolioPerPage)
+            parsePageQuery(page, numberOfPortfolioPerPage)
         ),
-        selectedLanguage,
+        language: selectedLanguage,
     };
 };
 
-export const getUnspecifiedResponse = () => getSpecifiedResponse(0, 'All');
+export default getResponse;

@@ -1,8 +1,5 @@
-enum League {
-    first,
-    second,
-}
+type League = 'first' | 'second';
 
-export const isFirstPlayer = (league: League) => league === League.first;
+export const isFirstPlayer = (league: League) => league === 'first';
 
-export default League;
+export type { League };
