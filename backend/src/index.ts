@@ -20,8 +20,8 @@ const { static: expressStatic, json, urlencoded } = express;
             urlencoded({ extended: true }),
             cors({
                 origin: parseAsEnv({
-                    env: process.env.PUBLIC_URL,
-                    name: 'public url',
+                    env: process.env.ORIGIN,
+                    name: 'ORIGIN',
                 }),
                 credentials: true,
             }),

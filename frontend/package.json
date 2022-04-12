@@ -9,7 +9,7 @@
     "dependencies": {
         "dotenv": "^11.0.0",
         "esbuild": "^0.14.11",
-        "esbuild-env-parsing": "https://github.com/GervinFung/EsbuildEnvParsing.git",
+        "esbuild-env-parsing": "^1.0.0",
         "granula-string": "^1.0.3",
         "html-minifier-terser": "^7.0.0-alpha.1",
         "parse-dont-validate": "^1.0.1",
