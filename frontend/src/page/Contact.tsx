@@ -3,20 +3,20 @@ import styled from 'styled-components';
 import { FinalMessage } from '../components/contact/Message';
 import { SendingMessage } from '../components/contact/Message';
 import {
-    getName,
+    allValueValid,
+    Data,
+    Email,
     getEmail,
     getMessage,
-    allValueValid,
-    Name,
-    Email,
+    getName,
     Message,
-    Data,
-    parseAsData,
-} from '../util/contact';
+    Name,
+} from '../../../common/src/contact';
 import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
-import { contactURL } from '../util/url';
+import { contactURL } from '../url';
 import { GranulaString } from 'granula-string';
+import parseAsData from '../parser/contact';
 
 const Contact = () => {
     const [state, setState] = React.useState({
@@ -43,40 +43,6 @@ const Contact = () => {
             ...prev,
             isShowWaiting,
         }));
-
-    const submit = (event: React.FormEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        if (allValueValid(name, email, message)) {
-            setShowWaiting(true);
-            fetch(contactURL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                referrer: 'no-referrer',
-                body: JSON.stringify({
-                    name: name.value,
-                    email: email.value,
-                    message: message.value,
-                }),
-            })
-                .then((res) => res.json())
-                .then((json) => {
-                    setShowWaiting(false);
-                    showMessage(parseAsData(json));
-                })
-                .catch((error) => {
-                    console.error(error);
-                    setShowWaiting(false);
-                    alert(
-                        `I am sorry to inform you that there's an error in sending email.\nError: ${JSON.stringify(
-                            error
-                        ).replace(
-                            /"([^"]+)":/g,
-                            '$1:'
-                        )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
-                    );
-                });
-        }
-    };
 
     const setShowMessage = ({
         email,
@@ -149,7 +115,43 @@ const Contact = () => {
                             <b>Just contact me!</b>
                         </ContactMeParagraph>
                     </ContactMeContainer>
-                    <ContactFormDiv onSubmit={submit}>
+                    <ContactFormDiv
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            if (allValueValid(name, email, message)) {
+                                setShowWaiting(true);
+                                fetch(contactURL, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    referrer: 'no-referrer',
+                                    body: JSON.stringify({
+                                        name: name.value,
+                                        email: email.value,
+                                        message: message.value,
+                                    }),
+                                })
+                                    .then((res) => res.json())
+                                    .then((json) => {
+                                        setShowWaiting(false);
+                                        showMessage(parseAsData(json));
+                                    })
+                                    .catch((error) => {
+                                        console.error(error);
+                                        setShowWaiting(false);
+                                        alert(
+                                            `I am sorry to inform you that there's an error in sending email.\nError: ${JSON.stringify(
+                                                error
+                                            ).replace(
+                                                /"([^"]+)":/g,
+                                                '$1:'
+                                            )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
+                                        );
+                                    });
+                            }
+                        }}
+                    >
                         <ContactForm>
                             <InputInfo htmlFor="name">
                                 Hello, my name is
@@ -168,9 +170,7 @@ const Contact = () => {
                                             setState((prev) => ({
                                                 ...prev,
                                                 name: getName(
-                                                    GranulaString.createFromString(
-                                                        event.target.value
-                                                    )
+                                                    event.target.value
                                                 ),
                                             }))
                                         }
@@ -194,9 +194,7 @@ const Contact = () => {
                                             setState((prev) => ({
                                                 ...prev,
                                                 email: getEmail(
-                                                    GranulaString.createFromString(
-                                                        event.target.value
-                                                    )
+                                                    event.target.value
                                                 ),
                                             }))
                                         }
@@ -220,9 +218,7 @@ const Contact = () => {
                                             setState((prev) => ({
                                                 ...prev,
                                                 message: getMessage(
-                                                    GranulaString.createFromString(
-                                                        event.target.value
-                                                    )
+                                                    event.target.value
                                                 ),
                                             }))
                                         }

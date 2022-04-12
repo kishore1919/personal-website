@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "incremental": true,
+        "target": "ESNEXT",
+        "module": "ESNEXT",
+        "allowJs": false,
+        "checkJs": false,
+        "strict": true,
+        "skipLibCheck": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "moduleResolution": "node",
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "noUncheckedIndexedAccess": true,
+        "pretty": true,
+        "noEmit": true,
+        "preserveWatchOutput": true,
+        "outDir": "build",
+        "esModuleInterop": true
+    }
+}

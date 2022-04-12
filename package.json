@@ -1,12 +1,12 @@
 {
-  "name": "my-first-web",
-  "version": "0.0.0",
-  "author": "PoolOfDeath20",
-  "license": "MIT",
-  "engines": {
-    "yarn": "1.22.17"
-  },
-  "scripts": {
-    "build": "make build && make clean-up"
-  }
+    "name": "my-first-web",
+    "version": "0.0.0",
+    "author": "PoolOfDeath20",
+    "license": "MIT",
+    "engines": {
+        "yarn": "1.22.17"
+    },
+    "scripts": {
+        "build": "make build && make clean-up"
+    }
 }

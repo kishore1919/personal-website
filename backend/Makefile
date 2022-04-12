@@ -1,5 +1,5 @@
 ## declare PHONY
-.PHONY: build
+.PHONY: build test
 
 ## serve
 serve:
@@ -19,8 +19,11 @@ clean-up:
 		rm -rf src script node_modules
 
 ## type-check
+typecheck:
+	node_modules/.bin/tsc -p tsconfig.json $(arguments) 
+
 typecheck-watch:
-	node_modules/.bin/tsc -p tsconfig.json --w
+	make typecheck arguments=--w
 
 ## lint
 lint:
@@ -33,3 +36,8 @@ format:
 
 format-check:
 	$(prettier) --check src/
+
+## test
+test:
+	node_modules/.bin/esbuild test/index.ts --bundle --minify --target=node16.3.1 --platform=node --outfile=__test__/index.test.js &&\
+		node_modules/.bin/jest __test__

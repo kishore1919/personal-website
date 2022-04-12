@@ -1,6 +1,7 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
 import child from 'child_process';
+import parseAllEnvAsString from 'esbuild-env-parsing';
 
 dotenv.config({});
 
@@ -14,9 +15,7 @@ const isDev = process.env.NODE_ENV === 'DEVELOPMENT';
         minify: true,
         minifyWhitespace: true,
         platform: 'node',
-        define: {
-            'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
-        },
+        define: parseAllEnvAsString(['NODE_ENV', 'EMAIL', 'PASS']),
         logLevel: 'silent',
         target: 'node16.13.1',
         watch: !isDev

@@ -4,20 +4,7 @@ import {
     parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
-
-type PortfolioData = Readonly<{
-    name: string;
-    description: string;
-    language: string;
-    url: string;
-}>;
-
-type Data = Readonly<{
-    page: number;
-    languages: ReadonlyArray<string>;
-    portfolios: ReadonlyArray<PortfolioData>;
-    language: string;
-}>;
+import { Data } from '../../../common/src/portfolio';
 
 const parseAsPortfolioData = (data: any): Data => {
     const parseAsLanguage = (language: unknown) =>

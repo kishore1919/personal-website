@@ -1,16 +1,12 @@
 import * as React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Data, parseAsPortfolioData } from '../util/portfolio';
+import { Data, parseAsPortfolioData } from '../parser/portfolio';
 import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
 import { Surprise } from '../components/portfolio/Surprise';
 import { LoadingPortoflio } from '../components/portfolio/Surprise';
 import { useHistory, useLocation } from 'react-router-dom';
-import {
-    portfolioQuery,
-    apiPortfolioQuery,
-    parseAsQueryParams,
-} from '../util/url';
+import { portfolioQuery, apiPortfolioQuery, parseAsQueryParams } from '../url';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 import useWindowResize from '../hook/windowWidthResize';
 

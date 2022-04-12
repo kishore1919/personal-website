@@ -1,5 +1,6 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
+import parseAllEnvAsString from 'esbuild-env-parsing';
 
 dotenv.config({});
 
@@ -14,10 +15,7 @@ dotenv.config({});
         minify: true,
         minifyWhitespace: true,
         platform: 'browser',
-        define: {
-            'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
-            'process.env.PUBLIC_URL': `"${process.env.PUBLIC_URL}"`,
-        },
+        define: parseAllEnvAsString(['NODE_ENV', 'PUBLIC_URL']),
         logLevel: 'silent',
         watch:
             process.env.NODE_ENV !== 'DEVELOPMENT'

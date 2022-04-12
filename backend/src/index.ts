@@ -1,9 +1,9 @@
 import express from 'express';
-import getResponse from './util/portfolio';
-import emailResponse from './util/contact';
 import path from 'path';
 import cors from 'cors';
-import { parseAsString } from 'parse-dont-validate';
+import contactRouter from './router/contact';
+import portfolioRouter from './router/portfolio';
+import buildRouter from './router/build';
 
 const { static: expressStatic, json, urlencoded } = express;
 
@@ -34,27 +34,7 @@ const { static: expressStatic, json, urlencoded } = express;
         return app;
     })();
 
-    app.get('/api/portfolio', async (req, res) => {
-        if (req.method !== 'GET') {
-            throw new Error('Only accept GET request');
-        } else {
-            const { query } = req;
-            res.status(200).json(
-                await getResponse(
-                    parseAsString(query.page).orElseLazyGet(() => '0'),
-                    parseAsString(query.language).orElseLazyGet(() => 'All')
-                )
-            );
-        }
-    });
-
-    app.post('/api/contact', async (req, res) => {
-        if (req.method !== 'POST') {
-            throw new Error('Only accept POST request');
-        } else {
-            res.status(200).json(await emailResponse(req.body));
-        }
-    });
-
-    app.get('*', (_, res) => res.sendFile(path.resolve(build, 'index.html')));
+    portfolioRouter(app).query();
+    contactRouter(app).sendEmail();
+    buildRouter(app, build).send();
 })();

@@ -1,19 +1,6 @@
 import fetch from 'node-fetch';
 import { parseAsReadonlyArray, parseAsString } from 'parse-dont-validate';
-
-type PortfolioData = Readonly<{
-    name: string;
-    description: string;
-    language: string;
-    url: string;
-}>;
-
-type Data = Readonly<{
-    page: number;
-    languages: ReadonlyArray<string>;
-    portfolios: ReadonlyArray<PortfolioData>;
-    language: string;
-}>;
+import { PortfolioData } from '../../../common/src/portfolio';
 
 const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
     parseAsReadonlyArray(
@@ -144,8 +131,7 @@ const findLanguageQueried = (
     portfolioData: ReadonlyArray<PortfolioData>,
     language: string
 ): string | 'All' => {
-    const finalizedLang =
-        language === 'CPP' ? 'C++' : language === 'C' ? 'C#' : language;
+    const finalizedLang = language === 'C' ? 'C#' : language;
 
     return (
         portfolioData.find((data) => data.language === finalizedLang)
@@ -167,28 +153,14 @@ const portfolioDataPromise = async () =>
         await Promise.all(['Utari-Room', 'P-YNPM'].map(fetchGithubOrganization))
     ).concat(await fetchGithubUser());
 
-const portfolioData = portfolioDataPromise();
+const numberOfPortfolioPerPage = 9;
 
-const getResponse = async (page: string, language: string): Promise<Data> => {
-    const numberOfPortfolioPerPage = 9;
-
-    const portfolio = await portfolioData;
-
-    const selectedLanguage = findLanguageQueried(portfolio, language);
-    const portfolioQueried = findPortfoliosFromLanguage(
-        portfolio,
-        selectedLanguage
-    );
-
-    return {
-        page: Math.ceil(portfolioQueried.length / numberOfPortfolioPerPage),
-        languages: portfolioLanguages(portfolio),
-        portfolios: paginatePortfolio(
-            portfolioQueried,
-            parsePageQuery(page, numberOfPortfolioPerPage)
-        ),
-        language: selectedLanguage,
-    };
+export {
+    portfolioDataPromise,
+    findLanguageQueried,
+    parsePageQuery,
+    portfolioLanguages,
+    findPortfoliosFromLanguage,
+    paginatePortfolio,
+    numberOfPortfolioPerPage,
 };
-
-export default getResponse;
