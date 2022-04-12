@@ -9,7 +9,7 @@ sub-install:
 	cd $(dir) && yarn
 
 install:
-	(trap 'kill 0' INT; (make sub-install dir=backend) & (make sub-install dir=frontend) & (make sub-install dir=common)) 
+	(make sub-install dir=backend) && (make sub-install dir=frontend) && (make sub-install dir=common)
 
 ## start
 sub-start:

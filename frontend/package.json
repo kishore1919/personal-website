@@ -4,7 +4,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "build": "yarn && make build && make clean-up"
+        "build": "make build && make clean-up"
     },
     "dependencies": {
         "dotenv": "^11.0.0",

@@ -6,7 +6,7 @@
     "main": "build/index.js",
     "private": true,
     "scripts": {
-        "build": "yarn && make build && make clean-up"
+        "build": "make build && make clean-up"
     },
     "dependencies": {
         "cors": "^2.8.5",
