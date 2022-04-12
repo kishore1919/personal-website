@@ -1,3 +1,4 @@
+import { parseAsEnv } from 'esbuild-env-parsing';
 import express from 'express';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
@@ -27,8 +28,14 @@ const contactRouter = (app: express.Application) => ({
                     parseAsString(message).orElseGetEmptyString()
                 );
                 if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
-                    const email = process.env.EMAIL;
-                    const pass = process.env.PASS;
+                    const email = parseAsEnv({
+                        env: process.env.EMAIL,
+                        name: 'email',
+                    });
+                    const pass = parseAsEnv({
+                        env: process.env.PASS,
+                        name: 'pass',
+                    });
                     const options = {
                         from: `${parsedName.value.trim()} <${email}>`,
                         to: `Gervin Fung Da Xuen <${email}>`,

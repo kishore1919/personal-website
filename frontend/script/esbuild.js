@@ -1,6 +1,6 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
-import parseAllEnvAsString from 'esbuild-env-parsing';
+import { parseAsEnvs, parseAsEnv } from 'esbuild-env-parsing';
 
 dotenv.config({});
 
@@ -15,10 +15,13 @@ dotenv.config({});
         minify: true,
         minifyWhitespace: true,
         platform: 'browser',
-        define: parseAllEnvAsString(['NODE_ENV', 'PUBLIC_URL']),
+        define: parseAsEnvs(['NODE_ENV', 'PUBLIC_URL']),
         logLevel: 'silent',
         watch:
-            process.env.NODE_ENV !== 'DEVELOPMENT'
+            parseAsEnv({
+                env: process.env.NODE_ENV,
+                name: 'node env',
+            }) !== 'DEVELOPMENT'
                 ? undefined
                 : {
                       onRebuild: (error, result) =>

@@ -4,6 +4,7 @@ import cors from 'cors';
 import contactRouter from './router/contact';
 import portfolioRouter from './router/portfolio';
 import buildRouter from './router/build';
+import { parseAsEnv } from 'esbuild-env-parsing';
 
 const { static: expressStatic, json, urlencoded } = express;
 
@@ -18,7 +19,10 @@ const { static: expressStatic, json, urlencoded } = express;
             json({ limit: '10mb' }),
             urlencoded({ extended: true }),
             cors({
-                origin: process.env.PUBLIC_URL,
+                origin: parseAsEnv({
+                    env: process.env.PUBLIC_URL,
+                    name: 'public url',
+                }),
                 credentials: true,
             }),
             expressStatic(path.resolve(build)),

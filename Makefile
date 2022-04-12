@@ -53,6 +53,12 @@ sub-format-check:
 format-check:
 	(trap 'kill 0' INT; (make sub-format-check dir=backend) & (make sub-format-check dir=common)  & (make sub-format-check dir=frontend))
 
+sub-format:
+	cd $(dir) && make format
+
+format:
+	(trap 'kill 0' INT; (make sub-format dir=backend) & (make sub-format dir=common)  & (make sub-format dir=frontend))
+
 ## clean-up
 clean-up:
 	rm -rf common && rm -rf node_modules && \
