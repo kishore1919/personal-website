@@ -15,7 +15,7 @@ const isDev = process.env.NODE_ENV === 'DEVELOPMENT';
         minify: true,
         minifyWhitespace: true,
         platform: 'node',
-        define: parseAllEnvAsString(['NODE_ENV', 'EMAIL', 'PASS']),
+        define: parseAllEnvAsString(['NODE_ENV', 'EMAIL', 'PASS', 'ORIGIN']),
         logLevel: 'silent',
         target: 'node16.13.1',
         watch: !isDev

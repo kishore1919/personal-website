@@ -32,6 +32,14 @@ jobs:
                   rm -rf __tests__
 
             - name: Run Build
+              # just to ensure build dont fail due to absence of env variable
+              # the real env will be used somewhere else
+              env:
+                  NODE_ENV: production
+                  EMAIL: email
+                  PASS: pass
+                  ORIGIN: origin
+                  PUBLIC_URL: publicURL
               run: make build
 
             - name: Run Clean Up
