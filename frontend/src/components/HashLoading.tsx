@@ -4,7 +4,7 @@ import { GlobalContainer } from '../theme/GlobalTheme';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { primaryTheme } from '../theme/colorTheme';
 
-export const HashLoading = () => (
+const HashLoading = () => (
     <Container>
         <InnerContainer>
             <LoadingMessage>Loading...</LoadingMessage>
@@ -74,3 +74,5 @@ const InnerContainer = styled.div`
     display: grid;
     place-items: center;
 `;
+
+export { HashLoading };

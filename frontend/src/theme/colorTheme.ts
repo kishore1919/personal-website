@@ -16,7 +16,7 @@ const createDefaultTheme = (theme: Theme): DefaultTheme => ({
 });
 
 // dark theme
-export const primaryTheme = createDefaultTheme({
+const primaryTheme = createDefaultTheme({
     type: 'primary',
     primaryColor: '#121212',
     secondaryColor: '#FEFEFE',
@@ -36,7 +36,7 @@ export const primaryTheme = createDefaultTheme({
 });
 
 // light theme
-export const secondaryTheme = createDefaultTheme({
+const secondaryTheme = createDefaultTheme({
     type: 'secondary',
     primaryColor: '#FEFEFE',
     secondaryColor: '#121212',
@@ -60,28 +60,38 @@ const valueConfig = {
     secondary: '50a47b63-cfde-4c7a-a9c6-3329a841188b',
 } as const;
 
-export const keyConfig = {
+const keyConfig = {
     key: '8bf5222d-038e-4dfd-ab93-ab6267f8dc55',
 } as const;
 
-export const isPrimary = ({ theme: { type } }: DefaultTheme) =>
-    type === 'primary';
+const isPrimary = ({ theme: { type } }: DefaultTheme) => type === 'primary';
 
-export const getThemeFromPrevTheme = (theme: DefaultTheme) =>
+const getThemeFromPrevTheme = (theme: DefaultTheme) =>
     getTheme(!isPrimary(theme));
 
-export const getConfigKey = (theme: DefaultTheme) =>
+const getConfigKey = (theme: DefaultTheme) =>
     isPrimary(theme) ? valueConfig.primary : valueConfig.secondary;
 
-export const getThemeFromConfigKey = (value: string) =>
+const getThemeFromConfigKey = (value: string) =>
     getTheme(valueConfig.primary === value);
 
-export const getTheme = (isDark: boolean) =>
-    isDark ? primaryTheme : secondaryTheme;
+const getTheme = (isDark: boolean) => (isDark ? primaryTheme : secondaryTheme);
 
-export const isDarkResume = (value: string | boolean) => {
+const isDarkResume = (value: string | boolean) => {
     if (typeof value === 'string') {
         return value === valueConfig.primary ? 'Dark' : 'Light';
     }
     return value ? 'Dark' : 'Light';
+};
+
+export {
+    primaryTheme,
+    secondaryTheme,
+    keyConfig,
+    isPrimary,
+    getThemeFromPrevTheme,
+    getConfigKey,
+    getThemeFromConfigKey,
+    getTheme,
+    isDarkResume,
 };

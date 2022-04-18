@@ -1,25 +1,25 @@
 import 'styled-components';
 
-interface Theme {
-    readonly type: 'primary' | 'secondary';
-    readonly primaryColor: '#FEFEFE' | '#121212';
-    readonly secondaryColor: '#121212' | '#FEFEFE';
-    readonly contactMeLabel: '#0FFBF9' | '#00539C';
-    readonly aboutMeDescription: '#CDC764' | '#4b371c';
-    readonly highEmphasesTextColor: '#FFFFFFE2' | '#000000DD';
-    readonly mediumEmphasesTextColor: '#FFFFFF99' | '#000000B3';
-    readonly disabledTextColor: '#FFFFFF61' | '#00000061';
-    readonly contactInputHover: '#2B2B2B' | '#FAFAFA';
-    readonly resumeListText: '#000000B2' | '#FFFFFFE2';
-    readonly hoverColor: '#000000B2' | '#00000019';
+type Theme = Readonly<{
+    type: 'primary' | 'secondary';
+    primaryColor: '#FEFEFE' | '#121212';
+    secondaryColor: '#121212' | '#FEFEFE';
+    contactMeLabel: '#0FFBF9' | '#00539C';
+    aboutMeDescription: '#CDC764' | '#4b371c';
+    highEmphasesTextColor: '#FFFFFFE2' | '#000000DD';
+    mediumEmphasesTextColor: '#FFFFFF99' | '#000000B3';
+    disabledTextColor: '#FFFFFF61' | '#00000061';
+    contactInputHover: '#2B2B2B' | '#FAFAFA';
+    resumeListText: '#000000B2' | '#FFFFFFE2';
+    hoverColor: '#000000B2' | '#00000019';
 
-    readonly contactTickBrightness:
+    contactTickBrightness:
         | 'brightness(0%) invert(0)'
         | 'brightness(0%) invert(1)';
 
-    readonly googleIconBackground: '#1D1E1f' | '#FFF';
-    readonly scrollBarBackground: '#000D0D' | '#F5F5F5';
-}
+    googleIconBackground: '#1D1E1f' | '#FFF';
+    scrollBarBackground: '#000D0D' | '#F5F5F5';
+}>;
 
 declare module 'styled-components' {
     export interface DefaultTheme {

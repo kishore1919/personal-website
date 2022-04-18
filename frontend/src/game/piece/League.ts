@@ -1,5 +1,7 @@
 type League = 'first' | 'second';
 
-export const isFirstPlayer = (league: League) => league === 'first';
+const isFirstPlayer = (league: League) => league === 'first';
+
+export { isFirstPlayer };
 
 export type { League };

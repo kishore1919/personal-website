@@ -5,9 +5,11 @@ type Piece = Readonly<{
     index: number;
 }>;
 
-export const createPiece = (league: League, index: number): Piece => ({
+const createPiece = (league: League, index: number): Piece => ({
     index,
     league,
 });
+
+export { createPiece };
 
 export type { Piece };

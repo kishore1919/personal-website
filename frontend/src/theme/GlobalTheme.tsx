@@ -11,7 +11,7 @@ const FadeIn = keyframes`
     }
 `;
 
-export const FullScreenContainer = styled.div`
+const FullScreenContainer = styled.div`
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -24,7 +24,7 @@ export const FullScreenContainer = styled.div`
     display: flex;
 `;
 
-export const GlobalContainer = styled.div`
+const GlobalContainer = styled.div`
     overflow: hidden;
     letter-spacing: 1.5px;
     font-family: 'Orbitron', sans-serif !important;
@@ -60,5 +60,7 @@ const GlobalStyle = createGlobalStyle`
         background-color: gray;
     }
 `;
+
+export { GlobalContainer, FullScreenContainer };
 
 export default GlobalStyle;

@@ -14,8 +14,8 @@ type PortfolioImageBackgroundProps = Readonly<{
     backgroundImage: string;
 }>;
 
-type Portfolio = Readonly<{
-    portfolio: Data;
+type PortfolioData = Readonly<{
+    data: Data;
 }>;
 
 const Portfolio = () => {
@@ -25,7 +25,7 @@ const Portfolio = () => {
     const dotBreakPoint = 586;
 
     const [state, setState] = React.useState({
-        portfolio: undefined as Data | undefined,
+        data: undefined as Data | undefined,
         queryParams: parseAsQueryParams(search),
         isPush: false,
         isShow: false,
@@ -33,7 +33,7 @@ const Portfolio = () => {
         isFetched: false,
     });
 
-    const { portfolio, queryParams, isInitialLoad, isPush, isShow, isFetched } =
+    const { data, queryParams, isInitialLoad, isPush, isShow, isFetched } =
         state;
 
     const { width } = useWindowResize();
@@ -54,7 +54,7 @@ const Portfolio = () => {
                 .then((json) => {
                     setState((prev) => ({
                         ...prev,
-                        portfolio: parseAsPortfolioData(json),
+                        data: parseAsPortfolioData(json),
                         isFetched: true,
                     }));
                 })
@@ -99,10 +99,10 @@ const Portfolio = () => {
         }
     };
 
-    const ShowPortfolios = ({ portfolio }: Portfolio) => (
+    const ShowPortfolios = ({ data }: PortfolioData) => (
         <Container>
             <PortfolioContainer>
-                {portfolio.portfolios.map(({ name, description, url }) => (
+                {data.portfolios.map(({ name, description, url }) => (
                     <PortfolioItemContainer key={name}>
                         <PortfolioImageBackground
                             backgroundImage={`asset/images/portfolioBackground/${name}.webp`}
@@ -130,36 +130,36 @@ const Portfolio = () => {
             new URLSearchParams(search).get('language') || 'All'
         );
 
-    const getNextPage = (portfolio: Data): number => {
+    const getNextPage = (data: Data): number => {
         const { page } = queryParams;
-        return page === portfolio.page - 1 ? 0 : page + 1;
+        return page === data.page - 1 ? 0 : page + 1;
     };
 
-    const getPrevPage = (portfolio: Data): number => {
+    const getPrevPage = (data: Data): number => {
         const { page } = queryParams;
-        return page === 0 ? portfolio.page - 1 : page - 1;
+        return page === 0 ? data.page - 1 : page - 1;
     };
 
-    const Buttons = ({ portfolio }: Portfolio) =>
-        portfolio.page === 1 ? null : (
+    const Buttons = ({ data }: PortfolioData) =>
+        data.page === 1 ? null : (
             <div>
                 <LeftButton
-                    onClick={() => customQueryPortfolio(getPrevPage(portfolio))}
+                    onClick={() => customQueryPortfolio(getPrevPage(data))}
                 >
                     <LeftCircle />
                 </LeftButton>
                 <RightButton
-                    onClick={() => customQueryPortfolio(getNextPage(portfolio))}
+                    onClick={() => customQueryPortfolio(getNextPage(data))}
                 >
                     <RightCircle />
                 </RightButton>
             </div>
         );
 
-    const DotsNav = ({ portfolio }: Portfolio) =>
-        portfolio.page === 1 || width <= dotBreakPoint ? null : (
+    const DotsNav = ({ data }: PortfolioData) =>
+        data.page === 1 || width <= dotBreakPoint ? null : (
             <Dots>
-                {Array.from({ length: portfolio.page }, (_, i) => {
+                {Array.from({ length: data.page }, (_, i) => {
                     const Component = queryParams.page === i ? ActiveDot : Dot;
                     return (
                         <Component
@@ -183,18 +183,18 @@ const Portfolio = () => {
         }));
     };
 
-    const LanguageSelector = ({ portfolio }: Portfolio) => (
+    const LanguageSelector = ({ data }: PortfolioData) => (
         <LanguageChooser>
             <Languages
-                value={portfolio.language}
-                onChange={(e) => queryPortfolio(0, e.target.value)}
+                value={data.language}
+                onChange={(event) => queryPortfolio(0, event.target.value)}
             >
                 {[
                     <option key={0} disabled={true}>
                         Language
                     </option>,
                 ].concat(
-                    portfolio.languages.map((language) => (
+                    data.languages.map((language) => (
                         <option key={language}>{language}</option>
                     ))
                 )}
@@ -208,12 +208,12 @@ const Portfolio = () => {
                 title="Portfolio"
                 content="PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
             />
-            {portfolio ? (
+            {data ? (
                 <>
-                    <LanguageSelector portfolio={portfolio} />
-                    <ShowPortfolios portfolio={portfolio} />
-                    <Buttons portfolio={portfolio} />
-                    <DotsNav portfolio={portfolio} />
+                    <LanguageSelector data={data} />
+                    <ShowPortfolios data={data} />
+                    <Buttons data={data} />
+                    <DotsNav data={data} />
                 </>
             ) : isFetched ? null : (
                 <LoadingPortoflio />

@@ -15,7 +15,7 @@ type Config = Readonly<{
     onUpdate?: (registration: ServiceWorkerRegistration) => void;
 }>;
 
-export const register = (config?: Config) => {
+const register = (config?: Config) => {
     if (
         parseAsEnv({
             env: process.env.NODE_ENV,
@@ -129,10 +129,12 @@ const checkValidServiceWorker = (swUrl: string, config?: Config) => {
         );
 };
 
-export const unregister = () => {
+const unregister = () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready
             .then((registration) => registration.unregister())
             .catch((error) => console.error(error.message));
     }
 };
+
+export { unregister, register };
