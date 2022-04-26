@@ -24,8 +24,9 @@ const About = () => (
                     </ProfileContentContainerParagraph>
                     <ProfileContentContainerParagraph>
                         I am an undergraduate studying Software Engineering.
-                        Java is my primary language in programming and currently
-                        I am trying to learn web development and python.
+                        TypeScript and Java is my primary language in
+                        programming and currently I am trying to learn full
+                        stack development and compiler.
                     </ProfileContentContainerParagraph>
                     <ProfileContentContainerParagraph>
                         Never in a million years would I have thought the

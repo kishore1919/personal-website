@@ -105,13 +105,13 @@ const Portfolio = () => {
                 {data.portfolios.map(({ name, description, url }) => (
                     <PortfolioItemContainer key={name}>
                         <PortfolioImageBackground
-                            backgroundImage={`asset/images/portfolioBackground/${name}.webp`}
+                            backgroundImage={`asset/images/portfolio/background/${name}.webp`}
                         />
                         <ImageTextContainer>
                             <div>
                                 <PortfolioLink href={url}>
                                     <PortfolioLogo
-                                        src={`asset/images/logo/${name}.webp`}
+                                        src={`asset/images/portfolio/logo/${name}.webp`}
                                         alt={`${name}.webp`}
                                     />
                                 </PortfolioLink>

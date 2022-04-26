@@ -1,5 +1,6 @@
 ## declare PHONY
 .PHONY: build test
+MAKEFLAGS += --silent
 
 NODE_BIN=node_modules/.bin/
 
