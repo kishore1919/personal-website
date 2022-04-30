@@ -7,7 +7,7 @@ import { TiSocialLinkedin, TiSocialFacebook } from 'react-icons/ti';
 const Footer = () => (
     <Container>
         <CopyRight>
-            <p>copyright &copy;{new Date().getFullYear()}</p>
+            <p>copyright &copy; 2020 - {new Date().getFullYear()}</p>
         </CopyRight>
         <SocialLinkContainer>
             <Linkedin href="https://www.linkedin.com/in/gervin-fung-387409209">
