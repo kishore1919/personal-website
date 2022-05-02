@@ -35,8 +35,15 @@ clean-up:
 		rm -rf src script public node_modules
 
 ## lint
+eslint=$(NODE_BIN)eslint
+lint-src:
+	$(eslint) src/** -f='stylish' --color
+
+lint-test:
+	$(eslint) test/**/*.ts -f='stylish' --color
+
 lint:
-	$(NODE_BIN)eslint src/** -f='stylish' --color
+	(trap 'kill 0' INT; make lint-src & make lint-test)
 
 ## format
 prettier=$(NODE_BIN)prettier

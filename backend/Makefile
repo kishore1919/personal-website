@@ -29,16 +29,29 @@ typecheck-watch:
 	make typecheck arguments=--w
 
 ## lint
+eslint=$(NODE_BIN)eslint
+lint-src:
+	$(eslint) src/** -f='stylish' --color
+
+lint-test:
+	$(eslint) test/**/*.ts -f='stylish' --color
+
 lint:
-	$(NODE_BIN)eslint src/** -f='stylish' --color
+	(trap 'kill 0' INT; make lint-src & make lint-test)
 
 ## format
 prettier=$(NODE_BIN)prettier
-format:
-	$(prettier) --write src/
+prettify-src:
+	$(prettier) --$(type) src/
+
+prettify-test:
+	$(prettier) --$(type) test/
 
 format-check:
-	$(prettier) --check src/
+	(trap 'kill 0' INT; make prettify-src type=check & make prettify-test type=check)
+
+format:
+	(trap 'kill 0' INT; make prettify-src type=write & make prettify-test type=write)
 
 ## test
 test:

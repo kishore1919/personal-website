@@ -543,22 +543,19 @@ const ConnectFourTile = styled.td`
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    cursor: ${({ isTransparent: transparent }: ConnectFourTileProps) =>
-        transparent ? 'pointer' : 'default'};
-    background: ${({
-        isTransparent: transparent,
-        isFirstPlayer,
-    }: ConnectFourTileProps) =>
-        transparent
+    cursor: ${({ isTransparent }: ConnectFourTileProps) =>
+        isTransparent ? 'pointer' : 'default'};
+    background: ${({ isTransparent, isFirstPlayer }: ConnectFourTileProps) =>
+        isTransparent
             ? 'transparent'
             : ({ theme }) =>
                   isFirstPlayer ? theme.blackPiece : theme.redPiece};
     &:hover {
         background-color: ${({
-            isTransparent: transparent,
+            isTransparent,
             isFirstPlayer,
         }: ConnectFourTileProps) =>
-            transparent
+            isTransparent
                 ? ({ theme }) => theme.theme.hoverColor
                 : ({ theme }) =>
                       isFirstPlayer ? theme.blackPiece : theme.redPiece};
