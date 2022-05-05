@@ -8,7 +8,8 @@ const SkillSection = ({
     title:
         | 'Programming Languages'
         | 'Technologies'
-        | 'Achievements'
+        | 'Academic Achievements'
+        | 'Programming Experience'
         | 'Personal Skills';
     list: ReadonlyArray<string>;
 }>) => (
@@ -38,15 +39,19 @@ const ResumeRight = () => (
             ]}
         />
         <SkillSection
-            title="Achievements"
+            title="Programming Experience"
             list={[
-                'Built an accommodation finder website around UTAR campus as my Final Year Project',
+                'Built an accommodation finder web application around UTAR campus as my Final Year Project',
+                'Built a .gitignored template generator with Gatsby',
                 'Publish my own NPM package to solve my problems',
                 'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
-                "Dean's List for January & May 2021 Trimester",
                 "Built a functional Notepad similar to Window's Notepad in Java Swing and JavaFX",
                 'Built my very own website',
             ]}
+        />
+        <SkillSection
+            title="Academic Achievements"
+            list={["Dean's List for January & May 2021 Trimester"]}
         />
         <SkillSection
             title="Personal Skills"
@@ -91,14 +96,6 @@ const ResumeRight = () => (
                     <ul>
                         <List>Phone: 017-6639798</List>
                         <List>Email: gunavathi@utar.edu.my</List>
-                    </ul>
-                </Referer>
-                <Referer>
-                    <Subtitle>Mr Wong Chim Chwee</Subtitle>
-                    <div>Assistant Professor</div>
-                    <ul>
-                        <List>Phone: 03-90860288</List>
-                        <List>Email: wongcc@utar.edu.my</List>
                     </ul>
                 </Referer>
             </Refers>
