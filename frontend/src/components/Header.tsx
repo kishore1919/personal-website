@@ -11,29 +11,29 @@ type BackToTopAnimation = Readonly<{
 }>;
 
 const BackToTop = ({
-    isScroll: scroll,
+    isScroll,
 }: Readonly<{
     isScroll: boolean;
 }>) => {
     const [state, setState] = React.useState({
-        isAnimate: scroll,
-        isLoad: scroll,
+        isAnimate: isScroll,
+        isLoad: isScroll,
     });
 
     React.useEffect(() => {
         setState((prev) => ({
             ...prev,
-            isAnimate: scroll,
+            isAnimate: isScroll,
         }));
         setTimeout(
             () =>
                 setState((prev) => ({
                     ...prev,
-                    isLoad: scroll,
+                    isLoad: isScroll,
                 })),
-            scroll ? 350 : 0
+            isScroll ? 350 : 0
         );
-    }, [scroll]);
+    }, [isScroll]);
 
     const { isAnimate, isLoad } = state;
 

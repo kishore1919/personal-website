@@ -60,7 +60,7 @@ const Contact = () => {
             name,
             email,
             message,
-            isShowFinal: isShowFinal,
+            isShowFinal,
         }));
 
     const showMessage = (json: Data) => {

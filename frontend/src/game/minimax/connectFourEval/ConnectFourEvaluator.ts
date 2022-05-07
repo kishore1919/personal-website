@@ -50,7 +50,7 @@ const numberOfConsecutivePieceEval = (
                 currentTile++;
             } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeague === null) {
+            } else if (eLeague === undefined) {
                 emptyTile++;
             }
 
@@ -94,7 +94,7 @@ const numberOfConsecutivePieceEval = (
                 currentTile++;
             } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeague === null) {
+            } else if (eLeague === undefined) {
                 emptyTile++;
             }
 
@@ -138,7 +138,7 @@ const numberOfConsecutivePieceEval = (
                 currentTile++;
             } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeague === null) {
+            } else if (eLeague === undefined) {
                 emptyTile++;
             }
 
@@ -182,7 +182,7 @@ const numberOfConsecutivePieceEval = (
                 currentTile++;
             } else if (eLeague === enemyLeague) {
                 enemyTile++;
-            } else if (eLeague === null) {
+            } else if (eLeague === undefined) {
                 emptyTile++;
             }
 
@@ -256,21 +256,23 @@ const computeScore = (
 
 const getAllHorizontalRow = (
     board: Board
-): ReadonlyArray<ReadonlyArray<League | null>> => {
-    const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
+): ReadonlyArray<ReadonlyArray<League | undefined>> => {
+    const listOfLeagues: Array<ReadonlyArray<League | undefined>> = [];
     let begin = 0;
-    let leagues: Array<League | null> = [];
+    let leagues: Array<League | undefined> = [];
     for (let i = begin; i < connectFour.numberOfTiles; i++) {
         const tile = board.tileList[i];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
         leagues.push(
-            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
+            tile.isTileOccupied && tile.getPiece
+                ? tile.getPiece.league
+                : undefined
         );
         if (i - begin === connectFour.row) {
             begin += connectFour.column;
-            listOfLeagues.push(leagues as ReadonlyArray<League | null>);
+            listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
         }
     }
@@ -280,21 +282,23 @@ const getAllHorizontalRow = (
 
 const getAllVerticalColumn = (
     board: Board
-): ReadonlyArray<ReadonlyArray<League | null>> => {
-    const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
+): ReadonlyArray<ReadonlyArray<League | undefined>> => {
+    const listOfLeagues: Array<ReadonlyArray<League | undefined>> = [];
     let begin = 0,
         max = connectFour.column * 5;
-    let leagues: Array<League | null> = [];
+    let leagues: Array<League | undefined> = [];
     for (let i = begin; i <= max; i += connectFour.column) {
         const tile = board.tileList[i];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
         leagues.push(
-            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
+            tile.isTileOccupied && tile.getPiece
+                ? tile.getPiece.league
+                : undefined
         );
         if (i === max) {
-            listOfLeagues.push(leagues as ReadonlyArray<League | null>);
+            listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
             if (max < connectFour.numberOfTiles - 1) {
                 begin++;
@@ -309,23 +313,25 @@ const getAllVerticalColumn = (
 
 const getPositiveSlopeRow = (
     board: Board
-): ReadonlyArray<ReadonlyArray<League | null>> => {
-    const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
+): ReadonlyArray<ReadonlyArray<League | undefined>> => {
+    const listOfLeagues: Array<ReadonlyArray<League | undefined>> = [];
     const increment = connectFour.column - 1;
     let begin = (connectFour.column - 1) / 2,
         max = 21,
         goEdge = false,
-        leagues: Array<League | null> = [];
+        leagues: Array<League | undefined> = [];
     for (let i = begin; i <= max; i += increment) {
         const tile = board.tileList[i];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
         leagues.push(
-            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
+            tile.isTileOccupied && tile.getPiece
+                ? tile.getPiece.league
+                : undefined
         );
         if (i === max) {
-            listOfLeagues.push(leagues as ReadonlyArray<League | null>);
+            listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
             if (begin === 20) {
                 break;
@@ -346,23 +352,25 @@ const getPositiveSlopeRow = (
 
 const getNegativeSlopeRow = (
     board: Board
-): ReadonlyArray<ReadonlyArray<League | null>> => {
-    const listOfLeagues: Array<ReadonlyArray<League | null>> = [];
+): ReadonlyArray<ReadonlyArray<League | undefined>> => {
+    const listOfLeagues: Array<ReadonlyArray<League | undefined>> = [];
     const increment = connectFour.column + 1;
     let begin = (connectFour.column - 1) / 2,
         max = 27,
         goEdge = false,
-        leagues: Array<League | null> = [];
+        leagues: Array<League | undefined> = [];
     for (let i = begin; i <= max; i += increment) {
         const tile = board.tileList[i];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
         leagues.push(
-            tile.isTileOccupied && tile.getPiece ? tile.getPiece.league : null
+            tile.isTileOccupied && tile.getPiece
+                ? tile.getPiece.league
+                : undefined
         );
         if (i === max) {
-            listOfLeagues.push(leagues as ReadonlyArray<League | null>);
+            listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
 
             if (begin === 14) {
