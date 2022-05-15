@@ -3,8 +3,8 @@ import styled, { keyframes, css } from 'styled-components';
 import { Data, parseAsPortfolioData } from '../parser/portfolio';
 import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
-import { Surprise } from '../components/portfolio/Surprise';
-import { LoadingPortoflio } from '../components/portfolio/Surprise';
+import Surprise from '../components/portfolio/Surprise';
+import Loading from '../components/portfolio/Loading';
 import { useHistory, useLocation } from 'react-router-dom';
 import { portfolioQuery, apiPortfolioQuery, parseAsQueryParams } from '../url';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
@@ -68,41 +68,51 @@ const Portfolio = () => {
         }
     }, [url, isInitialLoad]);
 
+    React.useEffect(
+        () =>
+            history.listen(({ pathname, search }) => {
+                if (pathname.startsWith('/portfolio')) {
+                    setState((prev) => ({
+                        ...prev,
+                        isPush: false,
+                        queryParams: parseAsQueryParams(search),
+                    }));
+                }
+            }),
+        [history]
+    );
+
     React.useEffect(() => {
         setState((prev) => ({
             ...prev,
             isInitialLoad: false,
         }));
-        showSurprise();
-        return history.listen(({ pathname, search }) => {
-            if (pathname.startsWith('/portfolio')) {
-                setState((prev) => ({
-                    ...prev,
-                    isPush: false,
-                    queryParams: parseAsQueryParams(search),
-                }));
-            }
-        });
-    }, [history]);
+        const surprise = showSurprise();
+        if (!surprise) {
+            return;
+        }
+        return () => clearTimeout(surprise);
+    }, []);
 
     const showSurprise = () => {
         const viewedKey = '20799527-d73d-4ebd-87a9-efdca713af3e';
         const value = localStorage.getItem(viewedKey);
-        if (value === null) {
-            setTimeout(() => {
+        if (!value) {
+            return setTimeout(() => {
                 setState((prev) => ({
                     ...prev,
                     isShow: true,
                 }));
-                window.sessionStorage.setItem(viewedKey, JSON.stringify(true));
+                localStorage.setItem(viewedKey, JSON.stringify(true));
             }, 5500);
         }
+        return undefined;
     };
 
-    const ShowPortfolios = ({ data }: PortfolioData) => (
+    const ShowPortfolios = ({ data: { portfolios } }: PortfolioData) => (
         <Container>
             <PortfolioContainer>
-                {data.portfolios.map(({ name, description, url }) => (
+                {portfolios.map(({ name, description, url }) => (
                     <PortfolioItemContainer key={name}>
                         <PortfolioImageBackground
                             backgroundImage={`asset/images/portfolio/background/${name}.webp`}
@@ -156,10 +166,10 @@ const Portfolio = () => {
             </div>
         );
 
-    const DotsNav = ({ data }: PortfolioData) =>
-        data.page === 1 || width <= dotBreakPoint ? null : (
+    const DotsNav = ({ data: { page } }: PortfolioData) =>
+        page === 1 || width <= dotBreakPoint ? null : (
             <Dots>
-                {Array.from({ length: data.page }, (_, i) => {
+                {Array.from({ length: page }, (_, i) => {
                     const Component = queryParams.page === i ? ActiveDot : Dot;
                     return (
                         <Component
@@ -183,10 +193,12 @@ const Portfolio = () => {
         }));
     };
 
-    const LanguageSelector = ({ data }: PortfolioData) => (
+    const LanguageSelector = ({
+        data: { language, languages },
+    }: PortfolioData) => (
         <LanguageChooser>
             <Languages
-                value={data.language}
+                value={language}
                 onChange={(event) => queryPortfolio(0, event.target.value)}
             >
                 {[
@@ -194,7 +206,7 @@ const Portfolio = () => {
                         Language
                     </option>,
                 ].concat(
-                    data.languages.map((language) => (
+                    languages.map((language) => (
                         <option key={language}>{language}</option>
                     ))
                 )}
@@ -203,7 +215,7 @@ const Portfolio = () => {
     );
 
     return (
-        <ContentContainer>
+        <GlobalContainer>
             <Title
                 title="Portfolio"
                 content="PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
@@ -216,7 +228,7 @@ const Portfolio = () => {
                     <DotsNav data={data} />
                 </>
             ) : isFetched ? null : (
-                <LoadingPortoflio />
+                <Loading />
             )}
             <Surprise
                 isShow={isShow}
@@ -227,11 +239,9 @@ const Portfolio = () => {
                     }))
                 }
             />
-        </ContentContainer>
+        </GlobalContainer>
     );
 };
-
-const ContentContainer = styled(GlobalContainer)``;
 
 const LanguageChooser = styled.div`
     display: flex;

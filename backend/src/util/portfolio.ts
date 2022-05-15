@@ -1,8 +1,12 @@
 import fetch from 'node-fetch';
-import { parseAsReadonlyArray, parseAsString } from 'parse-dont-validate';
+import {
+    parseAsReadonlyArray,
+    parseAsReadonlyObject,
+    parseAsString,
+} from 'parse-dont-validate';
 import { PortfolioData } from '../../../common/src/portfolio';
 
-const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
+const fetchGithubUserRepo = async (): Promise<ReadonlyArray<PortfolioData>> =>
     parseAsReadonlyArray(
         await (
             await fetch(
@@ -10,10 +14,10 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
             )
         ).json(),
         (repo) => {
-            const { name, language, html_url, description } = repo;
-            const parsedName = parseAsString(name).orElseThrowDefault('name');
+            const name = parseAsString(repo.name).orElseThrowDefault('name');
             return ![
                 'my-web',
+                'gitignored',
                 'LibGDX-Chess-Game',
                 'MinimalTicTacToe',
                 'TextEditorFX',
@@ -24,23 +28,21 @@ const fetchGithubUser = async (): Promise<ReadonlyArray<PortfolioData>> =>
                 'TextEditor',
                 'RealTimeMarkdown',
                 'Room',
-            ].find((portfolioName) => parsedName === portfolioName)
+            ].includes(name)
                 ? []
                 : [
-                      {
-                          name: parsedName,
-                          language:
-                              parseAsString(language).orElseThrowDefault(
-                                  'language'
-                              ),
-                          description:
-                              parseAsString(description).orElseThrowDefault(
-                                  'description'
-                              ),
-                          url: parseAsString(html_url).orElseThrowDefault(
-                              'html_url'
+                      parseAsReadonlyObject(repo, (repo) => ({
+                          name,
+                          language: parseAsString(
+                              repo.language
+                          ).orElseThrowDefault(`language for ${repo.name}`),
+                          description: parseAsString(
+                              repo.description
+                          ).orElseThrowDefault(`description for ${repo.name}`),
+                          url: parseAsString(repo.html_url).orElseThrowDefault(
+                              `html url for ${repo.name}`
                           ),
-                      },
+                      })).orElseThrowDefault('repo'),
                   ];
         }
     )
@@ -69,39 +71,40 @@ const fetchGithubOrganization = async (
             .orElseThrowDefault('repositories')
             .flat()
             .reduce((prev, language) => {
-                if (language) {
-                    const prevCount = prev.get(language);
-                    return prev.set(
-                        language,
-                        prevCount === undefined ? 1 : prevCount + 1
-                    );
-                }
-                return prev;
+                const prevCount = prev.get(language);
+                return prev.set(language, !prevCount ? 1 : prevCount + 1);
             }, new Map<string, number>())
     ).reduce(
         (prev, [language, count]) =>
-            prev.count < count
-                ? {
+            prev.count >= count
+                ? prev
+                : {
                       language,
                       count,
-                  }
-                : prev,
+                  },
         {
-            language: '' as string,
-            count: 0 as number,
-        } as const
+            language: '',
+            count: 0,
+        } as Readonly<{
+            language: string;
+            count: number;
+        }>
     );
-    const organization: any = await (
-        await fetch(`https://api.github.com/orgs/${organizationName}`)
-    ).json();
-    const { login, description, html_url } = organization;
-    return {
-        name: parseAsString(login).orElseThrowDefault('login'),
-        language,
-        description:
-            parseAsString(description).orElseThrowDefault('description'),
-        url: parseAsString(html_url).orElseThrowDefault('html_url'),
-    };
+    return parseAsReadonlyObject(
+        await (
+            await fetch(`https://api.github.com/orgs/${organizationName}`)
+        ).json(),
+        (organization) => ({
+            language,
+            name: parseAsString(organization.login).orElseThrowDefault('login'),
+            description: parseAsString(
+                organization.description
+            ).orElseThrowDefault('description'),
+            url: parseAsString(organization.html_url).orElseThrowDefault(
+                'html_url'
+            ),
+        })
+    ).orElseThrowDefault('organization');
 };
 
 const portfolioLanguages = (
@@ -124,7 +127,7 @@ const parsePageQuery = (
     numberOfPortfolioPerPage: number
 ): number => {
     const parsedPage = parseInt(page, 10);
-    return parsedPage >= 0 ? parsedPage * numberOfPortfolioPerPage : 0;
+    return parsedPage < 0 ? 0 : parsedPage * numberOfPortfolioPerPage;
 };
 
 const findLanguageQueried = (
@@ -151,7 +154,7 @@ const paginatePortfolio = (
 const portfolioDataPromise = async () =>
     (
         await Promise.all(['Utari-Room', 'P-YNPM'].map(fetchGithubOrganization))
-    ).concat(await fetchGithubUser());
+    ).concat(await fetchGithubUserRepo());
 
 const numberOfPortfolioPerPage = 9;
 
