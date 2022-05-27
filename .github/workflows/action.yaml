@@ -1,4 +1,4 @@
-name: client-ci-cd
+name: my-web-ci-cd
 
 on: [push, pull_request]
 
