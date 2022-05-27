@@ -39,7 +39,7 @@ const contactRouter = (app: express.Application) => ({
                     const options = {
                         from: `${parsedName.value.trim()} <${email}>`,
                         to: `Gervin Fung Da Xuen <${email}>`,
-                        subject: 'UTARi Contact Form',
+                        subject: 'My Web Contact Form',
                         text: `Hello, my name is ${parsedName.value.trim()}\n\nYou can reach me at ${
                             parsedEmail.value
                         }\n\nI would like to ${parsedMessage.value.trim()}`,
@@ -57,9 +57,9 @@ const contactRouter = (app: express.Application) => ({
                                 pass,
                             },
                         })
-                        .sendMail(options, (error) => {
-                            const result = (
-                                error
+                        .sendMail(options, (error) =>
+                            res.status(200).json(
+                                (error
                                     ? {
                                           type: 'failed',
                                           error: error.message,
@@ -78,18 +78,16 @@ const contactRouter = (app: express.Application) => ({
                                               ...parsedMessage,
                                               value: '',
                                           },
-                                      }
-                            ) as Data;
-                            res.status(200).json(result);
-                        });
+                                      }) as Data
+                            )
+                        );
                 } else {
-                    const result = {
+                    res.status(200).json({
                         type: 'input',
                         name,
                         email,
                         message,
-                    } as Data;
-                    res.status(200).json(result);
+                    } as Data);
                 }
             }
         }),

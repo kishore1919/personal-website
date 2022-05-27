@@ -24,6 +24,7 @@ const portfolioRouter = (app: express.Application) =>
                         const page = parseAsString(query.page).orElseLazyGet(
                             () => '0'
                         );
+
                         const language = parseAsString(
                             query.language
                         ).orElseLazyGet(() => 'All');
