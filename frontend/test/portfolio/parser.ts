@@ -1,8 +1,8 @@
 import { parseAsPortfolioData } from '../../src/parser/portfolio';
 import data from '../dummy/portfolio.json';
 
-const testPortfolioParser = () =>
-    describe('Portfolio parser', () => {
+const testParser = () =>
+    describe('Parser', () => {
         it('should successfully parse as data', () => {
             expect(parseAsPortfolioData(data)).toStrictEqual(data);
         });
@@ -24,4 +24,4 @@ const testPortfolioParser = () =>
         });
     });
 
-export default testPortfolioParser;
+export default testParser;

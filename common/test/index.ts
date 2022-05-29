@@ -1,3 +1,5 @@
-import testContactValidation from './contact/allValueValid';
+import testContact from './contact';
 
-testContactValidation();
+describe('Common', () => {
+    testContact();
+});

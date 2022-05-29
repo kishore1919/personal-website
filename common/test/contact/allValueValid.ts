@@ -1,18 +1,18 @@
 import {
-    allValueValid,
+    isAllValueValid,
     getName,
     getEmail,
     getMessage,
 } from '../../src/contact';
 
-const testContactValidation = () =>
-    describe('Contact allValueValid', () => {
+const testValidator = () =>
+    describe('Value Valiadator', () => {
         const name = 'Wendy';
         const email = 'wendy2000@gmail.com';
         const message = 'Wendy is here to test';
         it('should attest all values are valid', () => {
             expect(
-                allValueValid(
+                isAllValueValid(
                     getName(name),
                     getEmail(email),
                     getMessage(message)
@@ -21,10 +21,14 @@ const testContactValidation = () =>
         });
         it('should attest all values are valid except name', () => {
             expect(
-                allValueValid(getName(''), getEmail(email), getMessage(message))
+                isAllValueValid(
+                    getName(''),
+                    getEmail(email),
+                    getMessage(message)
+                )
             ).toBe(false);
             expect(
-                allValueValid(
+                isAllValueValid(
                     getName(' '),
                     getEmail(email),
                     getMessage(message)
@@ -33,13 +37,21 @@ const testContactValidation = () =>
         });
         it('should attest all values are valid except email', () => {
             expect(
-                allValueValid(getName(name), getEmail(''), getMessage(message))
+                isAllValueValid(
+                    getName(name),
+                    getEmail(''),
+                    getMessage(message)
+                )
             ).toBe(false);
             expect(
-                allValueValid(getName(name), getEmail(' '), getMessage(message))
+                isAllValueValid(
+                    getName(name),
+                    getEmail(' '),
+                    getMessage(message)
+                )
             ).toBe(false);
             expect(
-                allValueValid(
+                isAllValueValid(
                     getName(name),
                     getEmail('wendy@g'),
                     getMessage(message)
@@ -48,13 +60,13 @@ const testContactValidation = () =>
         });
         it('should attest all values are valid except message', () => {
             expect(
-                allValueValid(getName(name), getEmail(email), getMessage(''))
+                isAllValueValid(getName(name), getEmail(email), getMessage(''))
             ).toBe(false);
             expect(
-                allValueValid(getName(name), getEmail(email), getMessage(' '))
+                isAllValueValid(getName(name), getEmail(email), getMessage(' '))
             ).toBe(false);
             expect(
-                allValueValid(
+                isAllValueValid(
                     getName(name),
                     getEmail(email),
                     getMessage('123456789')
@@ -63,4 +75,4 @@ const testContactValidation = () =>
         });
     });
 
-export default testContactValidation;
+export default testValidator;

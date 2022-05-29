@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FinalMessage } from '../components/contact/Message';
 import { SendingMessage } from '../components/contact/Message';
 import {
-    allValueValid,
+    isAllValueValid,
     Data,
     Email,
     getEmail,
@@ -11,27 +11,18 @@ import {
     getName,
     Message,
     Name,
+    defaultValue,
 } from '../../../common/src/contact';
 import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
 import { contactURL } from '../url';
-import { GranulaString } from 'granula-string';
 import parseAsData from '../parser/contact';
 
 const Contact = () => {
     const [state, setState] = React.useState({
-        name: {
-            value: GranulaString.createFromString(''),
-            error: '',
-        } as Name,
-        email: {
-            value: GranulaString.createFromString(''),
-            error: '',
-        } as Email,
-        message: {
-            value: GranulaString.createFromString(''),
-            error: '',
-        } as Message,
+        name: defaultValue as Name,
+        email: defaultValue as Email,
+        message: defaultValue as Message,
         isShowFinal: false,
         isShowWaiting: false,
     });
@@ -118,7 +109,7 @@ const Contact = () => {
                     <ContactFormDiv
                         onSubmit={(event) => {
                             event.preventDefault();
-                            if (allValueValid(name, email, message)) {
+                            if (isAllValueValid(name, email, message)) {
                                 setShowWaiting(true);
                                 fetch(contactURL, {
                                     method: 'POST',
@@ -163,7 +154,7 @@ const Contact = () => {
                                         type="text"
                                         name="name"
                                         id="name"
-                                        value={name.value.valueOf()}
+                                        value={name.value}
                                         placeholder="Tony Stark"
                                         required
                                         onChange={(event) =>
@@ -187,7 +178,7 @@ const Contact = () => {
                                         type="email"
                                         name="email"
                                         id="email"
-                                        value={email.value.valueOf()}
+                                        value={email.value}
                                         placeholder="tonystark@gmail.com"
                                         required
                                         onChange={(event) =>
@@ -210,7 +201,7 @@ const Contact = () => {
                                     <TextArea
                                         name="message"
                                         id="message"
-                                        value={message.value.valueOf()}
+                                        value={message.value}
                                         placeholder="Ask you a question/Tell you something"
                                         rows={8}
                                         required

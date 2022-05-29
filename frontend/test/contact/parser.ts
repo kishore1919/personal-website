@@ -1,8 +1,7 @@
-import { GranulaString } from 'granula-string';
 import parseAsData from '../../src/parser/contact';
 
-const testContactParser = () =>
-    describe('Contact parser', () => {
+const testParser = () =>
+    describe('Parser', () => {
         it('should parse type of succeed', () => {
             const succeed = {
                 type: 'succeed',
@@ -19,21 +18,7 @@ const testContactParser = () =>
                     error: '',
                 },
             };
-            expect(parseAsData(succeed)).toStrictEqual({
-                ...succeed,
-                name: {
-                    ...succeed.name,
-                    value: GranulaString.createFromString(''),
-                },
-                email: {
-                    ...succeed.email,
-                    value: GranulaString.createFromString(''),
-                },
-                message: {
-                    ...succeed.message,
-                    value: GranulaString.createFromString(''),
-                },
-            });
+            expect(parseAsData(succeed)).toStrictEqual(succeed);
         });
         describe('parse type of input', () => {
             it('should parse when name is faulty', () => {
@@ -52,25 +37,7 @@ const testContactParser = () =>
                         error: '',
                     },
                 };
-                expect(parseAsData(input)).toStrictEqual({
-                    ...input,
-                    name: {
-                        ...input.name,
-                        value: GranulaString.createFromString(input.name.value),
-                    },
-                    email: {
-                        ...input.email,
-                        value: GranulaString.createFromString(
-                            input.email.value
-                        ),
-                    },
-                    message: {
-                        ...input.message,
-                        value: GranulaString.createFromString(
-                            input.message.value
-                        ),
-                    },
-                });
+                expect(parseAsData(input)).toStrictEqual(input);
             });
             it('should parse when email is faulty', () => {
                 const input = {
@@ -88,25 +55,7 @@ const testContactParser = () =>
                         error: '',
                     },
                 };
-                expect(parseAsData(input)).toStrictEqual({
-                    ...input,
-                    name: {
-                        ...input.name,
-                        value: GranulaString.createFromString(input.name.value),
-                    },
-                    email: {
-                        ...input.email,
-                        value: GranulaString.createFromString(
-                            input.email.value
-                        ),
-                    },
-                    message: {
-                        ...input.message,
-                        value: GranulaString.createFromString(
-                            input.message.value
-                        ),
-                    },
-                });
+                expect(parseAsData(input)).toStrictEqual(input);
             });
             it('should parse when message is faulty', () => {
                 const input = {
@@ -124,25 +73,7 @@ const testContactParser = () =>
                         error: '*Please do not leave message section empty*',
                     },
                 };
-                expect(parseAsData(input)).toStrictEqual({
-                    ...input,
-                    name: {
-                        ...input.name,
-                        value: GranulaString.createFromString(input.name.value),
-                    },
-                    email: {
-                        ...input.email,
-                        value: GranulaString.createFromString(
-                            input.email.value
-                        ),
-                    },
-                    message: {
-                        ...input.message,
-                        value: GranulaString.createFromString(
-                            input.message.value
-                        ),
-                    },
-                });
+                expect(parseAsData(input)).toStrictEqual(input);
             });
         });
         it('should parse type of failed', () => {
@@ -154,4 +85,4 @@ const testContactParser = () =>
         });
     });
 
-export default testContactParser;
+export default testParser;

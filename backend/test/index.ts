@@ -1,5 +1,5 @@
-import testPortfolioProcessing from './portfolio/processing';
-import testPortfolioDataPromise from './portfolio/query';
+import testPortfolio from './portfolio';
 
-testPortfolioProcessing();
-testPortfolioDataPromise();
+describe('Backend', () => {
+    testPortfolio();
+});

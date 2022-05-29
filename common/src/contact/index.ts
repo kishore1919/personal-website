@@ -1,4 +1,4 @@
-import { GranulaString, isEmpty } from 'granula-string';
+import { inRangeOf, isBlank, isEmpty } from 'granula-string';
 
 const validateEmail = (email: string) =>
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -8,14 +8,14 @@ const validateEmail = (email: string) =>
 type EmptyString = '';
 
 type Name = Readonly<{
-    value: GranulaString;
+    value: string;
     error:
         | `*Please do not leave name section ${'empty' | 'blank'}*`
         | EmptyString;
 }>;
 
 type Email = Readonly<{
-    value: GranulaString;
+    value: string;
     error:
         | `*Please do not leave email section ${'empty' | 'blank'}*`
         | '*Please enter valid email format*'
@@ -23,7 +23,7 @@ type Email = Readonly<{
 }>;
 
 type Message = Readonly<{
-    value: GranulaString;
+    value: string;
     error:
         | `*Please do not leave message section ${'empty' | 'blank'}*`
         | '*At least 10 words are required*'
@@ -43,68 +43,64 @@ type Data = Readonly<
       }
 >;
 
-const getName = (string: string): Name => {
-    const value = GranulaString.createFromString(string);
-    return {
-        value,
-        error: value.isEmpty()
-            ? '*Please do not leave name section empty*'
-            : value.isBlank()
-            ? '*Please do not leave name section blank*'
-            : '',
-    };
-};
+const getName = (value: string): Name => ({
+    value,
+    error: isEmpty(value)
+        ? '*Please do not leave name section empty*'
+        : isBlank(value)
+        ? '*Please do not leave name section blank*'
+        : defaultValue.error,
+});
 
-const getEmail = (string: string): Email => {
-    const value = GranulaString.createFromString(string);
-    return {
-        value,
-        error: value.isEmpty()
-            ? '*Please do not leave email section empty*'
-            : value.isBlank()
-            ? '*Please do not leave email section blank*'
-            : validateEmail(value.valueOf())
-            ? ''
-            : '*Please enter valid email format*',
-    };
-};
+const getEmail = (value: string): Email => ({
+    value,
+    error: isEmpty(value)
+        ? '*Please do not leave email section empty*'
+        : isBlank(value)
+        ? '*Please do not leave email section blank*'
+        : validateEmail(value)
+        ? defaultValue.error
+        : '*Please enter valid email format*',
+});
 
-const getMessage = (string: string): Message => {
-    const value = GranulaString.createFromString(string);
-    return {
-        value,
-        error: value.isEmpty()
-            ? '*Please do not leave message section empty*'
-            : value.isBlank()
-            ? '*Please do not leave message section blank*'
-            : value.inRangeOf({
-                  min: 10,
-                  excludeBlankSpace: true,
-              })
-            ? ''
-            : '*At least 10 words are required*',
-    };
-};
+const getMessage = (value: string): Message => ({
+    value,
+    error: isEmpty(value)
+        ? '*Please do not leave message section empty*'
+        : isBlank(value)
+        ? '*Please do not leave message section blank*'
+        : inRangeOf(value, {
+              min: 10,
+              excludeBlankSpace: true,
+          })
+        ? defaultValue.error
+        : '*At least 10 words are required*',
+});
 
-const allValueValid = (
-    { value: name, error: nameErr }: Name,
-    { value: email, error: emailErr }: Email,
-    { value: message, error: messageErr }: Message
+const isAllValueValid = (
+    name: Name,
+    email: Email,
+    message: Message
 ): boolean => {
-    const noError =
-        isEmpty(nameErr) && isEmpty(emailErr) && isEmpty(messageErr);
-    const nameInvalid = name.isBlank() || name.isEmpty();
-    const messageInvalid =
-        message.isBlank() ||
-        message.isEmpty() ||
-        !message.inRangeOf({
+    const hasNoError =
+        isEmpty(name.error) && isEmpty(email.error) && isEmpty(message.error);
+    const isNameInvalid = isBlank(name.value) || isEmpty(name.value);
+    const isMessageInvalid =
+        isBlank(message.value) ||
+        isEmpty(message.value) ||
+        !inRangeOf(message.value, {
             min: 10,
             excludeBlankSpace: true,
         });
-    const inputValid =
-        messageInvalid && validateEmail(email.valueOf()) && !nameInvalid;
-    return noError && !inputValid;
+    const isinputValid =
+        isMessageInvalid && validateEmail(email.value) && !isNameInvalid;
+    return hasNoError && !isinputValid;
 };
 
-export { allValueValid, getMessage, getEmail, getName };
+const defaultValue = {
+    value: '',
+    error: '',
+} as const;
+
+export { isAllValueValid, getMessage, getEmail, getName, defaultValue };
 export type { Name, Email, Message, Data };

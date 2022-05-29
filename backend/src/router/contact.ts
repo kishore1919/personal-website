@@ -3,7 +3,7 @@ import express from 'express';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
 import {
-    allValueValid,
+    isAllValueValid,
     Data,
     getEmail,
     getMessage,
@@ -27,7 +27,7 @@ const contactRouter = (app: express.Application) => ({
                 const parsedMessage = getMessage(
                     parseAsString(message).orElseGetEmptyString()
                 );
-                if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
+                if (isAllValueValid(parsedName, parsedEmail, parsedMessage)) {
                     const email = parseAsEnv({
                         env: process.env.EMAIL,
                         name: 'email',

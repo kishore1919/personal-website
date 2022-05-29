@@ -1,8 +1,8 @@
 import { isBlank, isEmpty, isWhiteSpace } from 'granula-string';
 import { portfolioDataPromise } from '../../src/util/portfolio';
 
-const testPortfolioDataPromise = () =>
-    describe('Portfolio From GitHub Data', () => {
+const testDataPromise = () =>
+    describe('Data from GitHub', () => {
         const portfolioData = portfolioDataPromise();
         it('should return at least 9 datas', async () => {
             expect((await portfolioData).length >= 9).toBe(true);
@@ -32,4 +32,4 @@ const testPortfolioDataPromise = () =>
         });
     });
 
-export default testPortfolioDataPromise;
+export default testDataPromise;

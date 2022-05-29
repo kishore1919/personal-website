@@ -16,6 +16,7 @@ const fetchGithubUserRepo = async (): Promise<ReadonlyArray<PortfolioData>> =>
         (repo) => {
             const name = parseAsString(repo.name).orElseThrowDefault('name');
             return ![
+                'adonis-os-blog',
                 'my-web',
                 'gitignored',
                 'LibGDX-Chess-Game',

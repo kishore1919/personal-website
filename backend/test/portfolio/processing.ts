@@ -8,8 +8,8 @@ import {
 } from '../../src/util/portfolio';
 import portfolioData from '../dummy/portfolio.json';
 
-const testPortfolioProcessing = () =>
-    describe('Portfolio Data', () => {
+const testProcessing = () =>
+    describe('Data Processing', () => {
         it('should return the language queried', () => {
             expect(findLanguageQueried(portfolioData, 'Java')).toBe('Java');
             expect(findLanguageQueried(portfolioData, 'All')).toBe('All');
@@ -69,4 +69,4 @@ const testPortfolioProcessing = () =>
         });
     });
 
-export default testPortfolioProcessing;
+export default testProcessing;

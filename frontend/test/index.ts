@@ -1,5 +1,7 @@
-import testContactParser from './contact/parser';
-import testPortfolioParser from './portfolio/parser';
+import testContact from './contact';
+import testPortfolio from './portfolio';
 
-testContactParser();
-testPortfolioParser();
+describe('Frontend', () => {
+    testPortfolio();
+    testContact();
+});
