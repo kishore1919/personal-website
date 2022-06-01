@@ -3,9 +3,6 @@
     "name": "my-first-web-frontend",
     "version": "0.0.0",
     "private": true,
-    "scripts": {
-        "build": "make build && make clean-up"
-    },
     "dependencies": {
         "dotenv": "^11.0.0",
         "esbuild": "^0.14.11",

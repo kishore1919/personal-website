@@ -29,11 +29,6 @@ transpile:
 build: pre-build
 	make generate-sw && make transpile
 
-## clean-up
-clean-up:
-	rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json workbox-config.cjs yarn.lock && \
-		rm -rf src script public node_modules
-
 ## lint
 eslint=$(NODE_BIN)eslint
 lint-src:
