@@ -74,4 +74,3 @@ sub-clean-up:
 
 clean-up:
 	(trap 'kill 0' INT; (make sub-clean-up dir=backend) & (make sub-clean-up dir=frontend) & (rm -rf node_modules common .git* .prettierrc  *.json yarn.lock LICENSE README.md docs))
-	
