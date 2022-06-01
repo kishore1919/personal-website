@@ -29,7 +29,7 @@ start:
 
 ## build
 sub-build:
-	cd $(dir) && yarn build
+	cd $(dir) && make build
 
 build:
 	(trap 'kill 0' INT; (make sub-build dir=backend) & (make sub-build dir=frontend))
@@ -69,6 +69,9 @@ format:
 	(trap 'kill 0' INT; (make sub-format dir=backend) & (make sub-format dir=common) & (make sub-format dir=frontend))
 
 ## clean-up
+sub-clean-up:
+	mkdir temp-$(dir) && cd $(dir) && mv build Makefile ../temp-$(dir) && cd ../ && rm -rf $(dir) && mv temp-$(dir) $(dir) && rm -rf temp-$(dir)
+
 clean-up:
-	rm -rf common && rm -rf node_modules && \
-		rm -rf .gitattributes .gitignore  *.json yarn.lock
+	(trap 'kill 0' INT; (make sub-clean-up dir=backend) & (make sub-clean-up dir=frontend) & (rm -rf common .git* .prettierrc  *.json yarn.lock LICENSE README.md docs))
+	

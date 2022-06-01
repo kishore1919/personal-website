@@ -16,11 +16,6 @@ start:
 build:
 	rm -rf build && node script/esbuild.js
 
-## clean-up
-clean-up:
-	rm -rf .eslintrc .gitattributes .gitignore .prettierrc *.json yarn.lock && \
-		rm -rf src script node_modules
-
 ## type-check
 typecheck:
 	$(NODE_BIN)tsc -p tsconfig.json $(arguments) 
