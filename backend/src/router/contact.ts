@@ -8,13 +8,14 @@ import {
     getEmail,
     getMessage,
     getName,
+    defaultValue,
 } from '../../../common/src/contact';
 
 const contactRouter = (app: express.Application) => ({
     sendEmail: () =>
         app.post('/api/contact', (req, res) => {
             if (req.method !== 'POST') {
-                throw new Error('Only accept POST request');
+                res.status(404).json('Only accept POST request');
             } else {
                 const { body } = req;
                 const { name, email, message } = body;
@@ -66,18 +67,9 @@ const contactRouter = (app: express.Application) => ({
                                       }
                                     : {
                                           type: 'succeed',
-                                          name: {
-                                              ...parsedName,
-                                              value: '',
-                                          },
-                                          email: {
-                                              ...parsedEmail,
-                                              value: '',
-                                          },
-                                          message: {
-                                              ...parsedMessage,
-                                              value: '',
-                                          },
+                                          name: defaultValue,
+                                          email: defaultValue,
+                                          message: defaultValue,
                                       }) as Data
                             )
                         );

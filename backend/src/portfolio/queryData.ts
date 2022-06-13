@@ -4,9 +4,9 @@ import {
     parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
-import { PortfolioData } from '../../../common/src/portfolio';
+import { Portfolios } from '../../../common/src/portfolio';
 
-const fetchGithubUserRepo = async (): Promise<ReadonlyArray<PortfolioData>> =>
+const fetchGithubUserRepo = async (): Promise<Portfolios> =>
     parseAsReadonlyArray(
         await (
             await fetch(
@@ -16,6 +16,7 @@ const fetchGithubUserRepo = async (): Promise<ReadonlyArray<PortfolioData>> =>
         (repo) => {
             const name = parseAsString(repo.name).orElseThrowDefault('name');
             return ![
+                'adonix-blog',
                 'adonis-os-blog',
                 'my-web',
                 'gitignored',
@@ -52,7 +53,7 @@ const fetchGithubUserRepo = async (): Promise<ReadonlyArray<PortfolioData>> =>
 
 const fetchGithubOrganization = async (
     organizationName: string
-): Promise<PortfolioData> => {
+): Promise<Portfolios[0]> => {
     const { language } = Array.from(
         parseAsReadonlyArray(
             await (
@@ -108,20 +109,18 @@ const fetchGithubOrganization = async (
     ).orElseThrowDefault('organization');
 };
 
-const portfolioLanguages = (
-    portfolioData: ReadonlyArray<PortfolioData>
-): ReadonlyArray<string> =>
-    Array.from(new Set(portfolioData.map((data) => data.language)))
+const portfolioLanguages = (portfolios: Portfolios): ReadonlyArray<string> =>
+    Array.from(new Set(portfolios.map((data) => data.language)))
         .concat('All')
         .sort((a, b) => a.localeCompare(b));
 
 const findPortfoliosFromLanguage = (
-    portfolioData: ReadonlyArray<PortfolioData>,
+    portfolios: Portfolios,
     selectedLanguage: string
-): ReadonlyArray<PortfolioData> =>
+): Portfolios =>
     selectedLanguage === 'All'
-        ? portfolioData
-        : portfolioData.filter(({ language }) => language === selectedLanguage);
+        ? portfolios
+        : portfolios.filter(({ language }) => language === selectedLanguage);
 
 const parsePageQuery = (
     page: string,
@@ -132,24 +131,23 @@ const parsePageQuery = (
 };
 
 const findLanguageQueried = (
-    portfolioData: ReadonlyArray<PortfolioData>,
+    portfolios: Portfolios,
     language: string
 ): string | 'All' => {
     const finalizedLang = language === 'C' ? 'C#' : language;
-
     return (
-        portfolioData.find((data) => data.language === finalizedLang)
-            ?.language ?? 'All'
+        portfolios.find((data) => data.language === finalizedLang)?.language ??
+        'All'
     );
 };
 
 const paginatePortfolio = (
-    portfolioData: ReadonlyArray<PortfolioData>,
+    portfolios: Portfolios,
     pageNumber: number
-): ReadonlyArray<PortfolioData> =>
-    portfolioData.flatMap((_, index) => {
-        const data = portfolioData[index + pageNumber];
-        return index < 9 ? (data ? [data] : []) : [];
+): Portfolios =>
+    portfolios.flatMap((_, index) => {
+        const data = portfolios[index + pageNumber];
+        return index >= 9 ? [] : !data ? [] : [data];
     });
 
 const portfolioDataPromise = async () =>

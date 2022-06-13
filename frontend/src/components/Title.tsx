@@ -6,12 +6,12 @@ const Title = ({
     title,
     content,
 }: Readonly<{
-    title: NavLinkType['title'] | 'Page Not Found';
+    title: NavLinkType['title'] | '404 Error';
     content: string;
 }>) => (
     <Helmet>
         <meta charSet="utf-8" name="description" content={content} />
-        <title>{title}</title>
+        <title>PoolOfDeath20 | {title}</title>
     </Helmet>
 );
 

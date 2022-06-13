@@ -4,35 +4,43 @@ import { GlobalContainer } from '../theme/GlobalTheme';
 import Title from '../components/Title';
 import { Link, useHistory } from 'react-router-dom';
 
-const DELAY = 0.5;
-const TIME_TO_CHARGE = 10 + DELAY;
+type BackToHomeButtonProps = Readonly<{
+    timeToChange: number;
+}>;
 
 const Error = () => {
     const history = useHistory();
 
+    const delay = 0.5;
+    const timeToChange = 10 + delay;
+
     const [state, setState] = React.useState({
-        countDown: TIME_TO_CHARGE - DELAY,
+        countDown: timeToChange - delay,
     });
 
     const { countDown } = state;
 
     React.useEffect(() => {
         if (countDown === 0) {
-            history.push('/');
+            history.replace('/');
         }
-        setTimeout(
-            () =>
-                setState((prev) => ({
-                    countDown: prev.countDown - 1,
-                })),
-            1000
-        );
+        return () =>
+            clearTimeout(
+                setTimeout(
+                    () =>
+                        setState((prev) => ({
+                            ...prev,
+                            countDown: prev.countDown - 1,
+                        })),
+                    1000
+                )
+            );
     }, [countDown]);
 
     return (
         <Container>
             <Title
-                title="Page Not Found"
+                title="404 Error"
                 content="You took the wrong turn and came here"
             />
             <ErrorContentContainer>
@@ -54,10 +62,10 @@ const Error = () => {
 
                     <BackToHomeTimer>
                         Back to Home in: 00:00:
-                        {countDown < 10 ? `0${countDown}` : countDown}
+                        {`${countDown >= 10 ? '' : '0'}${countDown}`}
                     </BackToHomeTimer>
                     <BackToHomeAlternative>OR</BackToHomeAlternative>
-                    <BackToHomeButton>
+                    <BackToHomeButton timeToChange={timeToChange}>
                         Go <Link to="/">Home</Link> Immediately
                     </BackToHomeButton>
                 </ErrorLeft>
@@ -157,11 +165,16 @@ const BackToHomeButton = styled.div`
         color: ${({ theme }) => theme.theme.secondaryColor};
         text-decoration: none;
         font-weight: 600;
-        animation: ${ChargeHomeButton} ease-in-out ${TIME_TO_CHARGE}s;
-        -moz-animation: ${ChargeHomeButton} ease-in-out ${TIME_TO_CHARGE}s;
-        -webkit-animation: ${ChargeHomeButton} ease-in-out ${TIME_TO_CHARGE}s;
-        -o-animation: ${ChargeHomeButton} ease-in-out ${TIME_TO_CHARGE}s;
-        -ms-animation: ${ChargeHomeButton} ease-in-out ${TIME_TO_CHARGE}s;
+        animation: ${ChargeHomeButton} ease-in-out
+            ${({ timeToChange }: BackToHomeButtonProps) => timeToChange}s;
+        -moz-animation: ${ChargeHomeButton} ease-in-out
+            ${({ timeToChange }) => timeToChange}s;
+        -webkit-animation: ${ChargeHomeButton} ease-in-out
+            ${({ timeToChange }) => timeToChange}s;
+        -o-animation: ${ChargeHomeButton} ease-in-out
+            ${({ timeToChange }) => timeToChange}s;
+        -ms-animation: ${ChargeHomeButton} ease-in-out
+            ${({ timeToChange }) => timeToChange}s;
 
         &:hover {
             background-position: left !important;

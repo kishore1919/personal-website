@@ -24,19 +24,18 @@ import { HashLoading, ErrorBoundary } from './components/HashLoading';
 
 const App = () => {
     const { key } = keyConfig;
-    const [theme, setTheme] = React.useState(() => {
-        const value = localStorage.getItem(key);
-        return value
-            ? getThemeFromConfigKey(value)
-            : getTheme(
-                  window.matchMedia('(prefers-color-scheme: dark)').matches
-              );
+    const [state, setState] = React.useState({
+        theme: (() => {
+            const value = localStorage.getItem(key);
+            return value
+                ? getThemeFromConfigKey(value)
+                : getTheme(
+                      window.matchMedia('(prefers-color-scheme: dark)').matches
+                  );
+        })(),
     });
 
-    React.useEffect(
-        () => localStorage.setItem(key, getConfigKey(theme)),
-        [theme]
-    );
+    const { theme } = state;
 
     return (
         <BrowserRouter>
@@ -51,7 +50,16 @@ const App = () => {
                         <Header
                             theme={theme}
                             updateTheme={() =>
-                                setTheme(getThemeFromPrevTheme(theme))
+                                setState((prev) => {
+                                    localStorage.setItem(
+                                        key,
+                                        getConfigKey(theme)
+                                    );
+                                    return {
+                                        ...prev,
+                                        theme: getThemeFromPrevTheme(theme),
+                                    };
+                                })
                             }
                         />
                         <Switch>

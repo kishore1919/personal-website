@@ -1,10 +1,4 @@
 {
-    "name": "my-first-web-common",
-    "version": "0.0.0",
-    "author": "PoolOfDeath20",
-    "license": "MIT",
-    "main": "build/index.js",
-    "private": true,
     "dependencies": {
         "granula-string": "^1.0.5",
         "parse-dont-validate": "^1.0.1"

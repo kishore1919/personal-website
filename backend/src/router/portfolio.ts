@@ -1,23 +1,25 @@
 import express from 'express';
 import { parseAsString } from 'parse-dont-validate';
-import {
-    findLanguageQueried,
-    findPortfoliosFromLanguage,
-    numberOfPortfolioPerPage,
-    paginatePortfolio,
-    parsePageQuery,
-    portfolioDataPromise,
-    portfolioLanguages,
-} from '../util/portfolio';
+import portfolios, { queryData } from '../portfolio';
 
 const portfolioRouter = (app: express.Application) =>
     (() => {
-        const portfolioData = portfolioDataPromise();
+        const {
+            findLanguageQueried,
+            findPortfoliosFromLanguage,
+            numberOfPortfolioPerPage,
+            paginatePortfolio,
+            parsePageQuery,
+            portfolioLanguages,
+        } = queryData;
+
+        const portfolioData = portfolios();
+
         return {
             query: async () => {
                 app.get('/api/portfolio', async (req, res) => {
                     if (req.method !== 'GET') {
-                        throw new Error('Only accept GET request');
+                        res.status(404).json('Only accept GET request');
                     } else {
                         const { query } = req;
 

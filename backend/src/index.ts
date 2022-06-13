@@ -18,14 +18,14 @@ const { static: expressStatic, json, urlencoded } = express;
         const middleWares = [
             json({ limit: '10mb' }),
             urlencoded({ extended: true }),
+            expressStatic(path.resolve(build)),
             cors({
+                credentials: true,
                 origin: parseAsEnv({
                     env: process.env.ORIGIN,
                     name: 'ORIGIN',
                 }),
-                credentials: true,
             }),
-            expressStatic(path.resolve(build)),
         ];
 
         app.use(middleWares);

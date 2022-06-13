@@ -5,13 +5,13 @@ const SkillSection = ({
     title,
     list,
 }: Readonly<{
+    list: ReadonlyArray<string>;
     title:
         | 'Programming Languages'
         | 'Technologies'
         | 'Academic Achievements'
         | 'Programming Experience'
         | 'Personal Skills';
-    list: ReadonlyArray<string>;
 }>) => (
     <Section>
         <SectionTitle>{title}</SectionTitle>
@@ -46,7 +46,7 @@ const ResumeRight = () => (
                 'Publish my own NPM package to solve my problems',
                 'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
                 "Built a functional Notepad similar to Window's Notepad in Java Swing and JavaFX",
-                'Built my very own website',
+                'Built my very own web application and blog',
             ]}
         />
         <SkillSection
