@@ -1,5 +1,5 @@
 import { isBlank, isEmpty, isWhiteSpace } from 'granula-string';
-import { portfolioDataPromise } from '../../src/util/portfolio';
+import { portfolioDataPromise } from '../../src/portfolio/queryData';
 
 const testDataPromise = () =>
     describe('Data from GitHub', () => {

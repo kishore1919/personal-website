@@ -1,11 +1,11 @@
 import {
     findLanguageQueried,
+    findPortfoliosFromLanguage,
+    numberOfPortfolioPerPage,
+    paginatePortfolio,
     parsePageQuery,
     portfolioLanguages,
-    findPortfoliosFromLanguage,
-    paginatePortfolio,
-    numberOfPortfolioPerPage,
-} from '../../src/util/portfolio';
+} from '../../src/portfolio/queryData';
 import portfolioData from '../dummy/portfolio.json';
 
 const testProcessing = () =>
