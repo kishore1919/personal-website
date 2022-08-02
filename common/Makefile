@@ -11,30 +11,20 @@ typecheck:
 typecheck-watch:
 	make typecheck arguments=--w
 
-## lint
-eslint=$(NODE_BIN)eslint
-lint-src:
-	$(eslint) src/** -f='stylish' --color
-
-lint-test:
-	$(eslint) test/**/*.ts -f='stylish' --color
-
-lint:
-	(trap 'kill 0' INT; make lint-src & make lint-test)
-
 ## format
 prettier=$(NODE_BIN)prettier
-prettify-src:
-	$(prettier) --$(type) src/
-
-prettify-test:
-	$(prettier) --$(type) test/
+prettify:
+	$(prettier) --$(type) src/ test/
 
 format-check:
-	(trap 'kill 0' INT; make prettify-src type=check & make prettify-test type=check)
+	make prettify type=check
 
 format:
-	(trap 'kill 0' INT; make prettify-src type=write & make prettify-test type=write)
+	make prettify type=write
+
+## lint
+lint:
+	$(NODE_BIN)eslint src/ test/ -f='stylish' --color
 
 ## test
 test:

@@ -1,12 +1,12 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
 import child from 'child_process';
-import { parseAsEnv, parseAsEnvs } from 'esbuild-env-parsing';
+import { parseAsStringEnv, parseAsEnvs } from 'esbuild-env-parsing';
 
 dotenv.config({});
 
 const isDev =
-    parseAsEnv({
+    parseAsStringEnv({
         env: process.env.NODE_ENV,
         name: 'node env',
     }) === 'DEVELOPMENT';

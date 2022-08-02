@@ -4,7 +4,7 @@ import cors from 'cors';
 import contactRouter from './router/contact';
 import portfolioRouter from './router/portfolio';
 import buildRouter from './router/build';
-import { parseAsEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from 'esbuild-env-parsing';
 
 const { static: expressStatic, json, urlencoded } = express;
 
@@ -21,7 +21,7 @@ const { static: expressStatic, json, urlencoded } = express;
             expressStatic(path.resolve(build)),
             cors({
                 credentials: true,
-                origin: parseAsEnv({
+                origin: parseAsStringEnv({
                     env: process.env.ORIGIN,
                     name: 'ORIGIN',
                 }),

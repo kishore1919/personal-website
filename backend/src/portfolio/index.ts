@@ -1,10 +1,10 @@
-import { parseAsEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from 'esbuild-env-parsing';
 import devPortfolioCache from './cacheDevelopment';
 import { portfolioDataPromise } from './queryData';
 
 const portfolios = async () => {
     if (
-        parseAsEnv({
+        parseAsStringEnv({
             name: 'NODE_ENV',
             env: process.env.NODE_ENV,
         }) !== 'DEVELOPMENT'
