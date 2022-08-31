@@ -17,6 +17,9 @@ jobs:
             - name: Install Depedencies
               run: make install
 
+            - name: Run Code Generation
+              run: make generate
+
             - name: Run Linter
               run: make lint
 
@@ -27,20 +30,13 @@ jobs:
               run: make format-check
 
             - name: Run Tests
+              env:
+                  ORIGIN: http://localhost:3000
+                  EMAIL: ${{ secrets.EMAIL }}
+                  PASS: ${{ secrets.PASS }}
               run: |
                   make test
                   rm -rf __tests__
 
             - name: Run Build
-              # just to ensure build dont fail due to absence of env variable
-              # the real env will be used somewhere else
-              env:
-                  NODE_ENV: production
-                  EMAIL: email
-                  PASS: pass
-                  ORIGIN: origin
-                  PUBLIC_URL: publicURL
               run: make build
-
-            - name: Run Clean Up
-              run: make clean-up

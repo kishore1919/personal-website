@@ -1,13 +1,39 @@
 {
-    "name": "my-first-web",
+    "name": "my-web",
     "version": "0.0.0",
-    "author": "PoolOfDeath20",
-    "license": "GPL-3.0",
-    "engines": {
-        "yarn": "1.22.17"
-    },
     "scripts": {
-        "install": "make install",
-        "build": "make build && make clean-up"
+        "build": "make build",
+        "start": "make start"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "esbuild-env-parsing": "^1.0.3",
+        "granula-string": "^1.0.6",
+        "next": "^12.2.5",
+        "next-seo": "^5.5.0",
+        "node-fetch": "^3.2.10",
+        "node-mailer": "^0.1.1",
+        "parse-dont-validate": "^2.0.4",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-icons": "^4.4.0",
+        "react-spinners": "^0.13.4",
+        "styled-components": "^5.3.5"
+    },
+    "devDependencies": {
+        "@types/cors": "^2.8.12",
+        "@types/jest": "^28.1.8",
+        "@types/nodemailer": "^6.4.5",
+        "@types/react": "^18.0.17",
+        "@types/react-dom": "^18.0.6",
+        "@types/styled-components": "^5.1.26",
+        "@typescript-eslint/eslint-plugin": "^5.35.1",
+        "@typescript-eslint/parser": "^5.35.1",
+        "esbuild": "^0.15.5",
+        "eslint": "^8.23.0",
+        "eslint-plugin-react": "^7.31.1",
+        "jest": "^29.0.1",
+        "prettier": "^2.7.1",
+        "typescript": "^4.8.2"
     }
 }

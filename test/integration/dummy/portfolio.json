@@ -1,0 +1,80 @@
+[
+    {
+        "name": "Utari-Room",
+        "description": "Final Year Project - UTARi. An improvement of previous project - Room",
+        "url": "https://github.com/Utari-Room",
+        "languages": ["TypeScript"]
+    },
+    {
+        "name": "P-YNPM",
+        "description": "An organization that contains all of the packages I wrote to solve my own problem",
+        "url": "https://github.com/P-YNPM",
+        "languages": ["TypeScript"]
+    },
+    {
+        "name": "adonis-os-blog",
+        "description": "Adonis OS Blog - The abandoned blog",
+        "url": "https://github.com/GervinFung/adonis-os-blog",
+        "languages": ["TypeScript"]
+    },
+    {
+        "name": "adonix-blog",
+        "description": "Personal Blog - Remake of Adonis OS Blog",
+        "url": "https://github.com/GervinFung/adonix-blog",
+        "languages": ["TypeScript"]
+    },
+    {
+        "name": "gitignored",
+        "description": ".gitignore template generator taken from GitHub itself",
+        "url": "https://github.com/GervinFung/gitignored",
+        "languages": ["TypeScript"]
+    },
+    {
+        "name": "MinimalTicTacToe",
+        "description": "A Simple AI TicTacToe made with React + TypeScript and Styled-Components for fun. Choose against AI or human. You can play in 3x3 grid up to 5x5. game for fun.",
+        "url": "https://github.com/GervinFung/MinimalTicTacToe",
+        "languages": ["TypeScript"]
+    },
+    {
+        "name": "my-web",
+        "description": "My Personal Website",
+        "url": "https://github.com/GervinFung/my-web",
+        "languages": ["TypeScript"]
+    },
+    {
+        "name": "AndroidSimpleAIChess",
+        "description": "First Android Project - Parallel AI Chess Game. Choose against AI from Level 1 to Level 10. You can play against your friend as well.",
+        "url": "https://github.com/GervinFung/AndroidSimpleAIChess",
+        "languages": ["Java"]
+    },
+    {
+        "name": "LibGDX-Chess-Game",
+        "description": "A Parallel AI Chess Game made with LibGDX Framework to make the game playable on many devices. Choose against AI from Level 1 to Level 10. You can play against your friend as well.",
+        "url": "https://github.com/GervinFung/LibGDX-Chess-Game",
+        "languages": ["Java"]
+    },
+    {
+        "name": "SimpleParallelChessAI",
+        "description": "A Parallel AI Chess Game made with Java Swing. Choose against AI from Level 1 to Level 10. You can play against your friend as well.",
+        "url": "https://github.com/GervinFung/SimpleParallelChessAI",
+        "languages": ["Java"]
+    },
+    {
+        "name": "TextEditor",
+        "description": "A Simple Text Editor similar to NotePad. I wrote this because the undo option of Notepad can only undo once. But with this software you can undo all of your edit.",
+        "url": "https://github.com/GervinFung/TextEditor",
+        "languages": ["Java"]
+    },
+    {
+        "name": "TextEditorFX",
+        "description": "A Simple Text Editor similar to NotePad. My first JavaFX project. I wrote this as an upgraded version of the previous TextEditor.",
+        "url": "https://github.com/GervinFung/TextEditorFX",
+        "languages": ["Java"]
+    },
+    {
+        "name": "TicTacToe",
+        "description": "Simple AI Tic-Tac-Toe Game made with Java Swing. Choose against AI or human. You can play in 3x3 grid up to 10x10.",
+        "url": "https://github.com/GervinFung/TicTacToe",
+        "languages": ["Java"]
+    }
+]
