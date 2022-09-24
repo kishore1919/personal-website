@@ -20,7 +20,7 @@ type State = Readonly<{
     hasError: boolean;
 }>;
 
-export class ErrorBoundary extends React.Component<
+class ErrorBoundary extends React.Component<
     Readonly<{
         children: React.ReactNode;
     }>,
@@ -35,25 +35,36 @@ export class ErrorBoundary extends React.Component<
         hasError: true,
     });
 
-    componentDidCatch = (error: Error, errorInfo: React.ErrorInfo) =>
-        console.error('Uncaught error: ', error, errorInfo);
-
-    render = (): JSX.Element | React.ReactNode => {
-        if (this.state.hasError) {
-            return (
-                <Container>
-                    <InnerContainer>
-                        <LoadingMessage>
-                            Oops! Seems like there&apos;s a problem loading the
-                            content
-                        </LoadingMessage>
-                        <LoadingMessage>Please try again</LoadingMessage>
-                    </InnerContainer>
-                </Container>
-            );
-        }
-        return this.props.children;
+    componentDidCatch = (
+        { name, cause, message, stack }: Error,
+        { componentStack }: React.ErrorInfo
+    ) => {
+        console.error({ name, cause, message, stack, componentStack });
+        return alert(
+            `name: ${name}\ncause: ${cause}\nmessage: ${message}\nstack: ${stack}\ncomponentStack: ${componentStack}`
+        );
     };
+
+    render = (): JSX.Element | React.ReactNode =>
+        !this.state.hasError ? (
+            this.props.children
+        ) : (
+            <Container>
+                <InnerContainer>
+                    <LoadingMessage>
+                        Oops! Seems like there&apos;s a problem loading the
+                        content
+                    </LoadingMessage>
+                    <LoadingMessage>Please try again</LoadingMessage>
+                    <LoadingMessage>
+                        If you think this is an issue, please file an issue{' '}
+                        <IssueLink href="https://github.com/GervinFung/my-web/issues">
+                            here
+                        </IssueLink>
+                    </LoadingMessage>
+                </InnerContainer>
+            </Container>
+        );
 }
 
 const Container = styled(GlobalContainer)`
@@ -62,12 +73,21 @@ const Container = styled(GlobalContainer)`
     height: 100%;
     display: grid;
     place-items: center;
+    font-family: 'Orbitron', sans-serif !important;
+    background-color: ${({ theme }) => theme.theme.primaryColor};
 `;
 
 const LoadingMessage = styled.p`
-    color: ${({ theme }) => theme.theme.secondaryColor};
     font-size: 35px;
     margin: 0 0 50px 0 !important;
+    color: ${({ theme }) => theme.theme.secondaryColor};
+`;
+
+const IssueLink = styled.a.attrs({
+    rel: 'noopener noreferrer',
+})`
+    text-decoration: none;
+    color: ${({ theme }) => theme.greenColor};
 `;
 
 const InnerContainer = styled.div`
@@ -75,4 +95,4 @@ const InnerContainer = styled.div`
     place-items: center;
 `;
 
-export { HashLoading };
+export { HashLoading, ErrorBoundary };

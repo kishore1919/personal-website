@@ -11,11 +11,10 @@ import {
 } from 'react-icons/fa';
 import { TiSocialLinkedin, TiSocialFacebook } from 'react-icons/ti';
 import { config, isDarkResume } from '../../theme/colorTheme';
+import { url } from '../../util/const';
 
 const ResumeLeft = () => {
     const { key } = config;
-
-    const websiteLink = 'https://poolofdeath20.vercel.app ';
 
     const [state, setState] = React.useState<{
         readonly path: `asset/files/resume/GervinFungDaXuenResume${
@@ -56,9 +55,7 @@ const ResumeLeft = () => {
                         </ResumeDownloadLink>
                     </ResumeDownloadContainer>
                     <PersonalWebsite>
-                        <WebsiteLink href={websiteLink}>
-                            {websiteLink}
-                        </WebsiteLink>
+                        <WebsiteLink href={url}>{url}</WebsiteLink>
                     </PersonalWebsite>
                 </SelfIntro>
 

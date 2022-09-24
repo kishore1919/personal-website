@@ -10,6 +10,7 @@ import {
 import { ThemeProvider } from 'styled-components';
 import { ErrorBoundary, HashLoading } from '../src/web/components/HashLoading';
 import Layout from '../src/web/App';
+import Font from '../src/web/components/Font';
 
 const App = ({ Component, pageProps }: AppProps) => {
     const { key } = config;
@@ -36,6 +37,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
     return (
         <ThemeProvider theme={theme}>
+            <Font />
             <ErrorBoundary>
                 <React.Suspense fallback={<HashLoading />}>
                     <Layout

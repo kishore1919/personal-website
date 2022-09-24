@@ -1,17 +1,15 @@
 {
     "name": "my-web",
     "version": "0.0.0",
-    "scripts": {
-        "build": "make build",
-        "start": "make start"
-    },
+    "author": "PoolOfDeath20",
+    "private": true,
+    "description": "My Web Application",
     "dependencies": {
         "cors": "^2.8.5",
         "esbuild-env-parsing": "^1.0.3",
         "granula-string": "^1.0.6",
         "next": "^12.2.5",
         "next-seo": "^5.5.0",
-        "node-fetch": "^3.2.10",
         "node-mailer": "^0.1.1",
         "parse-dont-validate": "^2.0.4",
         "react": "^18.2.0",
@@ -33,6 +31,7 @@
         "eslint": "^8.23.0",
         "eslint-plugin-react": "^7.31.1",
         "jest": "^29.0.1",
+        "node-fetch": "^3.2.10",
         "prettier": "^2.7.1",
         "typescript": "^4.8.2"
     }
