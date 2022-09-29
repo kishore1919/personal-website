@@ -89,13 +89,14 @@ const Portfolio = (
                 shouldPushToHistory: false,
             }));
         }
+        const { language } = queryParams;
         const promise = new Promise<string>((res) => {
             switch (response.status) {
                 case 'failed':
                     return res(response.message);
                 case 'success': {
                     return res(
-                        `Fetched ${queryParams.language} portfolio${
+                        `Fetched ${language} portfolio${
                             response.data.portfolios.length > 1 ? '' : 's'
                         }`
                     );
@@ -104,7 +105,7 @@ const Portfolio = (
         });
         ToastPromise({
             promise,
-            pending: undefined,
+            pending: `Fetching ${language} portfolios`,
             success: {
                 render: ({ data }) => data as any,
             },
