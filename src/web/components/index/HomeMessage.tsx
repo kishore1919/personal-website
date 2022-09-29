@@ -1,13 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const HomeMessage = () => (
-    <IndexMessage>
-        <IndexMessageParagraph>Hello</IndexMessageParagraph>
-        <IndexMessageParagraph>I am</IndexMessageParagraph>
-        <IndexNameParagraph>Gervin</IndexNameParagraph>
-    </IndexMessage>
-);
+const HomeMessage = () => {
+    const isDay =
+        ((Date.now() + 60000 * new Date().getTimezoneOffset() + 21600000) %
+            86400000) /
+            3600000 >
+        12;
+
+    return (
+        <IndexMessage>
+            <IndexMessageParagraph>
+                {isDay ? 'Bonjour' : 'Bonsoir'}
+            </IndexMessageParagraph>
+            <IndexMessageParagraph>I am</IndexMessageParagraph>
+            <IndexNameParagraph>Gervin</IndexNameParagraph>
+        </IndexMessage>
+    );
+};
 
 const IndexMessage = styled.div`
     @media (max-width: 962px) {

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import ResumeLeft from '../src/web/components/resume/ResumeLeft';
 import ResumeRight from '../src/web/components/resume/ResumeRight';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/Title';
+import Title from '../src/web/components/common/Title';
 import { NextPage } from 'next';
 
 const Resume: NextPage = () => (
-    <ContentContainer>
+    <GlobalContainer>
         <Title title="Resume" content="PoolOfDeath20 or Gervin's resume page" />
         <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap"
@@ -19,10 +19,8 @@ const Resume: NextPage = () => (
                 <ResumeRight />
             </ResumeContainer>
         </Container>
-    </ContentContainer>
+    </GlobalContainer>
 );
-
-const ContentContainer = styled(GlobalContainer)``;
 
 const Container = styled.div`
     display: flex;

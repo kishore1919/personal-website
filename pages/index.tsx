@@ -4,11 +4,11 @@ import HomeMessage from '../src/web/components/index/HomeMessage';
 import Game from '../src/web/components/index/Game';
 import Link from 'next/link';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/Title';
+import Title from '../src/web/components/common/Title';
 import { NextPage } from 'next';
 
 const Home: NextPage = () => (
-    <ContentContainer>
+    <GlobalContainer>
         <Title title="Home" content="PoolOfDeath20 or Gervin's home page" />
         <TwoColumnWrapper>
             <HomeMessage />
@@ -17,10 +17,8 @@ const Home: NextPage = () => (
         <PortfolioButtonContainer>
             <Link href="/portfolio">View My Work</Link>
         </PortfolioButtonContainer>
-    </ContentContainer>
+    </GlobalContainer>
 );
-
-const ContentContainer = styled(GlobalContainer)``;
 
 const TwoColumnWrapper = styled.div`
     justify-content: space-around;

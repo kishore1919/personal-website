@@ -243,14 +243,11 @@ const Game = () => {
 
     const { connectFour, gameType, ticTacToe } = state;
 
-    const restartBoard = (gameState: ConnectFourState | TicTacToeState) => {
-        if (window.confirm('confirmation to restart game')) {
-            setState((prevState) => ({
-                ...prevState,
-                [gameState.type]: gameState,
-            }));
-        }
-    };
+    const restartBoard = (gameState: ConnectFourState | TicTacToeState) =>
+        setState((prevState) => ({
+            ...prevState,
+            [gameState.type]: gameState,
+        }));
 
     const restartTicTacToeBoard = () =>
         restartBoard({
@@ -513,7 +510,7 @@ const ClickableStyle = css`
     outline: none;
     overflow: hidden;
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
 const RestartButton = styled.button`

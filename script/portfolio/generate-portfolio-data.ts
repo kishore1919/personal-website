@@ -105,7 +105,7 @@ const portfolioCache = (path: string) => ({
         ),
 });
 
-const main = async () => {
+const generatePortfolioData = async () => {
     const force = process.argv[2];
     const path = `${process.cwd()}/src/api/portfolio/data.json`;
     const cache = portfolioCache(path);
@@ -124,4 +124,4 @@ const main = async () => {
     }
 };
 
-main();
+generatePortfolioData();

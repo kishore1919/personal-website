@@ -1,110 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FinalMessage } from '../src/web/components/contact/Message';
-import { SendingMessage } from '../src/web/components/contact/Message';
 import {
-    isAllValueValid,
-    Data,
+    defaultValue,
     Email,
     getEmail,
     getMessage,
     getName,
+    isAllValueValid,
     Message,
     Name,
-    defaultValue,
 } from '../src/common/contact';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/Title';
-import { contactURL } from '../src/web/url';
+import Title from '../src/web/components/common/Title';
+import { url } from '../src/web/url';
 import parseAsData from '../src/web/parser/contact';
 import { NextPage } from 'next';
+import {
+    processErrorMessage,
+    ToastPromise,
+} from '../src/web/components/toaser';
 
 const Contact: NextPage = () => {
     const defaultState = {
         name: defaultValue as Name,
         email: defaultValue as Email,
         message: defaultValue as Message,
-        isShowFinal: false as boolean,
     } as const;
 
-    const [state, setState] = React.useState({
-        ...defaultState,
-        isShowWaiting: false,
-    });
+    const [state, setState] = React.useState(defaultState);
 
-    const { email, message, name, isShowFinal, isShowWaiting } = state;
-
-    const setShowWaiting = (isShowWaiting: boolean) =>
-        setState((prev) => ({
-            ...prev,
-            isShowWaiting,
-        }));
-
-    const setShowMessage = ({
-        email,
-        message,
-        name,
-        isShowFinal,
-    }: Readonly<{
-        name: Name;
-        email: Email;
-        message: Message;
-        isShowFinal: boolean;
-    }>) =>
-        setState((prev) => ({
-            ...prev,
-            name,
-            email,
-            message,
-            isShowFinal,
-        }));
-
-    const showMessage = (json: Data) => {
-        const { type } = json;
-        switch (type) {
-            case 'input':
-                setShowMessage({
-                    ...json,
-                    isShowFinal: false,
-                });
-                break;
-            case 'succeed':
-                setShowMessage({
-                    ...defaultState,
-                    isShowFinal: true,
-                });
-                break;
-            case 'failed':
-                alert(
-                    `I am sorry to inform you that there's an error in sending email.\nError: ${JSON.stringify(
-                        json.error
-                    ).replace(
-                        /"([^"]+)":/g,
-                        '$1:'
-                    )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
-                );
-                break;
-        }
-    };
+    const { email, message, name } = state;
 
     return (
-        <ContentContainer>
+        <GlobalContainer>
             <Title
                 title="Contact"
-                content="PoolOfDeath20 or Gervin's contact page. Come to this page to contact him"
-            />
-            <SendingMessage
-                isShow={isShowWaiting}
-                closeMessage={() => setShowWaiting(false)}
-            />
-            <FinalMessage
-                isShow={isShowFinal}
-                closeMessage={() =>
-                    setState((prev) => ({
-                        ...prev,
-                        isShowFinal: false,
-                    }))
-                }
+                content="The contact page of PoolOfDeath20 or Gervin. Come to this page to contact him"
             />
             <Container>
                 <ContactContainer>
@@ -119,37 +50,62 @@ const Contact: NextPage = () => {
                     <ContactFormDiv
                         onSubmit={(event) => {
                             event.preventDefault();
-                            if (isAllValueValid(name, email, message)) {
-                                setShowWaiting(true);
-                                fetch(contactURL, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    referrer: 'no-referrer',
-                                    body: JSON.stringify({
-                                        name: name.value,
-                                        email: email.value,
-                                        message: message.value,
-                                    }),
-                                })
-                                    .then((res) => res.json())
-                                    .then((json) => {
-                                        setShowWaiting(false);
-                                        showMessage(parseAsData(json));
+                            if (isAllValueValid({ name, email, message })) {
+                                const promise = new Promise<string>((res) =>
+                                    fetch(url.contact, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        referrer: 'no-referrer',
+                                        body: JSON.stringify({
+                                            name: name.value,
+                                            email: email.value,
+                                            message: message.value,
+                                        }),
                                     })
-                                    .catch((error) => {
-                                        console.error(error);
-                                        setShowWaiting(false);
-                                        alert(
-                                            `I am sorry to inform you that there's an error in sending email.\nError: ${JSON.stringify(
-                                                error
-                                            ).replace(
-                                                /"([^"]+)":/g,
-                                                '$1:'
-                                            )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
-                                        );
-                                    });
+                                        .then((res) => res.json())
+                                        .then((json) => {
+                                            const parsedJson =
+                                                parseAsData(json);
+                                            const { type } = parsedJson;
+                                            switch (type) {
+                                                case 'input':
+                                                    setState((prev) => ({
+                                                        ...prev,
+                                                        ...parsedJson,
+                                                    }));
+                                                    break;
+                                                case 'succeed':
+                                                    setState((prev) => ({
+                                                        ...prev,
+                                                        ...defaultState,
+                                                    }));
+                                                    break;
+                                            }
+                                            res(
+                                                'Your Message Has Been Successfully Sent!\nThank you!'
+                                            );
+                                        })
+                                        .catch((error) => {
+                                            console.error(error);
+                                            res(
+                                                `Oops! I can't send your email.\nError: ${processErrorMessage(
+                                                    error
+                                                )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
+                                            );
+                                        })
+                                );
+                                ToastPromise({
+                                    promise,
+                                    pending: 'Sending your message...',
+                                    success: {
+                                        render: ({ data }) => data as any,
+                                    },
+                                    error: {
+                                        render: ({ data }) => data,
+                                    },
+                                });
                             }
                         }}
                     >
@@ -233,11 +189,9 @@ const Contact: NextPage = () => {
                     </ContactFormDiv>
                 </ContactContainer>
             </Container>
-        </ContentContainer>
+        </GlobalContainer>
     );
 };
-
-const ContentContainer = styled(GlobalContainer)``;
 
 const Container = styled.div`
     display: flex;
@@ -320,7 +274,7 @@ const InputField = styled.input`
         outline: none;
     }
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     @media (max-width: 463px) {
         padding: 10px;
     }
@@ -341,7 +295,7 @@ const TextArea = styled.textarea`
         outline: none;
     }
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     @media (max-width: 463px) {
         padding: 10px;
     }
@@ -399,7 +353,7 @@ const SubmitButton = styled.input.attrs({
         color: ${({ theme }) => theme.ctaColor};
     }
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     @media (max-width: 973px) {
         font-size: 2em;
     }

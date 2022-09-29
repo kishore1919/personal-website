@@ -90,12 +90,12 @@ const createBoard = (
     currentPlayer: league === firstPlayer.league ? firstPlayer : secondPlayer,
     stringFormat: () =>
         tileList
-            .map((tile: Tile, i: number) => {
-                const newLine = i % column === 0 ? '\n' : '';
-                return `${newLine}${tile.stringFormat}(${String(
-                    tile.index
-                )}) \t`;
-            })
+            .map(
+                (tile, index) =>
+                    `${index % column ? '' : '\n'}${tile.stringFormat}(${String(
+                        tile.index
+                    )}) \t`
+            )
             .join(''),
     type,
 });

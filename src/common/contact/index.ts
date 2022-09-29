@@ -80,11 +80,15 @@ const getMessage = (value: string): Message => ({
         : '*At least 10 words are required*',
 });
 
-const isAllValueValid = (
-    name: Name,
-    email: Email,
-    message: Message
-): boolean => {
+const isAllValueValid = ({
+    name,
+    email,
+    message,
+}: Readonly<{
+    name: Name;
+    email: Email;
+    message: Message;
+}>): boolean => {
     const hasNoError =
         isEmpty(name.error) && isEmpty(email.error) && isEmpty(message.error);
     const isNameInvalid = isBlank(name.value) || isEmpty(name.value);

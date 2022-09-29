@@ -7,13 +7,17 @@ import {
     getThemeFromPrevTheme,
     config,
 } from '../src/web/theme/colorTheme';
-import { ThemeProvider } from 'styled-components';
-import { ErrorBoundary, HashLoading } from '../src/web/components/HashLoading';
+import styled, { ThemeProvider } from 'styled-components';
 import Layout from '../src/web/App';
-import Font from '../src/web/components/Font';
+import Font from '../src/web/components/common/Font';
+import ErrorBoundary from '../src/web/components/error/ErrorBoundary';
+import HashLoading from '../src/web/components/error/HashLoading';
+import { ToastContainer } from 'react-toastify';
+import { injectStyle } from 'react-toastify/dist/inject-style';
 
 const App = ({ Component, pageProps }: AppProps) => {
     const { key } = config;
+
     const [state, setState] = React.useState({
         theme: (() => {
             if (typeof localStorage === 'undefined') {
@@ -30,32 +34,44 @@ const App = ({ Component, pageProps }: AppProps) => {
 
     const { theme } = state;
 
-    React.useEffect(
-        () => localStorage.setItem(key, getConfigKey(theme)),
-        [JSON.stringify(theme)]
-    );
+    React.useEffect(() => {
+        injectStyle();
+    }, []);
+
+    React.useEffect(() => {
+        localStorage.setItem(key, getConfigKey(theme));
+    }, [JSON.stringify(theme)]);
 
     return (
         <ThemeProvider theme={theme}>
-            <Font />
-            <ErrorBoundary>
-                <React.Suspense fallback={<HashLoading />}>
-                    <Layout
-                        title="PoolOfDeath20"
-                        theme={theme}
-                        setTheme={() =>
-                            setState((prev) => ({
-                                ...prev,
-                                theme: getThemeFromPrevTheme(theme),
-                            }))
-                        }
-                    >
-                        <Component {...pageProps} />
-                    </Layout>
-                </React.Suspense>
-            </ErrorBoundary>
+            <EmptyContainer>
+                <ToastContainer bodyClassName="toastBody" />
+                <Font />
+                <ErrorBoundary>
+                    <React.Suspense fallback={<HashLoading />}>
+                        <Layout
+                            title="PoolOfDeath20"
+                            theme={theme}
+                            setTheme={() =>
+                                setState((prev) => ({
+                                    ...prev,
+                                    theme: getThemeFromPrevTheme(theme),
+                                }))
+                            }
+                        >
+                            <Component {...pageProps} />
+                        </Layout>
+                    </React.Suspense>
+                </ErrorBoundary>
+            </EmptyContainer>
         </ThemeProvider>
     );
 };
+
+const EmptyContainer = styled.div`
+    .toastBody {
+        font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
+    }
+`;
 
 export default App;

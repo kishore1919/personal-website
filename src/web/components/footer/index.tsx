@@ -34,7 +34,7 @@ const Container = styled.footer`
     text-align: center;
     background-color: transparent;
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
 const SocialLinkContainer = styled.div`

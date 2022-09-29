@@ -17,12 +17,13 @@ const ticTacToeWinner: EndgameChecker<Board> = (() => {
     const horizontalWin = (board: Board): boolean => {
         const { row, numberOfTiles, numberOfTilesToWin } = ticTacToe;
         let numberOfTilesOccupied = 0;
-        for (let i = 0; i < numberOfTiles; i++) {
-            const tile = board.tileList[i];
+        for (let index = 0; index < numberOfTiles; index++) {
+            const tile = board.tileList[index];
             if (!tile) {
                 throw new Error(`Tile: ${tile} is undefined`);
             }
-            numberOfTilesOccupied = i % row === 0 ? 0 : numberOfTilesOccupied;
+            numberOfTilesOccupied =
+                index % row === 0 ? 0 : numberOfTilesOccupied;
             if (tile.isTileOccupied && tile.getPiece) {
                 numberOfTilesOccupied =
                     tile.getPiece.league === board.currentPlayer.opponentLeague
@@ -42,8 +43,8 @@ const ticTacToeWinner: EndgameChecker<Board> = (() => {
         let numberOfTilesOccupied = 0,
             begin = 0,
             max = row * (row - 1) + begin;
-        for (let i = begin; i <= max; i += row) {
-            const tile = board.tileList[i];
+        for (let index = begin; index <= max; index += row) {
+            const tile = board.tileList[index];
             if (!tile) {
                 throw new Error(`Tile: ${tile} is undefined`);
             }
@@ -56,9 +57,9 @@ const ticTacToeWinner: EndgameChecker<Board> = (() => {
                     return true;
                 }
             }
-            if (i === max && max < limit) {
+            if (index === max && max < limit) {
                 begin++;
-                i = begin - row;
+                index = begin - row;
                 max = row * (row - 1) + begin;
                 numberOfTilesOccupied = 0;
             }
@@ -72,8 +73,8 @@ const ticTacToeWinner: EndgameChecker<Board> = (() => {
         const begin = isPositiveSlope ? row - 1 : 0;
         const max = isPositiveSlope ? numberOfTiles - 1 : numberOfTiles;
         const increment = isPositiveSlope ? row - 1 : row + 1;
-        for (let i = begin; i < max; i += increment) {
-            const tile = board.tileList[i];
+        for (let index = begin; index < max; index += increment) {
+            const tile = board.tileList[index];
             if (!tile) {
                 throw new Error(`Tile: ${tile} is undefined`);
             }
@@ -111,8 +112,8 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
         const { row, column, numberOfTiles, numberOfTilesToWin } = connectFour;
         let numTileOccupied = 0,
             begin = 0;
-        for (let i = begin; i < numberOfTiles; i++) {
-            const tile = board.tileList[i];
+        for (let index = begin; index < numberOfTiles; index++) {
+            const tile = board.tileList[index];
             if (!tile) {
                 throw new Error(`Tile: ${tile} is undefined`);
             }
@@ -127,7 +128,7 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
             } else {
                 numTileOccupied = 0;
             }
-            if (i - begin === row) {
+            if (index - begin === row) {
                 numTileOccupied = 0;
                 begin += column;
             }
@@ -139,8 +140,8 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
         let numTileOccupied = 0,
             begin = 0,
             max = column * 5;
-        for (let i = begin; i <= max; i += column) {
-            const tile = board.tileList[i];
+        for (let index = begin; index <= max; index += column) {
+            const tile = board.tileList[index];
             if (!tile) {
                 throw new Error(`Tile: ${tile} is undefined`);
             }
@@ -155,9 +156,9 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
             } else {
                 numTileOccupied = 0;
             }
-            if (i === max && max < numberOfTiles - 1) {
+            if (index === max && max < numberOfTiles - 1) {
                 begin++;
-                i = begin - column;
+                index = begin - column;
                 max++;
                 numTileOccupied = 0;
             }
@@ -173,8 +174,8 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
         let max = isPositiveSlope ? 21 : 27,
             numTileOccupied = 0;
         let goEdge = false;
-        for (let i = begin; i <= max; i += increment) {
-            const tile = board.tileList[i];
+        for (let index = begin; index <= max; index += increment) {
+            const tile = board.tileList[index];
             if (!tile) {
                 throw new Error(`Tile: ${tile} is undefined`);
             }
@@ -189,7 +190,7 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
             } else {
                 numTileOccupied = 0;
             }
-            if (i === max) {
+            if (index === max) {
                 const compare = isPositiveSlope ? 20 : 14;
                 if (begin === compare) {
                     break;
@@ -203,7 +204,7 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
                     max + column >= numberOfTiles
                         ? max + negativeVector
                         : max + column;
-                i = begin - increment;
+                index = begin - increment;
                 numTileOccupied = 0;
             }
         }

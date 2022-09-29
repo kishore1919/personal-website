@@ -16,11 +16,15 @@ install:
 
 ## generate
 generate:
-	$(NODE_BIN)esbuild script/portfolio/index.ts --sourcemap --bundle --minify --target=node16.3.1 --platform=node --outfile=script/portfolio/index.generated.js &&\
-		node script/portfolio/index.generated.js ${arguments}
+	$(NODE_BIN)esbuild script/portfolio/generate-portfolio-data.ts --sourcemap --bundle --minify --target=node16.3.1 --platform=node --outfile=script/portfolio/generate-portfolio-data.generated.js &&\
+		node script/portfolio/generate-portfolio-data.generated.js ${arguments}
 
 generate-force:
 	make generate arguments=-f
+
+check-portfolio-image-asset:
+	$(NODE_BIN)esbuild script/portfolio/ensure-background-has-logo-vice-versa.ts --sourcemap --bundle --minify --target=node16.3.1 --platform=node --outfile=script/portfolio/ensure-background-has-logo-vice-versa.generated.js &&\
+		node script/portfolio/ensure-background-has-logo-vice-versa.generated.js ${arguments}
 
 ## dev
 next=$(NODE_BIN)next
@@ -31,8 +35,10 @@ clear-cache:
 dev: clear-cache
 	$(next) dev
 
+pre-build: clear-cache check-portfolio-image-asset
+
 ## build
-build: clear-cache
+build: pre-build
 	$(next) build
 
 ## start

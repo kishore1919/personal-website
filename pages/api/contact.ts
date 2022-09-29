@@ -25,7 +25,13 @@ const contact: EndPointFunc<Data> = async (req, res) => {
         const parsedMessage = getMessage(
             parseAsString(message).orElseGetEmptyString()
         );
-        if (!isAllValueValid(parsedName, parsedEmail, parsedMessage)) {
+        if (
+            !isAllValueValid({
+                name: parsedName,
+                email: parsedEmail,
+                message: parsedMessage,
+            })
+        ) {
             res.status(200).json({
                 type: 'input',
                 name: parsedName,

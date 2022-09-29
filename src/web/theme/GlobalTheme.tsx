@@ -27,7 +27,7 @@ const FullScreenContainer = styled.div`
 const GlobalContainer = styled.div`
     overflow: hidden;
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     animation: ${FadeIn} ease 0.5s;
     -moz-animation: ${FadeIn} ease 0.5s;
     -webkit-animation: ${FadeIn} ease 0.5s;

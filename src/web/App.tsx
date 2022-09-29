@@ -1,18 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
-
-import Footer from './components/Footer';
-
-import dynamic from 'next/dynamic';
-const Header = dynamic(() => import('./components/Header'), { ssr: false });
-
+import Footer from './components/footer';
+import Header from './components/header';
 import GlobalStyle from './theme/GlobalTheme';
 import { DefaultTheme } from 'styled-components';
-
 import { DefaultSeo } from 'next-seo';
 import { url } from './util/const';
-
-const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
 
 const Layout = ({
     children,
@@ -25,8 +18,12 @@ const Layout = ({
     theme: DefaultTheme;
     setTheme: () => void;
 }>) => {
+    const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
+
     const description =
         'A Full Stack Developer. Everything you want to know about PoolOfDeath20 or Gervin Fung Da Xuen can be found here';
+
+    const iconPath = '/asset/images/icons';
 
     return (
         <>
@@ -53,7 +50,7 @@ const Layout = ({
                         alt: description,
                         width: dimension,
                         height: dimension,
-                        url: `/asset/images/icons/icon-${dimension}x${dimension}.png`,
+                        url: `${iconPath}/icon-${dimension}x${dimension}.png`,
                     })),
                 }}
                 additionalMetaTags={[
@@ -107,16 +104,16 @@ const Layout = ({
                     {
                         rel: 'icon',
                         type: 'image/x-icon',
-                        href: '/asset/images/icons/favicon.ico',
+                        href: `${iconPath}/favicon.ico`,
                     },
                     {
                         rel: 'apple-touch-icon',
                         type: 'image/x-icon',
-                        href: '/asset/images/icons/favicon.ico',
+                        href: `${iconPath}/favicon.ico`,
                     },
                     ...dimensions.flatMap((dimension) => {
                         const sizes = `${dimension}x${dimension}`;
-                        const href = `/asset/images/icons/icon-${sizes}.png`;
+                        const href = `${iconPath}/icon-${sizes}.png`;
                         const icon = {
                             href,
                             sizes,

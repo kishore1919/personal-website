@@ -1,11 +1,11 @@
-import { isPositiveInt } from 'granula-string';
-import { parseAsString } from 'parse-dont-validate';
+import { parseAsPortfolioQueryParam } from '../parser/portfolio';
 
 const api = '/api';
-const portfolioURL = `${api}/portfolio`;
-const contactURL = `${api}/contact`;
 
-const apiPortfolioQuery = (param: string) => `${portfolioURL}?${param}`;
+const url = {
+    contact: `${api}/contact`,
+    portfolio: `${api}/portfolio`,
+} as const;
 
 type QueryParams = Readonly<{
     language: string;
@@ -21,17 +21,7 @@ const portfolioQuery = (queryParams: QueryParams) =>
         return !prev ? pair : `${prev}&${pair}`;
     }, '');
 
-const parseAsQueryParams = (params: string): QueryParams => {
-    const search = new URLSearchParams(params);
-    const page = search.get('page');
-    return {
-        language: parseAsString(search.get('language')).orElseLazyGet(
-            () => 'All'
-        ),
-        page: isPositiveInt(page ?? '')
-            ? parseInt(parseAsString(page).orElseThrowDefault('page'), 10)
-            : 0,
-    };
-};
+const parseAsQueryParams = (params: string): QueryParams =>
+    parseAsPortfolioQueryParam(new URLSearchParams(params));
 
-export { contactURL, portfolioQuery, apiPortfolioQuery, parseAsQueryParams };
+export { url, portfolioQuery, parseAsQueryParams };

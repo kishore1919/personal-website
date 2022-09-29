@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { NavLinkType } from './NavLinks';
+import { NavLinkType } from '../NavLinks';
 
 const Title = ({
     title,

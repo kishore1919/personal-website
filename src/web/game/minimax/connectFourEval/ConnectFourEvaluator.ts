@@ -46,7 +46,7 @@ const numberOfConsecutivePieceEval = (
             enemyTile = 0;
         let begin = 0,
             max = 3,
-            i = 0;
+            index = 0;
         for (let j = begin; j <= max; j++) {
             const eLeague = eLeagues[j];
             if (eLeague === currentLeague) {
@@ -59,14 +59,14 @@ const numberOfConsecutivePieceEval = (
 
             if (j === max) {
                 j = begin;
-                i++;
+                index++;
                 score += computeScore(
                     league,
                     currentTile,
                     enemyTile,
                     emptyTile
                 );
-                if (i === maxRun) {
+                if (index === maxRun) {
                     break;
                 }
                 begin++;
@@ -90,7 +90,7 @@ const numberOfConsecutivePieceEval = (
             currentTile = 0,
             emptyTile = 0,
             enemyTile = 0,
-            i = 0;
+            index = 0;
         for (let j = begin; j <= max; j++) {
             const eLeague = eLeagues[j];
             if (eLeague === currentLeague) {
@@ -103,14 +103,14 @@ const numberOfConsecutivePieceEval = (
 
             if (j === max) {
                 j = begin;
-                i++;
+                index++;
                 score += computeScore(
                     league,
                     currentTile,
                     enemyTile,
                     emptyTile
                 );
-                if (i === maxRun) {
+                if (index === maxRun) {
                     break;
                 }
                 begin++;
@@ -133,7 +133,7 @@ const numberOfConsecutivePieceEval = (
             currentTile = 0,
             emptyTile = 0,
             enemyTile = 0,
-            i = 0;
+            index = 0;
         const maxRun = eLeagues.length - connectFour.numberOfTilesToWin;
         for (let j = begin; j <= max; j++) {
             const eLeague = eLeagues[j];
@@ -152,10 +152,10 @@ const numberOfConsecutivePieceEval = (
                     enemyTile,
                     emptyTile
                 );
-                if (i === maxRun) {
+                if (index === maxRun) {
                     break;
                 }
-                i++;
+                index++;
                 j = begin;
                 begin++;
                 max++;
@@ -177,7 +177,7 @@ const numberOfConsecutivePieceEval = (
             currentTile = 0,
             emptyTile = 0,
             enemyTile = 0,
-            i = 0;
+            index = 0;
         const maxRun = eLeagues.length - connectFour.numberOfTilesToWin;
         for (let j = begin; j <= max; j++) {
             const eLeague = eLeagues[j];
@@ -196,10 +196,10 @@ const numberOfConsecutivePieceEval = (
                     enemyTile,
                     emptyTile
                 );
-                if (i === maxRun) {
+                if (index === maxRun) {
                     break;
                 }
-                i++;
+                index++;
                 j = begin;
                 begin++;
                 max++;
@@ -261,8 +261,8 @@ const getAllHorizontalRow = (board: Board): Rows => {
     const listOfLeagues: Array<ReadonlyArray<League | undefined>> = [];
     let begin = 0;
     let leagues: Array<League | undefined> = [];
-    for (let i = begin; i < connectFour.numberOfTiles; i++) {
-        const tile = board.tileList[i];
+    for (let index = begin; index < connectFour.numberOfTiles; index++) {
+        const tile = board.tileList[index];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
@@ -271,7 +271,7 @@ const getAllHorizontalRow = (board: Board): Rows => {
                 ? tile.getPiece.league
                 : undefined
         );
-        if (i - begin === connectFour.row) {
+        if (index - begin === connectFour.row) {
             begin += connectFour.column;
             listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
@@ -286,8 +286,8 @@ const getAllVerticalColumn = (board: Board): Rows => {
     let begin = 0,
         max = connectFour.column * 5;
     let leagues: Array<League | undefined> = [];
-    for (let i = begin; i <= max; i += connectFour.column) {
-        const tile = board.tileList[i];
+    for (let index = begin; index <= max; index += connectFour.column) {
+        const tile = board.tileList[index];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
@@ -296,12 +296,12 @@ const getAllVerticalColumn = (board: Board): Rows => {
                 ? tile.getPiece.league
                 : undefined
         );
-        if (i === max) {
+        if (index === max) {
             listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
             if (max < connectFour.numberOfTiles - 1) {
                 begin++;
-                i = begin - connectFour.column;
+                index = begin - connectFour.column;
                 max++;
             }
         }
@@ -317,8 +317,8 @@ const getPositiveSlopeRow = (board: Board): Rows => {
         max = 21,
         goEdge = false,
         leagues: Array<League | undefined> = [];
-    for (let i = begin; i <= max; i += increment) {
-        const tile = board.tileList[i];
+    for (let index = begin; index <= max; index += increment) {
+        const tile = board.tileList[index];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
@@ -327,7 +327,7 @@ const getPositiveSlopeRow = (board: Board): Rows => {
                 ? tile.getPiece.league
                 : undefined
         );
-        if (i === max) {
+        if (index === max) {
             listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
             if (begin === 20) {
@@ -341,7 +341,7 @@ const getPositiveSlopeRow = (board: Board): Rows => {
                 max + connectFour.column >= connectFour.numberOfTiles
                     ? max + 1
                     : max + connectFour.column;
-            i = begin - increment;
+            index = begin - increment;
         }
     }
     return listOfLeagues;
@@ -354,8 +354,8 @@ const getNegativeSlopeRow = (board: Board): Rows => {
         max = 27,
         goEdge = false,
         leagues: Array<League | undefined> = [];
-    for (let i = begin; i <= max; i += increment) {
-        const tile = board.tileList[i];
+    for (let index = begin; index <= max; index += increment) {
+        const tile = board.tileList[index];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
@@ -364,7 +364,7 @@ const getNegativeSlopeRow = (board: Board): Rows => {
                 ? tile.getPiece.league
                 : undefined
         );
-        if (i === max) {
+        if (index === max) {
             listOfLeagues.push(leagues as ReadonlyArray<League | undefined>);
             leagues = [];
 
@@ -379,7 +379,7 @@ const getNegativeSlopeRow = (board: Board): Rows => {
                 max + connectFour.column >= connectFour.numberOfTiles
                     ? max - 1
                     : max + connectFour.column;
-            i = begin - increment;
+            index = begin - increment;
         }
     }
     return listOfLeagues;

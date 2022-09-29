@@ -22,11 +22,11 @@ const createConnectFourMoves = (
     const emptyRows: Array<Tile> = [];
     let begin = column * 5,
         min = 0;
-    for (let i = begin; i >= min; i -= column) {
-        if (i === numberOfTiles) {
+    for (let index = begin; index >= min; index -= column) {
+        if (index === numberOfTiles) {
             break;
         }
-        const tile = tileList[i];
+        const tile = tileList[index];
         if (!tile) {
             throw new Error(`Tile: ${tile} is undefined`);
         }
@@ -34,11 +34,11 @@ const createConnectFourMoves = (
             emptyRows.push(tile);
             min++;
             begin++;
-            i = begin + column;
-        } else if (i === min) {
+            index = begin + column;
+        } else if (index === min) {
             min++;
             begin++;
-            i = begin + column;
+            index = begin + column;
         }
     }
     return emptyRows.map((emptyRow) =>

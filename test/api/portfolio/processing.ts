@@ -18,10 +18,10 @@ const testProcessing = () =>
             ).toBe(true);
         });
         it('should parse the page query', () => {
-            expect(parsePageQuery('0', numberOfPortfolioPerPage)).toBe(0);
-            expect(parsePageQuery('1', numberOfPortfolioPerPage)).toBe(9);
-            expect(parsePageQuery('2', numberOfPortfolioPerPage)).toBe(18);
-            expect(parsePageQuery('-1', numberOfPortfolioPerPage)).toBe(0);
+            expect(parsePageQuery(0, numberOfPortfolioPerPage)).toBe(0);
+            expect(parsePageQuery(1, numberOfPortfolioPerPage)).toBe(9);
+            expect(parsePageQuery(2, numberOfPortfolioPerPage)).toBe(18);
+            expect(parsePageQuery(-1, numberOfPortfolioPerPage)).toBe(0);
         });
         it('should extract and sort the languages', () => {
             expect(portfolioLanguages(portfolioData)).toStrictEqual([

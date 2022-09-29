@@ -1,10 +1,10 @@
 import React from 'react';
 import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 import { FaSun, FaMoon, FaArrowUp } from 'react-icons/fa';
-import { isPrimary } from '../theme/colorTheme';
-import NavLinks from './NavLinks';
-import FullScreen from './FullScreenNav';
-import useWindowResize from '../hook/windowWidthResize';
+import { isPrimary } from '../../theme/colorTheme';
+import NavLinks from '../NavLinks';
+import FullScreen from '../FullScreenNav';
+import useWindowResize from '../../hook/windowWidthResize';
 
 type BackToTopAnimation = Readonly<{
     isSlideIn: boolean;
@@ -148,7 +148,7 @@ const Header = ({
 const Container = styled.header`
     background-color: transparent;
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
 const NavWrapper = styled.div`

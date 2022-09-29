@@ -16,12 +16,9 @@ const findPortfoliosFromLanguage = (
           );
 
 const parsePageQuery = (
-    page: string,
+    page: number,
     numberOfPortfolioPerPage: number
-): number => {
-    const parsedPage = parseInt(page, 10);
-    return parsedPage < 0 ? 0 : parsedPage * numberOfPortfolioPerPage;
-};
+): number => (page < 0 ? 0 : page * numberOfPortfolioPerPage);
 
 const findLanguageQueried = (
     portfolios: Portfolios,

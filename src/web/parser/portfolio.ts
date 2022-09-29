@@ -1,3 +1,4 @@
+import { isPositiveInt } from 'granula-string';
 import {
     parseAsNumber,
     parseAsReadonlyArray,
@@ -28,5 +29,13 @@ const parseAsPortfolioData = (data: any): Data => {
     })).orElseThrowDefault('data');
 };
 
+const parseAsPortfolioQueryParam = (query: unknown) =>
+    parseAsReadonlyObject(query, (query) => ({
+        language: parseAsString(query.language).orElseGet('All'),
+        page: !isPositiveInt(query.page ?? '')
+            ? 0
+            : parseInt(parseAsString(query.page).orElseThrowDefault('page')),
+    })).orElseThrowDefault('query param');
+
 export type { Data };
-export { parseAsPortfolioData };
+export { parseAsPortfolioData, parseAsPortfolioQueryParam };

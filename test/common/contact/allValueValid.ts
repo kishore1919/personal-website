@@ -12,65 +12,73 @@ const testValidator = () =>
         const message = 'Wendy is here to test';
         it('should attest all values are valid', () => {
             expect(
-                isAllValueValid(
-                    getName(name),
-                    getEmail(email),
-                    getMessage(message)
-                )
+                isAllValueValid({
+                    name: getName(name),
+                    email: getEmail(email),
+                    message: getMessage(message),
+                })
             ).toBe(true);
         });
         it('should attest all values are valid except name', () => {
             expect(
-                isAllValueValid(
-                    getName(''),
-                    getEmail(email),
-                    getMessage(message)
-                )
+                isAllValueValid({
+                    name: getName(''),
+                    email: getEmail(email),
+                    message: getMessage(message),
+                })
             ).toBe(false);
             expect(
-                isAllValueValid(
-                    getName(' '),
-                    getEmail(email),
-                    getMessage(message)
-                )
+                isAllValueValid({
+                    name: getName(' '),
+                    email: getEmail(email),
+                    message: getMessage(message),
+                })
             ).toBe(false);
         });
         it('should attest all values are valid except email', () => {
             expect(
-                isAllValueValid(
-                    getName(name),
-                    getEmail(''),
-                    getMessage(message)
-                )
+                isAllValueValid({
+                    name: getName(name),
+                    email: getEmail(''),
+                    message: getMessage(message),
+                })
             ).toBe(false);
             expect(
-                isAllValueValid(
-                    getName(name),
-                    getEmail(' '),
-                    getMessage(message)
-                )
+                isAllValueValid({
+                    name: getName(name),
+                    email: getEmail(' '),
+                    message: getMessage(message),
+                })
             ).toBe(false);
             expect(
-                isAllValueValid(
-                    getName(name),
-                    getEmail('wendy@g'),
-                    getMessage(message)
-                )
+                isAllValueValid({
+                    name: getName(name),
+                    email: getEmail('wendy@g'),
+                    message: getMessage(message),
+                })
             ).toBe(false);
         });
         it('should attest all values are valid except message', () => {
             expect(
-                isAllValueValid(getName(name), getEmail(email), getMessage(''))
+                isAllValueValid({
+                    name: getName(name),
+                    email: getEmail(email),
+                    message: getMessage(''),
+                })
             ).toBe(false);
             expect(
-                isAllValueValid(getName(name), getEmail(email), getMessage(' '))
+                isAllValueValid({
+                    name: getName(name),
+                    email: getEmail(email),
+                    message: getMessage(' '),
+                })
             ).toBe(false);
             expect(
-                isAllValueValid(
-                    getName(name),
-                    getEmail(email),
-                    getMessage('123456789')
-                )
+                isAllValueValid({
+                    name: getName(name),
+                    email: getEmail(email),
+                    message: getMessage('123456789'),
+                })
             ).toBe(false);
         });
     });

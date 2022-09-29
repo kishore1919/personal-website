@@ -1,143 +1,140 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Data, parseAsPortfolioData } from '../src/web/parser/portfolio';
-import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/Title';
-import Surprise from '../src/web/components/portfolio/Surprise';
-import Loading from '../src/web/components/portfolio/Loading';
 import {
-    portfolioQuery,
-    apiPortfolioQuery,
-    parseAsQueryParams,
-} from '../src/web/url';
+    Data,
+    parseAsPortfolioData,
+    parseAsPortfolioQueryParam,
+} from '../src/web/parser/portfolio';
+import { GlobalContainer } from '../src/web/theme/GlobalTheme';
+import Title from '../src/web/components/common/Title';
+import Surprise from '../src/web/components/portfolio/Surprise';
+import { portfolioQuery, parseAsQueryParams, url } from '../src/web/url';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 import useWindowResize from '../src/web/hook/windowWidthResize';
 import { useRouter } from 'next/router';
 import { parseAsString } from 'parse-dont-validate';
+import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import {
+    processErrorMessage,
+    ToastPromise,
+} from '../src/web/components/toaser';
 
 type PortfolioImageBackgroundProps = Readonly<{
     backgroundImage: string;
 }>;
 
-type PortfolioData = Readonly<{
-    data: Data;
-}>;
+const getServerSideProps = async (
+    context: Parameters<GetServerSideProps>[number]
+) => ({
+    props: {
+        response: await fetch(
+            `${process.env.ORIGIN}${url.portfolio}?${portfolioQuery(
+                parseAsPortfolioQueryParam(context.query)
+            )}`
+        )
+            .then((res) => res.json())
+            .then(
+                (json) =>
+                    ({
+                        status: 'success',
+                        data: parseAsPortfolioData(json),
+                    } as const)
+            )
+            .catch(
+                (error) =>
+                    ({
+                        status: 'failed',
+                        message: processErrorMessage(error),
+                    } as const)
+            ),
+    },
+});
 
-const Portfolio = () => {
+const Portfolio = (
+    serverProps: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
     const router = useRouter();
     const { param } = router.query;
     const dotBreakPoint = 586;
+    const popUpWaitDuration = 8000;
+    const popUpShownKey = 'shown';
 
     const [state, setState] = React.useState({
-        data: undefined as Data | undefined,
+        shownPopup: true,
+        shouldPushToHistory: false,
         queryParams: parseAsQueryParams(
-            (() => {
-                if (Array.isArray(param)) {
-                    throw new Error(`${param} is an array`);
-                }
-                return parseAsString(param).orElseGetEmptyString();
-            })()
+            parseAsString(param).orElseGetEmptyString()
         ),
-        isPush: false,
-        isShow: false,
-        isInitialLoad: true,
-        isFetched: false,
     });
 
-    const { data, queryParams, isInitialLoad, isPush, isShow, isFetched } =
-        state;
+    const { response } = serverProps;
+
+    const { shownPopup, queryParams, shouldPushToHistory } = state;
 
     const { width } = useWindowResize();
 
-    const url = portfolioQuery(queryParams);
+    const searchParams = portfolioQuery(queryParams);
 
-    React.useEffect(() => {
-        if (!isInitialLoad) {
-            if (isPush) {
-                router.push(`/portfolio?${url}`);
-            }
-            setState((prev) => ({
-                ...prev,
-                isFetched: false,
-            }));
-            fetch(apiPortfolioQuery(url))
-                .then((response) => response.json())
-                .then((json) => {
-                    setState((prev) => ({
-                        ...prev,
-                        data: parseAsPortfolioData(json),
-                        isFetched: true,
-                    }));
-                })
-                .catch((error) => {
-                    setState((prev) => ({
-                        ...prev,
-                        isFetched: true,
-                    }));
-                    console.error(error);
-                });
-        }
-    }, [url, isInitialLoad]);
-
-    React.useEffect(() => {
+    const setShownPopup = (shownPopup: boolean) =>
         setState((prev) => ({
             ...prev,
-            isInitialLoad: false,
+            shownPopup,
         }));
-        const surprise = showSurprise();
-        if (!surprise) {
-            return;
+
+    React.useEffect(() => {
+        if (shouldPushToHistory) {
+            router.push(`${url.portfolio.replace('/api', '')}?${searchParams}`);
+            setState((state) => ({
+                ...state,
+                shouldPushToHistory: false,
+            }));
         }
+        const promise = new Promise<string>((res) => {
+            switch (response.status) {
+                case 'failed':
+                    return res(response.message);
+                case 'success': {
+                    return res(
+                        `Fetched ${queryParams.language} portfolio${
+                            response.data.portfolios.length > 1 ? '' : 's'
+                        }`
+                    );
+                }
+            }
+        });
+        ToastPromise({
+            promise,
+            pending: undefined,
+            success: {
+                render: ({ data }) => data as any,
+            },
+            error: {
+                render: ({ data }) => data,
+            },
+        });
+    }, [searchParams]);
+
+    React.useEffect(() => {
+        const item = localStorage.getItem(popUpShownKey);
+        const surprise =
+            item && JSON.parse(item)
+                ? undefined
+                : setTimeout(() => {
+                      setState((prev) => ({
+                          ...prev,
+                          shownPopup: false,
+                      }));
+                      localStorage.setItem(popUpShownKey, JSON.stringify(true));
+                  }, popUpWaitDuration + 500);
         return () => clearTimeout(surprise);
     }, []);
-
-    const showSurprise = () => {
-        const viewedKey = '20799527-d73d-4ebd-87a9-efdca713af3e';
-        const value = localStorage.getItem(viewedKey);
-        return value
-            ? undefined
-            : setTimeout(() => {
-                  setState((prev) => ({
-                      ...prev,
-                      isShow: true,
-                  }));
-                  localStorage.setItem(viewedKey, JSON.stringify(true));
-              }, 5500);
-    };
-
-    if (!width) {
-        return null;
-    }
-
-    const ShowPortfolios = ({ data: { portfolios } }: PortfolioData) => (
-        <Container>
-            <PortfolioContainer>
-                {portfolios.map(({ name, description, url }) => (
-                    <PortfolioItemContainer key={name}>
-                        <PortfolioImageBackground
-                            backgroundImage={`asset/images/portfolio/background/${name}.webp`}
-                        />
-                        <ImageTextContainer>
-                            <div>
-                                <PortfolioLink href={url}>
-                                    <PortfolioLogo
-                                        src={`asset/images/portfolio/logo/${name}.webp`}
-                                        alt={`${name}.webp`}
-                                    />
-                                </PortfolioLink>
-                            </div>
-                            <Caption>{description}</Caption>
-                        </ImageTextContainer>
-                    </PortfolioItemContainer>
-                ))}
-            </PortfolioContainer>
-        </Container>
-    );
 
     const customQueryPortfolio = (page: number) =>
         queryPortfolio(
             page,
-            new URLSearchParams(param).get('language') || 'All'
+            new URLSearchParams(parseAsString(param).orElseGetUndefined()).get(
+                'language'
+            ) || 'All'
         );
 
     const getNextPage = (data: Data): number => {
@@ -150,69 +147,114 @@ const Portfolio = () => {
         return page === 0 ? data.page - 1 : page - 1;
     };
 
-    const Buttons = ({ data }: PortfolioData) =>
-        data.page === 1 ? null : (
-            <div>
-                <LeftButton
-                    onClick={() => customQueryPortfolio(getPrevPage(data))}
-                >
-                    <LeftCircle />
-                </LeftButton>
-                <RightButton
-                    onClick={() => customQueryPortfolio(getNextPage(data))}
-                >
-                    <RightCircle />
-                </RightButton>
-            </div>
-        );
-
-    const DotsNav = ({ data: { page } }: PortfolioData) =>
-        page === 1 || width <= dotBreakPoint ? null : (
-            <Dots>
-                {Array.from({ length: page }, (_, i) => {
-                    const Component = queryParams.page === i ? ActiveDot : Dot;
-                    return (
-                        <Component
-                            onClick={() => customQueryPortfolio(i)}
-                            key={i}
-                        />
-                    );
-                })}
-            </Dots>
-        );
-
     const queryPortfolio = (page: number, language: string) => {
         setState((prev) => ({
             ...prev,
+            shouldPushToHistory: true,
             queryParams: {
                 ...prev.queryParams,
                 page,
                 language,
             },
-            isPush: true,
         }));
     };
 
-    const LanguageSelector = ({
-        data: { language, languages },
-    }: PortfolioData) => (
-        <LanguageChooser>
-            <Languages
-                value={language}
-                onChange={(event) => queryPortfolio(0, event.target.value)}
-            >
-                {[
-                    <option key={0} disabled={true}>
-                        Language
-                    </option>,
-                ].concat(
-                    languages.map((language) => (
-                        <option key={language}>{language}</option>
-                    ))
-                )}
-            </Languages>
-        </LanguageChooser>
-    );
+    const Content = () => {
+        switch (response.status) {
+            case 'failed':
+                return null;
+            case 'success': {
+                const { data } = response;
+                return (
+                    <>
+                        <LanguageChooser>
+                            <Languages
+                                value={data.language}
+                                onChange={(event) =>
+                                    queryPortfolio(0, event.target.value)
+                                }
+                            >
+                                {[
+                                    <option key={0} disabled={true}>
+                                        Language
+                                    </option>,
+                                ].concat(
+                                    data.languages.map((language) => (
+                                        <option key={language}>
+                                            {language}
+                                        </option>
+                                    ))
+                                )}
+                            </Languages>
+                        </LanguageChooser>
+                        <Container>
+                            <PortfolioContainer>
+                                {data.portfolios.map(
+                                    ({ name, description, url }) => (
+                                        <PortfolioItemContainer key={name}>
+                                            <PortfolioImageBackground
+                                                backgroundImage={`asset/images/portfolio/background/${name}.webp`}
+                                            />
+                                            <ImageTextContainer>
+                                                <div>
+                                                    <PortfolioLink href={url}>
+                                                        <PortfolioLogo
+                                                            src={`asset/images/portfolio/logo/${name}.webp`}
+                                                            alt={`${name}.webp`}
+                                                        />
+                                                    </PortfolioLink>
+                                                </div>
+                                                <Caption>{description}</Caption>
+                                            </ImageTextContainer>
+                                        </PortfolioItemContainer>
+                                    )
+                                )}
+                            </PortfolioContainer>
+                        </Container>
+                        {data.page !== 1 && (
+                            <div>
+                                <LeftButton
+                                    onClick={() =>
+                                        customQueryPortfolio(getPrevPage(data))
+                                    }
+                                >
+                                    <LeftCircle />
+                                </LeftButton>
+                                <RightButton
+                                    onClick={() =>
+                                        customQueryPortfolio(getNextPage(data))
+                                    }
+                                >
+                                    <RightCircle />
+                                </RightButton>
+                            </div>
+                        )}
+                        {!(data.page === 1 || width <= dotBreakPoint) && (
+                            <Dots>
+                                {Array.from(
+                                    { length: data.page },
+                                    (_, index) => {
+                                        const Component =
+                                            queryParams.page === index
+                                                ? ActiveDot
+                                                : Dot;
+                                        return (
+                                            <Component
+                                                onClick={() =>
+                                                    customQueryPortfolio(index)
+                                                }
+                                                key={index}
+                                            />
+                                        );
+                                    }
+                                )}
+                            </Dots>
+                        )}
+                    </>
+                );
+            }
+        }
+    };
 
     return (
         <GlobalContainer>
@@ -220,25 +262,14 @@ const Portfolio = () => {
                 title="Portfolio"
                 content="PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
             />
-            {data ? (
-                <>
-                    <LanguageSelector data={data} />
-                    <ShowPortfolios data={data} />
-                    <Buttons data={data} />
-                    <DotsNav data={data} />
-                </>
-            ) : isFetched ? null : (
-                <Loading />
+            {!shownPopup && (
+                <Surprise
+                    seconds={(popUpWaitDuration / 1000).toFixed(1)}
+                    shownPopup={shownPopup}
+                    onCloseMessage={() => setShownPopup(true)}
+                />
             )}
-            <Surprise
-                isShow={isShow}
-                closeMessage={() =>
-                    setState((prev) => ({
-                        ...prev,
-                        isShow: false,
-                    }))
-                }
-            />
+            <Content />
         </GlobalContainer>
     );
 };
@@ -257,7 +288,7 @@ const Languages = styled.select`
     border: 3px solid ${({ theme }) => theme.theme.secondaryColor};
     color: ${({ theme }) => theme.theme.primaryColor};
     letter-spacing: 1.5px;
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
 const Container = styled.div`
@@ -441,4 +472,5 @@ const ActiveDot = styled(Dot)`
     background-color: ${({ theme }) => theme.theme.secondaryColor};
 `;
 
+export { getServerSideProps };
 export default Portfolio;

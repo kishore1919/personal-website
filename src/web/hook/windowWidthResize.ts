@@ -1,24 +1,20 @@
-import * as React from 'react';
+import React from 'react';
 
 const useWindowResize = () => {
     const [state, setState] = React.useState({
-        width: (() => {
-            if (typeof window === 'undefined') {
-                return undefined;
-            }
-            return window.innerWidth;
-        })(),
+        width: 0,
     });
 
     React.useEffect(() => {
-        const handleResizeWindow = () =>
+        const updateWidth = () =>
             setState((prev) => ({
                 ...prev,
                 width: window.innerWidth,
             }));
-        window.addEventListener('resize', handleResizeWindow);
+        updateWidth();
+        window.addEventListener('resize', updateWidth);
         return () => {
-            window.removeEventListener('resize', handleResizeWindow);
+            window.removeEventListener('resize', updateWidth);
         };
     }, []);
 

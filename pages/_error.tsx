@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/Title';
+import Title from '../src/web/components/common/Title';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';

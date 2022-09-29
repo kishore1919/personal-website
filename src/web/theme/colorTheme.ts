@@ -2,6 +2,7 @@ import { DefaultTheme } from 'styled-components';
 import { Theme } from './Theme';
 
 const createDefaultTheme = (theme: Theme): DefaultTheme => ({
+    fontFamily: 'Orbitron',
     contactInputPlaceholder: '#35383B',
     contactInputBorder: '#37383B',
     redColor: '#CC0F39',
@@ -30,7 +31,6 @@ const primaryTheme = createDefaultTheme({
 
     hoverColor: '#000000B2',
 
-    contactTickBrightness: 'brightness(0%) invert(0)',
     googleIconBackground: '#FFF',
     scrollBarBackground: '#000D0D',
 });
@@ -50,13 +50,12 @@ const secondaryTheme = createDefaultTheme({
 
     hoverColor: '#00000019',
 
-    contactTickBrightness: 'brightness(0%) invert(1)',
     googleIconBackground: '#1D1E1f',
     scrollBarBackground: '#F5F5F5',
 });
 
 const config = {
-    key: 'value',
+    key: 'theme',
     value: {
         primary: 'dark',
         secondary: 'light',
