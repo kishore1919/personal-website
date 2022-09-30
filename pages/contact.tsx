@@ -51,50 +51,52 @@ const Contact: NextPage = () => {
                         onSubmit={(event) => {
                             event.preventDefault();
                             if (isAllValueValid({ name, email, message })) {
-                                const promise = new Promise<string>((res) =>
-                                    fetch(url.contact, {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        referrer: 'no-referrer',
-                                        body: JSON.stringify({
-                                            name: name.value,
-                                            email: email.value,
-                                            message: message.value,
-                                        }),
-                                    })
-                                        .then((res) => res.json())
-                                        .then((json) => {
-                                            const parsedJson =
-                                                parseAsData(json);
-                                            const { type } = parsedJson;
-                                            switch (type) {
-                                                case 'input':
-                                                    setState((prev) => ({
-                                                        ...prev,
-                                                        ...parsedJson,
-                                                    }));
-                                                    break;
-                                                case 'succeed':
-                                                    setState((prev) => ({
-                                                        ...prev,
-                                                        ...defaultState,
-                                                    }));
-                                                    break;
-                                            }
-                                            res(
-                                                'Your Message Has Been Successfully Sent!\nThank you!'
-                                            );
+                                const promise = new Promise<string>(
+                                    (resolve, reject) =>
+                                        fetch(url.contact, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type':
+                                                    'application/json',
+                                            },
+                                            referrer: 'no-referrer',
+                                            body: JSON.stringify({
+                                                name: name.value,
+                                                email: email.value,
+                                                message: message.value,
+                                            }),
                                         })
-                                        .catch((error) => {
-                                            console.error(error);
-                                            res(
-                                                `Oops! I can't send your email.\nError: ${processErrorMessage(
-                                                    error
-                                                )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
-                                            );
-                                        })
+                                            .then((res) => res.json())
+                                            .then((json) => {
+                                                const parsedJson =
+                                                    parseAsData(json);
+                                                const { type } = parsedJson;
+                                                switch (type) {
+                                                    case 'input':
+                                                        setState((prev) => ({
+                                                            ...prev,
+                                                            ...parsedJson,
+                                                        }));
+                                                        break;
+                                                    case 'succeed':
+                                                        setState((prev) => ({
+                                                            ...prev,
+                                                            ...defaultState,
+                                                        }));
+                                                        break;
+                                                }
+                                                resolve(
+                                                    'Your Message Has Been Successfully Sent!\nThank you!'
+                                                );
+                                            })
+                                            .catch((error) => {
+                                                console.error(error);
+                                                reject(
+                                                    `Oops! I can't send your email.\nError: ${processErrorMessage(
+                                                        error
+                                                    )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
+                                                );
+                                            })
                                 );
                                 ToastPromise({
                                     promise,

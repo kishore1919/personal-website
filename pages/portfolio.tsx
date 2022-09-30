@@ -32,7 +32,7 @@ const getServerSideProps = async (
         } catch (error) {
             return {
                 status: 'failed',
-                message: processErrorMessage(error),
+                error: processErrorMessage(error),
             } as const;
         }
     };
@@ -76,25 +76,26 @@ const Portfolio = (
 
     React.useEffect(() => {
         if (shouldPushToHistory) {
-            router.push(`${url.portfolio.replace('/api', '')}?${searchParams}`);
             setState((state) => ({
                 ...state,
                 shouldPushToHistory: false,
             }));
+            router.push(`${url.portfolio.replace('/api', '')}?${searchParams}`);
         }
         const { language } = queryParams;
-        const promise = new Promise<string>((res) => {
-            switch (response.status) {
-                case 'failed':
-                    return res(response.message);
-                case 'success': {
-                    return res(
-                        `Fetched ${language} portfolio${
-                            response.data.portfolios.length > 1 ? '' : 's'
-                        }`
-                    );
+        const promise = new Promise<string>((resolve, reject) => {
+            setTimeout(() => {
+                switch (response.status) {
+                    case 'failed':
+                        return reject(response.error);
+                    case 'success':
+                        return resolve(
+                            `Fetched ${language} portfolio${
+                                response.data.portfolios.length > 1 ? '' : 's'
+                            }`
+                        );
                 }
-            }
+            }, 200);
         });
         ToastPromise({
             promise,
