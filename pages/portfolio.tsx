@@ -1,10 +1,6 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import {
-    Data,
-    parseAsPortfolioData,
-    parseAsPortfolioQueryParam,
-} from '../src/web/parser/portfolio';
+import { Data } from '../src/web/parser/portfolio';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
 import Title from '../src/web/components/common/Title';
 import Surprise from '../src/web/components/portfolio/Surprise';
@@ -18,6 +14,7 @@ import {
     processErrorMessage,
     ToastPromise,
 } from '../src/web/components/toaser';
+import { processPortfolioQuery } from './api/portfolio';
 
 type PortfolioImageBackgroundProps = Readonly<{
     backgroundImage: string;
@@ -25,30 +22,26 @@ type PortfolioImageBackgroundProps = Readonly<{
 
 const getServerSideProps = async (
     context: Parameters<GetServerSideProps>[number]
-) => ({
-    props: {
-        response: await fetch(
-            `${process.env.ORIGIN}${url.portfolio}?${portfolioQuery(
-                parseAsPortfolioQueryParam(context.query)
-            )}`
-        )
-            .then((res) => res.json())
-            .then(
-                (json) =>
-                    ({
-                        status: 'success',
-                        data: parseAsPortfolioData(json),
-                    } as const)
-            )
-            .catch(
-                (error) =>
-                    ({
-                        status: 'failed',
-                        message: processErrorMessage(error),
-                    } as const)
-            ),
-    },
-});
+) => {
+    const getResponse = () => {
+        try {
+            return {
+                status: 'success',
+                data: processPortfolioQuery(context),
+            } as const;
+        } catch (error) {
+            return {
+                status: 'failed',
+                message: processErrorMessage(error),
+            } as const;
+        }
+    };
+    return {
+        props: {
+            response: getResponse(),
+        },
+    };
+};
 
 const Portfolio = (
     serverProps: InferGetServerSidePropsType<typeof getServerSideProps>

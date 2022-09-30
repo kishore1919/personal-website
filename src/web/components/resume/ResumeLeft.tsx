@@ -58,7 +58,6 @@ const ResumeLeft = () => {
                         <WebsiteLink href={url}>{url}</WebsiteLink>
                     </PersonalWebsite>
                 </SelfIntro>
-
                 <div>
                     <ContactInfo>
                         <div>
@@ -76,7 +75,6 @@ const ResumeLeft = () => {
                     </ContactInfo>
                 </div>
             </Section>
-
             <Section>
                 <SectionTitle>Social</SectionTitle>
                 <SocialLinkDiv>
@@ -112,7 +110,6 @@ const ResumeLeft = () => {
                     </SocialLinkName>
                 </SocialLinkDiv>
             </Section>
-
             <Section>
                 <SectionTitle>Profile</SectionTitle>
                 <MediumTextParagraph>
@@ -123,7 +120,6 @@ const ResumeLeft = () => {
                     along the way.
                 </MediumTextParagraph>
             </Section>
-
             <Section>
                 <SectionTitle>Interests</SectionTitle>
                 <Interests>

@@ -11,7 +11,7 @@ const SkillSection = ({
         | 'Programming Languages'
         | 'Technologies & Frameworks'
         | 'Academic Achievements'
-        | 'Side Projects'
+        | 'Hobby Projects'
         | 'Personal Skills';
 }>) => (
     <Section>
@@ -40,11 +40,11 @@ const ResumeRight = () => (
             ]}
         />
         <SkillSection
-            title="Side Projects"
+            title="Hobby Projects"
             list={[
                 'Built an accommodation finder web application around UTAR campus as my Final Year Project',
-                'Built a .gitignored template generator in Gatsby for web application and in Rust for cli application',
-                'Publish my own NPM packages to solve my problems',
+                'Built a .gitignored template generator in NextJS for web application and in Rust for cli application',
+                'Published my own NPM packages to solve my problems',
                 'Built a cross-platform chess game with Java Game Framework - LibGDX Framework',
                 "Built a functional Notepad similar to Window's Notepad in Java Swing and JavaFX",
                 'Built my very own website and blog',
@@ -65,7 +65,6 @@ const ResumeRight = () => (
                 'Able to take on and fulfill own responsibilities',
             ]}
         />
-
         <Section>
             <SectionTitle>Working Experience</SectionTitle>
             <Subtitle>Full Time (July 2022 - Current)</Subtitle>
@@ -79,7 +78,6 @@ const ResumeRight = () => (
                 <List>Full Stack Developer</List>
             </ul>
         </Section>
-
         <Section>
             <SectionTitle>Education</SectionTitle>
             <Subtitle>
