@@ -31,7 +31,9 @@ const parseAsPortfolioData = (data: any): Data => {
 
 const parseAsPortfolioQueryParam = (query: unknown) =>
     parseAsReadonlyObject(query, (query) => ({
-        language: parseAsString(query.language).orElseGet('All'),
+        language: decodeURIComponent(
+            parseAsString(query.language).orElseGet('All')
+        ),
         page: !isPositiveInt(query.page ?? '')
             ? 0
             : parseInt(parseAsString(query.page).orElseThrowDefault('page')),

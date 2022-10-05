@@ -17,11 +17,11 @@ const portfolioQuery = (queryParams: QueryParams) =>
         if (!value) {
             return prev;
         }
-        const pair = `${key}=${value}`;
+        const pair = `${key}=${encodeURIComponent(value)}`;
         return !prev ? pair : `${prev}&${pair}`;
     }, '');
 
-const parseAsQueryParams = (params: string): QueryParams =>
-    parseAsPortfolioQueryParam(new URLSearchParams(params));
+const parseAsQueryParams = (params: Record<string, unknown>): QueryParams =>
+    parseAsPortfolioQueryParam(params);
 
 export { url, portfolioQuery, parseAsQueryParams };

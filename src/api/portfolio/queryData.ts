@@ -23,14 +23,10 @@ const parsePageQuery = (
 const findLanguageQueried = (
     portfolios: Portfolios,
     language: string
-): string | 'All' => {
-    const finalizedLang = language === 'C' ? 'C#' : language;
-    return (
-        portfolios
-            .flatMap(({ languages }) => languages.flat())
-            .find((language) => language === finalizedLang) ?? 'All'
-    );
-};
+): string | 'All' =>
+    portfolios
+        .flatMap(({ languages }) => languages.flat())
+        .find((langu) => langu === language) ?? 'All';
 
 const paginatePortfolio = (
     portfolios: Portfolios,

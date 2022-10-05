@@ -244,6 +244,7 @@ const BackToTopContainer = styled.div`
     right: 0;
     bottom: 0;
     z-index: 1;
+    margin: 0 12px 12px 0;
 `;
 
 const FadeOut = keyframes`

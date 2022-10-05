@@ -53,7 +53,7 @@ const testPortfolioQuery = () =>
                 page,
                 language,
             }).toStrictEqual({
-                page: 2,
+                page: 1,
                 language: 'All',
             });
             // some dummy data might not match due to pagination

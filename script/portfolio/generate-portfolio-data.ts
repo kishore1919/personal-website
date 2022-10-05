@@ -18,18 +18,11 @@ const fetchGithubUserRepo = async (): Promise<Portfolios> =>
             const name = parseAsString(repo.name).orElseThrowDefault('name');
             return ![
                 'adonix-blog',
-                'adonis-os-blog',
                 'my-web',
                 'LibGDX-Chess-Game',
-                'MinimalTicTacToe',
                 'TextEditorFX',
                 'SimpleParallelChessAI',
                 'AndroidSimpleAIChess',
-                'Connect4',
-                'TicTacToe',
-                'TextEditor',
-                'RealTimeMarkdown',
-                'Room',
             ].includes(name)
                 ? []
                 : [
@@ -115,7 +108,7 @@ const generatePortfolioData = async () => {
         cache.create(
             (
                 await Promise.all(
-                    ['Utari-Room', 'Gitignored-App', 'P-YNPM'].map(
+                    ['UTARi-Accommodation', 'Gitignored-App', 'Packer-Man'].map(
                         fetchGithubOrganization
                     )
                 )

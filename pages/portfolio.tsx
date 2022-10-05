@@ -47,7 +47,7 @@ const Portfolio = (
     serverProps: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
     const router = useRouter();
-    const { param } = router.query;
+    const { query } = router;
     const dotBreakPoint = 586;
     const popUpWaitDuration = 8000;
     const popUpShownKey = 'shown';
@@ -55,9 +55,7 @@ const Portfolio = (
     const [state, setState] = React.useState({
         shownPopup: true,
         shouldPushToHistory: false,
-        queryParams: parseAsQueryParams(
-            parseAsString(param).orElseGetEmptyString()
-        ),
+        queryParams: parseAsQueryParams(query),
     });
 
     const { response } = serverProps;
@@ -125,12 +123,7 @@ const Portfolio = (
     }, []);
 
     const customQueryPortfolio = (page: number) =>
-        queryPortfolio(
-            page,
-            new URLSearchParams(parseAsString(param).orElseGetUndefined()).get(
-                'language'
-            ) || 'All'
-        );
+        queryPortfolio(page, parseAsString(query.language).orElseGet('all'));
 
     const getNextPage = (data: Data): number => {
         const { page } = queryParams;
