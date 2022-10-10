@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import ResumeLeft from '../src/web/components/resume/ResumeLeft';
 import ResumeRight from '../src/web/components/resume/ResumeRight';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/common/Title';
 import { NextPage } from 'next';
+import Seo from '../src/web/components/seo';
 
 const Resume: NextPage = () => (
     <GlobalContainer>
-        <Title title="Resume" content="PoolOfDeath20 or Gervin's resume page" />
+        <Seo
+            title="Résumé"
+            keywords={['Resume', 'Résumé', 'UTAR', 'Didian']}
+            content="Wanna know if I'm qualified for a position? Take a look at my résumé"
+        />
         <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap"
             rel="stylesheet"

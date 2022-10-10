@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { Data } from '../src/web/parser/portfolio';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/common/Title';
 import Surprise from '../src/web/components/portfolio/Surprise';
 import { portfolioQuery, parseAsQueryParams, url } from '../src/web/url';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
@@ -15,6 +14,7 @@ import {
     ToastPromise,
 } from '../src/web/components/toaser';
 import { processPortfolioQuery } from './api/portfolio';
+import Seo from '../src/web/components/seo';
 
 type PortfolioImageBackgroundProps = Readonly<{
     backgroundImage: string;
@@ -246,9 +246,10 @@ const Portfolio = (
 
     return (
         <GlobalContainer>
-            <Title
+            <Seo
                 title="Portfolio"
-                content="PoolOfDeath20 or Gervin's repositories on github, the portfolio page"
+                keywords={['Portfolio', 'Software Engineer']}
+                content="Every side projects deemed important/useful will be shown here as portfolios. All side projects is available as repositories/organization on Github"
             />
             {!shownPopup && (
                 <Surprise

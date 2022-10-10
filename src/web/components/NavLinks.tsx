@@ -29,6 +29,10 @@ type Resume = Readonly<{
 }>;
 
 type NavLinkType = Home | Portfolio | About | Roommate | Resume;
+type NavLinkTitle =
+    | Exclude<NavLinkType['title'], 'Resume'>
+    | 'Résumé'
+    | '404 Error';
 
 const NavLink = ({
     navLink: { href, title },
@@ -132,6 +136,6 @@ const NavMenu = styled.div`
     }
 `;
 
-export type { NavLinkType };
+export type { NavLinkTitle };
 
 export default NavLinks;

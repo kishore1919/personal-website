@@ -50,7 +50,6 @@ const App = ({ Component, pageProps }: AppProps) => {
                 <ErrorBoundary>
                     <React.Suspense fallback={<HashLoading />}>
                         <Layout
-                            title="PoolOfDeath20"
                             theme={theme}
                             setTheme={() =>
                                 setState((prev) => ({
@@ -68,7 +67,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     );
 };
 
-const EmptyContainer = styled.div`
+const EmptyContainer = styled.main`
     .toastBody {
         font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     }

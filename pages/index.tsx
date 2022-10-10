@@ -4,12 +4,16 @@ import HomeMessage from '../src/web/components/index/HomeMessage';
 import Game from '../src/web/components/index/Game';
 import Link from 'next/link';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/common/Title';
 import { NextPage } from 'next';
+import Seo from '../src/web/components/seo';
 
 const Home: NextPage = () => (
     <GlobalContainer>
-        <Title title="Home" content="PoolOfDeath20 or Gervin's home page" />
+        <Seo
+            title="Home"
+            keywords={['Home', 'Game', 'TicTacToe', 'ConnectFour']}
+            content="Everything you want to know about me as a software engineer, can be found here. You can relax and have a game or two here before you start to browse other pages"
+        />
         <TwoColumnWrapper>
             <HomeMessage />
             <Game />

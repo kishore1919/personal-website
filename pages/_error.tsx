@@ -1,10 +1,10 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/common/Title';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
+import Title from '../src/web/components/common/Title';
 
 type BackToHomeButtonProps = Readonly<{
     timeToChange: number;
@@ -26,17 +26,15 @@ const Error: NextPage = () => {
         if (countDown === 0) {
             router.replace('/');
         }
-        return () =>
-            clearTimeout(
-                setTimeout(
-                    () =>
-                        setState((prev) => ({
-                            ...prev,
-                            countDown: prev.countDown - 1,
-                        })),
-                    1000
-                )
-            );
+        const backHome = setTimeout(
+            () =>
+                setState((prev) => ({
+                    ...prev,
+                    countDown: prev.countDown - 1,
+                })),
+            1000
+        );
+        return () => clearTimeout(backHome);
     }, [countDown]);
 
     return (

@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/common/Title';
 import { NextPage } from 'next';
+import Seo from '../src/web/components/seo';
 
 const About: NextPage = () => (
     <ContentContainer>
-        <Title
+        <Seo
             title="About"
-            content="Everything you need to know about PoolOfDeath20 or Gervin can be found here"
+            keywords={['About', 'Java', 'TypeScript']}
+            content="A really short summary of me. You can know the primary programming language that I am using, what I am learning and what I am currently working on"
         />
         <Container>
             <TwoRowsContainer>

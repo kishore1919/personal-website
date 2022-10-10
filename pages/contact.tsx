@@ -11,7 +11,6 @@ import {
     Name,
 } from '../src/common/contact';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import Title from '../src/web/components/common/Title';
 import { url } from '../src/web/url';
 import parseAsData from '../src/web/parser/contact';
 import { NextPage } from 'next';
@@ -19,6 +18,7 @@ import {
     processErrorMessage,
     ToastPromise,
 } from '../src/web/components/toaser';
+import Seo from '../src/web/components/seo';
 
 const Contact: NextPage = () => {
     const defaultState = {
@@ -33,9 +33,10 @@ const Contact: NextPage = () => {
 
     return (
         <GlobalContainer>
-            <Title
+            <Seo
                 title="Contact"
-                content="The contact page of PoolOfDeath20 or Gervin. Come to this page to contact him"
+                keywords={['Contact']}
+                content="Got something to tell me? Wanna get in touch? Wanna hire me? Wanna collab on projects? You can find me here and just email me already"
             />
             <Container>
                 <ContactContainer>
