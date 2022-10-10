@@ -497,7 +497,7 @@ const ConnectFourGameOptionContainer = styled(GameOptionContainer)`
     border-bottom: 3px solid ${({ theme }) => theme.theme.secondaryColor};
 `;
 
-const GameOption = styled.span`
+const GameOption = styled.div`
     color: ${({ theme }) => theme.theme.secondaryColor};
     font-size: 2.5em;
     &:hover {
