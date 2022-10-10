@@ -5,7 +5,6 @@ type Theme = Readonly<{
     primaryColor: '#FEFEFE' | '#121212';
     secondaryColor: '#121212' | '#FEFEFE';
     contactMeLabel: '#0FFBF9' | '#00539C';
-    aboutMeDescription: '#CDC764' | '#4b371c';
     highEmphasesTextColor: '#FFFFFFE2' | '#000000DD';
     mediumEmphasesTextColor: '#FFFFFF99' | '#000000B3';
     disabledTextColor: '#FFFFFF61' | '#00000061';

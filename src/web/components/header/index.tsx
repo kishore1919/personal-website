@@ -112,8 +112,10 @@ const Header = ({
 
     const HamburgerNavElem = () =>
         width > hamburgerBreakPoint ? null : (
-            <HamburgerNav onClick={() => setShow(true)}>
-                <HamburgerButton>☰</HamburgerButton>
+            <HamburgerNav>
+                <HamburgerButton onClick={() => setShow(true)}>
+                    ☰
+                </HamburgerButton>
             </HamburgerNav>
         );
 
@@ -183,7 +185,7 @@ const ToggleThemeContainer = styled.div`
     justify-content: center;
 `;
 
-const ToggleThemeButton = styled.div`
+const ToggleThemeButton = styled.button`
     border-radius: 50%;
     background-color: ${({ theme }) => theme.theme.secondaryColor};
     width: 35px;
@@ -220,10 +222,15 @@ const Brand = styled.div`
     }
 `;
 
-const Name = styled.span`
+const Name = styled.button`
     cursor: pointer;
-    text-decoration: none;
+    border: none;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: transparent;
+    letter-spacing: 1.5px;
     color: ${({ theme }) => theme.theme.secondaryColor};
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
 const HamburgerNav = styled.div`
@@ -269,11 +276,12 @@ const FadeIn = keyframes`
     }
 `;
 
-const ArrowUpContainer = styled.div`
+const ArrowUpContainer = styled.button`
     border-radius: 50%;
-    background-color: ${({ theme }) => theme.theme.secondaryColor};
+    border: none;
     padding: 15px;
     margin: 10px;
+    background-color: ${({ theme }) => theme.theme.secondaryColor};
     animation: ${({ isSlideIn }: BackToTopAnimation) =>
             isSlideIn ? FadeIn : FadeOut}
         ease 0.5s;

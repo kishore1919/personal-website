@@ -26,26 +26,13 @@ const About: NextPage = () => (
                     <ProfileContentContainerParagraph>
                         I am an undergraduate studying Software Engineering.
                         TypeScript and Java is my primary language in
-                        programming and currently I am trying to learn full
-                        stack development and compiler.
-                    </ProfileContentContainerParagraph>
-                    <ProfileContentContainerParagraph>
-                        Never in a million years would I have thought the
-                        subject that I once hated the most would become my
-                        hobby. My 1<sup>st</sup> Program, a.k.a. The Hello World
-                        Program was written in C language during my foundation
-                        UTAR
-                    </ProfileContentContainerParagraph>
-                    <ProfileContentContainerParagraph>
-                        However during that time I am not interested in
-                        programming, it was not until I decided to do some
-                        projects myself, that I discover programming can also be
-                        very fun, the sheer joy of making things in your own
-                        design is simply fantastic and frustrating
+                        programming. I am learning full stack development and
+                        compiler. Currently, I am working on development tools
                     </ProfileContentContainerParagraph>
                     <ProfileContentContainerParagraph>
                         The Projects in Portfolio Page are what I have
-                        programmed during my free time. Hoped you enjoyed!
+                        programmed during my free time. I hope you enjoyed and
+                        thank you for checking it out!
                     </ProfileContentContainerParagraph>
                 </div>
             </TwoRowsContainer>
@@ -82,7 +69,7 @@ const ProfileImageContainer = styled.div`
 
 const ProfileImage = styled.img.attrs({
     src: 'asset/images/others/about.webp',
-    alt: 'profile-picture',
+    alt: 'profile',
 })`
     border-radius: 50%;
     width: 25%;
@@ -106,7 +93,7 @@ const ProfileContentContainerHeaderOne = styled.h1`
 
 const ProfileContentContainerParagraph = styled.p`
     text-align: center;
-    color: ${({ theme }) => theme.theme.aboutMeDescription};
+    color: ${({ theme }) => theme.theme.mediumEmphasesTextColor};
     font-size: 1.3em;
     @media (max-width: 586px) {
         font-size: 1em;

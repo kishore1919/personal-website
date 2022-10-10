@@ -57,7 +57,7 @@ const Layout = ({
                     {
                         name: 'keyword',
                         content:
-                            'Gervin Fung Da Xuen, PoolOfDeath20, NextJS, Portfolio, FullStack',
+                            'Gervin Fung Da Xuen, PoolOfDeath20, UTAR, Dart, Rust, Java, React, NextJS, Portfolio, FullStack, Developer',
                     },
                     {
                         name: 'author',

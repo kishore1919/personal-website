@@ -228,10 +228,10 @@ const Portfolio = (
                                                 : Dot;
                                         return (
                                             <Component
+                                                key={index}
                                                 onClick={() =>
                                                     customQueryPortfolio(index)
                                                 }
-                                                key={index}
                                             />
                                         );
                                     }
@@ -378,10 +378,12 @@ const PortfolioLogo = styled.img`
     }
 `;
 
-const PortfolioNavButton = styled.div`
+const PortfolioNavButton = styled.button`
     cursor: pointer;
     position: fixed;
     top: 50%;
+    background-color: transparent;
+    border: none;
 `;
 
 const LeftButtonSlideIn = keyframes`
@@ -419,7 +421,7 @@ const FaChevronCircle = css`
     color: ${({ theme }) => theme.theme.secondaryColor};
     transition: all 0.2s ease;
     &:hover {
-        color: ${({ theme }) => theme.theme.primaryColor};
+        transform: scale(1.12);
     }
 `;
 

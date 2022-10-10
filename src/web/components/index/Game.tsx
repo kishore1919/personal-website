@@ -25,14 +25,14 @@ const GameOptions = ({
     setGameToConnectFour: () => void;
     setGameToTicTacToe: () => void;
 }>) => (
-    <div>
+    <GameOptionOuterContainer>
         <ConnectFourGameOptionContainer onClick={setGameToConnectFour}>
             <GameOption>Connect4</GameOption>
         </ConnectFourGameOptionContainer>
         <GameOptionContainer onClick={setGameToTicTacToe}>
             <GameOption>Tic Tac Toe</GameOption>
         </GameOptionContainer>
-    </div>
+    </GameOptionOuterContainer>
 );
 
 type GameTileListener = Readonly<{
@@ -52,8 +52,8 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener) => (
                 length: 6,
             },
             (_, tileNumber) => (
-                <>
-                    <tr key={`${tileNumber}${tileNumber}`}>
+                <React.Fragment key={tileNumber}>
+                    <tr>
                         {Array.from({ length: 7 }, (_, i) => {
                             const index = tileNumber * 7 + i;
                             const tile = board.tileList[index];
@@ -63,19 +63,26 @@ const ConnectFour = ({ updateBoard, board }: GameTileListener) => (
                             return (
                                 <ConnectFourTile
                                     key={index}
-                                    onClick={() => updateBoard(index)}
                                     isTransparent={!tile.isTileOccupied}
                                     isFirstPlayer={Boolean(
                                         tile.isTileOccupied &&
                                             tile.getPiece &&
                                             isFirstPlayer(tile.getPiece.league)
                                     )}
-                                />
+                                >
+                                    <ConnectFourTileButton
+                                        onClick={() => {
+                                            if (!tile.isTileOccupied) {
+                                                updateBoard(index);
+                                            }
+                                        }}
+                                    />
+                                </ConnectFourTile>
                             );
                         })}
                     </tr>
-                    <tr key={`${tileNumber}${tileNumber}${tileNumber}`} />
-                </>
+                    <tr />
+                </React.Fragment>
             )
         )}
     </tbody>
@@ -88,8 +95,8 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener) => (
                 length: 3,
             },
             (_, tileNumber) => (
-                <>
-                    <tr key={tileNumber * tileNumber}>
+                <React.Fragment key={tileNumber}>
+                    <tr>
                         {Array.from(
                             {
                                 length: 3,
@@ -103,24 +110,30 @@ const TicTacToe = ({ updateBoard, board }: GameTileListener) => (
                                     );
                                 }
                                 return (
-                                    <TicTacToeTile
-                                        key={index}
-                                        onClick={() => updateBoard(index)}
-                                    >
-                                        {tile.isTileOccupied && tile.getPiece
-                                            ? isFirstPlayer(
-                                                  tile.getPiece.league
-                                              )
-                                                ? 'X'
-                                                : 'O'
-                                            : ''}
+                                    <TicTacToeTile key={index}>
+                                        <TicTacToeTileButton
+                                            onClick={() => {
+                                                if (!tile.isTileOccupied) {
+                                                    updateBoard(index);
+                                                }
+                                            }}
+                                        >
+                                            {tile.isTileOccupied &&
+                                            tile.getPiece
+                                                ? isFirstPlayer(
+                                                      tile.getPiece.league
+                                                  )
+                                                    ? 'X'
+                                                    : 'O'
+                                                : ''}
+                                        </TicTacToeTileButton>
                                     </TicTacToeTile>
                                 );
                             }
                         )}
                     </tr>
-                    <tr key={tileNumber * tileNumber * tileNumber} />
-                </>
+                    <tr />
+                </React.Fragment>
             )
         )}
     </tbody>
@@ -463,8 +476,20 @@ const GameContainer = styled.div`
     ${GameStyle};
 `;
 
-const GameOptionContainer = styled.div`
+const GameOptionOuterContainer = styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+`;
+
+const GameOptionContainer = styled.button`
     padding: 35px;
+    font-size: 1em;
+    letter-spacing: 1.5px;
+    background-color: transparent;
+    border: none;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     ${GameStyle};
 `;
 
@@ -534,6 +559,22 @@ const GameTable = styled.table`
         gameType === 'ConnectFour' ? '10px' : '0px'};
 `;
 
+const TileButton = styled.button`
+    border: none;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    padding: 0;
+    background-color: transparent;
+    display: block;
+    margin: auto;
+    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
+`;
+
+const ConnectFourTileButton = styled(TileButton)`
+    border-radius: 50%;
+`;
+
 const ConnectFourTile = styled.td`
     border: 1px solid #808080;
     position: relative;
@@ -575,31 +616,36 @@ const ConnectFourTile = styled.td`
     }
 `;
 
-const TicTacToeTile = styled.td`
-    border: 1px solid ${({ theme }) => theme.theme.secondaryColor};
+const TicTacToeTileButton = styled(TileButton)`
+    font-size: 1em;
     padding: 8px;
-    width: 100px;
-    height: 100px;
+    box-sizing: border-box;
+    color: ${({ theme }) => theme.theme.secondaryColor};
+`;
+
+const TicTacToeTile = styled.td`
+    width: 116px;
+    height: 116px;
     cursor: pointer;
     font-size: 5em;
     text-align: center;
-    color: ${({ theme }) => theme.theme.secondaryColor};
     &:hover {
         background-color: ${({ theme }) => theme.theme.hoverColor};
     }
+    border: 1px solid ${({ theme }) => theme.theme.secondaryColor};
     @media (max-width: 377px) {
-        width: 80px;
-        height: 80px;
+        width: 90px;
+        height: 90px;
         font-size: 4em;
     }
     @media (max-width: 329px) {
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         font-size: 3em;
     }
     @media (max-width: 255px) {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         font-size: 2em;
     }
 `;

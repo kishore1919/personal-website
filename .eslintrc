@@ -1,9 +1,11 @@
 {
     "root": true,
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
+    "plugins": ["@typescript-eslint", "jsx-a11y", "styled-components-a11y"],
     "extends": [
         "eslint:recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:styled-components-a11y/recommended",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended"
@@ -34,6 +36,7 @@
                 "message": "Don't declare enums"
             }
         ],
-        "semi": [2, "always"]
+        "semi": [2, "always"],
+        "styled-components-a11y/no-onchange": 0
     }
 }

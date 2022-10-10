@@ -112,11 +112,13 @@ const Contact: NextPage = () => {
                         }}
                     >
                         <ContactForm>
-                            <InputInfo htmlFor="name">
-                                Hello, my name is
-                            </InputInfo>
-                            <ErrorMessage>{name.error}</ErrorMessage>
-                            <InputLabel>
+                            <InputInfoContainer>
+                                <InputInfo htmlFor="name">
+                                    Hello, my name is
+                                </InputInfo>
+                                <ErrorMessage>{name.error}</ErrorMessage>
+                            </InputInfoContainer>
+                            <InputLabel htmlFor="name">
                                 <InputDiv>
                                     <InputField
                                         type="text"
@@ -136,11 +138,13 @@ const Contact: NextPage = () => {
                                     />
                                 </InputDiv>
                             </InputLabel>
-                            <InputInfo htmlFor="email">
-                                You can reach me at
-                            </InputInfo>
-                            <ErrorMessage>{email.error}</ErrorMessage>
-                            <InputLabel>
+                            <InputInfoContainer>
+                                <InputInfo htmlFor="email">
+                                    You can reach me at
+                                </InputInfo>
+                                <ErrorMessage>{email.error}</ErrorMessage>
+                            </InputInfoContainer>
+                            <InputLabel htmlFor="email">
                                 <InputDiv>
                                     <InputField
                                         type="email"
@@ -160,11 +164,13 @@ const Contact: NextPage = () => {
                                     />
                                 </InputDiv>
                             </InputLabel>
-                            <InputInfo htmlFor="message">
-                                I would like to
-                            </InputInfo>
-                            <ErrorMessage>{message.error}</ErrorMessage>
-                            <InputLabel>
+                            <InputInfoContainer>
+                                <InputInfo htmlFor="message">
+                                    I would like to
+                                </InputInfo>
+                                <ErrorMessage>{message.error}</ErrorMessage>
+                            </InputInfoContainer>
+                            <InputLabel htmlFor="message">
                                 <InputDiv>
                                     <TextArea
                                         name="message"
@@ -301,6 +307,11 @@ const TextArea = styled.textarea`
     @media (max-width: 463px) {
         padding: 10px;
     }
+`;
+
+const InputInfoContainer = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 const InputLabel = styled.label`

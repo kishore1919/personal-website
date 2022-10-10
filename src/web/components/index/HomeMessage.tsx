@@ -2,16 +2,31 @@ import React from 'react';
 import styled from 'styled-components';
 
 const HomeMessage = () => {
-    const isDay =
-        ((Date.now() + 60000 * new Date().getTimezoneOffset() + 21600000) %
-            86400000) /
-            3600000 >
-        12;
+    const [state, setState] = React.useState({
+        time: Date.now(),
+    });
+
+    const { time } = state;
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setState((prev) => ({
+                ...prev,
+                time: Date.now(),
+            }));
+        }, 1000);
+        return () => clearTimeout(timer);
+    }, [time]);
+
+    const isDay = () => {
+        const hours = new Date(time).getHours();
+        return hours >= 6 && hours < 18;
+    };
 
     return (
         <IndexMessage>
             <IndexMessageParagraph>
-                {isDay ? 'Bonjour' : 'Bonsoir'}
+                {isDay() ? 'Bonjour' : 'Bonsoir'}
             </IndexMessageParagraph>
             <IndexMessageParagraph>I am</IndexMessageParagraph>
             <IndexNameParagraph>Gervin</IndexNameParagraph>
