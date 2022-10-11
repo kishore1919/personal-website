@@ -4,13 +4,13 @@ import { url } from '../../util/const';
 
 const Schema = () => {
     const structuredData = {
-        "'@context'": 'https://schema.org',
-        "'@type'": 'BreadcrumbList',
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
         itemListElement: (
             ['Home', 'Portfolio', 'About', 'Contact', 'Résumé'] as const
         ).map((name, index) => ({
             name,
-            "'@type'": 'ListItem',
+            '@type': 'ListItem',
             position: index + 1,
             item: `${url}/${
                 name === 'Home'
@@ -26,10 +26,7 @@ const Schema = () => {
         <Script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-                __html: JSON.stringify(structuredData, undefined, 4).replace(
-                    /"([^"]+)":/g,
-                    '$1:'
-                ),
+                __html: JSON.stringify(structuredData, undefined, 4),
             }}
         />
     );
