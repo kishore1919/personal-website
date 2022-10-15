@@ -281,6 +281,7 @@ const ArrowUpContainer = styled.button`
     border: none;
     padding: 15px;
     margin: 10px;
+    box-shadow: 0 0 3px black;
     background-color: ${({ theme }) => theme.theme.secondaryColor};
     animation: ${({ isSlideIn }: BackToTopAnimation) =>
             isSlideIn ? FadeIn : FadeOut}

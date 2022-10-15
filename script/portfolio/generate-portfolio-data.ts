@@ -15,7 +15,9 @@ const fetchGithubUserRepo = async (): Promise<Portfolios> =>
             )
         ).json(),
         (repo) => {
-            const name = parseAsString(repo.name).orElseThrowDefault('name');
+            const name = parseAsString(repo.name).elseThrow(
+                'name is not a string'
+            );
             return ![
                 'adonix-blog',
                 'my-web',
@@ -29,21 +31,23 @@ const fetchGithubUserRepo = async (): Promise<Portfolios> =>
                       parseAsReadonlyObject(repo, (repo) => ({
                           name,
                           languages: [
-                              parseAsString(repo.language).orElseThrowDefault(
-                                  `language for ${repo.name}`
+                              parseAsString(repo.language).elseThrow(
+                                  `language for ${repo.name} is not a string`
                               ),
                           ],
                           description: parseAsString(
                               repo.description
-                          ).orElseThrowDefault(`description for ${repo.name}`),
-                          url: parseAsString(repo.html_url).orElseThrowDefault(
-                              `html url for ${repo.name}`
+                          ).elseThrow(
+                              `description for ${repo.name} is not a string`
                           ),
-                      })).orElseThrowDefault('repo'),
+                          url: parseAsString(repo.html_url).elseThrow(
+                              `html url for ${repo.name} is not a string`
+                          ),
+                      })).elseThrow('repo is not an object'),
                   ];
         }
     )
-        .orElseThrowDefault('repositories')
+        .elseThrow('repositories is not an array')
         .flat();
 
 const fetchGithubOrganization = async (
@@ -61,12 +65,12 @@ const fetchGithubOrganization = async (
                     !repo.language
                         ? []
                         : [
-                              parseAsString(repo.language).orElseThrowDefault(
-                                  'language'
+                              parseAsString(repo.language).elseThrow(
+                                  'language is not a string'
                               ),
                           ]
             )
-                .orElseThrowDefault('repositories')
+                .elseThrow('repositories is not an array')
                 .flat()
         )
     ).filter((language) => language !== 'Makefile');
@@ -77,15 +81,17 @@ const fetchGithubOrganization = async (
         ).json(),
         (organization) => ({
             languages,
-            name: parseAsString(organization.login).orElseThrowDefault('login'),
-            description: parseAsString(
-                organization.description
-            ).orElseThrowDefault('description'),
-            url: parseAsString(organization.html_url).orElseThrowDefault(
-                'html_url'
+            name: parseAsString(organization.login).elseThrow(
+                'login is not a string'
+            ),
+            description: parseAsString(organization.description).elseThrow(
+                'description is not a string'
+            ),
+            url: parseAsString(organization.html_url).elseThrow(
+                'html_url is not a string'
             ),
         })
-    ).orElseThrowDefault('organization');
+    ).elseThrow('organization is not an object');
 };
 
 const portfolioCache = (path: string) => ({

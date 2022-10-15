@@ -18,12 +18,12 @@ const contact: EndPointFunc<Data> = async (req, res) => {
     } else {
         const { body } = req;
         const { name, email, message } = body;
-        const parsedName = getName(parseAsString(name).orElseGetEmptyString());
+        const parsedName = getName(parseAsString(name).elseGet(''));
         const parsedEmail = getEmail(
-            parseAsString(email).orElseGetEmptyString()
+            parseAsString(email).elseGet('')
         );
         const parsedMessage = getMessage(
-            parseAsString(message).orElseGetEmptyString()
+            parseAsString(message).elseGet('')
         );
         if (
             !isAllValueValid({

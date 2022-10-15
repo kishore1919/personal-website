@@ -123,7 +123,7 @@ const Portfolio = (
     }, []);
 
     const customQueryPortfolio = (page: number) =>
-        queryPortfolio(page, parseAsString(query.language).orElseGet('all'));
+        queryPortfolio(page, parseAsString(query.language).elseGet('all'));
 
     const getNextPage = (data: Data): number => {
         const { page } = queryParams;

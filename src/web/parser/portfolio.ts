@@ -9,35 +9,41 @@ import { Data } from '../../common/portfolio';
 
 const parseAsPortfolioData = (data: any): Data => {
     const parseAsLanguage = (language: unknown) =>
-        parseAsString(language).orElseThrowDefault('language');
+        parseAsString(language).elseThrow('language is not a string');
     return parseAsReadonlyObject(data, (data) => ({
-        page: parseAsNumber(data.page).orElseThrowDefault('page'),
+        page: parseAsNumber(data.page).elseThrow('page is not a number'),
         languages: parseAsReadonlyArray(data.languages, (language) =>
             parseAsLanguage(language)
-        ).orElseThrowDefault('languages'),
+        ).elseThrow('languages is not an array'),
         portfolios: parseAsReadonlyArray(data.portfolios, (portfolio) => ({
-            name: parseAsString(portfolio.name).orElseThrowDefault('name'),
-            description: parseAsString(
-                portfolio.description
-            ).orElseThrowDefault('description'),
+            name: parseAsString(portfolio.name).elseThrow(
+                'name is not a strng'
+            ),
+            description: parseAsString(portfolio.description).elseThrow(
+                'description is not a string'
+            ),
             languages: parseAsReadonlyArray(portfolio.languages, (language) =>
-                parseAsString(language).orElseThrowDefault('language')
-            ).orElseThrowDefault('portfolio languages'),
-            url: parseAsString(portfolio.url).orElseThrowDefault('url'),
-        })).orElseThrowDefault('portfolios'),
+                parseAsString(language).elseThrow('language is not a string')
+            ).elseThrow('portfolio languages is not an array'),
+            url: parseAsString(portfolio.url).elseThrow('url is not a string'),
+        })).elseThrow('portfolios is not an array'),
         language: parseAsLanguage(data.language),
-    })).orElseThrowDefault('data');
+    })).elseThrow('data is not an object');
 };
 
 const parseAsPortfolioQueryParam = (query: unknown) =>
     parseAsReadonlyObject(query, (query) => ({
         language: decodeURIComponent(
-            parseAsString(query.language).orElseGet('All')
+            parseAsString(query.language).elseGet('All')
         ),
         page: !isPositiveInt(query.page ?? '')
             ? 0
-            : parseInt(parseAsString(query.page).orElseThrowDefault('page')),
-    })).orElseThrowDefault('query param');
+            : parseInt(
+                  parseAsString(query.page).elseThrow(
+                      'page is not a parseable string'
+                  )
+              ),
+    })).elseThrow('query param is not an object');
 
 export type { Data };
 export { parseAsPortfolioData, parseAsPortfolioQueryParam };
