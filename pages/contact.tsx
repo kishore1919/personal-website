@@ -13,7 +13,7 @@ import {
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
 import { url } from '../src/web/url';
 import parseAsData from '../src/web/parser/contact';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import {
     processErrorMessage,
     ToastPromise,
@@ -90,14 +90,13 @@ const Contact: NextPage = () => {
                                                     'Your Message Has Been Successfully Sent!\nThank you!'
                                                 );
                                             })
-                                            .catch((error) => {
-                                                console.error(error);
+                                            .catch((error) =>
                                                 reject(
                                                     `Oops! I can't send your email.\nError: ${processErrorMessage(
                                                         error
                                                     )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
-                                                );
-                                            })
+                                                )
+                                            )
                                 );
                                 ToastPromise({
                                     promise,

@@ -1,9 +1,9 @@
 import { createConnectFourMove, createTicTacToeMove, Move } from '../move/Move';
 import { League, isFirstPlayer } from '../piece/League';
-import { Tile } from '../board/Tile';
-import { Board } from '../board/Board';
+import type { Tile } from '../board/Tile';
+import type { Board } from '../board/Board';
 import { connectFour } from '../board/BoardUtil';
-import { DeepReadonly } from '../../../common/type';
+import type { DeepReadonly } from '../../../common/type';
 
 type Player = DeepReadonly<{
     legalMoves: Move[];
@@ -78,28 +78,34 @@ const createConnectFourPlayer = (
     tileList: ReadonlyArray<Tile>
 ): Player => {
     const { column, numberOfTiles } = connectFour;
-    const legalMoves = createConnectFourMoves(
-        column,
-        numberOfTiles,
-        league,
-        tileList
-    );
-    return {
-        legalMoves,
-        league,
-        opponentLeague: isFirstPlayer(league) ? 'second' : 'first',
-        makeMove: (movePassed: Move, board: Board): Board =>
-            makeMove(legalMoves, movePassed, board),
-        makeMoveFromTileNumber: (tileNumber: number, board: Board): Board => {
+    return new (class {
+        readonly league = league;
+
+        readonly opponentLeague = isFirstPlayer(league) ? 'second' : 'first';
+
+        readonly makeMove = (movePassed: Move, board: Board) =>
+            makeMove(this.legalMoves, movePassed, board);
+
+        readonly legalMoves = createConnectFourMoves(
+            column,
+            numberOfTiles,
+            league,
+            tileList
+        );
+
+        readonly makeMoveFromTileNumber = (
+            tileNumber: number,
+            board: Board
+        ) => {
             const col = tileNumber % column;
             return makeMoveFromTileNumber(
-                legalMoves.find(
-                    ({ piece: { index } }) => index % column === col
+                this.legalMoves.find(
+                    ({ piece }) => piece.index % column === col
                 ),
                 board
             );
-        },
-    };
+        };
+    })();
 };
 
 const makeMove = (

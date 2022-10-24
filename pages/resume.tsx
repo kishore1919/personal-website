@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ResumeLeft from '../src/web/components/resume/ResumeLeft';
 import ResumeRight from '../src/web/components/resume/ResumeRight';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Seo from '../src/web/components/seo';
 
 const Resume: NextPage = () => (

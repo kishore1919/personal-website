@@ -1,4 +1,4 @@
-import { Board } from './Board';
+import type { Board } from './Board';
 
 const ticTacToe = {
     row: 3,

@@ -1,5 +1,5 @@
-import { DefaultTheme } from 'styled-components';
-import { Theme } from './Theme';
+import type { DefaultTheme } from 'styled-components';
+import type { Theme } from './Theme';
 
 const createDefaultTheme = (theme: Theme): DefaultTheme => ({
     fontFamily: 'Orbitron',

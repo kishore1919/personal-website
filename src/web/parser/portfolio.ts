@@ -5,7 +5,7 @@ import {
     parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
-import { Data } from '../../common/portfolio';
+import type { Data, QueryParams } from '../../common/portfolio';
 
 const parseAsPortfolioData = (data: any): Data => {
     const parseAsLanguage = (language: unknown) =>
@@ -31,7 +31,7 @@ const parseAsPortfolioData = (data: any): Data => {
     })).elseThrow('data is not an object');
 };
 
-const parseAsPortfolioQueryParam = (query: unknown) =>
+const parseAsPortfolioQueryParam = (query: unknown): QueryParams =>
     parseAsReadonlyObject(query, (query) => ({
         language: decodeURIComponent(
             parseAsString(query.language).elseGet('All')

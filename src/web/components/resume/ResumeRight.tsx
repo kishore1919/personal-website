@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DeepReadonly } from '../../../common/type';
+import type { DeepReadonly } from '../../../common/type';
 
 const SkillSection = ({
     title,

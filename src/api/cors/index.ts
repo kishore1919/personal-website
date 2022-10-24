@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
-import { Response } from '../endpoint';
+import type { Response } from '../endpoint';
 import { parseAsStringEnv } from 'esbuild-env-parsing';
 
 const initMiddleware =

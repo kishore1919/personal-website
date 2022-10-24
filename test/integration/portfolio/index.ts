@@ -5,8 +5,9 @@ import { equal } from '../../util';
 
 const testPortfolioQuery = () =>
     describe('Api portfolio query test', () => {
-        it('should return language-specific portfolios', async () => {
-            const results = ['TypeScript', 'Java'].map(async (lang) => {
+        it.each(['TypeScript', 'Java'])(
+            'should return "%s" related portfolios',
+            async (lang) => {
                 const { page, language, languages, portfolios } =
                     parseAsPortfolioData(
                         await jsonResponse({
@@ -17,28 +18,26 @@ const testPortfolioQuery = () =>
                         })
                     );
                 // some dummy data might not match due to pagination
-                return (
+                expect(
                     page === 1 &&
-                    language === lang &&
-                    portfolio
-                        .flatMap(({ languages }) => languages)
-                        .some((language) => languages.includes(language)) &&
-                    portfolio
-                        .filter((data) => data.languages.includes(lang))
-                        .some((portfolio) =>
-                            portfolios.find(
-                                ({ name, languages, description, url }) =>
-                                    portfolio.name === name &&
-                                    equal(portfolio.languages, languages) &&
-                                    portfolio.description === description &&
-                                    portfolio.url === url
+                        language === lang &&
+                        portfolio
+                            .flatMap(({ languages }) => languages)
+                            .some((language) => languages.includes(language)) &&
+                        portfolio
+                            .filter((data) => data.languages.includes(lang))
+                            .some((portfolio) =>
+                                portfolios.find(
+                                    ({ name, languages, description, url }) =>
+                                        portfolio.name === name &&
+                                        equal(portfolio.languages, languages) &&
+                                        portfolio.description === description &&
+                                        portfolio.url === url
+                                )
                             )
-                        )
-                );
-            });
-            expect(results).toHaveLength(2);
-            expect(results.every((result) => result)).toBe(true);
-        });
+                ).toBe(true);
+            }
+        );
         it('should return all portfolios', async () => {
             const { page, language, languages, portfolios } =
                 parseAsPortfolioData(

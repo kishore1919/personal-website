@@ -5,10 +5,10 @@ import {
     createRedPlayer,
     Player,
 } from '../player/Player';
-import { League } from '../piece/League';
+import type { League } from '../piece/League';
 import { Tile, createTile } from './Tile';
 import { connectFour, ticTacToe } from './BoardUtil';
-import { DeepReadonly } from '../../../common/type';
+import type { DeepReadonly } from '../../../common/type';
 
 type Board = DeepReadonly<{
     league: League;

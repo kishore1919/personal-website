@@ -3,7 +3,7 @@ import {
     parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
-import { Data, Email, Message, Name } from '../../common/contact';
+import type { Data, Email, Message, Name } from '../../common/contact';
 
 const parseAsData = (data: any): Data => {
     const type = parseAsCustomType<Data['type']>(

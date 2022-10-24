@@ -2,13 +2,13 @@ import { parseAsStringEnv } from 'esbuild-env-parsing';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
 import cors from '../../src/api/cors';
-import { EndPointFunc } from '../../src/api/endpoint';
+import type { EndPointFunc } from '../../src/api/endpoint';
+import type { Data } from '../../src/common/contact';
 import {
-    isAllValueValid,
-    Data,
+    getName,
     getEmail,
     getMessage,
-    getName,
+    isAllValueValid,
 } from '../../src/common/contact';
 
 const contact: EndPointFunc<Data> = async (req, res) => {
@@ -19,12 +19,8 @@ const contact: EndPointFunc<Data> = async (req, res) => {
         const { body } = req;
         const { name, email, message } = body;
         const parsedName = getName(parseAsString(name).elseGet(''));
-        const parsedEmail = getEmail(
-            parseAsString(email).elseGet('')
-        );
-        const parsedMessage = getMessage(
-            parseAsString(message).elseGet('')
-        );
+        const parsedEmail = getEmail(parseAsString(email).elseGet(''));
+        const parsedMessage = getMessage(parseAsString(message).elseGet(''));
         if (
             !isAllValueValid({
                 name: parsedName,

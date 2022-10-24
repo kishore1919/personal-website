@@ -1,4 +1,4 @@
-import { Board } from '../board/Board';
+import type { Board } from '../board/Board';
 import {
     connectFour,
     instanceOfTicTacToe,
@@ -13,8 +13,17 @@ type EndgameChecker<Board> = Readonly<{
     staleMate: (board: Board) => boolean;
 }>;
 
-const ticTacToeWinner: EndgameChecker<Board> = (() => {
-    const horizontalWin = (board: Board): boolean => {
+const ticTacToeWinner: EndgameChecker<Board> = new (class {
+    readonly staleMate = (board: Board) =>
+        board.tileList.every((tile) => tile.isTileOccupied);
+
+    readonly checkMate = (board: Board) =>
+        this.verticalWin(board) ||
+        this.horizontalWin(board) ||
+        this.diagonalWin(board, true) ||
+        this.diagonalWin(board, false);
+
+    readonly horizontalWin = (board: Board) => {
         const { row, numberOfTiles, numberOfTilesToWin } = ticTacToe;
         let numberOfTilesOccupied = 0;
         for (let index = 0; index < numberOfTiles; index++) {
@@ -37,7 +46,8 @@ const ticTacToeWinner: EndgameChecker<Board> = (() => {
 
         return false;
     };
-    const verticalWin = (board: Board): boolean => {
+
+    readonly verticalWin = (board: Board) => {
         const { row, numberOfTiles, numberOfTilesToWin } = ticTacToe;
         const limit = numberOfTiles - 1;
         let numberOfTilesOccupied = 0,
@@ -67,7 +77,8 @@ const ticTacToeWinner: EndgameChecker<Board> = (() => {
 
         return false;
     };
-    const diagonalWin = (board: Board, isPositiveSlope: boolean): boolean => {
+
+    readonly diagonalWin = (board: Board, isPositiveSlope: boolean) => {
         const { row, numberOfTiles, numberOfTilesToWin } = ticTacToe;
         let numberOfTilesOccupied = 0;
         const begin = isPositiveSlope ? row - 1 : 0;
@@ -93,22 +104,19 @@ const ticTacToeWinner: EndgameChecker<Board> = (() => {
         }
         return numberOfTilesOccupied === numberOfTilesToWin;
     };
-    return {
-        diagonalWin,
-        verticalWin,
-        horizontalWin,
-        checkMate: (board: Board) =>
-            verticalWin(board) ||
-            horizontalWin(board) ||
-            diagonalWin(board, true) ||
-            diagonalWin(board, false),
-        staleMate: (board: Board): boolean =>
-            board.tileList.every((tile) => tile.isTileOccupied),
-    };
 })();
 
-const connectFourWinner: EndgameChecker<Board> = (() => {
-    const horizontalWin = (board: Board): boolean => {
+const connectFourWinner: EndgameChecker<Board> = new (class {
+    readonly staleMate = ({ tileList }: Board) =>
+        tileList.every(({ isTileOccupied }) => isTileOccupied);
+
+    readonly checkMate = (board: Board) =>
+        this.verticalWin(board) ||
+        this.horizontalWin(board) ||
+        this.diagonalWin(board, true) ||
+        this.diagonalWin(board, false);
+
+    readonly horizontalWin = (board: Board) => {
         const { row, column, numberOfTiles, numberOfTilesToWin } = connectFour;
         let numTileOccupied = 0,
             begin = 0;
@@ -135,7 +143,8 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
         }
         return false;
     };
-    const verticalWin = (board: Board): boolean => {
+
+    readonly verticalWin = (board: Board) => {
         const { column, numberOfTiles, numberOfTilesToWin } = connectFour;
         let numTileOccupied = 0,
             begin = 0,
@@ -165,7 +174,8 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
         }
         return false;
     };
-    const diagonalWin = (board: Board, isPositiveSlope: boolean): boolean => {
+
+    readonly diagonalWin = (board: Board, isPositiveSlope: boolean) => {
         const { column, numberOfTiles, numberOfTilesToWin } = connectFour;
         const vector = isPositiveSlope ? -1 : 1;
         const negativeVector = vector * -1;
@@ -209,18 +219,6 @@ const connectFourWinner: EndgameChecker<Board> = (() => {
             }
         }
         return false;
-    };
-    return {
-        diagonalWin,
-        verticalWin,
-        horizontalWin,
-        checkMate: (board: Board) =>
-            verticalWin(board) ||
-            horizontalWin(board) ||
-            diagonalWin(board, true) ||
-            diagonalWin(board, false),
-        staleMate: ({ tileList }: Board): boolean =>
-            tileList.every(({ isTileOccupied }) => isTileOccupied),
     };
 })();
 

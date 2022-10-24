@@ -1,4 +1,4 @@
-import { League } from './League';
+import type { League } from './League';
 
 type Piece = Readonly<{
     league: League;

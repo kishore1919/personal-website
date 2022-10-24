@@ -4,7 +4,7 @@ import HomeMessage from '../src/web/components/index/HomeMessage';
 import Game from '../src/web/components/index/Game';
 import Link from 'next/link';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Seo from '../src/web/components/seo';
 
 const Home: NextPage = () => (
@@ -12,7 +12,7 @@ const Home: NextPage = () => (
         <Seo
             title="Home"
             keywords={['Home', 'Game', 'TicTacToe', 'ConnectFour']}
-            content="Everything you want to know about me as a software engineer, can be found here. You can relax and have a game or two here before you start to browse other pages"
+            content="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. You can relax and have a game or two here before you start to browse other pages"
         />
         <TwoColumnWrapper>
             <HomeMessage />

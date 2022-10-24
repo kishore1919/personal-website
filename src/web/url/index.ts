@@ -1,16 +1,13 @@
-import { parseAsPortfolioQueryParam } from '../parser/portfolio';
+import type { QueryParams } from '../../common/portfolio';
 
-const api = '/api';
+const url = (() => {
+    const api = '/api';
 
-const url = {
-    contact: `${api}/contact`,
-    portfolio: `${api}/portfolio`,
-} as const;
-
-type QueryParams = Readonly<{
-    language: string;
-    page: number;
-}>;
+    return {
+        contact: `${api}/contact`,
+        portfolio: `${api}/portfolio`,
+    } as const;
+})();
 
 const portfolioQuery = (queryParams: QueryParams) =>
     Object.entries(queryParams).reduce((prev, [key, value]) => {
@@ -21,7 +18,4 @@ const portfolioQuery = (queryParams: QueryParams) =>
         return !prev ? pair : `${prev}&${pair}`;
     }, '');
 
-const parseAsQueryParams = (params: Record<string, unknown>): QueryParams =>
-    parseAsPortfolioQueryParam(params);
-
-export { url, portfolioQuery, parseAsQueryParams };
+export { url, portfolioQuery };

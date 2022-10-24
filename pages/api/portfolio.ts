@@ -1,7 +1,7 @@
 import cors from '../../src/api/cors';
-import { EndPointFunc } from '../../src/api/endpoint';
+import type { EndPointFunc } from '../../src/api/endpoint';
 import portfolios, { queryData } from '../../src/api/portfolio';
-import { Data } from '../../src/common/portfolio';
+import type { Data } from '../../src/common/portfolio';
 import { parseAsPortfolioQueryParam } from '../../src/web/parser/portfolio';
 
 const processPortfolioQuery = <
@@ -11,32 +11,25 @@ const processPortfolioQuery = <
 >(
     request: Request
 ) => {
-    const {
-        findLanguageQueried,
-        findPortfoliosFromLanguage,
-        numberOfPortfolioPerPage,
-        paginatePortfolio,
-        parsePageQuery,
-        portfolioLanguages,
-    } = queryData;
-
     const portfolio = portfolios();
 
     const { page, language } = parseAsPortfolioQueryParam(request.query);
 
-    const selectedLanguage = findLanguageQueried(portfolio, language);
+    const selectedLanguage = queryData.findLanguageQueried(portfolio, language);
 
-    const portfolioQueried = findPortfoliosFromLanguage(
+    const portfolioQueried = queryData.findPortfoliosFromLanguage(
         portfolio,
         selectedLanguage
     );
 
     return {
-        page: Math.ceil(portfolioQueried.length / numberOfPortfolioPerPage),
-        languages: portfolioLanguages(portfolio),
-        portfolios: paginatePortfolio(
+        page: Math.ceil(
+            portfolioQueried.length / queryData.numberOfPortfolioPerPage
+        ),
+        languages: queryData.portfolioLanguages(portfolio),
+        portfolios: queryData.paginatePortfolio(
             portfolioQueried,
-            parsePageQuery(page, numberOfPortfolioPerPage)
+            queryData.parsePageQuery(page, queryData.numberOfPortfolioPerPage)
         ),
         language: selectedLanguage,
     };

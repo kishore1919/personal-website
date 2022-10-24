@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from './components/footer';
 import Header from './components/header';
 import GlobalStyle from './theme/GlobalTheme';
-import { DefaultTheme } from 'styled-components';
+import type { DefaultTheme } from 'styled-components';
 
 const Layout = ({
     children,

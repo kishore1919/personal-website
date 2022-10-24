@@ -1,4 +1,4 @@
-import { DeepReadonly } from '../type';
+import type { DeepReadonly } from '../type';
 
 type Portfolios = DeepReadonly<
     {
@@ -16,4 +16,9 @@ type Data = DeepReadonly<{
     language: string;
 }>;
 
-export type { Portfolios, Data };
+type QueryParams = Readonly<{
+    language: string;
+    page: number;
+}>;
+
+export type { Portfolios, Data, QueryParams };

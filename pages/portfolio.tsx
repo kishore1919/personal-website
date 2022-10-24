@@ -1,14 +1,14 @@
 import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { Data } from '../src/web/parser/portfolio';
+import { Data, parseAsPortfolioQueryParam } from '../src/web/parser/portfolio';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
 import Surprise from '../src/web/components/portfolio/Surprise';
-import { portfolioQuery, parseAsQueryParams, url } from '../src/web/url';
+import { portfolioQuery, url } from '../src/web/url';
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 import useWindowResize from '../src/web/hook/windowWidthResize';
 import { useRouter } from 'next/router';
 import { parseAsString } from 'parse-dont-validate';
-import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import {
     processErrorMessage,
     ToastPromise,
@@ -23,6 +23,11 @@ type PortfolioImageBackgroundProps = Readonly<{
 const getServerSideProps = async (
     context: Parameters<GetServerSideProps>[number]
 ) => {
+    context.res.setHeader(
+        'Cache-Control',
+        ['immutable', `s-maxage=${24 * 60 * 60 * 10}`].join(', ')
+    );
+
     const getResponse = () => {
         try {
             return {
@@ -54,58 +59,27 @@ const Portfolio = (
 
     const [state, setState] = React.useState({
         shownPopup: true,
+        updatedOn: Date.now(),
+        initialDate: Date.now(),
         shouldPushToHistory: false,
-        queryParams: parseAsQueryParams(query),
+        queryParams: parseAsPortfolioQueryParam(query),
     });
 
     const { response } = serverProps;
 
-    const { shownPopup, queryParams, shouldPushToHistory } = state;
+    const {
+        shownPopup,
+        initialDate,
+        updatedOn,
+        queryParams,
+        shouldPushToHistory,
+    } = state;
 
     const { width } = useWindowResize();
 
-    const searchParams = portfolioQuery(queryParams);
+    const searchUrl = `${url.portfolio}?${portfolioQuery(queryParams)}`;
 
-    const setShownPopup = (shownPopup: boolean) =>
-        setState((prev) => ({
-            ...prev,
-            shownPopup,
-        }));
-
-    React.useEffect(() => {
-        if (shouldPushToHistory) {
-            setState((state) => ({
-                ...state,
-                shouldPushToHistory: false,
-            }));
-            router.push(`${url.portfolio.replace('/api', '')}?${searchParams}`);
-        }
-        const { language } = queryParams;
-        const promise = new Promise<string>((resolve, reject) => {
-            setTimeout(() => {
-                switch (response.status) {
-                    case 'failed':
-                        return reject(response.error);
-                    case 'success':
-                        return resolve(
-                            `Fetched ${language} portfolio${
-                                response.data.portfolios.length > 1 ? '' : 's'
-                            }`
-                        );
-                }
-            }, 200);
-        });
-        ToastPromise({
-            promise,
-            pending: `Fetching ${language} portfolios`,
-            success: {
-                render: ({ data }) => data as any,
-            },
-            error: {
-                render: ({ data }) => data,
-            },
-        });
-    }, [searchParams]);
+    const firstLoad = initialDate === updatedOn;
 
     React.useEffect(() => {
         const item = localStorage.getItem(popUpShownKey);
@@ -121,6 +95,65 @@ const Portfolio = (
                   }, popUpWaitDuration + 500);
         return () => clearTimeout(surprise);
     }, []);
+
+    React.useEffect(() => {
+        if (shouldPushToHistory) {
+            setState((state) => ({
+                ...state,
+                shouldPushToHistory: false,
+            }));
+            router.push(searchUrl.replace('/api', ''));
+        }
+
+        const { language } = queryParams;
+        const promise = new Promise<string>((resolve, reject) => {
+            setTimeout(() => {
+                switch (response.status) {
+                    case 'failed':
+                        return reject(response.error);
+                    case 'success':
+                        return resolve(
+                            `Fetched ${language} portfolio${
+                                response.data.portfolios.length > 1 ? '' : 's'
+                            }`
+                        );
+                }
+            }, 200);
+        });
+
+        if (!firstLoad) {
+            ToastPromise({
+                promise,
+                pending: `Fetching ${language} portfolios`,
+                success: {
+                    render: ({ data }) => data as any,
+                },
+                error: {
+                    render: ({ data }) => data,
+                },
+            });
+        } else {
+            promise
+                .catch((error) => {
+                    ToastPromise({
+                        success: undefined,
+                        pending: undefined,
+                        error: {
+                            render: ({ data }) => data,
+                        },
+                        promise: new Promise<string>((_, reject) =>
+                            reject(error)
+                        ),
+                    });
+                })
+                .finally(() =>
+                    setState((prev) => ({
+                        ...prev,
+                        updatedOn: Date.now(),
+                    }))
+                );
+        }
+    }, [searchUrl]);
 
     const customQueryPortfolio = (page: number) =>
         queryPortfolio(page, parseAsString(query.language).elseGet('all'));
@@ -255,7 +288,12 @@ const Portfolio = (
                 <Surprise
                     seconds={(popUpWaitDuration / 1000).toFixed(1)}
                     shownPopup={shownPopup}
-                    onCloseMessage={() => setShownPopup(true)}
+                    onCloseMessage={() =>
+                        setState((prev) => ({
+                            ...prev,
+                            shownPopup: true,
+                        }))
+                    }
                 />
             )}
             <Content />

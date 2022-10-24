@@ -1,8 +1,8 @@
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import { url } from '../../util/const';
-import { DeepReadonly } from '../../../common/type';
-import { NavLinkTitle } from '../NavLinks';
+import type { DeepReadonly } from '../../../common/type';
+import type { NavLinkTitle } from '../NavLinks';
 import Schema from '../schema';
 import Title from '../common/Title';
 
@@ -27,7 +27,12 @@ const Seo = (
         <>
             <Title title={title} content={content} />
             <Schema />
-
+            {process.env.NODE_ENV !== 'production' ? null : (
+                <meta
+                    name="google-site-verification"
+                    content="vG1OQpBCHqykih99YTtLbz5tbGA5JKo7-zCwJRFvpBw"
+                />
+            )}
             <DefaultSeo
                 title={title}
                 canonical={url}

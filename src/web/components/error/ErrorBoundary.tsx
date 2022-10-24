@@ -22,8 +22,7 @@ export default class ErrorBoundary extends React.Component<
     });
 
     componentDidCatch = (error: Error, { componentStack }: React.ErrorInfo) => {
-        const { name, cause, message, stack } = error;
-        console.error({ name, cause, message, stack, componentStack });
+        console.error({ ...error, componentStack });
         return ToastError(error);
     };
 

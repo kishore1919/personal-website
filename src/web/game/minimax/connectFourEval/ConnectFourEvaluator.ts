@@ -1,7 +1,7 @@
 import { League, isFirstPlayer } from '../../piece/League';
 import { connectFour } from '../../board/BoardUtil';
-import { Board } from '../../board/Board';
-import { DeepReadonly } from '../../../../common/type';
+import type { Board } from '../../board/Board';
+import type { DeepReadonly } from '../../../../common/type';
 
 type Rows = DeepReadonly<(League | undefined)[][]>;
 
@@ -10,7 +10,7 @@ const evaluateConnectFourBoard = (
     league: League,
     depth: number,
     searchDepth: number
-): number =>
+) =>
     depth
         ? numberOfConsecutivePieceEval(
               league,
@@ -31,7 +31,7 @@ const numberOfConsecutivePieceEval = (
     board: Board,
     currentLeague: League,
     enemyLeague: League
-): number => {
+) => {
     let score = 0;
 
     const vertical = getAllVerticalColumn(board);
@@ -218,7 +218,7 @@ const computeScore = (
     currentTile: number,
     enemyTile: number,
     emptyTile: number
-): number => {
+) => {
     const magnifier = isFirstPlayer(league) ? 100 : 1;
 
     if (currentTile === 1 && emptyTile === 3) {

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { DeepReadonly } from '../../common/type';
+import type { DeepReadonly } from '../../common/type';
 
 type Response<T> = string | DeepReadonly<T>;
 

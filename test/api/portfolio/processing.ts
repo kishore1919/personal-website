@@ -10,19 +10,73 @@ import portfolioData from '../dummy/portfolio.json';
 
 const testProcessing = () =>
     describe('Data Processing', () => {
-        it('should return the language queried', () => {
-            expect(
-                ['Java', 'All', 'C#'].every((language) =>
-                    findLanguageQueried(portfolioData, language)
-                )
-            ).toBe(true);
-        });
-        it('should parse the page query', () => {
-            expect(parsePageQuery(0, numberOfPortfolioPerPage)).toBe(0);
-            expect(parsePageQuery(1, numberOfPortfolioPerPage)).toBe(9);
-            expect(parsePageQuery(2, numberOfPortfolioPerPage)).toBe(18);
-            expect(parsePageQuery(-1, numberOfPortfolioPerPage)).toBe(0);
-        });
+        it.each([
+            {
+                expected: 'Java',
+                actual: 'Java',
+            },
+            {
+                expected: '',
+                actual: 'All',
+            },
+            {
+                expected: 'C#',
+                actual: 'C#',
+            },
+            {
+                expected: 'JavaScript',
+                actual: 'JavaScript',
+            },
+        ] as const)(
+            'should return "$actual" as the language queried when "$expected" is searched and return portfolio data implemented/includes "$actual"',
+            // 'Java', 'All', 'C#'
+            ({ expected, actual }) => {
+                expect(findLanguageQueried(portfolioData, expected)).toBe(
+                    actual
+                );
+                expect(
+                    findPortfoliosFromLanguage(portfolioData, actual)
+                ).toStrictEqual(
+                    actual === 'All'
+                        ? portfolioData
+                        : portfolioData.filter(({ languages }) =>
+                              languages.includes(actual)
+                          )
+                );
+            }
+        );
+        it.each([
+            {
+                page: 0,
+                index: 0,
+                portfolioData,
+            },
+            {
+                page: 1,
+                index: 9,
+                portfolioData: [],
+            },
+            {
+                page: 2,
+                index: 18,
+                portfolioData: [],
+            },
+            {
+                page: -1,
+                index: 0,
+                portfolioData: [],
+            },
+        ])(
+            'should parse the page query "$page" and return the starting index "$index" and return portfolio data',
+            ({ page, index, portfolioData }) => {
+                expect(parsePageQuery(page, numberOfPortfolioPerPage)).toBe(
+                    index
+                );
+                expect(paginatePortfolio(portfolioData, index)).toStrictEqual(
+                    portfolioData
+                );
+            }
+        );
         it('should extract and sort the languages', () => {
             expect(portfolioLanguages(portfolioData)).toStrictEqual([
                 'All',
@@ -31,28 +85,6 @@ const testProcessing = () =>
                 'JavaScript',
                 'TypeScript',
             ]);
-        });
-        it('should find portfolios from the language queried', () => {
-            const java = 'Java';
-            expect(
-                findPortfoliosFromLanguage(portfolioData, java)
-            ).toStrictEqual(
-                portfolioData.filter((data) => data.languages.includes(java))
-            );
-            const javaScript = 'JavaScript';
-            expect(
-                findPortfoliosFromLanguage(portfolioData, javaScript)
-            ).toStrictEqual(
-                portfolioData.filter((data) =>
-                    data.languages.includes(javaScript)
-                )
-            );
-        });
-        it('should find portfolios from the pagination', () => {
-            expect(paginatePortfolio(portfolioData, 0)).toStrictEqual(
-                portfolioData
-            );
-            expect(paginatePortfolio(portfolioData, 9)).toStrictEqual([]);
         });
     });
 

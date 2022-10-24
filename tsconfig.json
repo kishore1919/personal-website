@@ -23,7 +23,8 @@
         "pretty": true,
         "preserveWatchOutput": true,
         "outDir": "build",
-        "allowJs": false
+        "allowJs": false,
+        "importsNotUsedAsValues": "error"
     },
     "include": ["next-env.d.ts", "src", "pages", "test"],
     "exclude": ["node_modules"]

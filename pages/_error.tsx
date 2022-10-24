@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Title from '../src/web/components/common/Title';
 
 type BackToHomeButtonProps = Readonly<{

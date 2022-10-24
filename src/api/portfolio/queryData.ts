@@ -1,4 +1,4 @@
-import { Portfolios } from '../../common/portfolio';
+import type { Portfolios } from '../../common/portfolio';
 
 const portfolioLanguages = (portfolios: Portfolios): ReadonlyArray<string> =>
     Array.from(new Set(portfolios.flatMap((data) => data.languages)))
@@ -24,9 +24,9 @@ const findLanguageQueried = (
     portfolios: Portfolios,
     language: string
 ): string | 'All' =>
-    portfolios
-        .flatMap(({ languages }) => languages.flat())
-        .find((langu) => langu === language) ?? 'All';
+    !portfolios.flatMap(({ languages }) => languages.flat()).includes(language)
+        ? 'All'
+        : language;
 
 const paginatePortfolio = (
     portfolios: Portfolios,
@@ -40,10 +40,10 @@ const paginatePortfolio = (
 const numberOfPortfolioPerPage = 9;
 
 export {
-    findLanguageQueried,
     parsePageQuery,
-    portfolioLanguages,
-    findPortfoliosFromLanguage,
     paginatePortfolio,
+    portfolioLanguages,
+    findLanguageQueried,
     numberOfPortfolioPerPage,
+    findPortfoliosFromLanguage,
 };

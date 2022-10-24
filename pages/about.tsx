@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GlobalContainer } from '../src/web/theme/GlobalTheme';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import Seo from '../src/web/components/seo';
 
 const About: NextPage = () => (

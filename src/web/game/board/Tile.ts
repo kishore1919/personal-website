@@ -1,4 +1,4 @@
-import { Piece } from '../piece/Piece';
+import type { Piece } from '../piece/Piece';
 
 type Tile = Readonly<{
     index: number;
@@ -9,8 +9,8 @@ type Tile = Readonly<{
 
 const createTile = (index: number, piece: Piece | undefined): Tile => ({
     index: index,
-    isTileOccupied: !!piece,
     getPiece: piece,
+    isTileOccupied: Boolean(piece),
     stringFormat: !piece ? '-' : piece.league.toString(),
 });
 
