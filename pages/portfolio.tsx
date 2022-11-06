@@ -129,7 +129,7 @@ const Portfolio = (
                     render: ({ data }) => data as any,
                 },
                 error: {
-                    render: ({ data }) => data,
+                    render: ({ data }) => data as any,
                 },
             });
         } else {
@@ -139,7 +139,7 @@ const Portfolio = (
                         success: undefined,
                         pending: undefined,
                         error: {
-                            render: ({ data }) => data,
+                            render: ({ data }) => data as any,
                         },
                         promise: new Promise<string>((_, reject) =>
                             reject(error)
@@ -156,7 +156,14 @@ const Portfolio = (
     }, [searchUrl]);
 
     const customQueryPortfolio = (page: number) =>
-        queryPortfolio(page, parseAsString(query.language).elseGet('all'));
+        queryPortfolio(
+            page,
+            parseAsString({
+                string: query.language,
+                ifParsingFailThen: 'get',
+                alternativeValue: 'all',
+            })
+        );
 
     const getNextPage = (data: Data): number => {
         const { page } = queryParams;

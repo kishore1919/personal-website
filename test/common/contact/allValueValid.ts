@@ -4,6 +4,7 @@ import {
     getEmail,
     getMessage,
 } from '../../../src/common/contact';
+import { describe, it, expect } from 'vitest';
 
 const testValidator = () =>
     describe('Value Valiadator', () => {

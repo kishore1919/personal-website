@@ -7,6 +7,7 @@ import {
     portfolioLanguages,
 } from '../../../src/api/portfolio/queryData';
 import portfolioData from '../dummy/portfolio.json';
+import { describe, it, expect } from 'vitest';
 
 const testProcessing = () =>
     describe('Data Processing', () => {

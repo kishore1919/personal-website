@@ -18,9 +18,27 @@ const contact: EndPointFunc<Data> = async (req, res) => {
     } else {
         const { body } = req;
         const { name, email, message } = body;
-        const parsedName = getName(parseAsString(name).elseGet(''));
-        const parsedEmail = getEmail(parseAsString(email).elseGet(''));
-        const parsedMessage = getMessage(parseAsString(message).elseGet(''));
+        const parsedName = getName(
+            parseAsString({
+                string: name,
+                ifParsingFailThen: 'get',
+                alternativeValue: '',
+            })
+        );
+        const parsedEmail = getEmail(
+            parseAsString({
+                string: email,
+                ifParsingFailThen: 'get',
+                alternativeValue: '',
+            })
+        );
+        const parsedMessage = getMessage(
+            parseAsString({
+                string: message,
+                ifParsingFailThen: 'get',
+                alternativeValue: '',
+            })
+        );
         if (
             !isAllValueValid({
                 name: parsedName,

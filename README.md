@@ -54,12 +54,12 @@ Heroku will remove freemium services soon, so I decided to rewrite my website in
 | Framework                                                              | NextJS            |
 | Build Automation Tool                                                  | Make              |
 | Text Editor                                                            | NeoVim            |
-| Dependency Management                                                  | Yarn              |
+| Dependency Management                                                  | Pnpm              |
 | Continuous Integration, Continuous Delivery, and Continuous Deployment | GitHub Actions    |
 
 ## How to build this app?
 
-_*Make sure you have `yarn` and `make` available in your system*_
+_*Make sure you have `pnpm` and `make` available in your system*_
 
 ### Environment Variables
 

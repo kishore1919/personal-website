@@ -1,23 +1,20 @@
-import fetch from 'node-fetch';
-import {
-    parseAsReadonlyArray,
-    parseAsReadonlyObject,
-    parseAsString,
-} from 'parse-dont-validate';
+import axios from 'axios';
+import parse from 'parse-dont-validate';
 import { Portfolios } from '../../src/common/portfolio';
 import fs from 'fs';
 
 const fetchGithubUserRepo = async (): Promise<Portfolios> =>
-    parseAsReadonlyArray(
+    parse(
         await (
-            await fetch(
+            await axios.get(
                 'https://api.github.com/users/GervinFung/repos?per_page=50'
             )
-        ).json(),
-        (repo) => {
-            const name = parseAsString(repo.name).elseThrow(
-                'name is not a string'
-            );
+        ).data
+    )
+        .asReadonlyArray((repo) => {
+            const name = parse(repo.name)
+                .asString()
+                .elseThrow('name is not a string');
             return ![
                 'adonix-blog',
                 'my-web',
@@ -28,25 +25,30 @@ const fetchGithubUserRepo = async (): Promise<Portfolios> =>
             ].includes(name)
                 ? []
                 : [
-                      parseAsReadonlyObject(repo, (repo) => ({
-                          name,
-                          languages: [
-                              parseAsString(repo.language).elseThrow(
-                                  `language for ${repo.name} is not a string`
-                              ),
-                          ],
-                          description: parseAsString(
-                              repo.description
-                          ).elseThrow(
-                              `description for ${repo.name} is not a string`
-                          ),
-                          url: parseAsString(repo.html_url).elseThrow(
-                              `html url for ${repo.name} is not a string`
-                          ),
-                      })).elseThrow('repo is not an object'),
+                      parse(repo)
+                          .asReadonlyObject((repo) => ({
+                              name,
+                              languages: [
+                                  parse(repo.language)
+                                      .asString()
+                                      .elseThrow(
+                                          `language for ${repo.name} is not a string`
+                                      ),
+                              ],
+                              description: parse(repo.description)
+                                  .asString()
+                                  .elseThrow(
+                                      `description for ${repo.name} is not a string`
+                                  ),
+                              url: parse(repo.html_url)
+                                  .asString()
+                                  .elseThrow(
+                                      `html url for ${repo.name} is not a string`
+                                  ),
+                          }))
+                          .elseThrow('repo is not an object'),
                   ];
-        }
-    )
+        })
         .elseThrow('repositories is not an array')
         .flat();
 
@@ -55,43 +57,45 @@ const fetchGithubOrganization = async (
 ): Promise<Portfolios[0]> => {
     const languages = Array.from(
         new Set(
-            parseAsReadonlyArray(
+            parse(
                 await (
-                    await fetch(
+                    await axios.get(
                         `https://api.github.com/orgs/${organizationName}/repos`
                     )
-                ).json(),
-                (repo) =>
+                ).data
+            )
+                .asReadonlyArray((repo) =>
                     !repo.language
                         ? []
                         : [
-                              parseAsString(repo.language).elseThrow(
-                                  'language is not a string'
-                              ),
+                              parse(repo.language)
+                                  .asString()
+                                  .elseThrow('language is not a string'),
                           ]
-            )
+                )
                 .elseThrow('repositories is not an array')
                 .flat()
         )
     ).filter((language) => language !== 'Makefile');
 
-    return parseAsReadonlyObject(
+    return parse(
         await (
-            await fetch(`https://api.github.com/orgs/${organizationName}`)
-        ).json(),
-        (organization) => ({
+            await axios.get(`https://api.github.com/orgs/${organizationName}`)
+        ).data
+    )
+        .asReadonlyObject((organization) => ({
             languages,
-            name: parseAsString(organization.login).elseThrow(
-                'login is not a string'
-            ),
-            description: parseAsString(organization.description).elseThrow(
-                'description is not a string'
-            ),
-            url: parseAsString(organization.html_url).elseThrow(
-                'html_url is not a string'
-            ),
-        })
-    ).elseThrow('organization is not an object');
+            name: parse(organization.login)
+                .asString()
+                .elseThrow('login is not a string'),
+            description: parse(organization.description)
+                .asString()
+                .elseThrow('description is not a string'),
+            url: parse(organization.html_url)
+                .asString()
+                .elseThrow('html_url is not a string'),
+        }))
+        .elseThrow('organization is not an object');
 };
 
 const portfolioCache = (path: string) => ({

@@ -1,15 +1,18 @@
 import {
-    parseAsCustomType,
+    parseAsCustom,
     parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
 import type { Data, Email, Message, Name } from '../../common/contact';
 
 const parseAsData = (data: any): Data => {
-    const type = parseAsCustomType<Data['type']>(
-        data.type,
-        (type) => type === 'succeed' || type === 'input' || type === 'failed'
-    ).elseThrow('type is not type of Data[type]');
+    const type = parseAsCustom<Data['type']>({
+        value: data.type,
+        predicate: (type) =>
+            type === 'succeed' || type === 'input' || type === 'failed',
+        ifParsingFailThen: 'throw',
+        message: 'type is not type of Data[type]',
+    });
     switch (type) {
         case 'succeed': {
             return {
@@ -20,7 +23,11 @@ const parseAsData = (data: any): Data => {
             const { error } = data;
             return {
                 type,
-                error: parseAsString(error).elseThrow('error is not a string'),
+                error: parseAsString({
+                    string: error,
+                    ifParsingFailThen: 'throw',
+                    message: 'error is not a string',
+                }),
             };
         }
         case 'input': {
@@ -36,22 +43,37 @@ const parseAsData = (data: any): Data => {
 };
 
 const parseAsInfo = (info: unknown) =>
-    parseAsReadonlyObject(info, (info) => ({
-        value: parseAsString(info.value).elseThrow('value is not a string'),
-        error: parseAsString(info.error).elseThrow('error is not a string'),
-    })).elseThrow('info is not an object');
+    parseAsReadonlyObject({
+        object: info,
+        ifParsingFailThen: 'throw',
+        message: 'info is not an object',
+        parse: (info) => ({
+            value: parseAsString({
+                string: info.value,
+                ifParsingFailThen: 'throw',
+                message: 'value is not a string',
+            }),
+            error: parseAsString({
+                string: info.error,
+                ifParsingFailThen: 'throw',
+                message: 'error is not a string',
+            }),
+        }),
+    });
 
 const parseAsName = (name: unknown): Name => {
     const { value, error } = parseAsInfo(name);
     return {
         value,
-        error: parseAsCustomType<Name['error']>(
-            error,
-            (error) =>
+        error: parseAsCustom<Name['error']>({
+            value: error,
+            ifParsingFailThen: 'throw',
+            message: 'error is not type of error in Name',
+            predicate: (error) =>
                 error === '' ||
                 error === '*Please do not leave name section empty*' ||
-                error === '*Please do not leave name section blank*'
-        ).elseThrow('error is not type of error in Name'),
+                error === '*Please do not leave name section blank*',
+        }),
     };
 };
 
@@ -59,14 +81,16 @@ const parseAsEmail = (email: unknown): Email => {
     const { value, error } = parseAsInfo(email);
     return {
         value,
-        error: parseAsCustomType<Email['error']>(
-            error,
-            (error) =>
+        error: parseAsCustom<Email['error']>({
+            value: error,
+            ifParsingFailThen: 'throw',
+            message: 'error is not typeof error in Email',
+            predicate: (error) =>
                 error === '' ||
                 error === '*Please do not leave email section empty*' ||
                 error === '*Please do not leave email section blank*' ||
-                error === '*Please enter valid email format*'
-        ).elseThrow('error is not typeof error in Email'),
+                error === '*Please enter valid email format*',
+        }),
     };
 };
 
@@ -74,14 +98,16 @@ const parseAsMessage = (message: unknown): Message => {
     const { value, error } = parseAsInfo(message);
     return {
         value,
-        error: parseAsCustomType<Message['error']>(
-            error,
-            (error) =>
+        error: parseAsCustom<Message['error']>({
+            value: error,
+            ifParsingFailThen: 'throw',
+            message: 'error is not typeof error in Email',
+            predicate: (error) =>
                 error === '' ||
                 error === '*Please do not leave message section empty*' ||
                 error === '*Please do not leave message section blank*' ||
-                error === '*At least 10 words are required*'
-        ).elseThrow('error is not typeof error in Email'),
+                error === '*At least 10 words are required*',
+        }),
     };
 };
 

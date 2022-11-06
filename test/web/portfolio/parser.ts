@@ -1,5 +1,6 @@
 import { parseAsPortfolioData } from '../../../src/web/parser/portfolio';
 import data from '../dummy/portfolio.json';
+import { describe, it, expect } from 'vitest';
 
 const testParser = () =>
     describe('Parser', () => {

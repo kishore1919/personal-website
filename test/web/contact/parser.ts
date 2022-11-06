@@ -1,4 +1,5 @@
 import parseAsData from '../../../src/web/parser/contact';
+import { describe, it, expect } from 'vitest';
 
 const testParser = () =>
     describe('Parser', () => {

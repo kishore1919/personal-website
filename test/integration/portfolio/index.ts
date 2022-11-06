@@ -1,7 +1,7 @@
 import jsonResponse from '../response';
 import { parseAsPortfolioData } from '../../../src/web/parser/portfolio';
 import portfolio from '../dummy/portfolio.json';
-import { equal } from '../../util';
+import { describe, it, expect } from 'vitest';
 
 const testPortfolioQuery = () =>
     describe('Api portfolio query test', () => {
@@ -29,10 +29,12 @@ const testPortfolioQuery = () =>
                             .some((portfolio) =>
                                 portfolios.find(
                                     ({ name, languages, description, url }) =>
+                                        portfolio.url === url &&
                                         portfolio.name === name &&
-                                        equal(portfolio.languages, languages) &&
                                         portfolio.description === description &&
-                                        portfolio.url === url
+                                        portfolio.languages.every((language) =>
+                                            languages.includes(language)
+                                        )
                                 )
                             )
                 ).toBe(true);
@@ -65,10 +67,12 @@ const testPortfolioQuery = () =>
                 portfolio.some((portfolio) =>
                     portfolios.find(
                         ({ name, languages, description, url }) =>
+                            portfolio.url === url &&
                             portfolio.name === name &&
-                            equal(portfolio.languages, languages) &&
                             portfolio.description === description &&
-                            portfolio.url === url
+                            portfolio.languages.every((language) =>
+                                languages.includes(language)
+                            )
                     )
                 )
             ).toBe(true);

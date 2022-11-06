@@ -27,12 +27,6 @@ const Seo = (
         <>
             <Title title={title} content={content} />
             <Schema />
-            {process.env.NODE_ENV !== 'production' ? null : (
-                <meta
-                    name="google-site-verification"
-                    content="vG1OQpBCHqykih99YTtLbz5tbGA5JKo7-zCwJRFvpBw"
-                />
-            )}
             <DefaultSeo
                 title={title}
                 canonical={url}

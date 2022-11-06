@@ -1,5 +1,6 @@
 import jsonResponse from '../response';
 import parseAsData from '../../../src/web/parser/contact';
+import { describe, it, expect } from 'vitest';
 
 const testContactPost = () =>
     describe('Api contact post test', () => {

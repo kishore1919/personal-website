@@ -19,6 +19,7 @@ import {
     ToastPromise,
 } from '../src/web/components/toaser';
 import Seo from '../src/web/components/seo';
+import axios from 'axios';
 
 const Contact: NextPage = () => {
     const defaultState = {
@@ -54,23 +55,24 @@ const Contact: NextPage = () => {
                             if (isAllValueValid({ name, email, message })) {
                                 const promise = new Promise<string>(
                                     (resolve, reject) =>
-                                        fetch(url.contact, {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type':
-                                                    'application/json',
-                                            },
-                                            referrer: 'no-referrer',
-                                            body: JSON.stringify({
-                                                name: name.value,
-                                                email: email.value,
-                                                message: message.value,
-                                            }),
-                                        })
-                                            .then((res) => res.json())
-                                            .then((json) => {
+                                        axios
+                                            .post(
+                                                url.contact,
+                                                {
+                                                    name: name.value,
+                                                    email: email.value,
+                                                    message: message.value,
+                                                },
+                                                {
+                                                    headers: {
+                                                        'Content-Type':
+                                                            'application/json',
+                                                    },
+                                                }
+                                            )
+                                            .then(({ data }) => {
                                                 const parsedJson =
-                                                    parseAsData(json);
+                                                    parseAsData(data);
                                                 const { type } = parsedJson;
                                                 switch (type) {
                                                     case 'input':
@@ -105,7 +107,7 @@ const Contact: NextPage = () => {
                                         render: ({ data }) => data as any,
                                     },
                                     error: {
-                                        render: ({ data }) => data,
+                                        render: ({ data }) => data as any,
                                     },
                                 });
                             }

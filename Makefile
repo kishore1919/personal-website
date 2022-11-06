@@ -12,7 +12,7 @@ NODE_BIN=node_modules/.bin/
 
 ## install
 install:
-	yarn install --frozen-lockfile
+	pnpm i --frozen-lockfile
 
 ## generate
 generate:
@@ -29,16 +29,36 @@ check-portfolio-image-asset:
 ## dev
 next=$(NODE_BIN)next
 
+staging:
+	cp .env.staging .env
+
+vercel-staging: staging
+	vercel
+
+production:
+	cp .env.production .env
+
+vercel-production: production
+	vercel --prod
+
+development:
+	cp .env.development .env
+
 clear-cache:
 	rm -rf .next && make generate
 
-dev: clear-cache
+pre-dev: development clear-cache
+
+dev: pre-dev
 	$(next) dev
 
-pre-build: clear-cache check-portfolio-image-asset
+pre-build: check-portfolio-image-asset
 
 ## build
 build: pre-build
+	$(next) build
+
+build-dev: pre-dev pre-build production
 	$(next) build
 
 ## start
@@ -48,7 +68,7 @@ start:
 ## format
 prettier=$(NODE_BIN)prettier
 prettify:
-	$(prettier) --$(type) src/ test/
+	$(prettier) --ignore-path .gitignore  --$(type) src/ test/
 
 format-check:
 	make prettify type=check
@@ -81,5 +101,4 @@ typecheck-watch:
 
 ## test
 test:
-	$(NODE_BIN)esbuild test/index.ts --sourcemap --bundle --minify --target=node16.3.1 --platform=node --outfile=__test__/index.test.js &&\
-		$(NODE_BIN)jest __test__
+	$(NODE_BIN)vitest
