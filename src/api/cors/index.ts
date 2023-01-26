@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
+import parse from 'parse-dont-validate';
 import type { Response } from '../endpoint';
-import { parseAsStringEnv } from 'esbuild-env-parsing';
 
 const initMiddleware =
     <T>(
@@ -22,10 +22,9 @@ const cors = <T>() =>
     initMiddleware<Response<T>>(
         Cors({
             credentials: true,
-            origin: parseAsStringEnv({
-                env: process.env.ORIGIN,
-                name: 'ORIGIN',
-            }),
+            origin: parse(process.env.ORIGIN)
+                .asString()
+                .elseThrow('ORIGIN is not a string'),
         })
     );
 

@@ -1,25 +1,27 @@
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
-import { url } from '../../util/const';
 import type { DeepReadonly } from '../../../common/type';
-import type { NavLinkTitle } from '../NavLinks';
+import type { LinkTitle } from '../navigation/links';
 import Schema from '../schema';
-import Title from '../common/Title';
+import Title from '../common/title';
+import links from '../../data/links';
 
 const Seo = (
     props: DeepReadonly<{
         content: string;
         keywords: string[];
-        title: Exclude<NavLinkTitle, '404 Error'>;
+        title: Exclude<LinkTitle, '404 Error'>;
     }>
 ) => {
     const { content, keywords } = props;
 
     const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
 
-    const iconPath = '/asset/images/icons';
+    const iconPath = '/images/icons';
 
-    const title = `PoolOfDeath20 | ${props.title}`;
+    const name = 'Gervin';
+
+    const title = `${name} | ${props.title}`;
 
     const description = props.content;
 
@@ -29,18 +31,18 @@ const Seo = (
             <Schema />
             <DefaultSeo
                 title={title}
-                canonical={url}
+                canonical={links.domain}
                 defaultTitle={title}
                 titleTemplate={title}
                 description={description}
                 twitter={{
-                    handle: '@poolofdeath20',
-                    site: '@poolofdeath20',
+                    handle: `@${name}`,
+                    site: `@${name}`,
                     cardType: 'summary_large_image',
                 }}
                 openGraph={{
                     title,
-                    url,
+                    url: links.domain,
                     description,
                     images: dimensions.map((dimension) => ({
                         alt: description,
@@ -52,13 +54,13 @@ const Seo = (
                 additionalMetaTags={[
                     {
                         name: 'keyword',
-                        content: `Gervin Fung Da Xuen, PoolOfDeath20, Dart, Rust, Java, React, NextJS, FullStack, Developer, ${keywords.join(
+                        content: `Gervin Fung Da Xuen, ${name}, Dart, Rust, Java, React, NextJS, FullStack, Developer, ${keywords.join(
                             ','
                         )}`,
                     },
                     {
                         name: 'author',
-                        content: 'PoolOfDeath20 | Gervin Fung Da Xuen',
+                        content: 'Gervin Fung Da Xuen',
                     },
                     {
                         name: 'viewport',
@@ -74,11 +76,11 @@ const Seo = (
                     },
                     {
                         name: 'application-name',
-                        content: 'PoolOfDeath20',
+                        content: name,
                     },
                     {
                         name: 'application-mobile-web-app-title',
-                        content: 'PoolOfDeath20',
+                        content: name,
                     },
                     {
                         name: 'theme-color',

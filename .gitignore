@@ -7,24 +7,19 @@ next-env.d.ts
 
 # generated
 script/**/*.generated.*
+script/**/*.webp
+src/web/data/projects.ts
+public/files/GervinFungDaXuen-Résumé.pdf
 
 # production
 build
 dist
 cache
-src/api/portfolio/data.json
-
-# test
-__test__
-
-# debug
-yarn-debug.log*
-yarn-error.log*
 
 # local env files
 .env
 .env.development
-.env.test
+.env.testing
 .env.production
 .env.staging
 

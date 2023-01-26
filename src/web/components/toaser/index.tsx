@@ -1,13 +1,7 @@
 import { toast, ToastPromiseParams } from 'react-toastify';
+import { processErrorMessage } from '../../../common/error';
 
 const position = toast.POSITION.TOP_CENTER;
-
-const processErrorMessage = (error: any) =>
-    typeof error === 'string'
-        ? error
-        : error instanceof Error
-        ? error.message
-        : JSON.stringify(error);
 
 const ToastError = (
     error: any,
@@ -50,4 +44,4 @@ const ToastPromise = <T extends Object>({
         }
     );
 
-export { ToastError, ToastInfo, ToastPromise, processErrorMessage };
+export { ToastError, ToastInfo, ToastPromise };

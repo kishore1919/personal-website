@@ -1,34 +1,8 @@
-import { inRangeOf, isBlank, isEmpty } from 'granula-string';
+type Name = ReturnType<typeof getName>;
 
-const validateEmail = (email: string) =>
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-    );
+type Email = ReturnType<typeof getEmail>;
 
-type EmptyString = '';
-
-type Name = Readonly<{
-    value: string;
-    error:
-        | `*Please do not leave name section ${'empty' | 'blank'}*`
-        | EmptyString;
-}>;
-
-type Email = Readonly<{
-    value: string;
-    error:
-        | `*Please do not leave email section ${'empty' | 'blank'}*`
-        | '*Please enter valid email format*'
-        | EmptyString;
-}>;
-
-type Message = Readonly<{
-    value: string;
-    error:
-        | `*Please do not leave message section ${'empty' | 'blank'}*`
-        | '*At least 10 words are required*'
-        | EmptyString;
-}>;
+type Message = ReturnType<typeof getMessage>;
 
 type Data = Readonly<
     | {
@@ -40,45 +14,60 @@ type Data = Readonly<
       }
     | {
           type: 'input';
-          message: Message;
           name: Name;
           email: Email;
+          message: Message;
       }
 >;
 
-const getName = (value: string): Name => ({
-    value,
-    error: isEmpty(value)
-        ? '*Please do not leave name section empty*'
-        : isBlank(value)
-        ? '*Please do not leave name section blank*'
-        : defaultValue.error,
-});
+const validateEmail = (email: string) =>
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+    );
 
-const getEmail = (value: string): Email => ({
-    value,
-    error: isEmpty(value)
-        ? '*Please do not leave email section empty*'
-        : isBlank(value)
-        ? '*Please do not leave email section blank*'
-        : validateEmail(value)
-        ? defaultValue.error
-        : '*Please enter valid email format*',
-});
+const isBlank = (value: string) =>
+    value.split('').filter((c) => ' ' === c).length === value.length;
 
-const getMessage = (value: string): Message => ({
-    value,
-    error: isEmpty(value)
-        ? '*Please do not leave message section empty*'
-        : isBlank(value)
-        ? '*Please do not leave message section blank*'
-        : inRangeOf(value, {
-              min: 10,
-              excludeBlankSpace: true,
-          })
-        ? defaultValue.error
-        : '*At least 10 words are required*',
-});
+const isEmpty = (s: string) => s === '';
+
+const numberOfCharacters = 7;
+
+const inRange = (value: string) =>
+    value.split(' ').filter(Boolean).length >= numberOfCharacters;
+
+const getName = (value: string) =>
+    ({
+        value,
+        error: isEmpty(value)
+            ? '*Please do not leave name section empty*'
+            : isBlank(value)
+            ? '*Please do not leave name section blank*'
+            : defaultValue.error,
+    } as const);
+
+const getEmail = (value: string) =>
+    ({
+        value,
+        error: isEmpty(value)
+            ? '*Please do not leave email section empty*'
+            : isBlank(value)
+            ? '*Please do not leave email section blank*'
+            : validateEmail(value)
+            ? defaultValue.error
+            : '*Please enter valid email format*',
+    } as const);
+
+const getMessage = (value: string) =>
+    ({
+        value,
+        error: isEmpty(value)
+            ? '*Please do not leave message section empty*'
+            : isBlank(value)
+            ? '*Please do not leave message section blank*'
+            : inRange(value)
+            ? defaultValue.error
+            : (`*At least ${numberOfCharacters} words are required*` as const),
+    } as const);
 
 const isAllValueValid = ({
     name,
@@ -95,10 +84,7 @@ const isAllValueValid = ({
     const isMessageInvalid =
         isBlank(message.value) ||
         isEmpty(message.value) ||
-        !inRangeOf(message.value, {
-            min: 10,
-            excludeBlankSpace: true,
-        });
+        !inRange(message.value);
     const isinputValid =
         isMessageInvalid && validateEmail(email.value) && !isNameInvalid;
     return hasNoError && !isinputValid;

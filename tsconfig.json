@@ -26,6 +26,6 @@
         "allowJs": false,
         "importsNotUsedAsValues": "error"
     },
-    "include": ["next-env.d.ts", "src", "pages", "test"],
+    "include": ["next-env.d.ts", "src", "pages", "test", "script"],
     "exclude": ["node_modules"]
 }

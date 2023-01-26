@@ -15,55 +15,65 @@ install:
 	pnpm i --frozen-lockfile
 
 ## generate
-generate:
-	$(NODE_BIN)esbuild script/portfolio/generate-portfolio-data.ts --sourcemap --bundle --minify --target=node16.3.1 --platform=node --outfile=script/portfolio/generate-portfolio-data.generated.js &&\
-		node script/portfolio/generate-portfolio-data.generated.js ${arguments}
+generate: generate-portfolio-data generate-resume
 
-generate-force:
-	make generate arguments=-f
+generate-portfolio-data:
+	$(NODE_BIN)vite-node script/projects/generate-data.ts ${arguments}
 
-check-portfolio-image-asset:
-	$(NODE_BIN)esbuild script/portfolio/ensure-background-has-logo-vice-versa.ts --sourcemap --bundle --minify --target=node16.3.1 --platform=node --outfile=script/portfolio/ensure-background-has-logo-vice-versa.generated.js &&\
-		node script/portfolio/ensure-background-has-logo-vice-versa.generated.js ${arguments}
+generate-resume:
+	git clone https://github.com/GervinFung/resume.git --depth 1 &&\
+		cd resume && make install &&\
+		mv dist/GervinFungDaXuen-Résumé.pdf ../public/files/GervinFungDaXuen-Résumé.pdf &&\
+		cd ../ && rm -rf resume
+
+generate-portfolio-data-force:
+	make generate-portfolio-data arguments="-- --f"
+
+check-projects-image-asset:
+	$(NODE_BIN)vite-node script/projects/ensure-background-has-logo-vice-versa.ts
 
 ## dev
 next=$(NODE_BIN)next
 
+## env
+development:
+	cp .env.development .env
+
 staging:
 	cp .env.staging .env
-
-vercel-staging: staging
-	vercel
 
 production:
 	cp .env.production .env
 
-vercel-production: production
+testing:
+	cp .env.testing .env
+
+## deployment
+vercel-staging: build-staging
+	vercel
+
+vercel-production: build-production
 	vercel --prod
 
-development:
-	cp .env.development .env
-
 clear-cache:
-	rm -rf .next && make generate
+	rm -rf .next
 
-pre-dev: development clear-cache
-
-dev: pre-dev
+dev: development clear-cache
 	$(next) dev
 
-pre-build: check-portfolio-image-asset
-
 ## build
-build: pre-build
+build-production: clear-cache check-projects-image-asset production
 	$(next) build
 
-build-dev: pre-dev pre-build production
+build-staging: clear-cache check-projects-image-asset staging
+	$(next) build
+
+build-testing: clear-cache check-projects-image-asset testing
 	$(next) build
 
 ## start
 start:
-	$(next) start
+	$(next) start $(arguments)
 
 ## format
 prettier=$(NODE_BIN)prettier
@@ -100,5 +110,16 @@ typecheck-watch:
 	make typecheck arguments=--w
 
 ## test
-test:
-	$(NODE_BIN)vitest
+test-type:
+	$(NODE_BIN)vitest test/$(path)/**.test.ts
+
+test-unit:
+	make test-type path="unit"
+
+test-integration:
+	make build-testing && make test-type path="integration"
+
+test-snapshots:
+	make build-testing && make test-type path="snapshots"
+
+test: test-unit test-integration test-snapshots

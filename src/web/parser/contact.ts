@@ -6,7 +6,7 @@ import {
 import type { Data, Email, Message, Name } from '../../common/contact';
 
 const parseAsData = (data: any): Data => {
-    const type = parseAsCustom<Data['type']>({
+    const type = parseAsCustom<Data['type'], Error>({
         value: data.type,
         predicate: (type) =>
             type === 'succeed' || type === 'input' || type === 'failed',
@@ -65,7 +65,7 @@ const parseAsName = (name: unknown): Name => {
     const { value, error } = parseAsInfo(name);
     return {
         value,
-        error: parseAsCustom<Name['error']>({
+        error: parseAsCustom({
             value: error,
             ifParsingFailThen: 'throw',
             message: 'error is not type of error in Name',
@@ -81,7 +81,7 @@ const parseAsEmail = (email: unknown): Email => {
     const { value, error } = parseAsInfo(email);
     return {
         value,
-        error: parseAsCustom<Email['error']>({
+        error: parseAsCustom({
             value: error,
             ifParsingFailThen: 'throw',
             message: 'error is not typeof error in Email',
@@ -98,7 +98,7 @@ const parseAsMessage = (message: unknown): Message => {
     const { value, error } = parseAsInfo(message);
     return {
         value,
-        error: parseAsCustom<Message['error']>({
+        error: parseAsCustom({
             value: error,
             ifParsingFailThen: 'throw',
             message: 'error is not typeof error in Email',
@@ -106,7 +106,7 @@ const parseAsMessage = (message: unknown): Message => {
                 error === '' ||
                 error === '*Please do not leave message section empty*' ||
                 error === '*Please do not leave message section blank*' ||
-                error === '*At least 10 words are required*',
+                error === '*At least 7 words are required*',
         }),
     };
 };

@@ -1,15 +1,14 @@
-import type { QueryParams } from '../../common/portfolio';
+import type { QueryParams } from '../../common/project';
 
 const url = (() => {
     const api = '/api';
-
     return {
         contact: `${api}/contact`,
-        portfolio: `${api}/portfolio`,
+        resume: `${api}/resume`,
     } as const;
 })();
 
-const portfolioQuery = (queryParams: QueryParams) =>
+const projectQuery = (queryParams: QueryParams) =>
     Object.entries(queryParams).reduce((prev, [key, value]) => {
         if (!value) {
             return prev;
@@ -18,4 +17,4 @@ const portfolioQuery = (queryParams: QueryParams) =>
         return !prev ? pair : `${prev}&${pair}`;
     }, '');
 
-export { url, portfolioQuery };
+export { url, projectQuery };

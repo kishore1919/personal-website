@@ -1,10 +1,8 @@
 import React from 'react';
-import styled, { css, DefaultTheme, keyframes } from 'styled-components';
-import { FaSun, FaMoon, FaArrowUp } from 'react-icons/fa';
-import { isPrimary } from '../../theme/colorTheme';
-import NavLinks from '../NavLinks';
-import FullScreen from '../FullScreenNav';
-import useWindowResize from '../../hook/windowWidthResize';
+import styled, { DefaultTheme, keyframes } from 'styled-components';
+import { FaArrowUp } from 'react-icons/fa';
+import NavLinks from '../navigation/links';
+import useWindowResize from '../../hook/window-width-resize';
 
 type BackToTopAnimation = Readonly<{
     isSlideIn: boolean;
@@ -16,8 +14,8 @@ const BackToTop = ({
     isScroll: boolean;
 }>) => {
     const [state, setState] = React.useState({
-        isAnimate: isScroll,
         isLoad: isScroll,
+        isAnimate: isScroll,
     });
 
     React.useEffect(() => {
@@ -25,7 +23,7 @@ const BackToTop = ({
             ...prev,
             isAnimate: isScroll,
         }));
-        setTimeout(
+        const timer = setTimeout(
             () =>
                 setState((prev) => ({
                     ...prev,
@@ -33,6 +31,7 @@ const BackToTop = ({
                 })),
             isScroll ? 350 : 0
         );
+        return () => clearTimeout(timer);
     }, [isScroll]);
 
     const { isAnimate, isLoad } = state;
@@ -49,98 +48,35 @@ const BackToTop = ({
     );
 };
 
-const Header = ({
-    theme,
-    setTheme,
-}: Readonly<{
-    theme: DefaultTheme;
-    setTheme: () => void;
-}>) => {
-    const hamburgerBreakPoint = 646;
-
+const Header = (
+    _: Readonly<{
+        theme: DefaultTheme;
+        setTheme: () => void;
+    }>
+) => {
     const [state, setState] = React.useState({
-        isShow: false,
         isScroll: false,
     });
 
-    const { isShow, isScroll } = state;
+    const { isScroll } = state;
     const { width } = useWindowResize();
 
-    const handlePageOffset = () =>
-        setState((prev) => ({
-            ...prev,
-            isScroll: window.pageYOffset > 100,
-        }));
-
     React.useEffect(() => {
+        const handlePageOffset = () =>
+            setState((prev) => ({
+                ...prev,
+                isScroll: window.pageYOffset > 100,
+            }));
         window.addEventListener('scroll', handlePageOffset);
         return () => {
             window.removeEventListener('scroll', handlePageOffset);
         };
     }, []);
 
-    const handleResizeWindow = () =>
-        setState((prev) => ({
-            ...prev,
-            width: window.innerWidth,
-        }));
-
-    React.useEffect(() => {
-        window.addEventListener('resize', handleResizeWindow);
-        return () => {
-            window.removeEventListener('resize', handleResizeWindow);
-        };
-    }, []);
-
-    const setShow = (isShow: boolean) =>
-        setState((prev) => ({
-            ...prev,
-            isShow,
-        }));
-
-    const ToggleComponent = () =>
-        isPrimary(theme) ? <ToggleThemeSun /> : <ToggleThemeMoon />;
-
-    if (!width) {
-        return null;
-    }
-
-    const NavLinksElem = () =>
-        width <= hamburgerBreakPoint ? null : (
-            <NavLinks isFullScreen={false} close={() => setShow(false)} />
-        );
-
-    const HamburgerNavElem = () =>
-        width > hamburgerBreakPoint ? null : (
-            <HamburgerNav>
-                <HamburgerButton onClick={() => setShow(true)}>
-                    ☰
-                </HamburgerButton>
-            </HamburgerNav>
-        );
-
-    return (
+    return !width ? null : (
         <Container>
             <NavWrapper>
-                <NavLinksElem />
-                <RightSide>
-                    <ToggleThemeContainer>
-                        <ToggleThemeButton onClick={setTheme}>
-                            <ToggleComponent />
-                        </ToggleThemeButton>
-                    </ToggleThemeContainer>
-                    <Brand>
-                        <Name
-                            onClick={() =>
-                                window.scrollTo(0, document.body.scrollHeight)
-                            }
-                        >
-                            PoolOfDeath20
-                        </Name>
-                    </Brand>
-                    <HamburgerNavElem />
-                </RightSide>
-                <FullScreen isShow={isShow} close={() => setShow(false)} />
+                <NavLinks />
             </NavWrapper>
             <BackToTop isScroll={isScroll} />
         </Container>
@@ -149,101 +85,12 @@ const Header = ({
 
 const Container = styled.header`
     background-color: transparent;
-    letter-spacing: 1.5px;
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
 const NavWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 38px;
-    @media (max-width: 962px) {
-        display: block;
-    }
-`;
-
-const RightSide = styled.div`
-    display: flex;
-    align-items: center;
-    text-align: center;
-    @media (max-width: 994px) {
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-    @media (max-width: 646px) {
-        display: grid;
-        text-align: center;
-        > div {
-            margin: 7px 0 7px 0;
-        }
-    }
-`;
-
-const ToggleThemeContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`;
-
-const ToggleThemeButton = styled.button`
-    border-radius: 50%;
-    background-color: ${({ theme }) => theme.theme.secondaryColor};
-    width: 35px;
-    height: 35px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &:hover {
-        cursor: pointer;
-    }
-`;
-
-const ToggleTheme = css`
-    letter-spacing: 1px !important;
-    color: ${({ theme }) => theme.theme.primaryColor};
-    font-size: 1.5em !important;
-`;
-
-const ToggleThemeSun = styled(FaSun)`
-    ${ToggleTheme}
-`;
-const ToggleThemeMoon = styled(FaMoon)`
-    ${ToggleTheme}
-`;
-
-const Brand = styled.div`
-    color: ${({ theme }) => theme.theme.secondaryColor};
-    text-decoration: none;
-    font-weight: bold;
-    padding: 5px 10px 5px 10px;
-    @media (max-width: 586px) {
-        font-size: 1em;
-    }
-`;
-
-const Name = styled.button`
-    cursor: pointer;
-    border: none;
-    font-size: 1em;
-    font-weight: bold;
-    background-color: transparent;
-    letter-spacing: 1.5px;
-    color: ${({ theme }) => theme.theme.secondaryColor};
-    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
-`;
-
-const HamburgerNav = styled.div`
-    justify-content: center;
-    display: flex;
-    align-items: center;
-`;
-
-const HamburgerButton = styled.button`
-    background-color: transparent;
-    font-size: 2em;
-    color: ${({ theme }) => theme.theme.secondaryColor};
-    border: none;
+    box-sizing: border-box;
+    padding: 36px 0;
 `;
 
 const BackToTopContainer = styled.div`
@@ -279,8 +126,8 @@ const FadeIn = keyframes`
 const ArrowUpContainer = styled.button`
     border-radius: 50%;
     border: none;
-    padding: 15px;
-    margin: 10px;
+    padding: 16px;
+    margin: 16px;
     box-shadow: 0 0 3px black;
     background-color: ${({ theme }) => theme.theme.secondaryColor};
     animation: ${({ isSlideIn }: BackToTopAnimation) =>
@@ -311,7 +158,7 @@ const ArrowUpContainer = styled.button`
 `;
 
 const ArrowUp = styled(FaArrowUp)`
-    font-size: 1.5em !important;
+    font-size: 1.15em !important;
     color: ${({ theme }) => theme.theme.primaryColor} !important;
 `;
 

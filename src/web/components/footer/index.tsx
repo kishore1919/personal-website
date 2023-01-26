@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaGithub, FaInstagram } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { TiSocialLinkedin, TiSocialFacebook } from 'react-icons/ti';
+import links from '../../data/links';
 
 const Footer = () => (
     <Container>
@@ -10,19 +11,19 @@ const Footer = () => (
             <p>copyright &copy; 2020 - {new Date().getFullYear()}</p>
         </CopyRight>
         <SocialLinkContainer>
-            <Linkedin href="https://www.linkedin.com/in/gervin-fung-387409209">
+            <Linkedin href={links.linkedin}>
                 <LinkedinLogo />
             </Linkedin>
-            <Facebook href="https://www.facebook.com/GervinFung">
+            <Facebook href={links.facebook}>
                 <FacebookLogo />
             </Facebook>
-            <Instagram href="https://www.instagram.com/poolofdeath20">
+            <Instagram href={links.instagram}>
                 <InstagramLogo />
             </Instagram>
-            <Google href="mailto:gervinfungdaxuen@gmail.com">
+            <Google href={`mailto:${links.gmail}`}>
                 <GoogleLogo />
             </Google>
-            <Github href="https://github.com/GervinFung">
+            <Github href={links.github}>
                 <GithubLogo />
             </Github>
         </SocialLinkContainer>
@@ -30,10 +31,10 @@ const Footer = () => (
 );
 
 const Container = styled.footer`
-    height: fit-content;
-    text-align: center;
+    display: grid;
+    place-items: center;
     background-color: transparent;
-    letter-spacing: 1.5px;
+    margin: 64px 0 0 0;
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
@@ -45,7 +46,6 @@ const SocialLinkContainer = styled.div`
 `;
 
 const CopyRight = styled.div`
-    font-size: 1.3em;
     text-transform: uppercase;
     color: ${({ theme }) => theme.theme.secondaryColor};
     @media (max-width: 586px) {
@@ -61,9 +61,9 @@ const SocialIcon = styled.a.attrs({
     place-items: center;
     color: whitesmoke;
     border-radius: 50%;
-    padding: 10px;
-    width: 40px;
-    height: 40px;
+    padding: 8px;
+    width: 32px;
+    height: 32px;
     transition: all 0.3s ease;
     margin: 5px 10px;
     border: none;
@@ -87,7 +87,7 @@ const Facebook = styled(SocialIcon)`
 `;
 
 const FacebookLogo = styled(TiSocialFacebook)`
-    font-size: 2.2em !important;
+    font-size: 1.5em !important;
     @media (max-width: 366px) {
         font-size: 2em !important;
     }
@@ -101,7 +101,7 @@ const Linkedin = styled(SocialIcon)`
 `;
 
 const LinkedinLogo = styled(TiSocialLinkedin)`
-    font-size: 2.2em !important;
+    font-size: 1.5em !important;
     @media (max-width: 366px) {
         font-size: 2em !important;
     }
@@ -139,7 +139,7 @@ const Instagram = styled(SocialIcon)`
 `;
 
 const InstagramLogo = styled(FaInstagram)`
-    font-size: 2.5em !important;
+    font-size: 1.5em !important;
     @media (max-width: 366px) {
         font-size: 2.2em !important;
     }
@@ -153,7 +153,7 @@ const Github = styled(SocialIcon)`
 `;
 
 const GithubLogo = styled(FaGithub)`
-    font-size: 2.5em !important;
+    font-size: 1.5em !important;
     @media (max-width: 366px) {
         font-size: 2.2em !important;
     }
@@ -167,7 +167,7 @@ const Google = styled(SocialIcon)`
 `;
 
 const GoogleLogo = styled(FcGoogle)`
-    font-size: 2.5em !important;
+    font-size: 1.25em !important;
     @media (max-width: 366px) {
         font-size: 2.2em !important;
     }

@@ -1,3 +1,6 @@
+import React from 'react';
 import Error from './_error';
 
-export default Error;
+const RequestNotFound = () => <Error statusCode={404} />;
+
+export default RequestNotFound;

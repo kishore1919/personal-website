@@ -1,4 +1,3 @@
-import { parseAsStringEnv } from 'esbuild-env-parsing';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
 import cors from '../../src/api/cors';
@@ -11,12 +10,12 @@ import {
     isAllValueValid,
 } from '../../src/common/contact';
 
-const contact: EndPointFunc<Data> = async (req, res) => {
-    await cors<Data>()(req, res);
-    if (req.method !== 'POST') {
-        res.status(404).json('Only accept POST request');
+const contact: EndPointFunc<Data> = async (request, response) => {
+    await cors<Data>()(request, response);
+    if (request.method !== 'POST') {
+        response.status(404).json('Only accept POST request');
     } else {
-        const { body } = req;
+        const { body } = request;
         const { name, email, message } = body;
         const parsedName = getName(
             parseAsString({
@@ -46,20 +45,22 @@ const contact: EndPointFunc<Data> = async (req, res) => {
                 message: parsedMessage,
             })
         ) {
-            res.status(200).json({
+            response.status(200).json({
                 type: 'input',
                 name: parsedName,
                 email: parsedEmail,
                 message: parsedMessage,
             } as Data);
         } else {
-            const email = parseAsStringEnv({
-                env: process.env.EMAIL,
-                name: 'email',
+            const email = parseAsString({
+                string: process.env.EMAIL,
+                ifParsingFailThen: 'throw',
+                message: 'EMAIL is not a stirng',
             });
-            const pass = parseAsStringEnv({
-                env: process.env.PASS,
-                name: 'pass',
+            const pass = parseAsString({
+                string: process.env.PASS,
+                ifParsingFailThen: 'throw',
+                message: 'PASS is not a stirng',
             });
             const options = {
                 from: `${parsedName.value.trim()} <${email}>`,
@@ -83,7 +84,7 @@ const contact: EndPointFunc<Data> = async (req, res) => {
                     },
                 })
                 .sendMail(options, (error) =>
-                    res.status(200).json(
+                    response.status(200).json(
                         (!error
                             ? {
                                   type: 'succeed',

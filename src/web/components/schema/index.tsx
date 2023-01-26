@@ -1,18 +1,18 @@
 import React from 'react';
 import Script from 'next/script';
-import { url } from '../../util/const';
+import links from '../../data/links';
 
 const Schema = () => {
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: (
-            ['Home', 'Portfolio', 'About', 'Contact', 'Résumé'] as const
+            ['Home', 'Project', 'About', 'Contact', 'Résumé'] as const
         ).map((name, index) => ({
             name,
             '@type': 'ListItem',
             position: index + 1,
-            item: `${url}/${
+            item: `${links.domain}/${
                 name === 'Home'
                     ? ''
                     : name === 'Résumé'

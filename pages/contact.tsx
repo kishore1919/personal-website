@@ -10,16 +10,15 @@ import {
     Message,
     Name,
 } from '../src/common/contact';
-import { GlobalContainer } from '../src/web/theme/GlobalTheme';
+import { GlobalContainer } from '../src/web/theme/global-theme';
 import { url } from '../src/web/url';
 import parseAsData from '../src/web/parser/contact';
 import type { NextPage } from 'next';
-import {
-    processErrorMessage,
-    ToastPromise,
-} from '../src/web/components/toaser';
+import { ToastPromise } from '../src/web/components/toaser';
 import Seo from '../src/web/components/seo';
 import axios from 'axios';
+import links from '../src/web/data/links';
+import { processErrorMessage } from '../src/common/error';
 
 const Contact: NextPage = () => {
     const defaultState = {
@@ -49,71 +48,8 @@ const Contact: NextPage = () => {
                             <b>Just contact me!</b>
                         </ContactMeParagraph>
                     </ContactMeContainer>
-                    <ContactFormDiv
-                        onSubmit={(event) => {
-                            event.preventDefault();
-                            if (isAllValueValid({ name, email, message })) {
-                                const promise = new Promise<string>(
-                                    (resolve, reject) =>
-                                        axios
-                                            .post(
-                                                url.contact,
-                                                {
-                                                    name: name.value,
-                                                    email: email.value,
-                                                    message: message.value,
-                                                },
-                                                {
-                                                    headers: {
-                                                        'Content-Type':
-                                                            'application/json',
-                                                    },
-                                                }
-                                            )
-                                            .then(({ data }) => {
-                                                const parsedJson =
-                                                    parseAsData(data);
-                                                const { type } = parsedJson;
-                                                switch (type) {
-                                                    case 'input':
-                                                        setState((prev) => ({
-                                                            ...prev,
-                                                            ...parsedJson,
-                                                        }));
-                                                        break;
-                                                    case 'succeed':
-                                                        setState((prev) => ({
-                                                            ...prev,
-                                                            ...defaultState,
-                                                        }));
-                                                        break;
-                                                }
-                                                resolve(
-                                                    'Your Message Has Been Successfully Sent!\nThank you!'
-                                                );
-                                            })
-                                            .catch((error) =>
-                                                reject(
-                                                    `Oops! I can't send your email.\nError: ${processErrorMessage(
-                                                        error
-                                                    )}.\nPlease write an email to gervinfungdaxuen@gmail.com through your email service provider. Thank you`
-                                                )
-                                            )
-                                );
-                                ToastPromise({
-                                    promise,
-                                    pending: 'Sending your message...',
-                                    success: {
-                                        render: ({ data }) => data as any,
-                                    },
-                                    error: {
-                                        render: ({ data }) => data as any,
-                                    },
-                                });
-                            }
-                        }}
-                    >
-                        <ContactForm>
+                    <ContactFormDiv>
+                        <ContactForm method="POST">
                             <InputInfoContainer>
                                 <InputInfo htmlFor="name">
                                     Hello, my name is
@@ -123,12 +59,12 @@ const Contact: NextPage = () => {
                             <InputLabel htmlFor="name">
                                 <InputDiv>
                                     <InputField
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        value={name.value}
-                                        placeholder="Tony Stark"
                                         required
+                                        id="name"
+                                        name="name"
+                                        type="text"
+                                        value={name.value}
+                                        placeholder="Bruce Wayne"
                                         onChange={(event) =>
                                             setState((prev) => ({
                                                 ...prev,
@@ -149,12 +85,12 @@ const Contact: NextPage = () => {
                             <InputLabel htmlFor="email">
                                 <InputDiv>
                                     <InputField
+                                        required
+                                        id="email"
                                         type="email"
                                         name="email"
-                                        id="email"
                                         value={email.value}
-                                        placeholder="tonystark@gmail.com"
-                                        required
+                                        placeholder="brucewayne@batman.com"
                                         onChange={(event) =>
                                             setState((prev) => ({
                                                 ...prev,
@@ -175,12 +111,12 @@ const Contact: NextPage = () => {
                             <InputLabel htmlFor="message">
                                 <InputDiv>
                                     <TextArea
-                                        name="message"
+                                        required
+                                        rows={8}
                                         id="message"
+                                        name="message"
                                         value={message.value}
                                         placeholder="Ask you a question/Tell you something"
-                                        rows={8}
-                                        required
                                         onChange={(event) =>
                                             setState((prev) => ({
                                                 ...prev,
@@ -192,9 +128,93 @@ const Contact: NextPage = () => {
                                     />
                                 </InputDiv>
                             </InputLabel>
-                            <SubmitButtonContainer>
-                                <SubmitButton />
-                            </SubmitButtonContainer>
+                            <SendButtonContainer>
+                                <SendButton
+                                    value="SEND"
+                                    type="button"
+                                    onClick={(event) => {
+                                        event.preventDefault();
+                                        if (
+                                            !isAllValueValid({
+                                                name,
+                                                email,
+                                                message,
+                                            })
+                                        ) {
+                                            return;
+                                        }
+                                        const promise = new Promise<string>(
+                                            (resolve, reject) =>
+                                                axios
+                                                    .post(
+                                                        url.contact,
+                                                        {
+                                                            name: name.value,
+                                                            email: email.value,
+                                                            message:
+                                                                message.value,
+                                                        },
+                                                        {
+                                                            headers: {
+                                                                'Content-Type':
+                                                                    'application/json',
+                                                            },
+                                                        }
+                                                    )
+                                                    .then(({ data }) => {
+                                                        const parsedJson =
+                                                            parseAsData(data);
+                                                        switch (
+                                                            parsedJson.type
+                                                        ) {
+                                                            case 'input':
+                                                                setState(
+                                                                    (prev) => ({
+                                                                        ...prev,
+                                                                        ...parsedJson,
+                                                                    })
+                                                                );
+                                                                break;
+                                                            case 'succeed':
+                                                                setState(
+                                                                    (prev) => ({
+                                                                        ...prev,
+                                                                        ...defaultState,
+                                                                    })
+                                                                );
+                                                                break;
+                                                        }
+                                                        resolve(
+                                                            'Your Message Has Been Successfully Sent!\nThank you!'
+                                                        );
+                                                    })
+                                                    .catch((error) =>
+                                                        reject(
+                                                            [
+                                                                `Oops! I can't send your email.`,
+                                                                `Error: ${processErrorMessage(
+                                                                    error
+                                                                )}`,
+                                                                `Please write an email to ${links.gmail}. Thank you`,
+                                                            ].join('\n')
+                                                        )
+                                                    )
+                                        );
+                                        ToastPromise({
+                                            promise,
+                                            pending: 'Sending your message...',
+                                            success: {
+                                                render: ({ data }) =>
+                                                    data as any,
+                                            },
+                                            error: {
+                                                render: ({ data }) =>
+                                                    data as any,
+                                            },
+                                        });
+                                    }}
+                                />
+                            </SendButtonContainer>
                         </ContactForm>
                     </ContactFormDiv>
                 </ContactContainer>
@@ -209,81 +229,66 @@ const Container = styled.div`
     overflow: hidden;
     justify-content: center;
     align-items: center;
-    min-width: 100vw;
+    width: 100vw;
 `;
 
 const ContactContainer = styled.div`
     display: block;
     justify-content: center;
     align-items: center;
-    width: 75vw;
-    margin: 15px;
-    box-shadow: -5px 5px ${({ theme }) => theme.greenColor},
-        5px -5px ${({ theme }) => theme.redColor};
-    @media (max-width: 463px) {
-        width: 95vw;
+    width: 70%;
+    margin: 16px 0;
+    box-shadow: -5px 5px ${({ theme }) => theme.green},
+        5px -5px ${({ theme }) => theme.red};
+    @media (max-width: 904px) {
+        width: 80%;
+    }
+    @media (max-width: 741px) {
+        width: 85%;
+    }
+    @media (max-width: 583px) {
+        width: 90%;
     }
 `;
 
 const ContactFormDiv = styled.div`
-    padding: 20px;
-    margin: 0 auto;
+    padding: 24px;
+    box-sizing: border-box;
     background-color: ${({ theme }) => theme.theme.primaryColor};
 `;
 
-const ContactForm = styled.form.attrs({
-    method: 'POST',
-})`
+const ContactForm = styled.form`
     @media (max-width: 463px) {
         margin: -7px;
     }
 `;
 
 const ContactMeContainer = styled.div`
-    padding: 1px;
-    margin: 0 auto;
+    padding: 8px;
+    box-sizing: border-box;
     background: ${({ theme }) => theme.theme.secondaryColor};
 `;
 
 const ContactMeParagraph = styled.p`
-    text-align: center;
-    letter-spacing: 5.5px;
-    text-shadow: 4px 2px ${({ theme }) => theme.greenColor},
-        -4px 2px ${({ theme }) => theme.redColor};
+    display: grid;
+    place-items: center;
     color: ${({ theme }) => theme.theme.primaryColor};
-    font-size: 2.5em;
-    @media (max-width: 973px) {
-        text-shadow: 3px 1px ${({ theme }) => theme.greenColor},
-            -3px 1px ${({ theme }) => theme.redColor};
-        font-size: 2em;
-    }
-    @media (max-width: 847px) {
-        font-size: 1.75em;
-    }
-    @media (max-width: 586px) {
-        font-size: 1.5em;
-    }
 `;
 
 const ErrorMessage = styled.span`
     color: red;
-    font-size: 14px;
+    font-size: 0.65em;
 `;
 
 const InputField = styled.input`
     width: 100%;
-    padding: 15px;
-    border: 2px solid ${({ theme }) => theme.contactInputBorder};
+    padding: 16px;
+    border: 2px solid ${({ theme }) => theme.gray};
     box-sizing: border-box;
     resize: vertical;
     background-color: ${({ theme }) => theme.theme.primaryColor};
     color: ${({ theme }) => theme.theme.secondaryColor};
     outline: none;
-    font-size: 0.6em;
-    &:hover {
-        outline: none;
-    }
-    letter-spacing: 1.5px;
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     @media (max-width: 463px) {
         padding: 10px;
@@ -292,23 +297,14 @@ const InputField = styled.input`
 
 const TextArea = styled.textarea`
     width: 100%;
-    padding: 15px;
-    border: 2px solid ${({ theme }) => theme.contactInputBorder};
+    padding: 16px;
     box-sizing: border-box;
-    resize: vertical;
-    background-color: ${({ theme }) => theme.theme.primaryColor};
-    color: ${({ theme }) => theme.theme.secondaryColor};
     outline: none;
-    font-size: 0.6em;
     resize: none;
-    &:hover {
-        outline: none;
-    }
-    letter-spacing: 1.5px;
+    color: ${({ theme }) => theme.theme.secondaryColor};
+    background-color: ${({ theme }) => theme.theme.primaryColor};
+    border: 2px solid ${({ theme }) => theme.gray};
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
-    @media (max-width: 463px) {
-        padding: 10px;
-    }
 `;
 
 const InputInfoContainer = styled.div`
@@ -317,18 +313,12 @@ const InputInfoContainer = styled.div`
 `;
 
 const InputLabel = styled.label`
+    font-size: 1em;
     color: ${({ theme }) => theme.theme.contactMeLabel};
-    font-size: 2em;
-    @media (max-width: 973px) {
-        font-size: 1.3em;
-    }
-    @media (max-width: 586px) {
-        font-size: 1.5em;
-    }
 `;
 
 const InputInfo = styled(InputLabel)`
-    margin-right: 10px;
+    margin: 0 16px 0 0;
 `;
 
 const InputDiv = styled.div`
@@ -339,45 +329,33 @@ const InputDiv = styled.div`
     }
 `;
 
-const SubmitButtonContainer = styled.div`
-    text-align: center;
-    margin-bottom: 10px;
+const SendButtonContainer = styled.div`
+    display: grid;
+    place-items: center;
 `;
 
-const SubmitButton = styled.input.attrs({
-    type: 'submit',
-    value: 'Send',
-})`
-    padding: 6px 16px 6px 16px;
-    background-color: ${({ theme }) => theme.ctaColor};
+const SendButton = styled.input`
+    text-decoration: none;
+    font-size: 1em;
+    padding: 16px 48px;
+    position: relative;
+    cursor: pointer;
+    color: ${({ theme }) => theme.red};
     background: linear-gradient(
-            to right,
-            ${({ theme }) => theme.ctaColor} 50%,
-            ${({ theme }) => theme.theme.primaryColor} 50%
-        )
-        left;
-    background-size: 200%;
-    color: white;
-    border-color: transparent;
-    font-size: 2.5em;
-    transition: all 0.25s ease;
-    &:hover {
-        background-color: ${({ theme }) => theme.theme.secondaryColor};
-        cursor: pointer;
-        background-position: right;
-        color: ${({ theme }) => theme.ctaColor};
+        to right,
+        ${({ theme }) => theme.red} 50%,
+        ${({ theme }) => theme.theme.secondaryColor} 50%
+    );
+    border: 1px solid ${({ theme }) => theme.theme.secondaryColor};
+    background-size: 300% 100%;
+    background-position: right bottom;
+    transition: all 0.2s ease-out;
+    :hover {
+        border: 1px solid ${({ theme }) => theme.red};
+        color: ${({ theme }) => theme.theme.secondaryColor};
+        background-position: left bottom;
     }
-    letter-spacing: 1.5px;
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
-    @media (max-width: 973px) {
-        font-size: 2em;
-    }
-    @media (max-width: 847px) {
-        font-size: 1.75em;
-    }
-    @media (max-width: 586px) {
-        font-size: 1.5em;
-    }
 `;
 
 export default Contact;
