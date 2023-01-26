@@ -58,8 +58,12 @@ vercel-production: build-production
 clear-cache:
 	rm -rf .next
 
-dev: development clear-cache
+start-development: development clear-cache
 	$(next) dev
+
+start-staging: staging clear-cache start
+
+start-production: production clear-cache start
 
 ## build
 build-production: clear-cache check-projects-image-asset production

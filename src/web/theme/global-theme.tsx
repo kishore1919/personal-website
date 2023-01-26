@@ -16,7 +16,7 @@ const FullScreenContainer = styled.div`
     width: 100vw;
     height: 100vh;
     z-index: 1;
-    left: 0;resume
+    left: 0;
     top: 0;
     overflow: auto;
     align-items: center;

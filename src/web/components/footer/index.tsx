@@ -74,9 +74,6 @@ const SocialIcon = styled.a.attrs({
     &:focus {
         outline: none;
     }
-    @media (max-width: 366px) {
-        padding: 5px;
-    } ;
 `;
 
 const Facebook = styled(SocialIcon)`
@@ -88,9 +85,6 @@ const Facebook = styled(SocialIcon)`
 
 const FacebookLogo = styled(TiSocialFacebook)`
     font-size: 1.5em !important;
-    @media (max-width: 366px) {
-        font-size: 2em !important;
-    }
 `;
 
 const Linkedin = styled(SocialIcon)`
@@ -102,9 +96,6 @@ const Linkedin = styled(SocialIcon)`
 
 const LinkedinLogo = styled(TiSocialLinkedin)`
     font-size: 1.5em !important;
-    @media (max-width: 366px) {
-        font-size: 2em !important;
-    }
 `;
 
 const Instagram = styled(SocialIcon)`
@@ -140,9 +131,6 @@ const Instagram = styled(SocialIcon)`
 
 const InstagramLogo = styled(FaInstagram)`
     font-size: 1.5em !important;
-    @media (max-width: 366px) {
-        font-size: 2.2em !important;
-    }
 `;
 
 const Github = styled(SocialIcon)`
@@ -154,9 +142,6 @@ const Github = styled(SocialIcon)`
 
 const GithubLogo = styled(FaGithub)`
     font-size: 1.5em !important;
-    @media (max-width: 366px) {
-        font-size: 2.2em !important;
-    }
 `;
 
 const Google = styled(SocialIcon)`
@@ -168,9 +153,6 @@ const Google = styled(SocialIcon)`
 
 const GoogleLogo = styled(FcGoogle)`
     font-size: 1.25em !important;
-    @media (max-width: 366px) {
-        font-size: 2.2em !important;
-    }
 `;
 
 export default Footer;

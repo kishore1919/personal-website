@@ -55,15 +55,15 @@ _*Make sure you have `pnpm` and `make` available in your system*_
 
 _*Below are the listed commands that you can use to build/develop/test this app*_
 
-| Command           | Usage                                             |
-| ----------------- | ------------------------------------------------- |
-| make start        | Start the bundled app                             |
-| make generate     | Generate the file needed                          |
-| make dev          | Start development                                 |
-| make install      | Install all dependencies                          |
-| make test         | Run all test code                                 |
-| make build        | Bundle and build the app                          |
-| make typecheck    | Run typechecking for source code                  |
-| make lint         | Run linter for source and test code               |
-| make format-check | Run prettier to check source and test code format |
-| make format       | Run prettier to format source and test code       |
+| Command                                           | Usage                                             |
+| ------------------------------------------------- | ------------------------------------------------- |
+| make start                                        | Start the bundled app                             |
+| make generate                                     | Generate the file needed                          |
+| make start-(development OR staging OR production) | Start development                                 |
+| make build-(development OR staging OR production) | Bundle and build the app                          |
+| make install                                      | Install all dependencies                          |
+| make test                                         | Run all test code                                 |
+| make typecheck                                    | Run typechecking for source code                  |
+| make lint                                         | Run linter for source and test code               |
+| make format-check                                 | Run prettier to check source and test code format |
+| make format                                       | Run prettier to format source and test code       |

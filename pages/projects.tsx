@@ -69,18 +69,16 @@ const Project = () => {
                 keywords={['Project', 'Software Engineer']}
                 content="Every side projects deemed important/useful will be shown here as projects. All side projects is available as repositories/organization on Github"
             />
-            {!shownPopup && (
-                <Surprise
-                    shownPopup={shownPopup}
-                    seconds={(popUpWaitDuration / 1000).toFixed(1)}
-                    onCloseMessage={() =>
-                        setState((prev) => ({
-                            ...prev,
-                            shownPopup: true,
-                        }))
-                    }
-                />
-            )}
+            <Surprise
+                shownPopup={shownPopup}
+                seconds={(popUpWaitDuration / 1000).toFixed(1)}
+                onCloseMessage={() =>
+                    setState((prev) => ({
+                        ...prev,
+                        shownPopup: true,
+                    }))
+                }
+            />
             <ProjectContainer>
                 {projects.map(({ name, description, url }) => {
                     const path = 'images/projects';
