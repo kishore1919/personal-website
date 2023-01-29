@@ -24,7 +24,7 @@ class Server {
         const server = child
             .exec(`make start arguments="-p ${this.port}"`)
             .on('spawn', () => console.log('spawned server'))
-            .on('message', (message) => console.log(message.toString()))
+            .on('message', console.log)
             .on('error', console.error)
             .on('kill', () => {
                 this.kill();
@@ -41,34 +41,29 @@ class Server {
     };
 }
 
-type RequestInit = Parameters<typeof fetch>[1];
-
 const jsonResponse = async ({
     param,
     requestInit,
 }: Readonly<{
     param: string;
-    requestInit: RequestInit;
+    requestInit: Readonly<
+        | {
+              method: 'GET';
+          }
+        | {
+              method: 'POST';
+              body: any;
+          }
+    >;
 }>) => {
-    const method = requestInit?.method;
+    const { method } = requestInit;
     const url = `http://0.0.0.0:${serverConfig.port}/api/${param}`;
-    const config = {
-        responseType: 'json',
-        headers: {
-            'content-type': 'application/json',
-        },
-    } as const;
-    switch (method?.toLowerCase()) {
-        case 'get': {
-            return (await axios.get(url, config)).data;
+    switch (method) {
+        case 'GET': {
+            return (await axios.get(url)).data;
         }
-        case 'post': {
-            return (
-                await axios.post(url, {
-                    body: requestInit?.body,
-                    ...config,
-                })
-            ).data;
+        case 'POST': {
+            return (await axios.post(url, requestInit.body)).data;
         }
         default: {
             throw new Error(`Unknown method of ${method}`);

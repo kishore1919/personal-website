@@ -47,6 +47,8 @@ const contact: EndPointFunc<Data> = async (request, response) => {
         ) {
             response.status(200).json({
                 type: 'input',
+                body,
+                shit2: typeof body,
                 name: parsedName,
                 email: parsedEmail,
                 message: parsedMessage,

@@ -5,6 +5,7 @@ export default defineConfig(() => {
     return {
         test: {
             watch: false,
+            teardownTimeout: timeOut,
             hookTimeout: timeOut,
             testTimeout: timeOut,
         },

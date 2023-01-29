@@ -1,5 +1,5 @@
 import testContactPost from './contact';
-import { beforeAll, afterAll, describe, it } from 'vitest';
+import { beforeAll, afterAll, describe } from 'vitest';
 import { Server } from '../util';
 
 const testIntegration = () => {
@@ -8,9 +8,7 @@ const testIntegration = () => {
         await server.start();
     });
     describe('Integration Test', () => {
-        it('should ensure that all requests can be sent and all response can be parsed', () => {
-            testContactPost();
-        });
+        testContactPost();
     });
     afterAll(() => {
         server.kill();

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { DefaultTheme, keyframes } from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import NavLinks from '../navigation/links';
 import useWindowResize from '../../hook/window-width-resize';
 

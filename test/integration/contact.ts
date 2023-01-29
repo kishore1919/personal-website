@@ -5,9 +5,9 @@ import { jsonResponse } from '../util';
 const testContactPost = () =>
     describe('Api contact post test', () => {
         const dummy = {
-            name: 'Test - Pepper',
-            email: 'pepper@gmail.com',
-            message: 'This is freaking awesome',
+            name: 'Pepper Potts',
+            email: 'pepperpottsishot@mail.com',
+            message: 'THIS IS MADLY AWESOME!!!',
         } as const;
 
         it('should return success status if input passed the validation', async () => {
@@ -15,7 +15,7 @@ const testContactPost = () =>
                 param: 'contact',
                 requestInit: {
                     method: 'POST',
-                    body: JSON.stringify(dummy),
+                    body: dummy,
                 },
             });
             expect(parseAsData(response).type).toBe('succeed');
@@ -33,10 +33,10 @@ const testContactPost = () =>
                         value: '',
                         error: '*Please do not leave name section empty*',
                     },
-                    email: { value: 'pepper@gmail.com', error: '' },
+                    email: { error: '', value: dummy.email },
                     message: {
-                        value: 'This is freaking awesome',
                         error: '',
+                        value: dummy.message,
                     },
                 },
             },
@@ -47,13 +47,13 @@ const testContactPost = () =>
                 },
                 output: {
                     type: 'input',
-                    name: { value: 'Test - Pepper', error: '' },
+                    name: { value: dummy.name, error: '' },
                     email: {
                         value: '',
                         error: '*Please do not leave email section empty*',
                     },
                     message: {
-                        value: 'This is freaking awesome',
+                        value: dummy.message,
                         error: '',
                     },
                 },
@@ -65,15 +65,15 @@ const testContactPost = () =>
                 },
                 output: {
                     type: 'input',
+                    name: { error: '', value: dummy.name },
+                    email: {
+                        error: '',
+                        value: dummy.email,
+                    },
                     message: {
                         value: '',
                         error: '*Please do not leave message section empty*',
                     },
-                    email: {
-                        error: '',
-                        value: 'pepper@gmail.com',
-                    },
-                    name: { value: 'Test - Pepper', error: '' },
                 },
             },
         ] as const)(
@@ -83,7 +83,7 @@ const testContactPost = () =>
                     param: 'contact',
                     requestInit: {
                         method: 'POST',
-                        body: JSON.stringify(input),
+                        body: input,
                     },
                 });
                 return expect(parseAsData(response)).toStrictEqual(output);

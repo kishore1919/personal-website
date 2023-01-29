@@ -20,7 +20,7 @@ type Data = Readonly<
       }
 >;
 
-const validateEmail = (email: string) =>
+const isValidEmail = (email: string) =>
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         email
     );
@@ -28,12 +28,7 @@ const validateEmail = (email: string) =>
 const isBlank = (value: string) =>
     value.split('').filter((c) => ' ' === c).length === value.length;
 
-const isEmpty = (s: string) => s === '';
-
-const numberOfCharacters = 7;
-
-const inRange = (value: string) =>
-    value.split(' ').filter(Boolean).length >= numberOfCharacters;
+const isEmpty = (s: string) => !s;
 
 const getName = (value: string) =>
     ({
@@ -52,7 +47,7 @@ const getEmail = (value: string) =>
             ? '*Please do not leave email section empty*'
             : isBlank(value)
             ? '*Please do not leave email section blank*'
-            : validateEmail(value)
+            : isValidEmail(value)
             ? defaultValue.error
             : '*Please enter valid email format*',
     } as const);
@@ -64,9 +59,7 @@ const getMessage = (value: string) =>
             ? '*Please do not leave message section empty*'
             : isBlank(value)
             ? '*Please do not leave message section blank*'
-            : inRange(value)
-            ? defaultValue.error
-            : (`*At least ${numberOfCharacters} words are required*` as const),
+            : defaultValue.error,
     } as const);
 
 const isAllValueValid = ({
@@ -78,16 +71,15 @@ const isAllValueValid = ({
     email: Email;
     message: Message;
 }>): boolean => {
-    const hasNoError =
+    const noError =
         isEmpty(name.error) && isEmpty(email.error) && isEmpty(message.error);
     const isNameInvalid = isBlank(name.value) || isEmpty(name.value);
-    const isMessageInvalid =
-        isBlank(message.value) ||
-        isEmpty(message.value) ||
-        !inRange(message.value);
-    const isinputValid =
-        isMessageInvalid && validateEmail(email.value) && !isNameInvalid;
-    return hasNoError && !isinputValid;
+    const isMessageInvalid = isBlank(message.value) || isEmpty(message.value);
+
+    const isInputValid =
+        !isMessageInvalid && isValidEmail(email.value) && !isNameInvalid;
+
+    return noError && isInputValid;
 };
 
 const defaultValue = {
