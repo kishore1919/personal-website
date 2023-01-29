@@ -14,6 +14,16 @@ NODE_BIN=node_modules/.bin/
 install:
 	pnpm i --frozen-lockfile
 
+install-mongo:
+	node script/mongo-setup/install.js
+
+setup-mongo:
+	sudo systemctl unmask mongod
+	sudo systemctl start mongod
+	sudo systemctl stop mongod
+	sudo systemctl restart mongod
+	mongosh < script/mongo-setup/document.js
+
 ## generate
 generate: generate-portfolio-data generate-resume
 
@@ -49,10 +59,10 @@ testing:
 	cp .env.testing .env
 
 ## deployment
-vercel-staging: build-staging
+deploy-staging: build-staging
 	vercel
 
-vercel-production: build-production
+deploy-production: build-production
 	vercel --prod
 
 clear-cache:

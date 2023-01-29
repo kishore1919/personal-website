@@ -17,7 +17,13 @@ jobs:
             - name: Install PNPM
               run: |
                   sudo apt install npm
-                  npm i --location=global pnpm
+                  npm i --location=global pnpm@7
+
+            - name: Install MongoDB
+              run: make install-mongo
+
+            - name: Setup MongoDB
+              run: make setup-mongo
 
             - name: Install Depedencies
               run: make install
@@ -38,12 +44,15 @@ jobs:
               env:
                   ORIGIN: http://0.0.0.0:3000
                   NEXT_PUBLIC_ORIGIN: http://0.0.0.0:3000
-                  EMAIL: ${{ secrets.EMAIL }}
-                  PASS: ${{ secrets.PASS }}
                   NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: hi
+                  MONGO_DB: myWeb
+                  MONGO_COLLECTION_CONTACT_FORM_MESSAEG: contactFormMessage
+                  MONGO_ADDRESS: localhost
+                  MONGO_PORT: 27017
+                  MONGO_USER: runner
+                  MONGO_PASSWORD: mongodb
               run: |
                   make test
-                  rm -rf __tests__
 
             - name: Run Build
               env:

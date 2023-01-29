@@ -1,5 +1,5 @@
-import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
+import Database from '../../src/api/contact/database';
 import cors from '../../src/api/cors';
 import type { EndPointFunc } from '../../src/api/endpoint';
 import type { Data } from '../../src/common/contact';
@@ -47,56 +47,31 @@ const contact: EndPointFunc<Data> = async (request, response) => {
         ) {
             response.status(200).json({
                 type: 'input',
-                body,
-                shit2: typeof body,
                 name: parsedName,
                 email: parsedEmail,
                 message: parsedMessage,
             } as Data);
         } else {
-            const email = parseAsString({
-                string: process.env.EMAIL,
-                ifParsingFailThen: 'throw',
-                message: 'EMAIL is not a stirng',
-            });
-            const pass = parseAsString({
-                string: process.env.PASS,
-                ifParsingFailThen: 'throw',
-                message: 'PASS is not a stirng',
-            });
-            const options = {
-                from: `${parsedName.value.trim()} <${email}>`,
-                to: `Gervin Fung Da Xuen <${email}>`,
-                subject: 'My Web Contact Form',
-                text: `Hello, my name is ${parsedName.value.trim()}\n\nYou can reach me at ${
-                    parsedEmail.value
-                }\n\nI would like to ${parsedMessage.value.trim()}`,
-            };
-            nodemailer
-                .createTransport({
-                    host: 'smtp-mail.outlook.com',
-                    port: 587,
-                    secure: false,
-                    tls: {
-                        ciphers: 'SSLv3',
-                    },
-                    auth: {
-                        user: email,
-                        pass,
-                    },
+            const database = await Database.instance();
+            const result: Data = await database
+                .insertContactFormMessage({
+                    name: parsedName.value,
+                    email: parsedEmail.value,
+                    message: parsedMessage.value,
                 })
-                .sendMail(options, (error) =>
-                    response.status(200).json(
-                        (!error
-                            ? {
-                                  type: 'succeed',
-                              }
-                            : {
-                                  type: 'failed',
-                                  error: error.message,
-                              }) as Data
-                    )
+                .then(
+                    () =>
+                        ({
+                            type: 'succeed',
+                        } as const)
+                )
+                .catch(
+                    () =>
+                        ({
+                            type: 'failed',
+                        } as const)
                 );
+            response.status(result.type === 'succeed' ? 200 : 500).json(result);
         }
     }
 };

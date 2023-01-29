@@ -10,7 +10,6 @@ type Data = Readonly<
       }
     | {
           type: 'failed';
-          error: string;
       }
     | {
           type: 'input';

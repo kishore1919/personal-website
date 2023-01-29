@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
+import Database from '../../src/api/contact/database';
 import parseAsData from '../../src/web/parser/contact';
 import { jsonResponse } from '../util';
 
@@ -9,6 +10,10 @@ const testContactPost = () =>
             email: 'pepperpottsishot@mail.com',
             message: 'THIS IS MADLY AWESOME!!!',
         } as const;
+
+        beforeEach(async () => {
+            (await Database.instance()).clearCollections();
+        });
 
         it('should return success status if input passed the validation', async () => {
             const response = await jsonResponse({

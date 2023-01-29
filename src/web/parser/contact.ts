@@ -14,20 +14,10 @@ const parseAsData = (data: any): Data => {
         message: 'type is not type of Data[type]',
     });
     switch (type) {
+        case 'failed':
         case 'succeed': {
             return {
                 type,
-            };
-        }
-        case 'failed': {
-            const { error } = data;
-            return {
-                type,
-                error: parseAsString({
-                    string: error,
-                    ifParsingFailThen: 'throw',
-                    message: 'error is not a string',
-                }),
             };
         }
         case 'input': {

@@ -18,7 +18,6 @@ import { ToastPromise } from '../src/web/components/toaser';
 import Seo from '../src/web/components/seo';
 import axios from 'axios';
 import links from '../src/web/data/links';
-import { processErrorMessage } from '../src/common/error';
 
 const Contact: NextPage = () => {
     const defaultState = {
@@ -188,13 +187,10 @@ const Contact: NextPage = () => {
                                                             'Your Message Has Been Successfully Sent!\nThank you!'
                                                         );
                                                     })
-                                                    .catch((error) =>
+                                                    .catch(() =>
                                                         reject(
                                                             [
-                                                                `Oops! I can't send your email.`,
-                                                                `Error: ${processErrorMessage(
-                                                                    error
-                                                                )}`,
+                                                                `Oops! I can't send your email as there is an issue`,
                                                                 `Please write an email to ${links.gmail}. Thank you`,
                                                             ].join('\n')
                                                         )
