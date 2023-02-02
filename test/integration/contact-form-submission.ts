@@ -3,8 +3,8 @@ import Database from '../../src/api/contact/database';
 import parseAsData from '../../src/web/parser/contact';
 import { jsonResponse } from '../util';
 
-const testContactPost = () =>
-    describe('Api contact post test', () => {
+const testContactFormSubmissionPost = () =>
+    describe('Api contact submission post test', () => {
         const dummy = {
             name: 'Pepper Potts',
             email: 'pepperpottsishot@mail.com',
@@ -96,4 +96,4 @@ const testContactPost = () =>
         );
     });
 
-export default testContactPost;
+export default testContactFormSubmissionPost;

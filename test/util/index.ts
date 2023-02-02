@@ -1,15 +1,12 @@
 import axios from 'axios';
 import child from 'child_process';
-
-const serverConfig = {
-    port: 8080,
-} as const;
+import config from '../config';
 
 class Server {
     private readonly port: number;
 
     private constructor() {
-        this.port = serverConfig.port;
+        this.port = config.port;
     }
 
     static create = () => new this();
@@ -57,7 +54,7 @@ const jsonResponse = async ({
     >;
 }>) => {
     const { method } = requestInit;
-    const url = `http://0.0.0.0:${serverConfig.port}/api/${param}`;
+    const url = `${config.baseUrl}/api/${param}`;
     switch (method) {
         case 'GET': {
             return (await axios.get(url)).data;

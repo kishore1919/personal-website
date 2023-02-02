@@ -53,7 +53,7 @@ staging:
 	cp .env.staging .env
 
 production:
-	cp .env.production .env
+	cp .env.productions .env
 
 testing:
 	cp .env.testing .env

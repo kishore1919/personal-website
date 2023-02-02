@@ -20,15 +20,61 @@ import axios from 'axios';
 import links from '../src/web/data/links';
 
 const Contact: NextPage = () => {
-    const defaultState = {
+    const defaultContactState = {
         name: defaultValue as Name,
         email: defaultValue as Email,
         message: defaultValue as Message,
     } as const;
 
-    const [state, setState] = React.useState(defaultState);
+    const [state, setState] = React.useState({
+        ...defaultContactState,
+        honeyPot: {
+            value: '',
+        },
+    });
 
-    const { email, message, name } = state;
+    const hiddenLabel = React.createRef<HTMLLabelElement>();
+
+    const { email, message, name, honeyPot } = state;
+
+    const faxClassName = 'fax';
+    const messageSentOutMessage =
+        'Your Message Has Been Successfully Sent!\nThank you!';
+
+    React.useEffect(() => {
+        const { current } = hiddenLabel;
+        if (current) {
+            current.style.setProperty('visibility', 'hidden');
+            current.style.setProperty('display', 'none');
+            current.style.setProperty('opacity', '0');
+            current.style.setProperty('z-index', '-1');
+        }
+    }, []);
+
+    const checkHoneyPot = () => {
+        const { value } = honeyPot;
+        if (!value) {
+            return 'ok';
+        }
+        toastNotification(
+            new Promise((resolve) =>
+                setTimeout(() => resolve(messageSentOutMessage), 2000)
+            )
+        );
+        return 'not-ok';
+    };
+
+    const toastNotification = (promise: Promise<any>) =>
+        ToastPromise({
+            promise,
+            pending: 'Sending your message...',
+            success: {
+                render: ({ data }) => data as any,
+            },
+            error: {
+                render: ({ data }) => data as any,
+            },
+        });
 
     return (
         <GlobalContainer>
@@ -49,6 +95,28 @@ const Contact: NextPage = () => {
                     </ContactMeContainer>
                     <ContactFormDiv>
                         <ContactForm method="POST">
+                            <label
+                                tabIndex={-1}
+                                ref={hiddenLabel}
+                                htmlFor={faxClassName}
+                                className={faxClassName}
+                            >
+                                <input
+                                    tabIndex={-1}
+                                    type="text"
+                                    id={faxClassName}
+                                    autoComplete="off"
+                                    name={faxClassName}
+                                    onChange={(event) =>
+                                        setState((prev) => ({
+                                            ...prev,
+                                            honeyPot: {
+                                                value: event.target.value,
+                                            },
+                                        }))
+                                    }
+                                />
+                            </label>
                             <InputInfoContainer>
                                 <InputInfo htmlFor="name">
                                     Hello, my name is
@@ -133,6 +201,10 @@ const Contact: NextPage = () => {
                                     type="button"
                                     onClick={(event) => {
                                         event.preventDefault();
+                                        const shouldSend = checkHoneyPot();
+                                        if (shouldSend === 'not-ok') {
+                                            return;
+                                        }
                                         if (
                                             !isAllValueValid({
                                                 name,
@@ -142,72 +214,54 @@ const Contact: NextPage = () => {
                                         ) {
                                             return;
                                         }
-                                        const promise = new Promise<string>(
-                                            (resolve, reject) =>
-                                                axios
-                                                    .post(
-                                                        url.contact,
-                                                        {
-                                                            name: name.value,
-                                                            email: email.value,
-                                                            message:
-                                                                message.value,
+                                        toastNotification(
+                                            axios
+                                                .post(
+                                                    url.contact,
+                                                    {
+                                                        name: name.value,
+                                                        email: email.value,
+                                                        message: message.value,
+                                                    },
+                                                    {
+                                                        headers: {
+                                                            'Content-Type':
+                                                                'application/json',
                                                         },
-                                                        {
-                                                            headers: {
-                                                                'Content-Type':
-                                                                    'application/json',
-                                                            },
-                                                        }
-                                                    )
-                                                    .then(({ data }) => {
-                                                        const parsedJson =
-                                                            parseAsData(data);
-                                                        switch (
-                                                            parsedJson.type
-                                                        ) {
-                                                            case 'input':
-                                                                setState(
-                                                                    (prev) => ({
-                                                                        ...prev,
-                                                                        ...parsedJson,
-                                                                    })
-                                                                );
-                                                                break;
-                                                            case 'succeed':
-                                                                setState(
-                                                                    (prev) => ({
-                                                                        ...prev,
-                                                                        ...defaultState,
-                                                                    })
-                                                                );
-                                                                break;
-                                                        }
-                                                        resolve(
-                                                            'Your Message Has Been Successfully Sent!\nThank you!'
-                                                        );
-                                                    })
-                                                    .catch(() =>
-                                                        reject(
-                                                            [
-                                                                `Oops! I can't send your email as there is an issue`,
-                                                                `Please write an email to ${links.gmail}. Thank you`,
-                                                            ].join('\n')
-                                                        )
-                                                    )
+                                                    }
+                                                )
+                                                .then(({ data }) => {
+                                                    const parsedJson =
+                                                        parseAsData(data);
+                                                    switch (parsedJson.type) {
+                                                        case 'input':
+                                                            setState(
+                                                                (prev) => ({
+                                                                    ...prev,
+                                                                    ...parsedJson,
+                                                                })
+                                                            );
+                                                            break;
+                                                        case 'succeed':
+                                                            setState(
+                                                                (prev) => ({
+                                                                    ...prev,
+                                                                    ...defaultContactState,
+                                                                })
+                                                            );
+                                                            break;
+                                                    }
+                                                    return messageSentOutMessage;
+                                                })
+                                                .catch(() => {
+                                                    throw new Error(
+                                                        [
+                                                            `Oops! I can't send your email as there is an issue`,
+                                                            `Please write an email to ${links.gmail}. Thank you`,
+                                                        ].join('\n')
+                                                    );
+                                                })
                                         );
-                                        ToastPromise({
-                                            promise,
-                                            pending: 'Sending your message...',
-                                            success: {
-                                                render: ({ data }) =>
-                                                    data as any,
-                                            },
-                                            error: {
-                                                render: ({ data }) =>
-                                                    data as any,
-                                            },
-                                        });
                                     }}
                                 />
                             </SendButtonContainer>

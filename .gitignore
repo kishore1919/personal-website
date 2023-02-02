@@ -20,7 +20,7 @@ cache
 .env
 .env.development
 .env.testing
-.env.production
+.env.productions
 .env.staging
 
 # vercel
