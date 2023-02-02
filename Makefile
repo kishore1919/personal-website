@@ -15,7 +15,7 @@ install:
 	pnpm i --frozen-lockfile
 
 install-mongo:
-	node script/mongo-setup/install.js
+	$(NODE_BIN)vite-node script/mongo-setup
 
 setup-mongo:
 	sudo systemctl unmask mongod
@@ -31,10 +31,7 @@ generate-portfolio-data:
 	$(NODE_BIN)vite-node script/projects/generate-data.ts ${arguments}
 
 generate-resume:
-	git clone https://github.com/GervinFung/resume.git --depth 1 &&\
-		cd resume && make install &&\
-		mv dist/GervinFungDaXuen-Résumé.pdf ../public/files/GervinFungDaXuen-Résumé.pdf &&\
-		cd ../ && rm -rf resume
+	$(NODE_BIN)vite-node script/resume/generate.ts
 
 generate-portfolio-data-force:
 	make generate-portfolio-data arguments="-- --f"

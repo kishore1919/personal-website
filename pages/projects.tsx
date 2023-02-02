@@ -8,7 +8,6 @@ import Seo from '../src/web/components/seo';
 import Image from 'next/image';
 import projects from '../src/web/data/projects';
 import CloseFullScreen from '../src/web/components/common/close-full-screen';
-import SurpriseGif from '../public/images/others/surprised.gif';
 
 type ProjectImageBackgroundProps = Readonly<{
     backgroundImage: string;
@@ -27,7 +26,10 @@ const Surprise = ({
         <SurpriseContainer>
             <CloseFullScreen color="black" close={onCloseMessage} />
             <Content>
-                <img src={SurpriseGif.src} alt="surprised.gif" />
+                <img
+                    src={require('../public/images/others/surprised.gif')}
+                    alt="surprised.gif"
+                />
                 <HeaderMessage>WOW</HeaderMessage>
                 <ParagraphMessage>
                     You have seen my project for more than {seconds} seconds,

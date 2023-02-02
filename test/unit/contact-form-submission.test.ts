@@ -84,7 +84,7 @@ describe('Contact', () => {
         const email = 'wendy2000@gmail.com';
         const message =
             'Wendy is here to test cause the number of characters must be long enough';
-        it.only('should attest all values are valid', () => {
+        it('should attest all values are valid', () => {
             expect(
                 isAllValueValid({
                     name: getName(name),
