@@ -100,7 +100,7 @@ const Message = styled.div`
 const Name = styled.p`
     text-align: left;
     font-size: 4em;
-    color: ${({ theme }) => theme.theme.highEmphasesTextColor};
+    color: ${({ theme }) => theme.text.highEmphasis};
     margin: 1vw;
     @media (max-width: 994px) {
         text-align: center;
@@ -112,9 +112,9 @@ const Name = styled.p`
         font-size: 2em;
     }
     text-transform: uppercase;
-    color: ${({ theme }) => theme.theme.highEmphasesTextColor};
-    text-shadow: 4px 1px ${({ theme }) => theme.green},
-        -4px 1px ${({ theme }) => theme.red};
+    color: ${({ theme }) => theme.text.highEmphasis};
+    text-shadow: 4px 1px ${({ theme }) => theme.color.green},
+        -4px 1px ${({ theme }) => theme.color.red};
 `;
 
 const TwoColumnWrapper = styled.div`
@@ -142,9 +142,9 @@ const Content = styled.p`
     text-align: justify;
     margin: 36px 0;
     > a {
-        color: ${({ theme }) => theme.theme.highEmphasesTextColor};
+        color: ${({ theme }) => theme.text.highEmphasis};
     }
-    color: ${({ theme }) => theme.theme.mediumEmphasesTextColor};
+    color: ${({ theme }) => theme.text.mediumEmphasis};
 `;
 
 const ProjectButtonContainer = styled.div`
@@ -160,11 +160,11 @@ const ProjectButtonContainer = styled.div`
 const ProjectButton = styled.div`
     font-size: 1em;
     padding: 16px 48px;
-    border: 1px solid ${({ theme }) => theme.red};
-    color: ${({ theme }) => theme.red};
+    border: 1px solid ${({ theme }) => theme.color.red};
+    color: ${({ theme }) => theme.color.red};
     background: linear-gradient(
         to right,
-        ${({ theme }) => theme.red} 50%,
+        ${({ theme }) => theme.color.red} 50%,
         transparent 50%
     );
     background-size: 200% 100%;
@@ -173,7 +173,7 @@ const ProjectButton = styled.div`
     cursor: pointer;
     :hover {
         background-position: left bottom;
-        color: ${({ theme }) => theme.theme.secondaryColor};
+        color: ${({ theme }) => theme.color.secondary};
     }
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;

@@ -46,14 +46,11 @@ const ErrorContainer = (
     const { countDown } = state;
 
     React.useEffect(() => {
-        if (countDown === 0) {
+        if (!countDown) {
             props.type === 'refresh'
                 ? router.reload()
                 : router.replace(props.replaceTo);
         }
-        console.log({
-            hi: data.nodeEnv,
-        });
         if (data.nodeEnv === 'test') {
             return;
         }
@@ -214,7 +211,7 @@ const ErrorRight = styled.div`
 
 const ErrorMessageFourZeroFour = styled.h1`
     font-size: 10em;
-    color: ${({ theme }) => theme.theme.highEmphasesTextColor};
+    color: ${({ theme }) => theme.text.highEmphasis};
     @media (max-width: 877px) {
         font-size: 6em;
         margin: 0 !important;
@@ -223,22 +220,22 @@ const ErrorMessageFourZeroFour = styled.h1`
 
 const ErrorMessageTitle = styled.h2`
     font-size: 2em;
-    color: ${({ theme }) => theme.theme.highEmphasesTextColor};
+    color: ${({ theme }) => theme.text.highEmphasis};
     @media (max-width: 877px) {
         font-size: 1.8em;
     }
 `;
 
 const ErrorMessageDescription = styled.p`
-    color: ${({ theme }) => theme.theme.mediumEmphasesTextColor};
+    color: ${({ theme }) => theme.text.mediumEmphasis};
 `;
 
 const BackToHomeTimer = styled.div`
-    color: ${({ theme }) => theme.theme.highEmphasesTextColor};
+    color: ${({ theme }) => theme.text.highEmphasis};
 `;
 
 const BackToHomeAlternative = styled.p`
-    color: ${({ theme }) => theme.theme.highEmphasesTextColor};
+    color: ${({ theme }) => theme.text.highEmphasis};
 `;
 
 const ChargeHomeButton = keyframes`
@@ -251,25 +248,25 @@ const ChargeHomeButton = keyframes`
 `;
 
 const BackToHomeButton = styled.div`
-    color: ${({ theme }) => theme.theme.highEmphasesTextColor};
+    color: ${({ theme }) => theme.text.highEmphasis};
     align-self: baseline;
     @media (max-width: ${({ breakPoint }: BreakPoint & BackToHomeButtonProps) =>
             breakPoint}px) {
         align-self: normal;
     }
     > a {
-        background-color: ${({ theme }) => theme.blue.bright} !important;
+        background-color: ${({ theme }) => theme.color.blue.bright} !important;
         background: linear-gradient(
                 to left,
-                ${({ theme }) => theme.theme.primaryColor} 50%,
-                ${({ theme }) => theme.blue.bright} 50%
+                ${({ theme }) => theme.color.primary} 50%,
+                ${({ theme }) => theme.color.blue.bright} 50%
             )
             right;
         background-size: 200%;
         display: inline-block;
         padding: 12px 16px;
         text-transform: uppercase;
-        color: ${({ theme }) => theme.theme.secondaryColor};
+        color: ${({ theme }) => theme.color.secondary};
         text-decoration: none;
         font-weight: 600;
         animation: ${ChargeHomeButton} ease-in-out
@@ -299,18 +296,18 @@ const RefreshButton = styled.button`
     border: none;
     font-size: 1em;
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
-    background-color: ${({ theme }) => theme.blue.bright} !important;
+    background-color: ${({ theme }) => theme.color.blue.bright} !important;
     background: linear-gradient(
             to left,
-            ${({ theme }) => theme.theme.primaryColor} 50%,
-            ${({ theme }) => theme.blue.bright} 50%
+            ${({ theme }) => theme.color.primary} 50%,
+            ${({ theme }) => theme.color.blue.bright} 50%
         )
         right;
     background-size: 200%;
     display: inline-block;
     padding: 12px 16px;
     text-transform: uppercase;
-    color: ${({ theme }) => theme.theme.secondaryColor};
+    color: ${({ theme }) => theme.color.secondary};
     text-decoration: none;
     font-weight: 600;
     animation: ${ChargeHomeButton} ease-in-out

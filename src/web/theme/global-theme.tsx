@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        background-color: ${({ theme }) => theme.theme.primaryColor};
+        background-color: ${({ theme }) => theme.color.primary};
         transition: all ease-in-out 0.1s;
     }
     html {

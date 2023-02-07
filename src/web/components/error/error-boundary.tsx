@@ -1,5 +1,4 @@
 import React from 'react';
-import { getTheme } from '../../theme/color-theme';
 import Layout from '../layout';
 import { ToastError } from '../toaser';
 import ErrorContainer from './';
@@ -35,12 +34,7 @@ class ErrorBoundary extends React.Component<
         !this.state.hasError ? (
             this.props.children
         ) : (
-            <Layout
-                theme={getTheme({
-                    isDark: true,
-                })}
-                setTheme={() => {}}
-            >
+            <Layout>
                 <ErrorContainer
                     type="refresh"
                     name={this.props.router.pathname as LinkTitle}

@@ -47,7 +47,7 @@ const SocialLinkContainer = styled.div`
 
 const CopyRight = styled.div`
     text-transform: uppercase;
-    color: ${({ theme }) => theme.theme.secondaryColor};
+    color: ${({ theme }) => theme.color.secondary};
     @media (max-width: 586px) {
         font-size: 1em;
     }
@@ -77,9 +77,9 @@ const SocialIcon = styled.a.attrs({
 `;
 
 const Facebook = styled(SocialIcon)`
-    background: #3b5998;
+    background: ${({ theme }) => theme.social.facebook};
     &:hover {
-        color: #3b5998;
+        color: ${({ theme }) => theme.social.facebook};
     }
 `;
 
@@ -88,9 +88,9 @@ const FacebookLogo = styled(TiSocialFacebook)`
 `;
 
 const Linkedin = styled(SocialIcon)`
-    background: #1877f2;
+    background: ${({ theme }) => theme.social.linkedin};
     &:hover {
-        color: #1877f2;
+        color: ${({ theme }) => theme.social.linkedin};
     }
 `;
 
@@ -99,33 +99,13 @@ const LinkedinLogo = styled(TiSocialLinkedin)`
 `;
 
 const Instagram = styled(SocialIcon)`
-    background: #f09433;
-    background: -moz-linear-gradient(
-        45deg,
-        #f09433 0%,
-        #e6683c 25%,
-        #dc2743 50%,
-        #cc2366 75%,
-        #bc1888 100%
-    );
-    background: -webkit-linear-gradient(
-        45deg,
-        #f09433 0%,
-        #e6683c 25%,
-        #dc2743 50%,
-        #cc2366 75%,
-        #bc1888 100%
-    );
+    background: ${({ theme }) => theme.social.instagram.normal};
     background: linear-gradient(
         45deg,
-        #f09433 0%,
-        #e6683c 25%,
-        #dc2743 50%,
-        #cc2366 75%,
-        #bc1888 100%
+        ${({ theme }) => theme.social.instagram.gradient}
     );
     &:hover {
-        color: #dc2743;
+        color: ${({ theme }) => theme.social.instagram.hover};
     }
 `;
 
@@ -134,9 +114,9 @@ const InstagramLogo = styled(FaInstagram)`
 `;
 
 const Github = styled(SocialIcon)`
-    background: #282a36;
+    background: ${({ theme }) => theme.social.github};
     &:hover {
-        color: #282a36;
+        color: ${({ theme }) => theme.social.github};
     }
 `;
 
@@ -145,10 +125,7 @@ const GithubLogo = styled(FaGithub)`
 `;
 
 const Google = styled(SocialIcon)`
-    background: ${({ theme }) => theme.theme.googleIconBackground};
-    &:hover {
-        background: ${({ theme }) => theme.theme.googleIconBackground};
-    }
+    background: ${({ theme }) => theme.social.google};
 `;
 
 const GoogleLogo = styled(FcGoogle)`

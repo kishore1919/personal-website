@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 import NavLinks from '../navigation/links';
 import useWindowResize from '../../hook/window-width-resize';
 
@@ -30,12 +30,7 @@ const BackToTop = ({
     return !state.isLoad ? null : <BackToTopContainer />;
 };
 
-const Header = (
-    _: Readonly<{
-        theme: DefaultTheme;
-        setTheme: () => void;
-    }>
-) => {
+const Header = () => {
     const [state, setState] = React.useState({
         isScroll: false,
     });

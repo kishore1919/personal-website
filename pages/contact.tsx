@@ -288,8 +288,8 @@ const ContactContainer = styled.div`
     align-items: center;
     width: 70%;
     margin: 16px 0;
-    box-shadow: -5px 5px ${({ theme }) => theme.green},
-        5px -5px ${({ theme }) => theme.red};
+    box-shadow: -5px 5px ${({ theme }) => theme.color.green},
+        5px -5px ${({ theme }) => theme.color.red};
     @media (max-width: 904px) {
         width: 80%;
     }
@@ -304,7 +304,7 @@ const ContactContainer = styled.div`
 const ContactFormDiv = styled.div`
     padding: 24px;
     box-sizing: border-box;
-    background-color: ${({ theme }) => theme.theme.primaryColor};
+    background-color: ${({ theme }) => theme.color.primary};
 `;
 
 const ContactForm = styled.form`
@@ -316,13 +316,13 @@ const ContactForm = styled.form`
 const ContactMeContainer = styled.div`
     padding: 8px;
     box-sizing: border-box;
-    background: ${({ theme }) => theme.theme.secondaryColor};
+    background: ${({ theme }) => theme.color.secondary};
 `;
 
 const ContactMeParagraph = styled.p`
     display: grid;
     place-items: center;
-    color: ${({ theme }) => theme.theme.primaryColor};
+    color: ${({ theme }) => theme.color.primary};
 `;
 
 const ErrorMessage = styled.span`
@@ -333,11 +333,11 @@ const ErrorMessage = styled.span`
 const InputField = styled.input`
     width: 100%;
     padding: 16px;
-    border: 2px solid ${({ theme }) => theme.gray};
+    border: 2px solid ${({ theme }) => theme.color.gray};
     box-sizing: border-box;
     resize: vertical;
-    background-color: ${({ theme }) => theme.theme.primaryColor};
-    color: ${({ theme }) => theme.theme.secondaryColor};
+    background-color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.color.secondary};
     outline: none;
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
     @media (max-width: 463px) {
@@ -351,9 +351,9 @@ const TextArea = styled.textarea`
     box-sizing: border-box;
     outline: none;
     resize: none;
-    color: ${({ theme }) => theme.theme.secondaryColor};
-    background-color: ${({ theme }) => theme.theme.primaryColor};
-    border: 2px solid ${({ theme }) => theme.gray};
+    color: ${({ theme }) => theme.color.secondary};
+    background-color: ${({ theme }) => theme.color.primary};
+    border: 2px solid ${({ theme }) => theme.color.gray};
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;
 
@@ -364,7 +364,7 @@ const InputInfoContainer = styled.div`
 
 const InputLabel = styled.label`
     font-size: 1em;
-    color: ${({ theme }) => theme.theme.contactMeLabel};
+    color: ${({ theme }) => theme.color.green};
 `;
 
 const InputInfo = styled(InputLabel)`
@@ -390,19 +390,19 @@ const SendButton = styled.input`
     padding: 16px 48px;
     position: relative;
     cursor: pointer;
-    color: ${({ theme }) => theme.red};
+    color: ${({ theme }) => theme.color.red};
     background: linear-gradient(
         to right,
-        ${({ theme }) => theme.red} 50%,
-        ${({ theme }) => theme.theme.secondaryColor} 50%
+        ${({ theme }) => theme.color.red} 50%,
+        ${({ theme }) => theme.color.secondary} 50%
     );
-    border: 1px solid ${({ theme }) => theme.theme.secondaryColor};
+    border: 1px solid ${({ theme }) => theme.color.secondary};
     background-size: 300% 100%;
     background-position: right bottom;
     transition: all 0.2s ease-out;
     :hover {
-        border: 1px solid ${({ theme }) => theme.red};
-        color: ${({ theme }) => theme.theme.secondaryColor};
+        border: 1px solid ${({ theme }) => theme.color.red};
+        color: ${({ theme }) => theme.color.secondary};
         background-position: left bottom;
     }
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;

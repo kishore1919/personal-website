@@ -40,11 +40,6 @@ const Resume: NextPage = () => {
         };
     };
 
-    console.log({
-        ...state,
-        width,
-    });
-
     React.useEffect(() => {
         setState((prev) => ({
             ...prev,
@@ -181,12 +176,12 @@ const DownloadContainer = styled.div`
 const DownloadButton = styled.button`
     font-size: 1em;
     padding: 16px 48px;
-    border: 1px solid ${({ theme }) => theme.red};
-    color: ${({ theme }) => theme.theme.secondaryColor};
+    border: 1px solid ${({ theme }) => theme.color.red};
+    color: ${({ theme }) => theme.color.secondary};
     background: linear-gradient(
         to right,
         transparent 50%,
-        ${({ theme }) => theme.red} 50%
+        ${({ theme }) => theme.color.red} 50%
     );
     background-size: 200% 100%;
     background-position: right bottom;
@@ -194,7 +189,7 @@ const DownloadButton = styled.button`
     cursor: pointer;
     :hover {
         background-position: left bottom;
-        color: ${({ theme }) => theme.red};
+        color: ${({ theme }) => theme.color.red};
     }
     font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
 `;

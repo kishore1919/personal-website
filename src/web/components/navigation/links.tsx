@@ -103,7 +103,7 @@ const LinkWrapperStyled = styled.div`
         padding: 8px;
     }
     &:hover {
-        border: 3px solid ${({ theme }) => theme.theme.secondaryColor};
+        border: 3px solid ${({ theme }) => theme.color.secondary};
     }
     > a {
         text-decoration: none;
@@ -112,16 +112,16 @@ const LinkWrapperStyled = styled.div`
             outline: none;
         }
         &:hover {
-            color: ${({ theme }) => theme.theme.secondaryColor} !important;
+            color: ${({ theme }) => theme.color.secondary} !important;
         }
     }
 `;
 
 const LinkWrapperActive = styled(LinkWrapperStyled)`
     font-weight: bold;
-    border: 3px solid ${({ theme }) => theme.theme.secondaryColor};
+    border: 3px solid ${({ theme }) => theme.color.secondary};
     > a {
-        color: ${({ theme }) => theme.theme.secondaryColor};
+        color: ${({ theme }) => theme.color.secondary};
     }
 `;
 

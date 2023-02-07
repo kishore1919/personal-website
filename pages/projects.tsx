@@ -186,7 +186,7 @@ const ImageTextContainer = styled.div`
     height: 100%;
     width: 100%;
     &:hover ${Caption} {
-        color: ${({ theme }) => theme.green};
+        color: ${({ theme }) => theme.color.green};
     }
 `;
 
@@ -203,15 +203,15 @@ const ToolContainer = styled.div`
     padding: 8px;
     box-sizing: border-box;
     font-size: 0.9em;
-    background-color: ${({ theme }) => theme.theme.project.techTool};
+    background-color: ${({ theme }) => theme.project.techTool};
 `;
 
 const ToolElement = styled.div`
     padding: 8px 12px;
     border-radius: 8px;
     height: fit-content;
-    color: ${({ theme }) => theme.theme.project.toolColor};
-    background-color: ${({ theme }) => theme.theme.project.toolContainer};
+    color: ${({ theme }) => theme.project.toolColor};
+    background-color: ${({ theme }) => theme.project.toolContainer};
 `;
 
 export default Project;
