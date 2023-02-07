@@ -29,15 +29,23 @@ const getWebSnapshot = async ({
         { name: 'prefers-color-scheme', value: 'dark' },
     ]);
     await page.goto(`http://0.0.0.0:${port}/${link === 'home' ? '' : link}`);
-    await new Promise((resolve) =>
-        setTimeout(resolve, (link === 'resume' ? 6 : 3) * 1000)
-    );
-    await page.screenshot({
-        fullPage: true,
-    });
+
+    if (link !== 'resume') {
+        await new Promise((resolve) =>
+            setTimeout(resolve, (link === 'projects' ? 4 : 2) * 1000)
+        );
+    } else {
+        const evaluateExpression = (length: number) =>
+            `document.getElementsByClassName('Toastify__toast-container').length === ${length}`;
+        await page.waitForFunction(evaluateExpression(1));
+        await page.waitForFunction(evaluateExpression(0));
+    }
 
     return {
         link,
+        image: await page.screenshot({
+            fullPage: true,
+        }),
     } as const;
 };
 

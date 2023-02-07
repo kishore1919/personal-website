@@ -6,16 +6,17 @@ all:
 		make typecheck &&\
 		make format-check &&\
 		make test &&\
-		make build
 
 NODE_BIN=node_modules/.bin/
+VITE_NODE=$(NODE_BIN)vite-node
+NEXT=$(NODE_BIN)next
 
 ## install
 install:
 	pnpm i --frozen-lockfile
 
 install-mongo:
-	$(NODE_BIN)vite-node script/mongo-setup
+	$(VITE_NODE) script/mongo-setup
 
 setup-mongo:
 	sudo systemctl unmask mongod
@@ -25,35 +26,35 @@ setup-mongo:
 	mongosh < script/mongo-setup/document.js
 
 ## generate
-generate: generate-portfolio-data generate-resume
-
-generate-portfolio-data:
-	$(NODE_BIN)vite-node script/projects/generate-data.ts ${arguments}
+generate: generate-resume
 
 generate-resume:
-	$(NODE_BIN)vite-node script/resume/generate.ts
+	$(VITE_NODE) script/resume/generate.ts
 
-generate-portfolio-data-force:
-	make generate-portfolio-data arguments="-- --f"
+generate-webmanifest:
+	$(VITE_NODE) script/site/webmanifest.ts
+
+generate-sitemap:
+	$(NODE_BIN)next-sitemap
 
 check-projects-image-asset:
-	$(NODE_BIN)vite-node script/projects/ensure-background-has-logo-vice-versa.ts
-
-## dev
-next=$(NODE_BIN)next
+	$(VITE_NODE) script/projects/ensure-background-has-logo-vice-versa.ts
 
 ## env
+copy-env:
+	$(VITE_NODE) script/env/copy.ts ${arguments}
+
 development:
-	cp .env.development .env
+	make copy-env arguments="-- --development"
 
 staging:
-	cp .env.staging .env
+	make copy-env arguments="-- --staging"
 
 production:
-	cp .env.productions .env
+	make copy-env arguments="-- --productions"
 
 testing:
-	cp .env.testing .env
+	make copy-env arguments="-- --testing"
 
 ## deployment
 deploy-staging: build-staging
@@ -66,30 +67,31 @@ clear-cache:
 	rm -rf .next
 
 start-development: development clear-cache
-	$(next) dev
+	$(NEXT) dev
 
 start-staging: staging clear-cache start
 
 start-production: production clear-cache start
 
 ## build
-build-production: clear-cache check-projects-image-asset production
-	$(next) build
+build-development: clear-cache check-projects-image-asset development build
 
-build-staging: clear-cache check-projects-image-asset staging
-	$(next) build
+build-production: clear-cache check-projects-image-asset production build
 
-build-testing: clear-cache check-projects-image-asset testing
-	$(next) build
+build-staging: clear-cache check-projects-image-asset staging build
+
+build-testing: clear-cache check-projects-image-asset testing build
+
+build:
+	$(NEXT) build && make generate-sitemap && make generate-webmanifest
 
 ## start
 start:
-	$(next) start $(arguments)
+	$(NEXT) start $(arguments)
 
 ## format
-prettier=$(NODE_BIN)prettier
 prettify:
-	$(prettier) --ignore-path .gitignore  --$(type) src/ test/
+	$(NODE_BIN)prettier --ignore-path .gitignore  --$(type) src/ test/
 
 format-check:
 	make prettify type=check
@@ -122,15 +124,15 @@ typecheck-watch:
 
 ## test
 test-type:
-	$(NODE_BIN)vitest test/$(path)/**.test.ts
+	$(NODE_BIN)vitest test/$(path)/**.test.ts $(arguments)
 
 test-unit:
-	make test-type path="unit"
+	make test-type path="unit" arguments="$(arguments)"
 
 test-integration:
-	make build-testing && make test-type path="integration"
+	make build-testing && make test-type path="integration" arguments="$(arguments)"
 
 test-snapshots:
-	make build-testing && make test-type path="snapshots"
+	make build-testing && make test-type path="snapshots" arguments="$(arguments)"
 
 test: test-unit test-integration test-snapshots

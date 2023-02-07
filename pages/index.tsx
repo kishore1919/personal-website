@@ -51,10 +51,9 @@ const Home: NextPage = () => {
                         votre visite!
                     </Content>
                     <Content>
-                        I am Gervin, I am not a french and I am a full time
-                        Software Engineer in Didian by day and an undergraduate
-                        undertaking Bachelor of Science in Software Engineering
-                        by night
+                        I am Gervin, I am not a french and I am a Software
+                        Engineer looking for a full time job as Fullstack
+                        Software Engineer
                     </Content>
                     <Content>
                         I have been coding since {startDate.getUTCFullYear()},

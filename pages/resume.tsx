@@ -8,61 +8,68 @@ import { ToastError, ToastPromise } from '../src/web/components/toaser';
 import { Document, Page, pdfjs } from 'react-pdf';
 import axios from 'axios';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const Resume: NextPage = () => {
     const { width } = useWindowResize();
+
+    const defaultWidthRatio = 0.8;
     const [state, setState] = React.useState({
-        widthRatio: 0.8,
+        widthRatio: defaultWidthRatio,
         hasSuccessfullyLoaded: undefined as undefined | boolean,
     });
 
     const { hasSuccessfullyLoaded } = state;
+    const cache = React.useRef({
+        hasSuccessfullyLoaded,
+    });
 
     const pdf = 'GervinFungDaXuen-Résumé.pdf';
 
     const resume = `/files/${pdf}` as const;
 
+    const setHasSuccessfullyLoaded = (hasSuccessfullyLoaded: boolean) => {
+        setState((prev) => ({
+            ...prev,
+            hasSuccessfullyLoaded,
+        }));
+        cache.current = {
+            ...cache.current,
+            hasSuccessfullyLoaded,
+        };
+    };
+
+    console.log({
+        ...state,
+        width,
+    });
+
     React.useEffect(() => {
-        if (width < 800) {
-            setState((prev) => ({
-                ...prev,
-                widthRatio: 0.85,
-            }));
-        } else if (width < 760) {
-            setState((prev) => ({
-                ...prev,
-                widthRatio: 0.9,
-            }));
-        } else if (width < 400) {
-            setState((prev) => ({
-                ...prev,
-                widthRatio: 0.95,
-            }));
-        }
+        setState((prev) => ({
+            ...prev,
+            widthRatio:
+                width < 800
+                    ? 0.85
+                    : width < 760
+                    ? 0.9
+                    : width < 400
+                    ? 0.95
+                    : defaultWidthRatio,
+        }));
     }, [width]);
 
     React.useEffect(() => {
-        if (hasSuccessfullyLoaded === undefined) {
-            return;
-        }
         const promise = new Promise<string>((resolve, reject) => {
-            const mutationObserver = new MutationObserver(() => {
-                switch (hasSuccessfullyLoaded) {
-                    case true: {
-                        mutationObserver.disconnect();
-                        resolve('Loaded Résumé');
-                        break;
-                    }
-                    case false: {
-                        mutationObserver.disconnect();
-                        reject('Fail to load Résumé');
-                    }
+            const interval = setInterval(() => {
+                const { hasSuccessfullyLoaded } = cache.current;
+                if (hasSuccessfullyLoaded) {
+                    clearInterval(interval);
+                    resolve('Loaded Résumé');
+                } else if (hasSuccessfullyLoaded === false) {
+                    reject('Fail to load Résumé');
                 }
-            });
-            mutationObserver.observe(document, {
-                subtree: true,
-                childList: true,
-            });
+            }, 1);
         });
         ToastPromise({
             promise,
@@ -74,10 +81,10 @@ const Resume: NextPage = () => {
                 render: ({ data }) => data as any,
             },
         });
-    }, [hasSuccessfullyLoaded]);
+    }, []);
 
     return (
-        <GlobalContainer>
+        <ResumeContainer>
             <Seo
                 title="Résumé"
                 keywords={[
@@ -91,24 +98,25 @@ const Resume: NextPage = () => {
                 ]}
                 content="Wanna know if I'm qualified for a position? Take a look at my résumé"
             />
+            {state.hasSuccessfullyLoaded ? null : (
+                <Skeleton
+                    style={{
+                        width: width * state.widthRatio,
+                        height: '100vh',
+                        padding: '8px 0 0 0',
+                    }}
+                />
+            )}
             <PDFDocument loading="" file={resume} onLoadError={ToastError}>
                 <PDFPage
                     loading=""
                     pageNumber={1}
                     width={width * state.widthRatio}
+                    onLoadSuccess={() => setHasSuccessfullyLoaded(true)}
                     onLoadError={(error) => {
-                        setState((prev) => ({
-                            ...prev,
-                            hasSuccessfullyLoaded: false,
-                        }));
+                        setHasSuccessfullyLoaded(false);
                         ToastError(error);
                     }}
-                    onLoadSuccess={() =>
-                        setState((prev) => ({
-                            ...prev,
-                            hasSuccessfullyLoaded: true,
-                        }))
-                    }
                 />
             </PDFDocument>
             <DownloadContainer>
@@ -134,9 +142,14 @@ const Resume: NextPage = () => {
                     Download
                 </DownloadButton>
             </DownloadContainer>
-        </GlobalContainer>
+        </ResumeContainer>
     );
 };
+
+const ResumeContainer = styled(GlobalContainer)`
+    display: grid;
+    place-items: center;
+`;
 
 const PDFDocument = styled(Document)`
     display: grid;

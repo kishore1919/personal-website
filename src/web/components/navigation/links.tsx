@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import useWordScramble from '../../hook/word-scramble';
 
 type Home = Readonly<{
     href: '/';
@@ -33,11 +34,22 @@ const CustomLink = ({
     navLink: LinkType;
 }>) => {
     const router = useRouter();
+
+    const wordScrambleState = useWordScramble({
+        count: 15,
+        timeOut: 30,
+        content: title,
+    });
+
     const CustomLink =
         router.pathname === href ? LinkWrapperActive : LinkWrapper;
+
     return (
-        <CustomLink>
-            <Link href={href}>{title}</Link>
+        <CustomLink
+            onMouseOver={wordScrambleState.start}
+            onMouseOut={wordScrambleState.stop}
+        >
+            <Link href={href}>{wordScrambleState.word()}</Link>
         </CustomLink>
     );
 };

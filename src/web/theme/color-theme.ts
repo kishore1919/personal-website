@@ -26,6 +26,11 @@ const primaryTheme = createDefaultTheme({
 
     googleIconBackground: '#FFF',
     scrollBarBackground: '#000D0D',
+    project: {
+        techTool: '#202128',
+        toolContainer: '#4184E426',
+        toolColor: '#539BF5',
+    },
 });
 
 // light theme
@@ -40,6 +45,11 @@ const secondaryTheme = createDefaultTheme({
 
     googleIconBackground: '#1D1E1f',
     scrollBarBackground: '#F5F5F5',
+    project: {
+        techTool: '#202128',
+        toolContainer: '#4184E426',
+        toolColor: '#539BF5',
+    },
 });
 
 const config = {

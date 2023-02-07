@@ -11,6 +11,11 @@ type Theme = Readonly<{
     resumeListText: '#000000B2' | '#FFFFFFE2';
     googleIconBackground: '#1D1E1f' | '#FFF';
     scrollBarBackground: '#000D0D' | '#F5F5F5';
+    project: {
+        techTool: '#202128' | '#202128';
+        toolContainer: '#4184E426' | '#0969DA';
+        toolColor: '#539BF5' | '#DDF5FF';
+    };
 }>;
 
 declare module 'styled-components' {

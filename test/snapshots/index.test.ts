@@ -1,4 +1,3 @@
-import fs from 'fs';
 import * as puppeteer from 'puppeteer';
 import { beforeAll, afterAll, describe, it, expect } from 'vitest';
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
@@ -36,14 +35,13 @@ const testSnapshot = () => {
                 }
 
                 const dir = `${__dirname}/snapshot-images/${platform}`;
-                const imageSnapShot = fs.readFileSync(`${dir}/${link}.png`);
-                await getWebSnapshot({
+                const { image } = await getWebSnapshot({
                     link,
                     browser,
                     platform,
                     port: server.getPort(),
                 });
-                expect(imageSnapShot).toMatchImageSnapshot({
+                expect(image).toMatchImageSnapshot({
                     customSnapshotsDir: dir,
                     customSnapshotIdentifier: link,
                     failureThreshold: 0.01,

@@ -4,7 +4,6 @@ const url = (() => {
     const api = '/api';
     return {
         contact: `${api}/contact`,
-        resume: `${api}/resume`,
     } as const;
 })();
 

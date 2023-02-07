@@ -1,93 +1,106 @@
 import React from 'react';
 import styled from 'styled-components';
-import {
-    FullScreenContainer,
-    GlobalContainer,
-} from '../src/web/theme/global-theme';
+import { GlobalContainer } from '../src/web/theme/global-theme';
 import Seo from '../src/web/components/seo';
 import Image from 'next/image';
-import projects from '../src/web/data/projects';
-import CloseFullScreen from '../src/web/components/common/close-full-screen';
+import useWordScramble from '../src/web/hook/word-scramble';
 
-type ProjectImageBackgroundProps = Readonly<{
-    backgroundImage: string;
-}>;
+const Project = () => (
+    <GlobalContainer>
+        <Seo
+            title="Projects"
+            keywords={['Project', 'Software Engineer']}
+            content="Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
+        />
+        <ProjectContainer>
+            {(
+                [
+                    {
+                        name: 'Gitignored-App',
+                        description:
+                            'Blazingly fast development tools to generate useful gitignore templates',
+                        tools: [
+                            'rust',
+                            'cargo',
+                            'nextjs',
+                            'mongodb',
+                            'vercel',
+                            'typescript',
+                            'styled-components',
+                        ],
+                        url: 'https://github.com/Gitignored-App',
+                    },
+                    {
+                        name: 'Packer-Man',
+                        description:
+                            'A place that contains all of the packages I wrote to solve my problem',
+                        tools: ['typescript', 'npm', 'dart'],
+                        url: 'https://github.com/Packer-Man',
+                    },
+                    {
+                        name: 'UTARi-Accommodation',
+                        description:
+                            'Final Year Project - an application to help UTAR students look for accommodations around UTAR area',
+                        tools: [
+                            'typescript',
+                            'react',
+                            'node',
+                            'postgresql',
+                            'firebase',
+                            'heroku',
+                            'netlify',
+                            'styled-components',
+                        ],
+                        url: 'https://github.com/UTARi-Accommodation',
+                    },
+                    {
+                        name: 'adonix-blog',
+                        description: 'Personal Blog - Remake of Adonis OS Blog',
+                        tools: [
+                            'typescript',
+                            'nextjs',
+                            'mui',
+                            'firebase',
+                            'postgresql',
+                            'vercel',
+                        ],
+                        url: 'https://github.com/GervinFung/adonix-blog',
+                    },
+                    {
+                        name: 'LibGDX-Chess-Game',
+                        description:
+                            'A LibGDX based Parallel AI Chess Game playable on many devices from Level 1 to Level 10',
+                        tools: ['libgdx', 'java'],
+                        url: 'https://github.com/GervinFung/LibGDX-Chess-Game',
+                    },
+                    {
+                        name: 'TextEditorFX',
+                        description:
+                            'Fist JavaFX project - an upgraded version of the previous Text Editor',
+                        tools: ['javafx'],
+                        url: 'https://github.com/GervinFung/TextEditorFX',
+                    },
+                ] as const
+            ).map(({ name, description, url, tools }) => {
+                const path = 'images/projects';
 
-const Surprise = ({
-    seconds,
-    shownPopup,
-    onCloseMessage,
-}: Readonly<{
-    seconds: string;
-    shownPopup: boolean;
-    onCloseMessage: () => void;
-}>) =>
-    shownPopup ? null : (
-        <SurpriseContainer>
-            <CloseFullScreen color="black" close={onCloseMessage} />
-            <Content>
-                <img
-                    src={require('../public/images/others/surprised.gif')}
-                    alt="surprised.gif"
-                />
-                <HeaderMessage>WOW</HeaderMessage>
-                <ParagraphMessage>
-                    You have seen my project for more than {seconds} seconds,
-                    Thank You!
-                </ParagraphMessage>
-            </Content>
-        </SurpriseContainer>
-    );
+                const wordScrambleState = useWordScramble({
+                    count: 20,
+                    timeOut: 10,
+                    content: description,
+                });
 
-const Project = () => {
-    const popUpWaitDuration = 8000;
-    const popUpShownKey = 'shown';
-
-    const [state, setState] = React.useState({
-        shownPopup: true,
-    });
-
-    const { shownPopup } = state;
-
-    React.useEffect(() => {
-        const item = localStorage.getItem(popUpShownKey);
-        const surprise =
-            item && JSON.parse(item)
-                ? undefined
-                : setTimeout(() => {
-                      setState((prev) => ({
-                          ...prev,
-                          shownPopup: false,
-                      }));
-                      localStorage.setItem(popUpShownKey, JSON.stringify(true));
-                  }, popUpWaitDuration + 500);
-        return () => clearTimeout(surprise);
-    }, []);
-
-    return (
-        <GlobalContainer>
-            <Seo
-                title="Projects"
-                keywords={['Project', 'Software Engineer']}
-                content="Every side projects deemed important/useful will be shown here as projects. All side projects is available as repositories/organization on Github"
-            />
-            <Surprise
-                shownPopup={shownPopup}
-                seconds={(popUpWaitDuration / 1000).toFixed(1)}
-                onCloseMessage={() =>
-                    setState((prev) => ({
-                        ...prev,
-                        shownPopup: true,
-                    }))
-                }
-            />
-            <ProjectContainer>
-                {projects.map(({ name, description, url }) => {
-                    const path = 'images/projects';
-                    return (
-                        <ProjectItemContainer key={name}>
+                return (
+                    <ProjectItemContainer key={name}>
+                        <ProjectItemImageContainer
+                            onMouseOver={wordScrambleState.start}
+                            onFocus={wordScrambleState.start}
+                            onMouseOut={wordScrambleState.stop}
+                            onBlur={wordScrambleState.stop}
+                        >
                             <ProjectItemBackground
-                                backgroundImage={`${path}/background/${name}.webp`}
+                                alt={`${name}.webp`}
+                                src={require(`../public/${path}/background/${name}.webp`)}
                             />
                             <ImageTextContainer>
                                 <ProjectLogoContainer>
@@ -103,79 +116,58 @@ const Project = () => {
                                         />
                                     </a>
                                 </ProjectLogoContainer>
-                                <Caption>{description}</Caption>
+                                <Caption>{wordScrambleState.word()}</Caption>
                             </ImageTextContainer>
-                        </ProjectItemContainer>
-                    );
-                })}
-            </ProjectContainer>
-        </GlobalContainer>
-    );
-};
-
-const SurpriseContainer = styled(FullScreenContainer)`
-    background-color: #fff44f;
-`;
-
-const Content = styled.div`
-    text-align: center;
-`;
-
-const HeaderMessage = styled.h1`
-    color: black;
-    font-size: 5em;
-`;
-
-const ParagraphMessage = styled.p`
-    color: black;
-    font-size: 1.25em;
-`;
+                        </ProjectItemImageContainer>
+                        <ToolContainer>
+                            {tools.map((tool, index) => (
+                                <ToolElement key={index}>{tool}</ToolElement>
+                            ))}
+                        </ToolContainer>
+                    </ProjectItemContainer>
+                );
+            })}
+        </ProjectContainer>
+    </GlobalContainer>
+);
 
 const ProjectContainer = styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    animation: fadeIn ease 0.5s;
+    grid-gap: 8px;
+    grid-template-columns: auto auto auto;
     @media (max-width: 877px) {
+        grid-template-columns: auto auto;
+    }
+    @media (max-width: 530px) {
         grid-template-columns: auto;
     }
 `;
 
-const ProjectItemBackground = styled.div`
-    height: 40vh;
+const ProjectItemBackground = styled(Image)`
     width: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url(${({
-        backgroundImage,
-    }: ProjectImageBackgroundProps) => backgroundImage});
-    @media (max-width: 877px) {
-        height: 250px;
-    }
+    height: auto;
+    display: block;
 `;
 
-const ProjectItemContainer = styled.div`
+const ProjectItemContainer = styled.div``;
+
+const ProjectItemImageContainer = styled.div`
     position: relative;
-    justify-content: center;
-    align-items: center;
     &:hover ${ProjectItemBackground} {
         transition: all 1s ease;
         filter: brightness(20%);
     }
-    @media (max-width: 877px) {
-        width: 100%;
-    }
 `;
 
 const Caption = styled.div`
-    width: 25vw;
     transition: 1s;
     font-size: 0.9em;
     font-weight: 600;
     color: transparent;
     padding: 0 8px;
     box-sizing: border-box;
+    word-break: break-word;
     @media (max-width: 877px) {
         width: 50vw;
     }
@@ -186,10 +178,9 @@ const Caption = styled.div`
 
 const ImageTextContainer = styled.div`
     top: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    display: grid;
+    place-items: center;
+    align-content: center;
     position: absolute;
     text-align: center;
     height: 100%;
@@ -202,6 +193,25 @@ const ImageTextContainer = styled.div`
 const ProjectLogoContainer = styled.div`
     padding: 0 0 8px 0;
     box-sizing: border-box;
+`;
+
+const ToolContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 8px;
+    justify-content: space-evenly;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 0.9em;
+    background-color: ${({ theme }) => theme.theme.project.techTool};
+`;
+
+const ToolElement = styled.div`
+    padding: 8px 12px;
+    border-radius: 8px;
+    height: fit-content;
+    color: ${({ theme }) => theme.theme.project.toolColor};
+    background-color: ${({ theme }) => theme.theme.project.toolContainer};
 `;
 
 export default Project;
