@@ -23,6 +23,7 @@ specifiers:
   next: ^13.1.1
   next-seo: ^5.14.0
   next-sitemap: ^3.1.49
+  nextjs-google-analytics: ^2.3.0
   parse-dont-validate: ^4.1.0
   prettier: ^2.7.1
   puppeteer: ^19.4.1
@@ -44,6 +45,7 @@ dependencies:
   mongoose: 6.9.0
   next: 13.1.1_biqbaboplfbrettd7655fr4n2y
   next-seo: 5.14.0_q76c2b4vyoegvsbrcwkfvimnai
+  nextjs-google-analytics: 2.3.0_next@13.1.1+react@18.2.0
   parse-dont-validate: 4.1.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -3167,7 +3169,6 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /function-bind/1.1.1:
@@ -3969,6 +3970,18 @@ packages:
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
+
+  /nextjs-google-analytics/2.3.0_next@13.1.1+react@18.2.0:
+    resolution: {integrity: sha512-MRL2/M01qxZtq+6m+J3ZBjNIQWGQnudsrH6VberIzPftrLR0jqV4Abvhr50v9xAVhloIdZpYxZbFYO3VXH1FMg==}
+    peerDependencies:
+      next: '>=11.0.0'
+      react: '>=17.0.0'
+    dependencies:
+      next: 13.1.1_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
 
   /node-fetch/2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}

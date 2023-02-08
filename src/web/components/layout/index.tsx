@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Footer from '../footer';
 import Header from '../header';
 import GlobalStyle from '../../theme/global-theme';
+import { GoogleAnalytics } from 'nextjs-google-analytics';
 
 const Layout = ({
     children,
@@ -12,6 +13,7 @@ const Layout = ({
     <>
         <GlobalStyle />
         <Header />
+        <GoogleAnalytics trackPageViews />
         <Container>{children}</Container>
         <Footer />
     </>
