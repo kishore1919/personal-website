@@ -7,7 +7,7 @@ const Schema = () => {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: (
-            ['Home', 'Project', 'About', 'Contact', 'Résumé'] as const
+            ['Home', 'Projects', 'Contact', 'Résumé'] as const
         ).map((name, index) => ({
             name,
             '@type': 'ListItem',
