@@ -1,6 +1,6 @@
 import fs from 'fs';
 import pkg from '../../package.json';
-import { theme } from '../../src/web/theme/color-theme';
+import { colorTheme } from '../../src/web/theme';
 
 const main = () => {
     const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
@@ -13,8 +13,8 @@ const main = () => {
             src: `/images/icons/icon-${dimension}x${dimension}.png`,
             type: 'image/png',
         })),
-        theme_color: theme.color.primary,
-        background_color: theme.color.primary,
+        theme_color: colorTheme.black,
+        background_color: colorTheme.black,
         display: 'standalone',
     };
 

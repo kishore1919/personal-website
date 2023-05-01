@@ -1,53 +1,48 @@
 import React from 'react';
 import Document, {
-    DocumentContext,
+    type DocumentContext,
     Head,
     Main,
     NextScript,
     Html,
 } from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import consts from '../src/web/const';
 
 export default class Doc extends Document {
-    static getInitialProps = async (documentContext: DocumentContext) => {
-        const sheet = new ServerStyleSheet();
-        const { renderPage } = documentContext;
+    static getInitialProps = async (context: DocumentContext) => {
+        const { renderPage: originalRenderPage } = context;
 
-        try {
-            // Run the React rendering logic synchronously
-            documentContext.renderPage = () =>
-                renderPage({
-                    // Useful for wrapping the whole react tree
-                    enhanceApp: (App) => (props) =>
-                        sheet.collectStyles(<App {...props} />),
-                    // Useful for wrapping in a per-page basis
-                    enhanceComponent: (Component) => Component,
-                });
-            const initialProps = await Document.getInitialProps(
-                documentContext
-            );
-            return {
-                ...initialProps,
-                styles: (
-                    <>
-                        {initialProps.styles}
-                        {sheet.getStyleElement()}
-                    </>
-                ),
-            };
-        } finally {
-            sheet.seal();
-        }
+        // Run the React rendering logic synchronously
+        context.renderPage = () =>
+            originalRenderPage({
+                // Useful for wrapping the whole react tree
+                enhanceApp: (App) => App,
+                // Useful for wrapping in a per-page basis
+                enhanceComponent: (Component) => Component,
+            });
+
+        // Run the parent `getInitialProps`, it now includes the custom `renderPage`
+        return await Document.getInitialProps(context);
     };
 
     render = () => (
         <Html lang="en">
-            <Head />
-            <meta charSet="utf-8" />
+            <Head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link
+                    href={`https://fonts.googleapis.com/css2?family=${consts.fontFamily
+                        .split(' ')
+                        .join('+')}:wght@${Array.from(
+                        { length: 9 },
+                        (_, i) => (i + 1) * 100
+                    ).join(';')}&display=swap`}
+                    rel="stylesheet"
+                />
+            </Head>
             <body
                 style={{
-                    margin: 0,
                     padding: 0,
+                    margin: 0,
                     overflowX: 'hidden',
                 }}
             >

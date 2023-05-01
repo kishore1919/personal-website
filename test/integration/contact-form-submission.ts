@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import Database from '../../src/api/contact/database';
-import parseAsData from '../../src/web/parser/contact';
-import { jsonResponse } from '../util';
+import Database from '../../src/api/database';
+import sendMessage from '../../src/web/components/contact/send-message';
 
 const testContactFormSubmissionPost = () =>
     describe('Api contact submission post test', () => {
@@ -16,14 +15,25 @@ const testContactFormSubmissionPost = () =>
         });
 
         it('should return success status if input passed the validation', async () => {
-            const response = await jsonResponse({
-                param: 'contact',
-                requestInit: {
-                    method: 'POST',
-                    body: dummy,
-                },
+            const response = await sendMessage(dummy);
+            expect(response.type).toBe('succeed');
+        });
+
+        it('should return success status if honeypot is set, but do not insert into database', async () => {
+            const instance = await Database.instance();
+            const response = await sendMessage({
+                ...dummy,
+                isHoneyPot: true,
             });
-            expect(parseAsData(response).type).toBe('succeed');
+            const result = await instance.getAllContactFormMessages();
+            expect(response.type).toBe('succeed');
+            expect(result.result).toBe('succeed');
+            if (result.result !== 'succeed') {
+                throw new Error(
+                    'asserted result to be succeed, cannot fail another if statement assertion'
+                );
+            }
+            expect(result.messages).toHaveLength(0);
         });
 
         it.each([
@@ -84,14 +94,8 @@ const testContactFormSubmissionPost = () =>
         ] as const)(
             'should return input status if input of "%p" had not pass the validation',
             async ({ input, output }) => {
-                const response = await jsonResponse({
-                    param: 'contact',
-                    requestInit: {
-                        method: 'POST',
-                        body: input,
-                    },
-                });
-                return expect(parseAsData(response)).toStrictEqual(output);
+                const response = await sendMessage(input);
+                return expect(response).toStrictEqual(output);
             }
         );
     });

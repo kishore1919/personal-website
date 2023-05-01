@@ -24,8 +24,8 @@
         "preserveWatchOutput": true,
         "outDir": "build",
         "allowJs": false,
-        "importsNotUsedAsValues": "error"
+        "verbatimModuleSyntax": true
     },
-    "include": ["next-env.d.ts", "src", "pages", "test", "script"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/.tsx"],
     "exclude": ["node_modules"]
 }

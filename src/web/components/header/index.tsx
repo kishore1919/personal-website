@@ -1,81 +1,149 @@
 import React from 'react';
-import styled from 'styled-components';
-import NavLinks from '../navigation/links';
-import useWindowResize from '../../hook/window-width-resize';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Holder from '../common/holder';
+import { guard } from '../../../common/type';
+import useWordScramble from '../../hooks/use-word-scramble';
 
-const BackToTop = ({
-    isScroll,
+type ID = Readonly<{
+    id: string;
+}>;
+
+type CustomId = ReturnType<typeof HeaderLinks>['ids'][number];
+
+const CustomLink = ({
+    id,
+    isActive,
 }: Readonly<{
-    isScroll: boolean;
+    id: CustomId;
+    isActive: boolean;
 }>) => {
-    const [state, setState] = React.useState({
-        isLoad: isScroll,
+    const wordScramble = useWordScramble({
+        count: 10,
+        timeOut: 30,
+        content: id.toUpperCase(),
     });
 
-    React.useEffect(() => {
-        setState((prev) => ({
-            ...prev,
-        }));
-        const timer = setTimeout(
-            () =>
-                setState((prev) => ({
-                    ...prev,
-                    isLoad: isScroll,
-                })),
-            isScroll ? 350 : 0
-        );
-        return () => clearTimeout(timer);
-    }, [isScroll]);
-
-    return !state.isLoad ? null : <BackToTopContainer />;
-};
-
-const Header = () => {
-    const [state, setState] = React.useState({
-        isScroll: false,
-    });
-
-    const { isScroll } = state;
-    const { width } = useWindowResize();
-
-    React.useEffect(() => {
-        const handlePageOffset = () =>
-            setState((prev) => ({
-                ...prev,
-                isScroll: window.pageYOffset > 100,
-            }));
-        window.addEventListener('scroll', handlePageOffset);
-        return () => {
-            window.removeEventListener('scroll', handlePageOffset);
-        };
-    }, []);
-
-    return !width ? null : (
-        <Container>
-            <NavWrapper>
-                <NavLinks />
-            </NavWrapper>
-            <BackToTop isScroll={isScroll} />
-        </Container>
+    return (
+        <Link
+            href={{ pathname: '/', query: { part: id } }}
+            style={{ textDecoration: 'none' }}
+        >
+            <Box
+                onMouseOver={wordScramble.start}
+                onMouseOut={wordScramble.stop}
+                sx={({ palette }) => ({
+                    py: 1,
+                    px: 2,
+                    cursor: 'pointer',
+                    transition: 'border 0.5s',
+                    boxSizing: 'border-box',
+                    border: `3px solid ${
+                        !isActive ? 'transparent' : palette.custom.white
+                    }`,
+                    '&:hover': {
+                        border: `3px solid ${palette.custom.white}`,
+                    },
+                })}
+            >
+                <Typography
+                    sx={({ palette }) => ({
+                        fontWeight: isActive ? 'bold' : undefined,
+                        color: !isActive ? 'darkgray' : palette.custom.white,
+                        '&:hover': {
+                            color: palette.custom.white,
+                        },
+                    })}
+                >
+                    {wordScramble.word()}
+                </Typography>
+            </Box>
+        </Link>
     );
 };
 
-const Container = styled.header`
-    background-color: transparent;
-    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
-`;
+const HeaderLinks = () => {
+    const ids = ['home', 'projects', 'contact'] as const;
 
-const NavWrapper = styled.div`
-    box-sizing: border-box;
-    padding: 36px 0;
-`;
+    return {
+        ids,
+        Component: () => {
+            const router = useRouter();
+            const { part } = router.query;
 
-const BackToTopContainer = styled.div`
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    margin: 0 12px 12px 0;
-`;
+            const scrollId = ids.find((id) => id === part) ?? ids[0];
 
-export default Header;
+            const defaultId = !ids.find((id) => id === part) && ids[0];
+
+            const holder =
+                React.useRef() as React.MutableRefObject<HTMLDivElement>;
+
+            React.useEffect(() => {
+                // ref: https://stackoverflow.com/questions/24665602/scrollintoview-scrolls-just-too-far
+                const element = guard({
+                    value: document.getElementById(scrollId),
+                    error: () =>
+                        new Error(
+                            `There is no document with scrollId of ${scrollId}`
+                        ),
+                });
+                window.scrollTo({
+                    behavior: 'smooth',
+                    top:
+                        element.getBoundingClientRect().top +
+                        window.pageYOffset -
+                        guard({
+                            value: holder.current,
+                            error: () =>
+                                new Error('Holder.current is undefined'),
+                        }).offsetHeight -
+                        20,
+                });
+            }, []);
+
+            return (
+                <Holder
+                    holderRef={holder}
+                    sx={{
+                        top: 0,
+                        zIndex: 2,
+                        position: 'sticky',
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        padding: '16px 24px !important',
+                        boxSizing: 'border-box',
+                        backdropFilter: 'blur(50px)',
+                    }}
+                >
+                    <Holder
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-evenly',
+                            gridGap: 24,
+                            width: {
+                                xs: '50%',
+                            },
+                        }}
+                    >
+                        {ids.map((id) => (
+                            <CustomLink
+                                id={id}
+                                key={id}
+                                isActive={
+                                    defaultId ? id === defaultId : part === id
+                                }
+                            />
+                        ))}
+                    </Holder>
+                </Holder>
+            );
+        },
+    };
+};
+
+export type { ID };
+
+export default HeaderLinks;

@@ -1,11 +1,5 @@
-.PHONY: build test all
+.PHONY: build test
 MAKEFLAGS += --silent
-
-all:
-	make lint &&\
-		make typecheck &&\
-		make format-check &&\
-		make test &&\
 
 NODE_BIN=node_modules/.bin/
 VITE_NODE=$(NODE_BIN)vite-node
@@ -16,20 +10,22 @@ install:
 	pnpm i --frozen-lockfile
 
 install-mongo:
-	$(VITE_NODE) script/mongo-setup
+	$(VITE_NODE) script/mongo-setup/install.ts
 
-setup-mongo:
+start-mongo:
 	sudo systemctl unmask mongod
 	sudo systemctl start mongod
 	sudo systemctl stop mongod
 	sudo systemctl restart mongod
+
+migrate-mongo:
 	mongosh < script/mongo-setup/document.js
 
-## generate
-generate: generate-resume
+echo-mongo:
+	echo 'db.runCommand("ping").ok' | mongosh --quiet
 
-generate-resume:
-	$(VITE_NODE) script/resume/generate.ts
+## generate
+generate: generate-webmanifest generate-sitemap
 
 generate-webmanifest:
 	$(VITE_NODE) script/site/webmanifest.ts
@@ -37,23 +33,20 @@ generate-webmanifest:
 generate-sitemap:
 	$(NODE_BIN)next-sitemap
 
-check-projects-image-asset:
-	$(VITE_NODE) script/projects/ensure-background-has-logo-vice-versa.ts
-
 ## env
 copy-env:
 	$(VITE_NODE) script/env/copy.ts ${arguments}
 
-development:
+copy-env-development:
 	make copy-env arguments="-- --development"
 
-staging:
+copy-env-staging:
 	make copy-env arguments="-- --staging"
 
-production:
+copy-env-production:
 	make copy-env arguments="-- --productions"
 
-testing:
+copy-env-testing:
 	make copy-env arguments="-- --testing"
 
 ## deployment
@@ -66,24 +59,24 @@ deploy-production: build-production
 clear-cache:
 	rm -rf .next
 
-start-development: development clear-cache
+start-development: copy-env-development clear-cache
 	$(NEXT) dev
 
-start-staging: staging clear-cache start
+start-staging: copy-env-staging clear-cache start
 
-start-production: production clear-cache start
+start-production: copy-env-production clear-cache start
 
 ## build
-build-development: clear-cache check-projects-image-asset development build
+build-development: clear-cache copy-env-development build
 
-build-production: clear-cache check-projects-image-asset production build
+build-production: clear-cache copy-env-production build
 
-build-staging: clear-cache check-projects-image-asset staging build
+build-staging: clear-cache copy-env-staging build
 
-build-testing: clear-cache check-projects-image-asset testing build
+build-testing: clear-cache copy-env-testing build
 
 build:
-	$(NEXT) build && make generate-sitemap && make generate-webmanifest
+	$(NEXT) build
 
 ## start
 start:
@@ -91,7 +84,7 @@ start:
 
 ## format
 prettify:
-	$(NODE_BIN)prettier --ignore-path .gitignore  --$(type) src/ test/
+	$(NODE_BIN)prettier --ignore-path .gitignore  --$(type) src/ test/ script/
 
 format-check:
 	make prettify type=check
@@ -114,10 +107,8 @@ find-unimported-files:
 	$(NODE_BIN)unimported
 
 ## typecheck
-tsc=$(NODE_BIN)tsc
-
 typecheck:
-	$(tsc) -p tsconfig.json $(arguments) 
+	$(NODE_BIN)tsc -p tsconfig.json $(arguments) 
 
 typecheck-watch:
 	make typecheck arguments=--w
@@ -130,9 +121,9 @@ test-unit:
 	make test-type path="unit" arguments="$(arguments)"
 
 test-integration:
-	make build-testing && make test-type path="integration" arguments="$(arguments)"
+	make test-type path="integration" arguments="$(arguments)"
 
-test-snapshots:
-	make build-testing && make test-type path="snapshots" arguments="$(arguments)"
+test-snapshot:
+	make test-type path="snapshot" arguments="$(arguments)"
 
-test: test-unit test-integration test-snapshots
+test: test-unit build-testing test-integration test-snapshot

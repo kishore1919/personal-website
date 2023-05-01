@@ -1,6 +1,6 @@
 import { beforeAll, afterAll, describe } from 'vitest';
-import { Server } from '../util';
-import Database from '../../src/api/contact/database';
+import Server from '../server';
+import Database from '../../src/api/database';
 import testContactFormSubmissionPost from './contact-form-submission';
 
 const testIntegration = () => {
@@ -10,7 +10,6 @@ const testIntegration = () => {
         await server.start();
         await (await database).clearCollections();
     });
-
     describe('Integration Test', () => {
         testContactFormSubmissionPost();
     });

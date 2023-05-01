@@ -1,244 +1,13 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { useRouter } from 'next/router';
-import data from '../../../common/data';
-import { GlobalContainer } from '../../theme/global-theme';
+import { keyframes } from '@emotion/react';
 import Title from '../common/title';
-import type { LinkNavigation, LinkTitle } from '../navigation/links';
+import { SecondaryMainButton } from '../common/button';
 
-type BackToHomeButtonProps = Readonly<{
-    timeToChange: number;
-}>;
-
-type BreakPoint = Readonly<{
-    breakPoint: number;
-}>;
-
-const ErrorContainer = (
-    props: Readonly<
-        {
-            statusCode?: number;
-            messages: ReadonlyArray<string>;
-        } & (
-            | {
-                  type: 'refresh';
-                  name: LinkTitle;
-              }
-            | {
-                  type: 'link-to';
-                  replaceTo: LinkNavigation;
-              }
-        )
-    >
-) => {
-    const { messages, statusCode } = props;
-    const router = useRouter();
-
-    const delay = 0.5;
-    const breakPoint = 877;
-    const timeToChange = 15 + delay;
-
-    const [state, setState] = React.useState({
-        countDown: timeToChange - delay,
-    });
-
-    const { countDown } = state;
-
-    React.useEffect(() => {
-        if (!countDown) {
-            props.type === 'refresh'
-                ? router.reload()
-                : router.replace(props.replaceTo);
-        }
-        if (data.nodeEnv === 'test') {
-            return;
-        }
-        const goTo = setTimeout(
-            () =>
-                setState((prev) => ({
-                    ...prev,
-                    countDown: prev.countDown - 1,
-                })),
-            1000
-        );
-        return () => clearTimeout(goTo);
-    }, [countDown]);
-
-    const getName = (): LinkTitle => {
-        switch (props.type) {
-            case 'refresh': {
-                return props.name;
-            }
-            case 'link-to': {
-                const { replaceTo } = props;
-                return replaceTo === '/'
-                    ? 'Home'
-                    : replaceTo === '/projects'
-                    ? 'Projects'
-                    : replaceTo === '/contact'
-                    ? 'Contact'
-                    : 'Resume';
-            }
-        }
-    };
-
-    const name = getName();
-
-    const ErrorContainer =
-        statusCode !== undefined
-            ? ErrorContentContainer
-            : ErrorContentContainerWithoutStatusCode;
-
-    return (
-        <Container>
-            <Title
-                title={`${statusCode ?? ''} Error`}
-                content="You took the wrong turn and came here"
-            />
-            <ErrorContainer>
-                <ErrorLeft>
-                    <div>
-                        {messages.map((message, index) => {
-                            const Message = !index
-                                ? ErrorMessageTitle
-                                : ErrorMessageDescription;
-                            return <Message key={message}>{message}</Message>;
-                        })}
-                    </div>
-                    {props.type === 'refresh' ? (
-                        <>
-                            <RefreshButtonContainer>
-                                <RefreshButton
-                                    onClick={router.reload}
-                                    timeToChange={timeToChange}
-                                >
-                                    Refresh
-                                </RefreshButton>
-                            </RefreshButtonContainer>
-                            <BackToHomeAlternative>OR</BackToHomeAlternative>
-                            <BackToHomeTimer>
-                                Auto Refresh in: 00:00:
-                                {`${countDown >= 10 ? '' : '0'}${countDown}`}
-                            </BackToHomeTimer>
-                        </>
-                    ) : (
-                        <ErrorActionContainer breakPoint={breakPoint}>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <BackToHomeTimer>
-                                    Back to {name} in: 00:00:
-                                    {`${
-                                        countDown >= 10 ? '' : '0'
-                                    }${countDown}`}
-                                </BackToHomeTimer>
-                                <BackToHomeAlternative>
-                                    OR
-                                </BackToHomeAlternative>
-                                <BackToHomeButton
-                                    breakPoint={breakPoint}
-                                    timeToChange={timeToChange}
-                                >
-                                    Go{' '}
-                                    <Link href={props.replaceTo}>{name}</Link>{' '}
-                                    Immediately
-                                </BackToHomeButton>
-                            </div>
-                        </ErrorActionContainer>
-                    )}
-                </ErrorLeft>
-                {statusCode === undefined ? null : (
-                    <ErrorRight>
-                        <ErrorMessageFourZeroFour>
-                            {statusCode}
-                        </ErrorMessageFourZeroFour>
-                    </ErrorRight>
-                )}
-            </ErrorContainer>
-        </Container>
-    );
-};
-
-const Container = styled(GlobalContainer)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const ErrorContentContainerWithoutStatusCode = styled.div`
-    width: 85%;
-    text-align: center;
-    @media (max-width: 877px) {
-        > div {
-            margin: 10px 0 10px 0;
-        }
-    }
-`;
-
-const ErrorContentContainer = styled.div`
-    width: 85%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    @media (max-width: 877px) {
-        display: flex;
-        flex-direction: column-reverse;
-        text-align: center;
-        > div {
-            margin: 10px 0 10px 0;
-        }
-    }
-`;
-
-const ErrorActionContainer = styled.div`
-    display: flex;
-    @media (max-width: ${({ breakPoint }: BreakPoint) => breakPoint}px) {
-        display: block;
-    }
-`;
-
-const ErrorLeft = styled.div`
-    display: grid;
-`;
-
-const ErrorRight = styled.div`
-    text-align: center;
-`;
-
-const ErrorMessageFourZeroFour = styled.h1`
-    font-size: 10em;
-    color: ${({ theme }) => theme.text.highEmphasis};
-    @media (max-width: 877px) {
-        font-size: 6em;
-        margin: 0 !important;
-    }
-`;
-
-const ErrorMessageTitle = styled.h2`
-    font-size: 2em;
-    color: ${({ theme }) => theme.text.highEmphasis};
-    @media (max-width: 877px) {
-        font-size: 1.8em;
-    }
-`;
-
-const ErrorMessageDescription = styled.p`
-    color: ${({ theme }) => theme.text.mediumEmphasis};
-`;
-
-const BackToHomeTimer = styled.div`
-    color: ${({ theme }) => theme.text.highEmphasis};
-`;
-
-const BackToHomeAlternative = styled.p`
-    color: ${({ theme }) => theme.text.highEmphasis};
-`;
-
-const ChargeHomeButton = keyframes`
+const chargeHomeButton = keyframes`
     0% {
         background-position: 100% 0%;
     }
@@ -247,84 +16,192 @@ const ChargeHomeButton = keyframes`
     }
 `;
 
-const BackToHomeButton = styled.div`
-    color: ${({ theme }) => theme.text.highEmphasis};
-    align-self: baseline;
-    @media (max-width: ${({ breakPoint }: BreakPoint & BackToHomeButtonProps) =>
-            breakPoint}px) {
-        align-self: normal;
-    }
-    > a {
-        background-color: ${({ theme }) => theme.color.blue.bright} !important;
-        background: linear-gradient(
-                to left,
-                ${({ theme }) => theme.color.primary} 50%,
-                ${({ theme }) => theme.color.blue.bright} 50%
-            )
-            right;
-        background-size: 200%;
-        display: inline-block;
-        padding: 12px 16px;
-        text-transform: uppercase;
-        color: ${({ theme }) => theme.color.secondary};
-        text-decoration: none;
-        font-weight: 600;
-        animation: ${ChargeHomeButton} ease-in-out
-            ${({ timeToChange }) => timeToChange}s;
-        -moz-animation: ${ChargeHomeButton} ease-in-out
-            ${({ timeToChange }) => timeToChange}s;
-        -webkit-animation: ${ChargeHomeButton} ease-in-out
-            ${({ timeToChange }) => timeToChange}s;
-        -o-animation: ${ChargeHomeButton} ease-in-out
-            ${({ timeToChange }) => timeToChange}s;
-        -ms-animation: ${ChargeHomeButton} ease-in-out
-            ${({ timeToChange }) => timeToChange}s;
+const MarginTopBox = ({
+    children,
+    shouldNotMarginTop,
+}: Readonly<{
+    shouldNotMarginTop?: true;
+    children: React.ReactNode;
+}>) => (
+    <Box
+        sx={{
+            m: 0,
+            mt: !shouldNotMarginTop ? 4 : undefined,
+            display: 'grid',
+            placeItems: 'center',
+        }}
+    >
+        {children}
+    </Box>
+);
 
-        &:hover {
-            background-position: left !important;
-            cursor: pointer;
+const ClickRefresh = ({
+    title,
+    refresh,
+    timeToChange,
+}: Readonly<{
+    title: string;
+    refresh: () => void;
+    timeToChange: number;
+}>) => (
+    <SecondaryMainButton
+        title={title}
+        onClick={refresh}
+        sx={({ palette }) => ({
+            fontWeight: 600,
+            backgroundColor: 'custom.blue.dark',
+            background: [
+                `linear-gradient(to left`,
+                `${palette.background.default} 50%`,
+                `${palette.custom.blue.dark} 50%)`,
+            ].join(','),
+            backgroundSize: '200%',
+            display: 'inline-block',
+            animation: `${chargeHomeButton} ease-in-out ${timeToChange}s`,
+            '&:hover': {
+                backgroundPosition: 'left !important',
+            },
+        })}
+    />
+);
+
+const ErrorContainer = ({
+    type,
+    messages,
+    statusCode,
+}: Readonly<{
+    type: 'reload' | 'replace';
+    statusCode?: number;
+    messages: ReadonlyArray<string>;
+}>) => {
+    const router = useRouter();
+
+    const home = '/';
+    const delay = 1;
+    const timeToChange = 15 + delay;
+
+    const [countDown, setCountDown] = React.useState(timeToChange - delay);
+
+    React.useEffect(() => {
+        if (!countDown) {
+            type === 'reload' ? router.reload() : router.replace(home);
         }
-    }
-`;
+        if (process.env.NEXT_PUBLIC_NODE_ENV === 'test') {
+            return;
+        }
+        const goTo = setTimeout(
+            () => setCountDown((countDown) => countDown - 1),
+            1000
+        );
+        return () => clearTimeout(goTo);
+    }, [countDown]);
 
-const RefreshButtonContainer = styled.div`
-    display: grid;
-    place-items: center;
-`;
-
-const RefreshButton = styled.button`
-    border: none;
-    font-size: 1em;
-    font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
-    background-color: ${({ theme }) => theme.color.blue.bright} !important;
-    background: linear-gradient(
-            to left,
-            ${({ theme }) => theme.color.primary} 50%,
-            ${({ theme }) => theme.color.blue.bright} 50%
-        )
-        right;
-    background-size: 200%;
-    display: inline-block;
-    padding: 12px 16px;
-    text-transform: uppercase;
-    color: ${({ theme }) => theme.color.secondary};
-    text-decoration: none;
-    font-weight: 600;
-    animation: ${ChargeHomeButton} ease-in-out
-        ${({ timeToChange }: BackToHomeButtonProps) => timeToChange}s;
-    -moz-animation: ${ChargeHomeButton} ease-in-out
-        ${({ timeToChange }) => timeToChange}s;
-    -webkit-animation: ${ChargeHomeButton} ease-in-out
-        ${({ timeToChange }) => timeToChange}s;
-    -o-animation: ${ChargeHomeButton} ease-in-out
-        ${({ timeToChange }) => timeToChange}s;
-    -ms-animation: ${ChargeHomeButton} ease-in-out
-        ${({ timeToChange }) => timeToChange}s;
-
-    &:hover {
-        background-position: left !important;
-        cursor: pointer;
-    }
-`;
+    return (
+        <Box
+            sx={{
+                m: 0,
+                mt: 4,
+                display: 'grid',
+                placeItems: 'center',
+            }}
+        >
+            <Title
+                title={`${statusCode ?? ''} Error`}
+                content="You took the wrong turn and came here"
+            />
+            <Box
+                sx={{
+                    width: '80%',
+                }}
+            >
+                <MarginTopBox shouldNotMarginTop>
+                    <Typography
+                        variant="h1"
+                        sx={{
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        {statusCode}
+                    </Typography>
+                </MarginTopBox>
+                <MarginTopBox>
+                    {messages.map((message, index) => (
+                        <Typography
+                            key={message}
+                            variant={!index ? 'h3' : 'inherit'}
+                            sx={{
+                                m: 0,
+                                mb: index ? 1 : 6,
+                                color: !index ? undefined : 'text.secondary',
+                            }}
+                        >
+                            {message}
+                        </Typography>
+                    ))}
+                </MarginTopBox>
+                <MarginTopBox>
+                    <Typography>
+                        {type === 'reload' ? 'Auto Reload' : 'Back to Home'} in:
+                        00:00:
+                        {`${countDown >= 10 ? '' : 0}${countDown}`}
+                    </Typography>
+                    <Typography
+                        sx={{
+                            m: 0,
+                            mt: 4,
+                            fontWeight: 700,
+                        }}
+                    >
+                        OR
+                    </Typography>
+                </MarginTopBox>
+                <MarginTopBox>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            whiteSpace: 'pre',
+                        }}
+                    >
+                        {type === 'reload' ? (
+                            <>
+                                Quickly{' '}
+                                <Box
+                                    style={{
+                                        textDecoration: 'none',
+                                    }}
+                                >
+                                    <ClickRefresh
+                                        timeToChange={timeToChange}
+                                        title="RELOAD"
+                                        refresh={() => router.reload()}
+                                    />{' '}
+                                </Box>
+                                Now
+                            </>
+                        ) : (
+                            <>
+                                Go{' '}
+                                <Link
+                                    href={home}
+                                    style={{
+                                        textDecoration: 'none',
+                                    }}
+                                >
+                                    <ClickRefresh
+                                        timeToChange={timeToChange}
+                                        title="HOME"
+                                        refresh={() => router.replace(home)}
+                                    />{' '}
+                                </Link>
+                                Immediately
+                            </>
+                        )}
+                    </Box>
+                </MarginTopBox>
+            </Box>
+        </Box>
+    );
+};
 
 export default ErrorContainer;

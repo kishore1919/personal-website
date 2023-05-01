@@ -1,19 +1,12 @@
-import type { QueryParams } from '../../common/project';
+import config from '../../../test/config';
 
 const url = (() => {
-    const api = '/api';
+    const api = `${
+        process.env.NEXT_PUBLIC_NODE_ENV !== 'test' ? '' : config().baseUrl
+    }/api`;
     return {
         contact: `${api}/contact`,
     } as const;
 })();
 
-const projectQuery = (queryParams: QueryParams) =>
-    Object.entries(queryParams).reduce((prev, [key, value]) => {
-        if (!value) {
-            return prev;
-        }
-        const pair = `${key}=${encodeURIComponent(value)}`;
-        return !prev ? pair : `${prev}&${pair}`;
-    }, '');
-
-export { url, projectQuery };
+export { url };

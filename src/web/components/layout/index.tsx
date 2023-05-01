@@ -1,58 +1,40 @@
 import React from 'react';
-import styled from 'styled-components';
-import Footer from '../footer';
-import Header from '../header';
-import GlobalStyle from '../../theme/global-theme';
+import CssBaseline from '@mui/material/CssBaseline';
+import GlobalStyles from '@mui/material/GlobalStyles';
 import Head from 'next/head';
-import parse from 'parse-dont-validate';
-import data from '../../../common/data';
+import Footer from '../common/footer';
 
 const Layout = ({
+    title,
     children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) => (
+}: Readonly<{ title: string; children: React.ReactNode }>) => (
     <>
         <Head>
-            {data.nodeEnv !== 'production' && data.nodeEnv !== 'development'
-                ? null
-                : (() => {
-                      const gaMeasurementId = parse(
-                          process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-                      )
-                          .asString()
-                          .elseThrow(
-                              'NEXT_PUBLIC_GA_MEASUREMENT_ID is not a string'
-                          );
-
-                      return (
-                          <>
-                              <script
-                                  async
-                                  src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
-                              />
-                              <script>
-                                  {[
-                                      'window.dataLayer = window.dataLayer || []',
-                                      'function gtag(){window.dataLayer.push(arguments);}',
-                                      `gtag('js', new Date())`,
-                                      `gtag('config', '${gaMeasurementId}', {page_path: window.location.pathname})`,
-                                  ].join('\n')}
-                              </script>
-                          </>
-                      );
-                  })()}
+            <title>{title}</title>
         </Head>
-        <GlobalStyle />
-        <Header />
-        <Container>{children}</Container>
+        <CssBaseline />
+        <GlobalStyles
+            styles={`
+                * {
+                    scroll-behavior: smooth !important;
+                }
+                *::-webkit-scrollbar {
+                    width: 8px;
+                }
+                *::-webkit-scrollbar-track {
+                    background-color: transparent !important;
+                }
+                *::-webkit-scrollbar-thumb {
+                    border: 2px solid transparent;
+                    background-clip: padding-box;
+                    border-radius: 9999px;
+                    background-color: gray;
+                }
+          `}
+        />
+        {children}
         <Footer />
     </>
 );
-
-const Container = styled.div`
-    width: 100%;
-    margin: auto;
-`;
 
 export default Layout;

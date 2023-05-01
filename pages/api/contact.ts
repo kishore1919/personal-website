@@ -1,5 +1,5 @@
-import { parseAsString } from 'parse-dont-validate';
-import Database from '../../src/api/contact/database';
+import { parseAsString, parseAsBoolean } from 'parse-dont-validate';
+import Database from '../../src/api/database';
 import cors from '../../src/api/cors';
 import type { EndPointFunc } from '../../src/api/endpoint';
 import type { Data } from '../../src/common/contact';
@@ -16,55 +16,64 @@ const contact: EndPointFunc<Data> = async (request, response) => {
         response.status(404).json('Only accept POST request');
     } else {
         const { body } = request;
-        const { name, email, message } = body;
-        const parsedName = getName(
+
+        const responseSucceed = {
+            type: 'succeed',
+        } as const;
+
+        if (
+            parseAsBoolean({
+                boolean: body.isHoneyPot,
+                ifParsingFailThen: 'get',
+                alternativeValue: false,
+            })
+        ) {
+            return response.status(200).json(responseSucceed);
+        }
+
+        const name = getName(
             parseAsString({
-                string: name,
+                string: body.name,
                 ifParsingFailThen: 'get',
                 alternativeValue: '',
             })
         );
-        const parsedEmail = getEmail(
+        const email = getEmail(
             parseAsString({
-                string: email,
+                string: body.email,
                 ifParsingFailThen: 'get',
                 alternativeValue: '',
             })
         );
-        const parsedMessage = getMessage(
+        const message = getMessage(
             parseAsString({
-                string: message,
+                string: body.message,
                 ifParsingFailThen: 'get',
                 alternativeValue: '',
             })
         );
         if (
             !isAllValueValid({
-                name: parsedName,
-                email: parsedEmail,
-                message: parsedMessage,
+                name,
+                email,
+                message,
             })
         ) {
             response.status(200).json({
                 type: 'input',
-                name: parsedName,
-                email: parsedEmail,
-                message: parsedMessage,
+                name,
+                email,
+                message,
             } as Data);
         } else {
             const database = await Database.instance();
             const result: Data = await database
                 .insertContactFormMessage({
-                    name: parsedName.value,
-                    email: parsedEmail.value,
-                    message: parsedMessage.value,
+                    name: name.value,
+                    email: email.value,
+                    message: message.value,
                 })
-                .then(
-                    () =>
-                        ({
-                            type: 'succeed',
-                        } as const)
-                )
+                .then(() => responseSucceed)
                 .catch(
                     () =>
                         ({

@@ -15,8 +15,7 @@ const Error = (
 ) => (
     <ErrorContainer
         statusCode={serverProps.statusCode}
-        type="link-to"
-        replaceTo="/"
+        type="reload"
         messages={[
             'Oops! You seems lost',
             'Yeah, I am as confused as you are',

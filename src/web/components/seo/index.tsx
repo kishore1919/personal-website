@@ -1,37 +1,30 @@
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
-import type { DeepReadonly } from '../../../common/type';
-import type { LinkTitle } from '../navigation/links';
-import Schema from '../schema';
-import Title from '../common/title';
-import links from '../../data/links';
+import Schema from './schema';
 
 const Seo = (
-    props: DeepReadonly<{
-        content: string;
-        keywords: string[];
-        title: Exclude<LinkTitle, '404 Error'>;
+    props: Readonly<{
+        title: string;
+        description: string;
+        keywords: ReadonlyArray<string>;
     }>
 ) => {
-    const { content, keywords } = props;
-
-    const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
-
+    const url = process.env.ORIGIN;
     const iconPath = '/images/icons';
+    const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
 
     const name = 'Gervin';
 
     const title = `${name} | ${props.title}`;
 
-    const description = props.content;
+    const { description } = props;
 
     return (
         <>
-            <Title title={title} content={content} />
             <Schema />
             <DefaultSeo
                 title={title}
-                canonical={links.domain}
+                canonical={url}
                 defaultTitle={title}
                 titleTemplate={title}
                 description={description}
@@ -41,8 +34,8 @@ const Seo = (
                     cardType: 'summary_large_image',
                 }}
                 openGraph={{
+                    url,
                     title,
-                    url: links.domain,
                     description,
                     images: dimensions.map((dimension) => ({
                         alt: description,
@@ -54,13 +47,13 @@ const Seo = (
                 additionalMetaTags={[
                     {
                         name: 'keyword',
-                        content: `Gervin Fung Da Xuen, ${name}, Dart, Rust, Java, React, NextJS, FullStack, Developer, ${keywords.join(
+                        content: `Gervin Fung Da Xuen, ${name}, Dart, Rust, Java, TypeScript, React-based, FullStack Developer, PoolOfDeath20, Game Developer, ${props.keywords.join(
                             ','
                         )}`,
                     },
                     {
                         name: 'author',
-                        content: 'Gervin Fung Da Xuen',
+                        content: 'Gervin Fung Da Xuen | PoolOfDeath20',
                     },
                     {
                         name: 'viewport',
@@ -84,15 +77,15 @@ const Seo = (
                     },
                     {
                         name: 'theme-color',
-                        content: '#000D0D',
+                        content: '#121212',
                     },
                     {
                         name: 'msapplication-navbutton-color',
-                        content: '#000D0D',
+                        content: '#121212',
                     },
                     {
                         name: 'apple-mobile-web-app-status-bar-style',
-                        content: '#000D0D',
+                        content: '#121212',
                     },
                     {
                         name: 'msapplication-starturl',
@@ -113,17 +106,18 @@ const Seo = (
                     ...dimensions.flatMap((dimension) => {
                         const sizes = `${dimension}x${dimension}`;
                         const href = `${iconPath}/icon-${sizes}.png`;
-                        const icon = {
-                            href,
-                            sizes,
-                            rel: 'icon',
-                        };
-                        const appleTouchIcon = {
-                            href,
-                            sizes,
-                            rel: 'apple-touch-icon',
-                        };
-                        return [icon, appleTouchIcon];
+                        return [
+                            {
+                                href,
+                                sizes,
+                                rel: 'icon',
+                            },
+                            {
+                                href,
+                                sizes,
+                                rel: 'apple-touch-icon',
+                            },
+                        ];
                     }),
                 ]}
             />

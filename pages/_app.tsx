@@ -1,37 +1,73 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
-import { theme } from '../src/web/theme/color-theme';
-import styled, { ThemeProvider } from 'styled-components';
+import {
+    createTheme,
+    responsiveFontSizes,
+    ThemeProvider,
+} from '@mui/material/styles';
+import { colorTheme } from '../src/web/theme';
+import ErrorBoundary from '../src/web/components/error/boundary';
+import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
-import Font from '../src/web/components/common/font';
-import ErrorBoundary from '../src/web/components/error/error-boundary';
-import { ToastContainer } from 'react-toastify';
-import { injectStyle } from 'react-toastify/dist/inject-style';
 
 const App = ({ Component, pageProps }: AppProps) => {
-    React.useEffect(() => {
-        injectStyle();
-    }, []);
+    const title = 'Gervin';
+    const { fontFamily } = consts;
+
+    const theme = React.useMemo(
+        () =>
+            responsiveFontSizes(
+                createTheme({
+                    typography: {
+                        fontFamily,
+                    },
+                    palette: {
+                        mode: 'dark',
+                        primary: {
+                            main: colorTheme.blue.light,
+                        },
+                        secondary: {
+                            main: colorTheme.green.dark,
+                        },
+                        custom: {
+                            ...colorTheme,
+                        },
+                    },
+                    components: {
+                        MuiCssBaseline: {
+                            styleOverrides: `@font-face {${[
+                                `font-family: '${fontFamily}'`,
+                                'font-size: normal',
+                                'font-display: swap',
+                            ].join(';\n')}}`,
+                        },
+                    },
+                    breakpoints: {
+                        values: {
+                            xs: 0,
+                            sm: 500,
+                            xm: 700,
+                            md: 900,
+                            lg: 1200,
+                            xl: 1500,
+                        },
+                    },
+                })
+            ),
+        []
+    );
 
     return (
         <ThemeProvider theme={theme}>
-            <EmptyContainer>
-                <ToastContainer bodyClassName="toastBody" />
-                <Font family="JetBrains Mono" />
-                <ErrorBoundary>
-                    <Layout>
+            <ErrorBoundary>
+                <Layout title={title}>
+                    <main>
                         <Component {...pageProps} />
-                    </Layout>
-                </ErrorBoundary>
-            </EmptyContainer>
+                    </main>
+                </Layout>
+            </ErrorBoundary>
         </ThemeProvider>
     );
 };
-
-const EmptyContainer = styled.main`
-    .toastBody {
-        font-family: ${({ theme }) => theme.fontFamily}, sans-serif !important;
-    }
-`;
 
 export default App;

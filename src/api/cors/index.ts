@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Cors from 'cors';
-import parse from 'parse-dont-validate';
 import type { Response } from '../endpoint';
+import { guard } from '../../common/type';
 
 const initMiddleware =
     <T>(
@@ -22,9 +22,13 @@ const cors = <T>() =>
     initMiddleware<Response<T>>(
         Cors({
             credentials: true,
-            origin: parse(process.env.ORIGIN)
-                .asString()
-                .elseThrow('ORIGIN is not a string'),
+            origin: guard({
+                value: process.env.ORIGIN,
+                error: () =>
+                    new Error(
+                        'There is no environment variable calle "ORIGIN"'
+                    ),
+            }),
         })
     );
 
