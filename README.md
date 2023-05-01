@@ -10,35 +10,23 @@ In the end, I ended up creating my own web application
 
 ![Home](docs/home.png 'Home')
 
-#### Projects Page
+#### Error Page
 
-![projects](docs/projects.png 'Projects')
-
-#### Contact Page
-
-![Contact](docs/contact.png 'Contact')
-
-#### Resume Page
-
-![Resume](docs/resume.png 'Resume')
-
-#### Last but not least, footer
-
-![Footer](docs/footer.png 'Footer')
+![projects](docs/error.png 'Error')
 
 ## Tech Used
 
-| Aspect                                                                 | Name              |
-| ---------------------------------------------------------------------- | ----------------- |
-| Development Language                                                   | TypeScipt         |
-| Scripting Language                                                     | TypeScipt         |
-| Testing                                                                | Vitest            |
-| Styling                                                                | Styled-components |
-| Framework                                                              | NextJS            |
-| Build Automation Tool                                                  | Make              |
-| Text Editor                                                            | NeoVim            |
-| Dependency Management                                                  | Pnpm              |
-| Continuous Integration, Continuous Delivery, and Continuous Deployment | GitHub Actions    |
+| Aspect                                                                 | Name           |
+| ---------------------------------------------------------------------- | -------------- |
+| Development Language                                                   | TypeScipt      |
+| Scripting Language                                                     | TypeScipt      |
+| Testing                                                                | Vitest         |
+| Styling                                                                | Material UI    |
+| Framework                                                              | NextJS         |
+| Build Automation Tool                                                  | Make           |
+| Text Editor                                                            | NeoVim         |
+| Dependency Management                                                  | Pnpm           |
+| Continuous Integration, Continuous Delivery, and Continuous Deployment | GitHub Actions |
 
 ## How to build this app?
 
@@ -61,6 +49,7 @@ _*Below are the listed commands that you can use to build/develop/test this app*
 | make generate                                     | Generate the file needed                          |
 | make start-(development OR staging OR production) | Start development                                 |
 | make build-(development OR staging OR production) | Bundle and build the app                          |
+| make deploy-(staging OR production)               | Bundle, build and deploy the app                  |
 | make install                                      | Install all dependencies                          |
 | make test                                         | Run all test code                                 |
 | make typecheck                                    | Run typechecking for source code                  |
