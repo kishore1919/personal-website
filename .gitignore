@@ -30,3 +30,7 @@ cache
 public/sitemap*.xml
 public/site.webmanifest
 public/robots.txt
+
+# font
+public/font
+src/web/css/font.css

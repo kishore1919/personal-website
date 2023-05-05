@@ -9,6 +9,7 @@ import { colorTheme } from '../src/web/theme';
 import ErrorBoundary from '../src/web/components/error/boundary';
 import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
+import '../src/web/css/font.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
     const title = 'Gervin';
