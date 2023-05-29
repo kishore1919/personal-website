@@ -10,8 +10,8 @@ db.createUser({
 
 db.auth('runner', 'mongodb');
 
-db = db.getSiblingDB('myWeb');
-db.createCollection('contactFormMessage');
+db = db.getSiblingDB('my-web');
+db.createCollection('contact-form-message');
 
-db = db.getSiblingDB('testMyWeb');
-db.createCollection('contactFormMessage');
+db = db.getSiblingDB('test-my-web');
+db.createCollection('contact-form-message');

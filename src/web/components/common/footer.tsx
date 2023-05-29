@@ -10,33 +10,30 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import links from '../../links';
 
-const SocialLink = ({
-    href,
-    children,
-    background,
-    backgroundColor,
-}: Readonly<{
-    href: string;
-    background: string;
-    backgroundColor?: string;
-    children: React.ReactNode;
-}>) => (
+const SocialLink = (
+    props: Readonly<{
+        href: string;
+        background: string;
+        backgroundColor?: string;
+        children: React.ReactNode;
+    }>
+) => (
     <Link
-        href={href}
+        href={props.href}
         target="_blank"
         rel="noopener"
         underline="none"
         sx={{
             p: 1,
-            backgroundColor: backgroundColor ?? background,
-            background,
+            backgroundColor: props.backgroundColor ?? props.background,
+            background: props.background,
             display: 'flex',
             alignItems: 'center',
             borderRadius: '50%',
             border: 'none',
         }}
     >
-        {children}
+        {props.children}
     </Link>
 );
 

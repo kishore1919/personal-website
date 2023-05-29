@@ -18,53 +18,44 @@ import sendMessage from './send-message';
 import { Error, Success, Info } from '../common/alert';
 import type { ID } from '../header';
 import consts from '../../const';
+import { capitalize } from '../../utils';
 
-const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
-const TextFieldInput = ({
-    id,
-    type,
-    value,
-    error,
-    setValue,
-    multiline,
-    placeholder,
-}: Readonly<{
-    id: string;
-    value: string;
-    multiline?: true;
-    error: string;
-    placeholder: string;
-    type: 'text' | 'email';
-    setValue: (_: string) => void;
-}>) => (
-    <TextField
-        required
-        id={id}
-        type={type}
-        value={value}
-        autoComplete="off"
-        multiline={multiline}
-        helperText={error}
-        error={Boolean(error)}
-        label={capitalize(id)}
-        placeholder={placeholder}
-        rows={multiline ? 8 : undefined}
-        InputLabelProps={{ required: false }}
-        inputProps={{
-            spellCheck: 'false',
-        }}
-        sx={{
-            zIndex: 0,
-            backgroundColor: 'background.default',
-        }}
-        onChange={(event) => {
-            event.persist();
-            const { value } = event.target;
-            setValue(value);
-        }}
-    />
-);
+const TextFieldInput = (
+    props: Readonly<{
+        id: string;
+        value: string;
+        multiline?: true;
+        error: string;
+        placeholder: string;
+        type: 'text' | 'email';
+        setValue: (_: string) => void;
+    }>
+) => {
+    const { setValue, ...rest } = props;
+    return (
+        <TextField
+            required
+            {...rest}
+            autoComplete="off"
+            error={Boolean(props.error)}
+            label={capitalize(props.id)}
+            rows={props.multiline ? 8 : undefined}
+            InputLabelProps={{ required: false }}
+            inputProps={{
+                spellCheck: 'false',
+            }}
+            sx={{
+                zIndex: 0,
+                backgroundColor: 'background.default',
+            }}
+            onChange={(event) => {
+                event.persist();
+                const { value } = event.target;
+                setValue(value);
+            }}
+        />
+    );
+};
 
 const Contact = ({ id }: ID) => {
     const defaultContactInfo = {

@@ -2,32 +2,20 @@ import axios from 'axios';
 import type { Data } from '../../../common/contact';
 import { url } from '../../url';
 
-const sendMessage = ({
-    name,
-    email,
-    message,
-    isHoneyPot,
-}: Readonly<{
-    name: string;
-    email: string;
-    message: string;
-    isHoneyPot?: true;
-}>) =>
+const sendMessage = (
+    values: Readonly<{
+        name: string;
+        email: string;
+        message: string;
+        isHoneyPot?: true;
+    }>
+) =>
     axios
-        .post(
-            url.contact,
-            {
-                name,
-                email,
-                message,
-                isHoneyPot,
+        .post(url.contact, values, {
+            headers: {
+                'Content-Type': 'application/json',
             },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        )
+        })
         .then(({ data }) => data as Data)
         .catch(() => {
             throw new Error(

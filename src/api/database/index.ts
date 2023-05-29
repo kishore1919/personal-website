@@ -1,5 +1,4 @@
-import mongoose from 'mongoose';
-import type { ObjectId } from 'mongoose';
+import mongoose, { type ObjectId } from 'mongoose';
 import mongodbConfig from './config';
 import { contactFormMessageSchema } from './schema';
 
@@ -38,14 +37,12 @@ export default class Database {
     private static database: Promise<Database> | undefined = undefined;
 
     static readonly instance = (): Promise<Database> => {
-        const { database } = this;
-        switch (typeof database) {
+        switch (typeof this.database) {
             case 'undefined': {
                 this.database = Database.create();
-                return this.database;
             }
         }
-        return database;
+        return this.database;
     };
 
     private constructor(url: string, config: ReturnType<typeof mongodbConfig>) {
@@ -54,7 +51,7 @@ export default class Database {
     }
 
     // testing purpose only
-    readonly close = async () => (await this.client).connection.close();
+    readonly close = async () => (await this.client).disconnect();
     readonly clearCollections = async () =>
         await this.getContactFormMessage().deleteMany({});
     readonly getAllContactFormMessages = async () => {
@@ -69,6 +66,26 @@ export default class Database {
                     )
                     .exec(),
             } as const;
+        } catch (error) {
+            return {
+                result: 'failed',
+                error,
+            } as const;
+        }
+    };
+    readonly checkConnectionStatus = async () => {
+        try {
+            const instance = await this.client;
+            const state = instance.connection.readyState;
+            switch (state) {
+                case 1: {
+                    return {
+                        result: 'succeed',
+                    } as const;
+                }
+            }
+            throw new Error(`Database connection state is ${state} where 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting, 99 = uninitialized
+            `);
         } catch (error) {
             return {
                 result: 'failed',

@@ -67,7 +67,7 @@ const contact: EndPointFunc<Data> = async (request, response) => {
             } as Data);
         } else {
             const database = await Database.instance();
-            const result: Data = await database
+            const result = await database
                 .insertContactFormMessage({
                     name: name.value,
                     email: email.value,

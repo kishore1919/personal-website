@@ -11,8 +11,7 @@ import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
 import '../src/web/css/font.css';
 
-const App = ({ Component, pageProps }: AppProps) => {
-    const title = 'Gervin';
+const App = (props: AppProps) => {
     const { fontFamily } = consts;
 
     const theme = React.useMemo(
@@ -61,9 +60,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     return (
         <ThemeProvider theme={theme}>
             <ErrorBoundary>
-                <Layout title={title}>
+                <Layout>
                     <main>
-                        <Component {...pageProps} />
+                        <props.Component {...props.pageProps} />
                     </main>
                 </Layout>
             </ErrorBoundary>

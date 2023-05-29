@@ -30,13 +30,12 @@ const main = () => {
         run(
             `echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu ${ubuntu.name}/mongodb-org/${mongoVersion} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-${mongoVersion}.list`
         );
-        run('sudo apt-get update');
         run('sudo apt-get install -y mongodb-org');
     };
 
     install();
 
-    run('sudo systemctl start mongod');
+    run('make start-mongo');
 };
 
 main();

@@ -1,5 +1,5 @@
-const isBlank = (value: string) =>
-    value.split('').filter((c) => ' ' === c).length === value.length;
+const isBlank = (s: string) =>
+    s.split('').filter((c) => ' ' === c).length === s.length;
 
 const isEmpty = (s: string) => !s;
 

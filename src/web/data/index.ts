@@ -32,7 +32,7 @@ const projects = () => {
                 name: gitignored.project,
                 brief: 'Blazingly fast development tools to generate useful gitignore templates',
                 date: replacePresentWithNowFirst(
-                    gitignored.aboutAndDateList.map(({ date }) => date)
+                    gitignored.aboutAndDateList.map((param) => param.date)
                 ),
                 tags: [
                     'Command-line Interfaces',
@@ -46,14 +46,14 @@ const projects = () => {
                     homePage: 'https://gitignored.vercel.app',
                 },
                 description: gitignored.descriptions.flatMap(
-                    ({ descriptions }) => descriptions
+                    (param) => param.descriptions
                 ),
             },
             {
                 name: 'parse-dont-validate',
                 brief: 'Validating data acts as a gatekeeper, parsing them into meaningful data types adds valuable information to raw data',
                 date: replacePresentWithNowFirst(
-                    npmPackages.aboutAndDateList.map(({ date }) => date)
+                    npmPackages.aboutAndDateList.map((param) => param.date)
                 ),
                 tags: [
                     'Open Source',
@@ -68,19 +68,18 @@ const projects = () => {
                         'https://www.npmjs.com/package/parse-dont-validate',
                 },
                 description: [
-                    ...npmPackages.descriptions.flatMap(
-                        ({ title, descriptions }) =>
-                            title.includes('denoify')
-                                ? []
-                                : `${guard({
-                                      value: title.split(' - ').at(0),
-                                      error: () =>
-                                          new Error(
-                                              'Title do not have first element'
-                                          ),
-                                  })} ${
-                                      projectUtil.subProjectIndicator
-                                  } ${descriptions}`
+                    ...npmPackages.descriptions.flatMap((param) =>
+                        param.title.includes('denoify')
+                            ? []
+                            : `${guard({
+                                  value: param.title.split(' - ').at(0),
+                                  error: () =>
+                                      new Error(
+                                          'Title do not have first element'
+                                      ),
+                              })} ${projectUtil.subProjectIndicator} ${
+                                  param.descriptions
+                              }`
                     ),
                 ],
             },
@@ -88,7 +87,7 @@ const projects = () => {
                 name: 'ts-add-js-extension',
                 brief: 'Append the JavaScript extension to a relative import/export statement without relying on the TypeScript compiler',
                 date: replacePresentWithNowFirst(
-                    npmPackages.aboutAndDateList.map(({ date }) => date)
+                    npmPackages.aboutAndDateList.map((param) => param.date)
                 ),
                 tags: ['Open Source', 'NPM package'],
                 imagesName: ['main'],
@@ -109,7 +108,7 @@ const projects = () => {
                 name: 'UTARi',
                 brief: 'Final Year Project - an application to help UTAR students look for accommodations around UTAR area',
                 date: replacePresentWithNowFirst(
-                    utari.aboutAndDateList.map(({ date }) => date)
+                    utari.aboutAndDateList.map((param) => param.date)
                 ),
                 tags: [
                     'Final Year Project',
@@ -127,7 +126,7 @@ const projects = () => {
                     github: 'https://github.com/UTARi-Accommodation',
                 },
                 description: utari.descriptions.flatMap(
-                    ({ descriptions }) => descriptions
+                    (param) => param.descriptions
                 ),
             },
             {

@@ -11,16 +11,14 @@ type Result = Readonly<
       }
 >;
 
-const useWordScramble = ({
-    count,
-    timeOut,
-    content,
-}: Parameters<typeof scrambleAndShow>[0] & {
-    timeOut: number;
-}) => {
+const useWordScramble = (
+    props: Parameters<typeof scrambleAndShow>[0] & {
+        timeOut: number;
+    }
+) => {
     const words = scrambleAndShow({
-        count,
-        content,
+        count: props.count,
+        content: props.content,
     });
 
     const [result, setResult] = React.useState({
@@ -64,7 +62,7 @@ const useWordScramble = ({
                               },
                 };
             });
-        }, timeOut);
+        }, props.timeOut);
         return () => clearTimeout(timer);
     };
 
@@ -98,8 +96,8 @@ const useWordScramble = ({
         started: () => result.current.status !== 'started',
         word: () =>
             result.current.status !== 'started'
-                ? content
-                : words.at(result.current.index)?.content ?? content,
+                ? props.content
+                : words.at(result.current.index)?.content ?? props.content,
         stop: () =>
             setPreviousResult({
                 status: 'not-started',

@@ -13,9 +13,8 @@ const testIntegration = () => {
     describe('Integration Test', () => {
         testContactFormSubmissionPost();
     });
-    afterAll(async () => {
+    afterAll(() => {
         server.kill();
-        await (await database).close();
     });
 };
 

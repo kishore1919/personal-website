@@ -1,17 +1,10 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import Head from 'next/head';
 import Footer from '../common/footer';
 
-const Layout = ({
-    title,
-    children,
-}: Readonly<{ title: string; children: React.ReactNode }>) => (
+const Layout = (props: Readonly<{ children: React.ReactNode }>) => (
     <>
-        <Head>
-            <title>{title}</title>
-        </Head>
         <CssBaseline />
         <GlobalStyles
             styles={`
@@ -32,7 +25,7 @@ const Layout = ({
                 }
           `}
         />
-        {children}
+        {props.children}
         <Footer />
     </>
 );

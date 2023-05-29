@@ -16,37 +16,34 @@ const chargeHomeButton = keyframes`
     }
 `;
 
-const MarginTopBox = ({
-    children,
-    shouldNotMarginTop,
-}: Readonly<{
-    shouldNotMarginTop?: true;
-    children: React.ReactNode;
-}>) => (
+const MarginTopBox = (
+    props: Readonly<{
+        shouldNotMarginTop?: true;
+        children: React.ReactNode;
+    }>
+) => (
     <Box
         sx={{
             m: 0,
-            mt: !shouldNotMarginTop ? 4 : undefined,
+            mt: !props.shouldNotMarginTop ? 4 : undefined,
             display: 'grid',
             placeItems: 'center',
         }}
     >
-        {children}
+        {props.children}
     </Box>
 );
 
-const ClickRefresh = ({
-    title,
-    refresh,
-    timeToChange,
-}: Readonly<{
-    title: string;
-    refresh: () => void;
-    timeToChange: number;
-}>) => (
+const ClickRefresh = (
+    props: Readonly<{
+        title: string;
+        refresh: () => void;
+        timeToChange: number;
+    }>
+) => (
     <SecondaryMainButton
-        title={title}
-        onClick={refresh}
+        title={props.title}
+        onClick={props.refresh}
         sx={({ palette }) => ({
             fontWeight: 600,
             backgroundColor: 'custom.blue.dark',
@@ -57,7 +54,7 @@ const ClickRefresh = ({
             ].join(','),
             backgroundSize: '200%',
             display: 'inline-block',
-            animation: `${chargeHomeButton} ease-in-out ${timeToChange}s`,
+            animation: `${chargeHomeButton} ease-in-out ${props.timeToChange}s`,
             '&:hover': {
                 backgroundPosition: 'left !important',
             },
