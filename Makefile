@@ -69,7 +69,7 @@ start-production: copy-env-production clear-cache start
 ## build
 build-development: clear-cache copy-env-development build
 
-build-production: clear-cache copy-env-production build
+build-production: clear-cache copy-env-production build generate
 
 build-staging: clear-cache copy-env-staging build
 

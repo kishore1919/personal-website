@@ -30,7 +30,7 @@ export default class Server {
         await new Promise<void>((resolve) => {
             server.stdout?.on('data', (data: string) => {
                 console.log(data);
-                if (data.includes('ready - started server')) {
+                if (data.includes('started server')) {
                     resolve();
                 }
             });

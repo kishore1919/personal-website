@@ -1,21 +1,18 @@
 import type { Browser } from 'puppeteer';
 
-const getWebSnapshot = async ({
-    port,
-    link,
-    browser,
-    platform,
-}: Readonly<{
-    link: string;
-    port: number;
-    browser: Browser;
-    platform: 'pc' | 'tablet' | 'mobile';
-}>) => {
-    const page = await browser.newPage();
+const getWebSnapshot = async (
+    param: Readonly<{
+        link: string;
+        port: number;
+        browser: Browser;
+        platform: 'pc' | 'tablet' | 'mobile';
+    }>
+) => {
+    const page = await param.browser.newPage();
     await page.setViewport(
-        platform === 'pc'
+        param.platform === 'pc'
             ? { width: 1920, height: 1080 }
-            : platform === 'tablet'
+            : param.platform === 'tablet'
             ? {
                   width: 820,
                   height: 1180,
@@ -29,15 +26,17 @@ const getWebSnapshot = async ({
         { name: 'prefers-color-scheme', value: 'dark' },
     ]);
 
-    await page.goto(`http://0.0.0.0:${port}/${link === 'home' ? '' : link}`);
+    await page.goto(
+        `http://0.0.0.0:${param.port}/${
+            param.link === 'home' ? '' : param.link
+        }`
+    );
 
     await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
 
     return {
-        link,
-        image: await page.screenshot({
-            fullPage: true,
-        }),
+        link: param.link,
+        image: await page.screenshot(),
     } as const;
 };
 
