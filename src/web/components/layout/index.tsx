@@ -1,13 +1,23 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
-import Footer from '../common/footer';
+import Header from '../header';
+import Footer from '../footer';
 
-const Layout = (props: Readonly<{ children: React.ReactNode }>) => (
-    <>
-        <CssBaseline />
-        <GlobalStyles
-            styles={`
+const Layout = (
+	props: Readonly<
+		{ children?: React.ReactNode } & Partial<Parameters<typeof Header>[0]>
+	>
+) => {
+	return (
+		<>
+			{!(props.setMode && props.isDarkMode !== undefined) ? null : (
+				<Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
+			)}
+			<CssBaseline />
+			<GlobalStyles
+				styles={`
                 * {
                     scroll-behavior: smooth !important;
                 }
@@ -24,10 +34,18 @@ const Layout = (props: Readonly<{ children: React.ReactNode }>) => (
                     background-color: gray;
                 }
           `}
-        />
-        {props.children}
-        <Footer />
-    </>
-);
+			/>
+			<Box
+				sx={{
+					mt: 4,
+					width: '100%',
+				}}
+			>
+				{props?.children}
+			</Box>
+			<Footer />
+		</>
+	);
+};
 
 export default Layout;

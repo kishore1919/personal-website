@@ -1,12 +1,23 @@
 const consts = {
-    fontFamily: 'JetBrains Mono',
-    width: {
-        xs: '90%',
-        sm: '85%',
-        xm: '80%',
-        md: '75%',
-        lg: '70%',
-    },
+	fontFamily: 'JetBrains Mono',
+	width: {
+		projects: {
+			xs: '95%',
+			sm: '90%',
+			xm: '85%',
+			md: '80%',
+			lg: '80%',
+			xl: '80%',
+		},
+		others: {
+			xs: '95%',
+			sm: '90%',
+			xm: '85%',
+			md: '70%',
+			lg: '60%',
+			xl: '50%',
+		},
+	},
 } as const;
 
 export default consts;

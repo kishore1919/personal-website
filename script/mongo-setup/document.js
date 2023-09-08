@@ -3,9 +3,9 @@
 db = db.getSiblingDB('admin');
 
 db.createUser({
-    user: 'runner',
-    pwd: 'mongodb',
-    roles: [{ role: 'root', db: 'admin' }, 'readWrite'],
+	user: 'runner',
+	pwd: 'mongodb',
+	roles: [{ role: 'root', db: 'admin' }, 'readWrite'],
 });
 
 db.auth('runner', 'mongodb');

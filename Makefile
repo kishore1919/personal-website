@@ -1,22 +1,22 @@
 .PHONY: build test
 MAKEFLAGS += --silent
 
-NODE_BIN=node_modules/.bin/
-VITE_NODE=$(NODE_BIN)vite-node
-NEXT=$(NODE_BIN)next
+## docker setup ubuntu
+install-docker:
+	sh script/docker/install.sh
 
 ## install
 install:
-	pnpm i --frozen-lockfile
+	pnpm i
 
 install-mongo:
-	$(VITE_NODE) script/mongo-setup/install.ts
+	docker pull mongo
 
 start-mongo:
-	sudo systemctl unmask mongod
-	sudo systemctl start mongod
-	sudo systemctl stop mongod
-	sudo systemctl restart mongod
+	docker-compose up --detach mongodb
+
+stop-mongo:
+	docker-compose down mongodb
 
 migrate-mongo:
 	mongosh < script/mongo-setup/document.js
@@ -24,18 +24,25 @@ migrate-mongo:
 echo-mongo:
 	echo 'db.runCommand("ping").ok' | mongosh --quiet
 
+## telemetry
+opt-out-telemetry:
+	pnpm next telemetry disable
+
 ## generate
 generate: generate-webmanifest generate-sitemap
 
 generate-webmanifest:
-	$(VITE_NODE) script/site/webmanifest.ts
+	pnpm vite-node script/site/webmanifest.ts
 
 generate-sitemap:
-	$(NODE_BIN)next-sitemap
+	pnpm next-sitemap
 
 ## env
+generate-environment-type-definition:
+	pnpm vite-node script/env/type-def.ts
+
 copy-env:
-	$(VITE_NODE) script/env/copy.ts ${arguments}
+	pnpm vite-node script/env/copy.ts ${arguments}
 
 copy-env-development:
 	make copy-env arguments="-- --development"
@@ -44,7 +51,7 @@ copy-env-staging:
 	make copy-env arguments="-- --staging"
 
 copy-env-production:
-	make copy-env arguments="-- --productions"
+	make copy-env arguments="-- --production"
 
 copy-env-testing:
 	make copy-env arguments="-- --testing"
@@ -59,12 +66,13 @@ deploy-production: build-production
 clear-cache:
 	rm -rf .next
 
-start-development: copy-env-development clear-cache
-	$(NEXT) dev
+start-development: copy-env-development clear-cache dev
 
-start-staging: copy-env-staging clear-cache start
+start-testing: copy-env-testing clear-cache dev
 
-start-production: copy-env-production clear-cache start
+start-staging: copy-env-staging clear-cache dev
+
+start-production: copy-env-production clear-cache dev
 
 ## build
 build-development: clear-cache copy-env-development build
@@ -76,46 +84,40 @@ build-staging: clear-cache copy-env-staging build
 build-testing: clear-cache copy-env-testing build
 
 build:
-	$(NEXT) build
+	pnpm next build
 
 ## start
 start:
-	$(NEXT) start $(arguments)
+	pnpm next start $(arguments)
+
+## dev
+dev:
+	pnpm next dev
 
 ## format
-prettify:
-	$(NODE_BIN)prettier --ignore-path .gitignore  --$(type) src/ test/ script/
-
-format-check:
-	make prettify type=check
+format-generate-config:
+	pnpm prettier-config-generate
 
 format:
-	make prettify type=write
+	pnpm prettier --$(type) .
+
+format-check:
+	make format type=check
+
+format-write:
+	make format type=write
 
 ## lint
 lint:
-	$(NODE_BIN)eslint src/ test/ -f='stylish' --color &&\
-		make find-unused-exports &&\
-		make find-unimported-files
-
-## find unused exports
-find-unused-exports:
-	$(NODE_BIN)find-unused-exports
-
-## find unimported files
-find-unimported-files:
-	$(NODE_BIN)unimported
+	pnpm eslint --ignore-path .gitignore . --ext .mjs,.tsx,.ts --color && pnpm knip
 
 ## typecheck
 typecheck:
-	$(NODE_BIN)tsc -p tsconfig.json $(arguments) 
-
-typecheck-watch:
-	make typecheck arguments=--w
+	pnpm tsc -p tsconfig.json --noEmit $(arguments)
 
 ## test
 test-type:
-	$(NODE_BIN)vitest test/$(path)/**.test.ts $(arguments)
+	pnpm vitest test/$(path)/**.test.ts $(arguments)
 
 test-unit:
 	make test-type path="unit" arguments="$(arguments)"
@@ -126,4 +128,4 @@ test-integration:
 test-snapshot:
 	make test-type path="snapshot" arguments="$(arguments)"
 
-test: test-unit build-testing test-integration test-snapshot
+test: build-testing test-unit test-integration test-snapshot

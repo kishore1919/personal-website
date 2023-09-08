@@ -1,87 +1,130 @@
 import { isBlank, isEmpty } from './string';
 
-type Name = ReturnType<typeof getName>;
+type Name = ReturnType<ContactMessageParser['parseName']>;
 
-type Email = ReturnType<typeof getEmail>;
+type Email = ReturnType<ContactMessageParser['parseEmail']>;
 
-type Message = ReturnType<typeof getMessage>;
+type Message = ReturnType<ContactMessageParser['parseMessage']>;
 
 type Data = Readonly<
-    | {
-          type: 'succeed';
-      }
-    | {
-          type: 'failed';
-      }
-    | {
-          type: 'input';
-          name: Name;
-          email: Email;
-          message: Message;
-      }
+	| {
+			type: 'succeed';
+	  }
+	| {
+			type: 'failed';
+	  }
+	| {
+			type: 'input';
+			name: Name;
+			email: Email;
+			message: Message;
+	  }
 >;
 
-const isValidEmail = (email: string) =>
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-    );
+type ContactMessageParserProps = Readonly<{
+	name: string;
+	email: string;
+	message: string;
+}>;
 
-const getName = (value: string) =>
-    ({
-        value,
-        error: isEmpty(value)
-            ? '*Please do not leave name section empty*'
-            : isBlank(value)
-            ? '*Please do not leave name section blank*'
-            : defaultValue.error,
-    } as const);
+class ContactMessageParser {
+	private constructor(private readonly props: ContactMessageParserProps) {}
 
-const getEmail = (value: string) =>
-    ({
-        value,
-        error: isEmpty(value)
-            ? '*Please do not leave email section empty*'
-            : isBlank(value)
-            ? '*Please do not leave email section blank*'
-            : isValidEmail(value)
-            ? defaultValue.error
-            : '*Please enter valid email format*',
-    } as const);
+	static readonly of = (props: ContactMessageParserProps) => {
+		return new this(props);
+	};
 
-const getMessage = (value: string) =>
-    ({
-        value,
-        error: isEmpty(value)
-            ? '*Please do not leave message section empty*'
-            : isBlank(value)
-            ? '*Please do not leave message section blank*'
-            : defaultValue.error,
-    } as const);
+	private static readonly isValidEmail = (email: string) => {
+		return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+			email
+		);
+	};
 
-const isAllValueValid = ({
-    name,
-    email,
-    message,
-}: Readonly<{
-    name: Name;
-    email: Email;
-    message: Message;
-}>): boolean => {
-    const noError =
-        isEmpty(name.error) && isEmpty(email.error) && isEmpty(message.error);
-    const isNameInvalid = isBlank(name.value) || isEmpty(name.value);
-    const isMessageInvalid = isBlank(message.value) || isEmpty(message.value);
+	private readonly parseName = () => {
+		const { name } = this.props;
+		if (isEmpty(name)) {
+			return {
+				status: 'error',
+				reason: 'Please do not leave name section empty',
+			} as const;
+		}
+		if (isBlank(this.props.name)) {
+			return {
+				status: 'error',
+				reason: 'Please do not leave name section blank',
+			} as const;
+		}
+		return {
+			status: 'clean',
+		} as const;
+	};
 
-    const isInputValid =
-        !isMessageInvalid && isValidEmail(email.value) && !isNameInvalid;
+	private readonly parseEmail = () => {
+		const { email } = this.props;
+		if (isEmpty(email)) {
+			return {
+				status: 'error',
+				reason: 'Please do not leave email section empty',
+			} as const;
+		}
+		if (isBlank(email)) {
+			return {
+				status: 'error',
+				reason: 'Please do not leave email section blank',
+			} as const;
+		}
+		if (!ContactMessageParser.isValidEmail(email)) {
+			return {
+				status: 'error',
+				reason: 'Please enter valid email format',
+			} as const;
+		}
+		return {
+			status: 'clean',
+		} as const;
+	};
 
-    return noError && isInputValid;
-};
+	private readonly parseMessage = () => {
+		const { message } = this.props;
+		if (isEmpty(message)) {
+			return {
+				status: 'error',
+				reason: 'Please do not leave message section empty',
+			} as const;
+		}
+		if (isBlank(message)) {
+			return {
+				status: 'error',
+				reason: 'Please do not leave message section blank',
+			} as const;
+		}
+		return {
+			status: 'clean',
+		} as const;
+	};
 
-const defaultValue = {
-    value: '',
-    error: '',
-} as const;
+	readonly parse = () => {
+		return {
+			name: this.parseName(),
+			email: this.parseEmail(),
+			message: this.parseMessage(),
+		};
+	};
 
-export { isAllValueValid, getMessage, getEmail, getName, defaultValue };
-export type { Name, Email, Message, Data };
+	readonly allValueIsValid = () => {
+		const result = this.parse();
+
+		return {
+			...result,
+			status:
+				result.name.status === 'clean' &&
+				result.email.status === 'clean' &&
+				result.message.status === 'clean'
+					? 'clean'
+					: 'error',
+		} as const;
+	};
+}
+
+export { ContactMessageParser };
+export type { Data };

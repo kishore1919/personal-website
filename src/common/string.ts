@@ -1,6 +1,13 @@
-const isBlank = (s: string) =>
-    s.split('').filter((c) => ' ' === c).length === s.length;
+const isBlank = (s: string) => {
+	return (
+		s.split('').filter((c) => {
+			return ' ' === c;
+		}).length === s.length
+	);
+};
 
-const isEmpty = (s: string) => !s;
+const isEmpty = (s: string) => {
+	return !s;
+};
 
 export { isBlank, isEmpty };

@@ -1,0 +1,36 @@
+node_modules
+.pnpm-store
+pnpm-lock.yaml
+
+# next.js
+.next
+out
+next-env.d.ts
+
+# generated
+script/**/*.generated.*
+script/**/*.webp
+src/web/data/projects.ts
+.prettierrc
+
+# production
+build
+dist
+cache
+
+# local env files
+.env
+.env.productions
+.env.staging
+env.d.ts
+
+# vercel
+.vercel
+
+# sitemap
+public/sitemap*.xml
+public/site.webmanifest
+public/manifest.json
+public/service-worker.js*
+public/workbox-*.js*
+public/robots.txt
