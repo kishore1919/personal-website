@@ -24,8 +24,13 @@
 		"preserveWatchOutput": true,
 		"outDir": "build",
 		"allowJs": false,
-		"verbatimModuleSyntax": true
+		"verbatimModuleSyntax": true,
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
 	},
-	"include": ["*.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": ["*.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
 	"exclude": ["node_modules"]
 }

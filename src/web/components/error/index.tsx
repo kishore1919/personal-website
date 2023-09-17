@@ -175,7 +175,7 @@ const ErrorContainer = (
 						}}
 					>
 						{props.type === 'reload' ? (
-							<>
+							<React.Fragment>
 								Quickly{' '}
 								<Box
 									style={{
@@ -191,9 +191,9 @@ const ErrorContainer = (
 									/>{' '}
 								</Box>
 								Now
-							</>
+							</React.Fragment>
 						) : (
-							<>
+							<React.Fragment>
 								Go{' '}
 								<Link
 									href={home}
@@ -210,7 +210,7 @@ const ErrorContainer = (
 									/>{' '}
 								</Link>
 								Immediately
-							</>
+							</React.Fragment>
 						)}
 					</Box>
 				</MarginTopBox>

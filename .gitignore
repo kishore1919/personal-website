@@ -6,9 +6,6 @@ out
 next-env.d.ts
 
 # generated
-script/**/*.generated.*
-script/**/*.webp
-src/web/data/projects.ts
 .prettierrc
 
 # production

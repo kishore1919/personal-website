@@ -5,16 +5,10 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Header from '../header';
 import Footer from '../footer';
 
-const Layout = (
-	props: Readonly<
-		{ children?: React.ReactNode } & Partial<Parameters<typeof Header>[0]>
-	>
-) => {
+const Layout = (props: Readonly<{ children?: React.ReactNode }>) => {
 	return (
-		<>
-			{!(props.setMode && props.isDarkMode !== undefined) ? null : (
-				<Header setMode={props.setMode} isDarkMode={props.isDarkMode} />
-			)}
+		<React.Fragment>
+			<Header />
 			<CssBaseline />
 			<GlobalStyles
 				styles={`
@@ -44,7 +38,7 @@ const Layout = (
 				{props?.children}
 			</Box>
 			<Footer />
-		</>
+		</React.Fragment>
 	);
 };
 

@@ -353,7 +353,7 @@ const Projects: NextPage = () => {
 	const breakPoint = useBreakpoint();
 
 	return (
-		<>
+		<React.Fragment>
 			<Seo
 				title="Projects"
 				keywords={['Personal Website']}
@@ -428,7 +428,7 @@ const Projects: NextPage = () => {
 					})}
 				</Stack>
 			</Holder>
-		</>
+		</React.Fragment>
 	);
 };
 

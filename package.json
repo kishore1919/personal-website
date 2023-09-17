@@ -5,7 +5,7 @@
 	"private": true,
 	"description": "Everyone developer needs their own personal/portfolio website, and this is mine. Welcome to my website",
 	"scripts": {
-		"postinstall": "make format-generate-config"
+		"postinstall": "make opt-out-telemetry && make format-generate-config"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.11.1",

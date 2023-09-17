@@ -65,7 +65,7 @@ const Index: NextPage = () => {
 	};
 
 	return (
-		<>
+		<React.Fragment>
 			<Seo
 				title="Home"
 				keywords={['Personal Website']}
@@ -145,7 +145,7 @@ const Index: NextPage = () => {
 					</Content>
 				</Holder>
 			</Holder>
-		</>
+		</React.Fragment>
 	);
 };
 

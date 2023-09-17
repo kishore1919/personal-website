@@ -10,7 +10,7 @@ import ErrorBoundary from '../src/web/components/error/boundary';
 import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
 import '../src/web/css/font.css';
-import type { Mode } from '../src/web/components/header';
+import { ThemeContext, type Mode } from '../src/web/context/theme';
 
 const App = (props: AppProps) => {
 	const modeKey = 'mode';
@@ -20,10 +20,12 @@ const App = (props: AppProps) => {
 	React.useEffect(() => {
 		const value = localStorage.getItem(modeKey);
 
+		if (value === 'dark' || value === 'light') {
+			return setMode(value);
+		}
+
 		setMode(
-			value === 'dark' || value === 'light'
-				? value
-				: window.matchMedia('(prefers-color-scheme: dark)').matches
+			window.matchMedia('(prefers-color-scheme: dark)').matches
 				? 'dark'
 				: 'light'
 		);
@@ -91,15 +93,22 @@ const App = (props: AppProps) => {
 	}, [mode]);
 
 	return (
-		<ThemeProvider theme={theme}>
-			<ErrorBoundary>
-				<main>
-					<Layout isDarkMode={mode === 'dark'} setMode={setMode}>
-						<props.Component {...props.pageProps} />
-					</Layout>
-				</main>
-			</ErrorBoundary>
-		</ThemeProvider>
+		<ThemeContext.Provider
+			value={{
+				mode,
+				setMode,
+			}}
+		>
+			<ThemeProvider theme={theme}>
+				<ErrorBoundary>
+					<main>
+						<Layout>
+							<props.Component {...props.pageProps} />
+						</Layout>
+					</main>
+				</ErrorBoundary>
+			</ThemeProvider>
+		</ThemeContext.Provider>
 	);
 };
 

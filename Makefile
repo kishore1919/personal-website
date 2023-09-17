@@ -109,7 +109,7 @@ format-write:
 
 ## lint
 lint:
-	pnpm eslint --ignore-path .gitignore . --ext .mjs,.tsx,.ts --color && pnpm knip
+	pnpm eslint . --ignore-path .gitignore --ext .mjs,.tsx,.ts --color && pnpm knip
 
 ## typecheck
 typecheck:

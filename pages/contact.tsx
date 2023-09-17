@@ -183,7 +183,7 @@ const Contact: NextPage = () => {
 	}, [messageResult]);
 
 	return (
-		<>
+		<React.Fragment>
 			<Seo
 				title="Contact"
 				keywords={['Personal Website', 'Contact Page']}
@@ -428,7 +428,7 @@ const Contact: NextPage = () => {
 					</Box>
 				</Section>
 			</Holder>
-		</>
+		</React.Fragment>
 	);
 };
 

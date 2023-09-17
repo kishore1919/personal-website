@@ -6,13 +6,21 @@ In the end, I ended up creating my own web application
 
 ## Preview
 
-#### Main Page
+#### Home Page
 
 ![Home](docs/home.png 'Home')
 
+#### Projects Page
+
+![Projects](docs/projects.png 'Projects')
+
+#### Contact Page
+
+![Contact](docs/contact.png 'contact')
+
 #### Error Page
 
-![projects](docs/error.png 'Error')
+![error](docs/error.png 'Error')
 
 ## Tech Used
 
