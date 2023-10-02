@@ -21,6 +21,7 @@ const scrambleAndShowBase = (listOfCharacters: string) => {
 					.split('')
 					.map(() => {
 						const generatedWord = generateWord();
+
 						return generatedWord !== content
 							? generatedWord
 							: generateWord();

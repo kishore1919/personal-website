@@ -1,7 +1,7 @@
-import fs from 'fs';
 import ci from 'ci-info';
+import fs from 'fs';
 import { defineConfig } from 'vitest/config';
-import { guard } from './src/common/type';
+import { guardAsDefined, isTruthy } from '@poolofdeath20/util';
 
 export default defineConfig(() => {
 	const timeOut = 300_000;
@@ -18,12 +18,12 @@ export default defineConfig(() => {
 					encoding: 'utf-8',
 				})
 				.split('\n')
-				.filter(Boolean)
+				.filter(isTruthy)
 				.reduce((prev, keyValuePair) => {
 					const [key, value] = keyValuePair.split('=');
 					return {
 						...prev,
-						[guard({
+						[guardAsDefined({
 							value: key,
 							error: new Error('key is undefined'),
 						})]: value,

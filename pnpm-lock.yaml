@@ -17,6 +17,9 @@ dependencies:
   '@mui/material':
     specifier: ^5.14.8
     version: 5.14.8(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.21)(react-dom@18.2.0)(react@18.2.0)
+  '@poolofdeath20/util':
+    specifier: ^0.0.1
+    version: 0.0.1
   axios:
     specifier: ^1.5.0
     version: 1.5.0
@@ -2125,6 +2128,10 @@ packages:
     dependencies:
       prettier: 3.0.3
     dev: true
+
+  /@poolofdeath20/util@0.0.1:
+    resolution: {integrity: sha512-whIB15mo7wmSQer5clYlESAutQIgAEbyyuIV1YYZRlv4oE5Qi4mm6UK1aVuC/p6YMDHS+lN0njYsZiQZake3DQ==}
+    dev: false
 
   /@popperjs/core@2.11.8:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}

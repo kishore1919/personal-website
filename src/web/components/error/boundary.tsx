@@ -35,7 +35,7 @@ class ErrorBoundary extends React.Component<
 		this.setState({ error });
 	};
 
-	render = (): JSX.Element | React.ReactNode => {
+	render = () => {
 		return !this.state.error ? (
 			this.props.children
 		) : (
@@ -46,7 +46,7 @@ class ErrorBoundary extends React.Component<
 				{this.state.closedAlert ? null : (
 					<Error
 						onClose={() => {
-							return this.setState({ closedAlert: true });
+							this.setState({ closedAlert: true });
 						}}
 					>
 						{this.state.error.message}

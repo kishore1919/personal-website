@@ -25,7 +25,7 @@ const Holder = (
 			ref={holderRef}
 			{...{
 				...rest,
-				sx: (theme: Theme) => {
+				sx: (theme) => {
 					return {
 						...sx,
 						...(typeof props.sx === 'function'

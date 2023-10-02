@@ -17,10 +17,10 @@ import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { isFalse, capitalize, isTruthy } from '@poolofdeath20/util';
 import Holder from '../common/holder';
 import useWordScramble from '../../hooks/use-word-scramble';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
-import { capitalize } from '../../utils';
 import links from '../../links';
 import '../../../../env.d.ts';
 import consts from '../../const';
@@ -234,7 +234,7 @@ const ThemeMenu = () => {
 				{themeContext.mode === 'dark' ? <DarkIcon /> : <LightIcon />}
 			</IconButton>
 			<Menu
-				open={Boolean(anchorElement)}
+				open={isTruthy(anchorElement)}
 				anchorEl={anchorElement}
 				onClose={() => {
 					setAnchorElement(undefined);
@@ -309,7 +309,7 @@ const Header = () => {
 				boxSizing: 'border-box',
 			}}
 		>
-			{!shouldUseBottonNavigation ? null : (
+			{isFalse(shouldUseBottonNavigation) ? null : (
 				<Box
 					sx={{
 						zIndex: 2,
@@ -440,7 +440,7 @@ const Header = () => {
 								/>
 							</Link>
 						</Box>
-						{!shouldUseBottonNavigation ? null : (
+						{isFalse(shouldUseBottonNavigation) ? null : (
 							<Box>
 								<ThemeMenu />
 							</Box>

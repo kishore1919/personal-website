@@ -1,4 +1,4 @@
-import { isBlank, isEmpty } from './string';
+import { isBlank, isEmpty } from '@poolofdeath20/util';
 
 type Name = ReturnType<ContactMessageParser['parseName']>;
 

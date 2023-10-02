@@ -1,5 +1,6 @@
 import React from 'react';
 import { scrambleAndShow } from '../effect';
+import { isTruthy } from '@poolofdeath20/util';
 
 type Result = Readonly<
 	| {
@@ -30,7 +31,7 @@ const useWordScramble = (
 		} as Result,
 	} as const);
 
-	const ended = Boolean(
+	const ended = isTruthy(
 		result.current.status === 'started' &&
 			words.at(result.current.index)?.isSame
 	);

@@ -6,13 +6,13 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import type { SxProps, Theme } from '@mui/material/styles';
+import { capitalize, isTruthy } from '@poolofdeath20/util';
 import { ContactMessageParser } from '../src/common/contact';
 import Holder from '../src/web/components/common/holder';
 import Section from '../src/web/components/common/section';
 import { sendMessage } from '../src/web/api-functions/contact';
 import { Error, Success, Info } from '../src/web/components/common/alert';
 import consts from '../src/web/const';
-import { capitalize } from '../src/web/utils';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
 import Seo from '../src/web/components/seo';
 
@@ -50,7 +50,7 @@ const TextFieldInput = (
 			{...rest}
 			required
 			autoComplete="off"
-			error={Boolean(props.error)}
+			error={isTruthy(props.error)}
 			helperText={props.error}
 			label={capitalize(props.id)}
 			rows={props.multiline ? 8 : undefined}

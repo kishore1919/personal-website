@@ -54,6 +54,7 @@ const Index: NextPage = () => {
 		const timer = setInterval(() => {
 			return setTime(Date.now());
 		}, 1000);
+
 		return () => {
 			return clearInterval(timer);
 		};
@@ -61,6 +62,7 @@ const Index: NextPage = () => {
 
 	const isDay = () => {
 		const hours = new Date(time).getHours();
+
 		return hours >= 6 && hours < 18;
 	};
 
