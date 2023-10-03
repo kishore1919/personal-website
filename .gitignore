@@ -8,8 +8,10 @@ next-env.d.ts
 # generated
 .prettierrc
 
+# typescript
+.tscache
+
 # production
-build
 dist
 cache
 

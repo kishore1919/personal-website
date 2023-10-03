@@ -22,7 +22,7 @@
 		"noUnusedLocals": true,
 		"pretty": true,
 		"preserveWatchOutput": true,
-		"outDir": "build",
+		"outDir": ".tscache",
 		"allowJs": false,
 		"verbatimModuleSyntax": true,
 		"plugins": [

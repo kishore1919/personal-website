@@ -1,5 +1,4 @@
 node_modules
-.pnpm-store
 pnpm-lock.yaml
 
 # next.js
@@ -8,20 +7,19 @@ out
 next-env.d.ts
 
 # generated
-script/**/*.generated.*
-script/**/*.webp
-src/web/data/projects.ts
 .prettierrc
 
+# typescript
+.tscache
+
 # production
-build
 dist
 cache
 
 # local env files
 .env
-.env.productions
-.env.staging
+config/.env.production
+config/.env.staging
 env.d.ts
 
 # vercel

@@ -6,9 +6,6 @@ install-docker:
 	sh script/docker/install.sh
 
 ## install
-install:
-	pnpm i
-
 install-mongo:
 	docker pull mongo
 

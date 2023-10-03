@@ -1,4 +1,4 @@
-name: my-web-ci-cd
+name: personal-website-ci
 
 on: [push, pull_request]
 
@@ -34,7 +34,7 @@ jobs:
               run: make start-mongo
 
             - name: Install Depedencies
-              run: make install
+              run: pnpm i
 
             - name: Generate Env Type Definitions
               run: make generate-environment-type-definition
