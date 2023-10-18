@@ -6,6 +6,9 @@ install-docker:
 	sh script/docker/install.sh
 
 ## install
+install:
+	pnpm i --frozen-lockfile
+
 install-mongo:
 	docker pull mongo
 
