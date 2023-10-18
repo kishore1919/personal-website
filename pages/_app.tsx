@@ -10,7 +10,8 @@ import ErrorBoundary from '../src/web/components/error/boundary';
 import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
 import '../src/web/css/font.css';
-import { ThemeContext, type Mode } from '../src/web/context/theme';
+import { ThemeContext } from '../src/web/context/theme';
+import { getPreferredMode, type Mode } from '@poolofdeath20/util';
 
 const App = (props: AppProps) => {
 	const modeKey = 'mode';
@@ -24,11 +25,7 @@ const App = (props: AppProps) => {
 			return setMode(value);
 		}
 
-		setMode(
-			window.matchMedia('(prefers-color-scheme: dark)').matches
-				? 'dark'
-				: 'light'
-		);
+		setMode(getPreferredMode());
 	}, []);
 
 	React.useEffect(() => {

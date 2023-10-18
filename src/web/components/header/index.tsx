@@ -17,7 +17,13 @@ import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import { isFalse, capitalize, isTruthy } from '@poolofdeath20/util';
+import {
+	isFalse,
+	capitalize,
+	isTruthy,
+	type Mode,
+	getPreferredMode,
+} from '@poolofdeath20/util';
 import Holder from '../common/holder';
 import useWordScramble from '../../hooks/use-word-scramble';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
@@ -26,7 +32,7 @@ import '../../../../env.d.ts';
 import consts from '../../const';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { ThemeContext, type Mode } from '../../context/theme';
+import { ThemeContext } from '../../context/theme';
 
 const ids = ['home', 'projects', 'contact'] as const;
 
@@ -269,14 +275,7 @@ const ThemeMenu = () => {
 					<Typography>Dark</Typography>
 				</MenuItem>
 				<MenuItem
-					onClick={onChooseTheme(
-						typeof window === 'undefined'
-							? 'dark'
-							: window.matchMedia('(prefers-color-scheme: dark)')
-									.matches
-							? 'dark'
-							: 'light'
-					)}
+					onClick={onChooseTheme(getPreferredMode())}
 					sx={{
 						whiteSpace: 'pre-wrap',
 						gap: 3,

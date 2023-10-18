@@ -23,14 +23,14 @@ export default class Server {
 			})
 			.on('message', console.log)
 			.on('error', console.error)
-			.on('kill', () => {
-				this.kill();
-			});
+			.on('kill', this.kill);
+
 		server.stdout?.setEncoding('utf-8');
 		server.stderr?.setEncoding('utf-8');
+
 		await new Promise<void>((resolve) => {
 			server.stdout?.on('data', (data: string) => {
-				if (data.includes('started server')) {
+				if (data.includes(`${this.port}`)) {
 					resolve();
 				}
 			});

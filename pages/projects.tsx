@@ -4,14 +4,28 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import CardActionArea from '@mui/material/CardActionArea';
-import type { SxProps, Theme } from '@mui/material/styles';
+import * as MuiLink from '@mui/material/Link';
+import { useTheme, type SxProps, type Theme } from '@mui/material/styles';
 import Seo from '../src/web/components/seo';
 import Holder from '../src/web/components/common/holder';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
+import {
+	BsFillTerminalFill,
+	BsBrowserChrome,
+	BsServer,
+	BsWindowDesktop,
+	BsCodeSlash,
+	BsRobot,
+	BsFilesAlt,
+} from 'react-icons/bs';
+import { FaChessBoard, FaRegFileCode } from 'react-icons/fa';
+import { ImNpm } from 'react-icons/im';
+import { SiAdguard, SiDeno, SiEslint, SiTypescript } from 'react-icons/si';
+import { BiLogoReact, BiNotepad } from 'react-icons/bi';
+import { TbBrandNextjs } from 'react-icons/tb';
+import { GiTicTacToe } from 'react-icons/gi';
+import { PiDotsNine } from 'react-icons/pi';
 
 const projects = [
 	{
@@ -22,6 +36,10 @@ const projects = [
 				description: 'The Web Application that is UI/UX friendly',
 				githubLink: 'https://github.com/Gitignored-App/web',
 				imagePath: '/gitignored/web',
+				icon: {
+					color: '#1A73E8',
+					Component: BsBrowserChrome,
+				},
 			},
 			{
 				name: 'Terminal',
@@ -29,6 +47,10 @@ const projects = [
 					'The CLI Application that cache and with distinctive colors for commands/arguments',
 				githubLink: 'https://github.com/Gitignored-App/cli',
 				imagePath: '/gitignored/terminal',
+				icon: {
+					color: '#2F393F',
+					Component: BsFillTerminalFill,
+				},
 			},
 		],
 	},
@@ -41,6 +63,10 @@ const projects = [
 					'A LibGDX AI Multithreaded Chess Game playable on many devices from Level 1 to Level 10',
 				githubLink: 'https://github.com/GervinFung/LibGDX-Chess-Game',
 				imagePath: '/games/libgdx-chess-game',
+				icon: {
+					color: '#FFF',
+					Component: FaChessBoard,
+				},
 			},
 			{
 				name: 'AndroidSimpleAIChess',
@@ -49,6 +75,10 @@ const projects = [
 				githubLink:
 					'https://github.com/GervinFung/AndroidSimpleAIChess',
 				imagePath: '/games/androidsimpleaichess',
+				icon: {
+					color: '#FFF',
+					Component: FaChessBoard,
+				},
 			},
 			{
 				name: 'SimpleParallelChessAI',
@@ -57,6 +87,10 @@ const projects = [
 				githubLink:
 					'https://github.com/GervinFung/SimpleParallelChessAI',
 				imagePath: '/games/simpleparallelchessai',
+				icon: {
+					color: '#FFF',
+					Component: FaChessBoard,
+				},
 			},
 			{
 				name: 'TicTacToe',
@@ -64,24 +98,25 @@ const projects = [
 					'AI Tic-Tac-Toe Game made with Java Swing. Play in 3x3 grid up to 10x10',
 				githubLink: 'https://github.com/GervinFung/TicTacToe',
 				imagePath: '/games/tictactoe',
+				icon: {
+					color: '#F06292',
+					Component: GiTicTacToe,
+				},
 			},
 			{
 				name: 'Connect4',
 				description: 'A Connect-4 Game written in C# WinForm',
 				githubLink: 'https://github.com/GervinFung/Connect4',
 				imagePath: '/games/connect4',
-			},
-			{
-				name: 'MinimalTicTacToe',
-				description:
-					'AI TicTacToe made with React, TypeScript and Styled-Components for fun. Play in 3x3 grid up to 5x5',
-				githubLink: 'https://github.com/GervinFung/MinimalTicTacToe',
-				imagePath: '/games/minimaltictactoe',
+				icon: {
+					color: '#44475A',
+					Component: PiDotsNine,
+				},
 			},
 		],
 	},
 	{
-		category: 'TypeScript',
+		category: 'TypeScript/NPM',
 		projects: [
 			{
 				name: 'Gen Env Type Def',
@@ -89,6 +124,10 @@ const projects = [
 					'Generate type definitions for environment variables from different environment files with support for both import.meta.env and process.env',
 				githubLink: 'https://github.com/GervinFung/gen-env-type-def',
 				imagePath: '/typescript/gen-env-type-def',
+				icon: {
+					color: '#C12127',
+					Component: ImNpm,
+				},
 			},
 			{
 				name: 'Ts Add Js Extension',
@@ -96,6 +135,22 @@ const projects = [
 					'Add .js extension to each relative import/export statement in JavaScript file',
 				githubLink: 'https://github.com/GervinFung/ts-add-js-extension',
 				imagePath: '/typescript/ts-add-js-extension',
+				icon: {
+					color: '#C12127',
+					Component: ImNpm,
+				},
+			},
+			{
+				name: 'Util',
+				description:
+					'My personal utility functions that I use in my projects',
+				githubLink:
+					'https://github.com/GervinFung/npm-tools/tree/main/packages/util',
+				imagePath: '/typescript/ts-add-js-extension',
+				icon: {
+					color: '#C12127',
+					Component: ImNpm,
+				},
 			},
 		],
 	},
@@ -108,6 +163,10 @@ const projects = [
 					'For NPM module authors that would like to support Deno but do not want to write and maintain a port',
 				githubLink: 'https://github.com/garronej/denoify',
 				imagePath: '/deno/denoify',
+				icon: {
+					color: '#15803D',
+					Component: SiDeno,
+				},
 			},
 		],
 	},
@@ -119,13 +178,32 @@ const projects = [
 				description: 'My dotfiles that are XDG_CONFIG_HOME compliant',
 				githubLink: 'https://github.com/GervinFung/.config',
 				imagePath: '/configurations/dotfiles',
+				icon: {
+					color: '#2196F3',
+					Component: BsFilesAlt,
+				},
 			},
 			{
 				name: 'Eslint Config PoolOfDeath20',
 				description: 'My ESLint shareable config',
 				githubLink:
-					'https://github.com/GervinFung/eslint-config-poolofdeath20',
+					'https://github.com/GervinFung/npm-tools/tree/main/packages/eslint-config',
 				imagePath: '/configurations/eslint-config-poolofdeath20',
+				icon: {
+					color: '#4B32C3',
+					Component: SiEslint,
+				},
+			},
+			{
+				name: 'Tsconfig PoolOfDeath20',
+				description: 'My commonly used TypeScript config',
+				githubLink:
+					'https://github.com/GervinFung/npm-tools/tree/main/packages/tsconfig',
+				imagePath: '/configurations/eslint-config-poolofdeath20',
+				icon: {
+					color: '#3178C6',
+					Component: SiTypescript,
+				},
 			},
 		],
 	},
@@ -137,6 +215,29 @@ const projects = [
 				description: 'NPM Package Starter Template',
 				githubLink: 'https://github.com/GervinFung/npm-package-starter',
 				imagePath: '/starter-templates/npm-package',
+				icon: {
+					color: '#C12127',
+					Component: ImNpm,
+				},
+			},
+			{
+				name: 'React',
+				description: 'React Starter Template',
+				githubLink: 'https://github.com/GervinFung/react-starter',
+				imagePath: '/starter-templates/npm-package',
+				icon: {
+					color: '#087EA4',
+					Component: BiLogoReact,
+				},
+			},
+			{
+				name: 'Next.js',
+				description: 'Nextjs Starter Template',
+				githubLink: 'https://github.com/GervinFung/nextjs-starter',
+				imagePath: '/starter-templates/npm-package',
+				icon: {
+					Component: TbBrandNextjs,
+				},
 			},
 		],
 	},
@@ -149,6 +250,10 @@ const projects = [
 					'Text Editor similar to NotePad that can undo all of your edit',
 				githubLink: 'https://github.com/GervinFung/TextEditor',
 				imagePath: '/texteditor/notepad',
+				icon: {
+					color: '#D5C4A1',
+					Component: BiNotepad,
+				},
 			},
 			{
 				name: 'Notepad FX',
@@ -156,23 +261,10 @@ const projects = [
 					'Fist JavaFX project - an upgraded version of the previous Notepad Text Editor',
 				githubLink: 'https://github.com/GervinFung/TextEditorFX',
 				imagePath: '/texteditor/notepadfx',
-			},
-		],
-	},
-	{
-		category: 'Blog',
-		projects: [
-			{
-				name: 'Adonis OS',
-				description: 'The abandoned blog',
-				githubLink: 'https://github.com/GervinFung/adonis-os-blog',
-				imagePath: '/blog/adonis-os',
-			},
-			{
-				name: 'Adonix',
-				description: 'Blog - Remake of Adonis OS Blog',
-				githubLink: 'https://github.com/GervinFung/adonix-blog',
-				imagePath: '/blog/adonix',
+				icon: {
+					color: '#D5C4A1',
+					Component: BiNotepad,
+				},
 			},
 		],
 	},
@@ -184,24 +276,40 @@ const projects = [
 				description: 'The web application of UTARi',
 				githubLink: 'https://github.com/UTARi-Accommodation/web',
 				imagePath: '/utari/web',
+				icon: {
+					color: '#1A73E8',
+					Component: BsBrowserChrome,
+				},
 			},
 			{
 				name: 'Server',
 				description: 'The server of UTARi',
 				githubLink: 'https://github.com/UTARi-Accommodation/server',
 				imagePath: '/utari/server',
+				icon: {
+					color: '#E23A2E',
+					Component: BsServer,
+				},
 			},
 			{
 				name: 'Desktop',
 				description: 'The desktop application of UTARi',
 				githubLink: 'https://github.com/UTARi-Accommodation/desktop',
 				imagePath: '/utari/desktop',
+				icon: {
+					color: '#174276',
+					Component: BsWindowDesktop,
+				},
 			},
 			{
 				name: 'Common',
 				description: 'All commonly used functions and typings',
 				githubLink: 'https://github.com/UTARi-Accommodation/common',
 				imagePath: '/utari/common',
+				icon: {
+					color: '#E91E63',
+					Component: BsCodeSlash,
+				},
 			},
 		],
 	},
@@ -213,6 +321,10 @@ const projects = [
 				description: 'A JKLM bot written for fun',
 				githubLink: 'https://github.com/GervinFung/jklm-bot',
 				imagePath: '/bots/jklm-bot',
+				icon: {
+					color: '#24A1C8',
+					Component: BsRobot,
+				},
 			},
 		],
 	},
@@ -225,6 +337,10 @@ const projects = [
 					'Partial optimized Brainfuck implementation in TypeScript',
 				githubLink: 'https://github.com/GervinFung/brainfuck',
 				imagePath: '/toys/brainfuck',
+				icon: {
+					color: '#6A1B9A',
+					Component: FaRegFileCode,
+				},
 			},
 			{
 				name: 'React Unix Terminal',
@@ -232,12 +348,20 @@ const projects = [
 					'A customizable unix terminal emulator for React on web, with customizable command',
 				githubLink: 'https://github.com/GervinFung/react-unix-terminal',
 				imagePath: '/toys/react-unix-terminal',
+				icon: {
+					color: '#2F393F',
+					Component: BsFillTerminalFill,
+				},
 			},
 			{
 				name: 'Guard Data',
 				description: 'Safely guard JSON data as intended type',
 				githubLink: 'https://github.com/GervinFung/guard-data',
 				imagePath: '/toys/guard-data',
+				icon: {
+					color: '#279847',
+					Component: SiAdguard,
+				},
 			},
 		],
 	},
@@ -249,10 +373,10 @@ const Item = (
 			delay: number;
 		}>
 ) => {
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -264,88 +388,79 @@ const Item = (
 					opacity: show ? 1 : 0,
 			  };
 
+	const { palette } = useTheme();
+
+	const isWhite = project.icon.color === '#FFF';
+
 	return (
-		<Card
-			variant="outlined"
-			sx={{
-				borderTopRightRadius: 'none',
-				borderTopLeftRadius: 'none',
-				backgroundColor: 'transparent',
-				...animation,
+		<Box
+			sx={({ palette }) => {
+				return {
+					display: 'flex',
+					flexDirection: 'column',
+					transition: '0.2s ease-out',
+					borderRadius: 2,
+					'&:hover': {
+						backdropFilter: 'blur(10px)',
+						backgroundColor:
+							palette.mode === 'dark' ? '#111' : '#EEE',
+					},
+					...animation,
+				};
 			}}
 		>
-			<CardActionArea
-				sx={{
-					'&:hover > a > div > div > div > h6': {
-						color: 'text.primary',
-					},
-					'&:hover > a > div > div > div > p': {
-						color: 'text.secondary',
-					},
-				}}
+			<MuiLink.default
+				href={project.githubLink}
+				target="_blank"
+				rel="noopener noreferrer"
+				underline="none"
 			>
-				<Link
-					key={project.name}
-					href={project.githubLink}
-					target="_blank"
-					rel="noopener noreferrer"
-					underline="none"
+				<Box
+					sx={{
+						p: 2,
+						display: 'flex',
+						flexDirection: 'column',
+						gap: 2,
+					}}
 				>
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							gridGap: 8,
-						}}
-					>
-						<Box>
-							<Box
-								key={project.name}
-								alt={project.name}
-								loading="lazy"
-								component="img"
-								src={`/images/projects/${
-									project.imagePath ?? 'utari/background'
-								}.png`}
-								sx={{
-									width: '100%',
-									display: 'block',
-								}}
-							/>
-						</Box>
-						<Box
-							sx={{
-								p: 2,
+					<Box>
+						<project.icon.Component
+							size={32}
+							style={{
+								color:
+									isWhite && palette.mode === 'light'
+										? '#000'
+										: project.icon.color ??
+										  palette.text.secondary,
 							}}
-						>
-							<Box>
-								<Typography
-									variant="h6"
-									sx={{
-										color: 'text.secondary',
-										fontWeight: 500,
-									}}
-								>
-									{project.name}
-								</Typography>
-							</Box>
-							<Box>
-								<Typography
-									sx={{
-										color: 'text.disabled',
-										fontSize: '0.9em',
-										boxSizing: 'border-box',
-										wordBreak: 'break-word',
-									}}
-								>
-									{project.description}
-								</Typography>
-							</Box>
+						/>
+					</Box>
+					<Box>
+						<Box>
+							<Typography
+								sx={{
+									color: 'text.secondary',
+									fontWeight: 500,
+								}}
+							>
+								{project.name}
+							</Typography>
+						</Box>
+						<Box>
+							<Typography
+								sx={{
+									color: 'text.disabled',
+									boxSizing: 'border-box',
+									wordBreak: 'break-word',
+								}}
+							>
+								{project.description}
+							</Typography>
 						</Box>
 					</Box>
-				</Link>
-			</CardActionArea>
-		</Card>
+				</Box>
+			</MuiLink.default>
+		</Box>
 	);
 };
 
@@ -382,10 +497,7 @@ const Projects: NextPage = () => {
 											placeItems: 'center',
 										}}
 									>
-										<Typography
-											variant="h3"
-											sx={{ fontWeight: 700 }}
-										>
+										<Typography sx={{ fontWeight: 700 }}>
 											{subProjects.category}
 										</Typography>
 									</Box>
@@ -409,8 +521,9 @@ const Projects: NextPage = () => {
 														<Grid
 															item
 															key={project.name}
-															xm={12}
-															md={4}
+															xs={12}
+															xm={6}
+															lg={4}
 														>
 															<Item
 																delay={delay}
