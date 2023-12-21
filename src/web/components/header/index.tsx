@@ -418,11 +418,11 @@ const Header = () => {
 								? {
 										display: 'flex',
 										justifyContent: 'space-between',
-								  }
+									}
 								: {
 										display: 'grid',
 										gridTemplateColumns: '1fr 1fr 1fr',
-								  }),
+									}),
 						}}
 					>
 						<Box>

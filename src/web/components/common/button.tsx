@@ -27,10 +27,10 @@ const SecondaryMainButton = (
 					...(!sx
 						? undefined
 						: typeof sx === 'function'
-						  ? sx(theme)
-						  : 'width' in sx
-						    ? sx
-						    : undefined),
+							? sx(theme)
+							: 'width' in sx
+								? sx
+								: undefined),
 				};
 			}}
 		>

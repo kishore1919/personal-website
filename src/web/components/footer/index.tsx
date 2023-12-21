@@ -26,7 +26,7 @@ const Footer = () => {
 					transitionDelay: '200ms',
 					opacity: show ? 1 : 0,
 					transform: show ? 'translateY(0)' : 'translateY(-100%)',
-			  };
+				};
 
 	return (
 		<Holder
@@ -44,12 +44,12 @@ const Footer = () => {
 					...(isFalse(isMobile)
 						? {
 								display: 'flex',
-						  }
+							}
 						: {
 								display: 'grid',
 								placeItems: 'center',
 								gridGap: 8,
-						  }),
+							}),
 				}}
 			>
 				<Box>

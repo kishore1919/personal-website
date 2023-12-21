@@ -26,7 +26,7 @@ const main = () => {
 				: {
 						...commonProperties,
 						purpose: 'maskable',
-				  };
+					};
 		}),
 	};
 

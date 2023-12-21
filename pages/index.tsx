@@ -28,7 +28,7 @@ const Content = (
 					transition: 'opacity 1s',
 					transitionDelay: `${props.delay}00ms`,
 					opacity: show ? 1 : 0,
-			  };
+				};
 
 	return (
 		<Typography

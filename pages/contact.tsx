@@ -43,7 +43,7 @@ const TextFieldInput = (
 					transition: 'opacity 1s',
 					transitionDelay: `${props.delay}00ms`,
 					opacity: show ? 1 : 0,
-			  };
+				};
 
 	return (
 		<TextField
@@ -158,7 +158,7 @@ const Contact: NextPage = () => {
 					transition: 'opacity 1s',
 					transitionDelay: '200ms',
 					opacity: show ? 1 : 0,
-			  };
+				};
 
 	const breakPoint = useBreakpoint();
 
@@ -389,7 +389,7 @@ const Contact: NextPage = () => {
 												? undefined
 												: ({
 														isHoneyPot: true,
-												  } as const)),
+													} as const)),
 										})
 											.then((result) => {
 												switch (result.type) {

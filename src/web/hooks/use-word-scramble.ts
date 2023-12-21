@@ -66,7 +66,7 @@ const useWordScramble = (
 							: {
 									status: 'started',
 									index: current.index + (ended ? 0 : 1),
-							  },
+								},
 				};
 			});
 		}, props.timeOut);

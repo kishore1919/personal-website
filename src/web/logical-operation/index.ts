@@ -14,7 +14,7 @@ const chunkDatas = <T>(
 				? total.concat([[one]])
 				: total.map((chunk, index) => {
 						return index !== chunkIndex ? chunk : chunk.concat(one);
-				  });
+					});
 
 			return newTotal;
 		},

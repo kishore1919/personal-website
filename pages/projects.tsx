@@ -386,7 +386,7 @@ const Item = (
 					transition: 'opacity 1s',
 					transitionDelay: `${project.delay}00ms`,
 					opacity: show ? 1 : 0,
-			  };
+				};
 
 	const { palette } = useTheme();
 
@@ -431,7 +431,7 @@ const Item = (
 									isWhite && palette.mode === 'light'
 										? '#000'
 										: project.icon.color ??
-										  palette.text.secondary,
+											palette.text.secondary,
 							}}
 						/>
 					</Box>
