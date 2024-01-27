@@ -69,26 +69,6 @@ export default class Database {
 			} as const;
 		}
 	};
-	readonly checkConnectionStatus = async () => {
-		try {
-			const instance = await this.client;
-			const state = instance.connection.readyState;
-			switch (state) {
-				case 1: {
-					return {
-						result: 'succeed',
-					} as const;
-				}
-			}
-			throw new Error(`Database connection state is ${state} where 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting, 99 = uninitialized
-            `);
-		} catch (error) {
-			return {
-				result: 'failed',
-				error,
-			} as const;
-		}
-	};
 
 	private readonly getContactFormMessage = () => {
 		return mongoose.model(

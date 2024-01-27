@@ -8,19 +8,19 @@ In the end, I ended up creating my own web application
 
 #### Home Page
 
-![Home](docs/home.png 'Home')
+![Home](test/snapshot/snapshot-images/pc/dark/home.png 'Home')
 
 #### Projects Page
 
-![Projects](docs/projects.png 'Projects')
+![Projects](test/snapshot/snapshot-images/pc/dark/projects.png 'Projects')
 
 #### Contact Page
 
-![Contact](docs/contact.png 'contact')
+![Contact](test/snapshot/snapshot-images/pc/dark/contact.png 'contact')
 
 #### Error Page
 
-![error](docs/error.png 'Error')
+![error](test/snapshot/snapshot-images/pc/dark/error.png 'Error')
 
 ## Tech Used
 
@@ -44,8 +44,9 @@ _*Make sure you have `pnpm` and `make` available in your system*_
 
 #### Development and Testing
 
-1. Refer to `.env.example` which is an example file for you to know what key-value pairs are needed to develop this project
-2. Then, create an `.env` file that will be used for development and testing. Then copy the key-value pairs to it and then add the values
+Run the following command
+
+`make copy-env-[development/testing]`
 
 #### Make Commands
 
