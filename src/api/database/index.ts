@@ -13,18 +13,16 @@ export default class Database {
 	private readonly collections: typeof config.collections;
 
 	private static readonly create = async () => {
-		if (config.srv) {
-			const url = `mongodb${config.srv}://${config.auth.user}:${config.auth.password}@${config.address}/${config.dbName}?authSource=admin&retryWrites=true&w=majority`;
+		const environment = process.env.NEXT_PUBLIC_NODE_ENV;
 
-			return new this(url, config.collections);
-		}
-		if (config.port) {
-			const url = `mongodb://${config.auth.user}:${config.auth.password}@${config.address}:${config.port}/${config.dbName}?authSource=admin&retryWrites=true&w=majority`;
+		const isLocal =
+			environment === 'testing' || environment === 'development';
 
-			return new this(url, config.collections);
-		}
+		const url = isLocal
+			? `mongodb://${config.auth.user}:${config.auth.password}@${config.address}:${config.port}/${config.database}?authSource=admin&retryWrites=true&w=majority`
+			: `mongodb+srv://${config.auth.user}:${config.auth.password}@${config.address}/${config.database}?authSource=admin&retryWrites=true&w=majority`;
 
-		throw new Error('Port or SRV are not defined');
+		return new this(url, config.collections);
 	};
 
 	private static database: Promise<Database> | undefined = undefined;

@@ -39,8 +39,11 @@ jobs:
             - name: Generate Env Type Definitions
               run: make generate-environment-type-definition
 
+            - name: Create Environment Variable
+              run: make copy-env-testing
+
             - name: Lint Code
-              run: touch .env && make lint
+              run: make lint
 
             - name: Typecheck Code
               run: make typecheck

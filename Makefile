@@ -21,9 +21,6 @@ stop-mongo:
 migrate-mongo:
 	mongosh < script/mongo-setup/document.js
 
-echo-mongo:
-	echo 'db.runCommand("ping").ok' | mongosh --quiet
-
 ## telemetry
 opt-out-telemetry:
 	pnpm next telemetry disable
@@ -42,19 +39,19 @@ generate-environment-type-definition:
 	pnpm vite-node script/env/type-def.ts
 
 copy-env:
-	pnpm vite-node script/env/copy.ts ${arguments}
+	cp config/.env.${environment} .env
 
 copy-env-development:
-	make copy-env arguments="-- --development"
+	make copy-env environment="development"
 
 copy-env-staging:
-	make copy-env arguments="-- --staging"
+	make copy-env environment="staging"
 
 copy-env-production:
-	make copy-env arguments="-- --production"
+	make copy-env environment="production"
 
 copy-env-testing:
-	make copy-env arguments="-- --testing"
+	make copy-env environment="testing"
 
 ## deployment
 deploy-staging: build-staging
