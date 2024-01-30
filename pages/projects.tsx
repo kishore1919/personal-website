@@ -34,7 +34,7 @@ const projects = [
 			{
 				name: 'Web',
 				description: 'The Web Application that is UI/UX friendly',
-				githubLink: 'https://github.com/Gitignored-App/web',
+				githubLink: 'https://github.com/gervinfung/gitignored',
 				imagePath: '/gitignored/web',
 				icon: {
 					color: '#1A73E8',
@@ -45,7 +45,7 @@ const projects = [
 				name: 'Terminal',
 				description:
 					'The CLI Application that cache and with distinctive colors for commands/arguments',
-				githubLink: 'https://github.com/Gitignored-App/cli',
+				githubLink: 'https://github.com/gervinfung/gitignored',
 				imagePath: '/gitignored/terminal',
 				icon: {
 					color: '#2F393F',
