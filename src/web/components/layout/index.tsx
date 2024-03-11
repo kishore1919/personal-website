@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { type PropsWithChildren } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Header from '../header';
 import Footer from '../footer';
 
-const Layout = (props: Readonly<{ children?: React.ReactNode }>) => {
+const Layout = (props: Readonly<PropsWithChildren>) => {
 	return (
 		<React.Fragment>
 			<Header />

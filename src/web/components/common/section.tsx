@@ -1,13 +1,15 @@
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import type { SxProps, Theme } from '@mui/material/styles';
+import type { Children } from '../../type/react';
 
 const Section = (
-	props: Readonly<{
-		elevation?: number;
-		sx?: SxProps<Theme>;
-		children: React.ReactNode;
-	}>
+	props: Readonly<
+		Children & {
+			elevation?: number;
+			sx?: SxProps<Theme>;
+		}
+	>
 ) => {
 	const sx: SxProps<Theme> = {
 		m: 0,

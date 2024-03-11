@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { keyframes } from '@emotion/react';
 import Title from '../common/title';
 import { SecondaryMainButton } from '../common/button';
+import type { Children } from '../../type/react';
 
 const chargeHomeButton = keyframes`
     0% {
@@ -17,10 +18,11 @@ const chargeHomeButton = keyframes`
 `;
 
 const MarginTopBox = (
-	props: Readonly<{
-		shouldNotMarginTop?: true;
-		children: React.ReactNode;
-	}>
+	props: Readonly<
+		Children & {
+			shouldNotMarginTop?: true;
+		}
+	>
 ) => {
 	return (
 		<Box

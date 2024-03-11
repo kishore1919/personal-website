@@ -9,6 +9,8 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DevicesIcon from '@mui/icons-material/Devices';
@@ -28,21 +30,20 @@ import Holder from '../common/holder';
 import useWordScramble from '../../hooks/use-word-scramble';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
 import links from '../../links';
-import '../../../../env.d.ts';
 import consts from '../../const';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { ThemeContext } from '../../context/theme';
+import type { Children } from '../../type/react';
 
 const ids = ['home', 'projects', 'contact'] as const;
 
 type Id = (typeof ids)[number];
 
 const SocialButton = (
-	props: Readonly<{
-		href: string;
-		children: React.ReactNode;
-	}>
+	props: Readonly<
+		Children & {
+			href: string;
+		}
+	>
 ) => {
 	return (
 		<MuiLink.default

@@ -1,14 +1,16 @@
 import React from 'react';
 import Container, { type ContainerProps } from '@mui/material/Container';
 import type { SxProps, Theme } from '@mui/material/styles';
+import type { Children } from '../../type/react';
 
 const Holder = (
-	props: Readonly<{
-		id?: ContainerProps['id'];
-		sx?: SxProps<Theme>;
-		children: React.ReactNode;
-		holderRef?: ContainerProps['ref'];
-	}>
+	props: Readonly<
+		Children & {
+			id?: ContainerProps['id'];
+			sx?: SxProps<Theme>;
+			holderRef?: ContainerProps['ref'];
+		}
+	>
 ) => {
 	const sx: SxProps<Theme> = {
 		width: '100%',

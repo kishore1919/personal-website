@@ -13,6 +13,7 @@ import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
 import {
 	BsFillTerminalFill,
 	BsBrowserChrome,
+	BsReddit,
 	BsServer,
 	BsWindowDesktop,
 	BsCodeSlash,
@@ -35,7 +36,6 @@ const projects = [
 				name: 'Web',
 				description: 'The Web Application that is UI/UX friendly',
 				githubLink: 'https://github.com/gervinfung/gitignored',
-				imagePath: '/gitignored/web',
 				icon: {
 					color: '#1A73E8',
 					Component: BsBrowserChrome,
@@ -46,10 +46,25 @@ const projects = [
 				description:
 					'The CLI Application that cache and with distinctive colors for commands/arguments',
 				githubLink: 'https://github.com/gervinfung/gitignored',
-				imagePath: '/gitignored/terminal',
 				icon: {
 					color: '#2F393F',
 					Component: BsFillTerminalFill,
+				},
+			},
+		],
+	},
+	{
+		category: 'Informations',
+		projects: [
+			{
+				name: 'Useful Websites',
+				description:
+					'A collection of useful unknown websites based on reddit post',
+				githubLink:
+					'https://github.com/GervinFung/useful-unknown-website-comments',
+				icon: {
+					color: '#FF4500',
+					Component: BsReddit,
 				},
 			},
 		],
@@ -62,7 +77,6 @@ const projects = [
 				description:
 					'A LibGDX AI Multithreaded Chess Game playable on many devices from Level 1 to Level 10',
 				githubLink: 'https://github.com/GervinFung/LibGDX-Chess-Game',
-				imagePath: '/games/libgdx-chess-game',
 				icon: {
 					color: '#FFF',
 					Component: FaChessBoard,
@@ -74,7 +88,6 @@ const projects = [
 					'First Android Project - Parallel AI Chess Game with 10 different levels',
 				githubLink:
 					'https://github.com/GervinFung/AndroidSimpleAIChess',
-				imagePath: '/games/androidsimpleaichess',
 				icon: {
 					color: '#FFF',
 					Component: FaChessBoard,
@@ -86,7 +99,6 @@ const projects = [
 					'A Parallel AI Chess Game from Level 1 to Level 10 made with Java Swing',
 				githubLink:
 					'https://github.com/GervinFung/SimpleParallelChessAI',
-				imagePath: '/games/simpleparallelchessai',
 				icon: {
 					color: '#FFF',
 					Component: FaChessBoard,
@@ -97,7 +109,6 @@ const projects = [
 				description:
 					'AI Tic-Tac-Toe Game made with Java Swing. Play in 3x3 grid up to 10x10',
 				githubLink: 'https://github.com/GervinFung/TicTacToe',
-				imagePath: '/games/tictactoe',
 				icon: {
 					color: '#F06292',
 					Component: GiTicTacToe,
@@ -107,7 +118,6 @@ const projects = [
 				name: 'Connect4',
 				description: 'A Connect-4 Game written in C# WinForm',
 				githubLink: 'https://github.com/GervinFung/Connect4',
-				imagePath: '/games/connect4',
 				icon: {
 					color: '#44475A',
 					Component: PiDotsNine,
@@ -123,7 +133,6 @@ const projects = [
 				description:
 					'Generate type definitions for environment variables from different environment files with support for both import.meta.env and process.env',
 				githubLink: 'https://github.com/GervinFung/gen-env-type-def',
-				imagePath: '/typescript/gen-env-type-def',
 				icon: {
 					color: '#C12127',
 					Component: ImNpm,
@@ -134,7 +143,6 @@ const projects = [
 				description:
 					'Add .js extension to each relative import/export statement in JavaScript file',
 				githubLink: 'https://github.com/GervinFung/ts-add-js-extension',
-				imagePath: '/typescript/ts-add-js-extension',
 				icon: {
 					color: '#C12127',
 					Component: ImNpm,
@@ -146,7 +154,6 @@ const projects = [
 					'My personal utility functions that I use in my projects',
 				githubLink:
 					'https://github.com/GervinFung/npm-tools/tree/main/packages/util',
-				imagePath: '/typescript/ts-add-js-extension',
 				icon: {
 					color: '#C12127',
 					Component: ImNpm,
@@ -162,7 +169,6 @@ const projects = [
 				description:
 					'For NPM module authors that would like to support Deno but do not want to write and maintain a port',
 				githubLink: 'https://github.com/garronej/denoify',
-				imagePath: '/deno/denoify',
 				icon: {
 					color: '#15803D',
 					Component: SiDeno,
@@ -177,7 +183,6 @@ const projects = [
 				name: 'Dotfiles',
 				description: 'My dotfiles that are XDG_CONFIG_HOME compliant',
 				githubLink: 'https://github.com/GervinFung/.config',
-				imagePath: '/configurations/dotfiles',
 				icon: {
 					color: '#2196F3',
 					Component: BsFilesAlt,
@@ -188,7 +193,6 @@ const projects = [
 				description: 'My ESLint shareable config',
 				githubLink:
 					'https://github.com/GervinFung/npm-tools/tree/main/packages/eslint-config',
-				imagePath: '/configurations/eslint-config-poolofdeath20',
 				icon: {
 					color: '#4B32C3',
 					Component: SiEslint,
@@ -199,7 +203,6 @@ const projects = [
 				description: 'My commonly used TypeScript config',
 				githubLink:
 					'https://github.com/GervinFung/npm-tools/tree/main/packages/tsconfig',
-				imagePath: '/configurations/eslint-config-poolofdeath20',
 				icon: {
 					color: '#3178C6',
 					Component: SiTypescript,
@@ -214,7 +217,6 @@ const projects = [
 				name: 'NPM Package',
 				description: 'NPM Package Starter Template',
 				githubLink: 'https://github.com/GervinFung/npm-package-starter',
-				imagePath: '/starter-templates/npm-package',
 				icon: {
 					color: '#C12127',
 					Component: ImNpm,
@@ -224,7 +226,6 @@ const projects = [
 				name: 'React',
 				description: 'React Starter Template',
 				githubLink: 'https://github.com/GervinFung/react-starter',
-				imagePath: '/starter-templates/npm-package',
 				icon: {
 					color: '#087EA4',
 					Component: BiLogoReact,
@@ -234,7 +235,6 @@ const projects = [
 				name: 'Next.js',
 				description: 'Nextjs Starter Template',
 				githubLink: 'https://github.com/GervinFung/nextjs-starter',
-				imagePath: '/starter-templates/npm-package',
 				icon: {
 					Component: TbBrandNextjs,
 				},
@@ -249,7 +249,6 @@ const projects = [
 				description:
 					'Text Editor similar to NotePad that can undo all of your edit',
 				githubLink: 'https://github.com/GervinFung/TextEditor',
-				imagePath: '/texteditor/notepad',
 				icon: {
 					color: '#D5C4A1',
 					Component: BiNotepad,
@@ -260,7 +259,6 @@ const projects = [
 				description:
 					'Fist JavaFX project - an upgraded version of the previous Notepad Text Editor',
 				githubLink: 'https://github.com/GervinFung/TextEditorFX',
-				imagePath: '/texteditor/notepadfx',
 				icon: {
 					color: '#D5C4A1',
 					Component: BiNotepad,
@@ -275,7 +273,6 @@ const projects = [
 				name: 'Web',
 				description: 'The web application of UTARi',
 				githubLink: 'https://github.com/UTARi-Accommodation/web',
-				imagePath: '/utari/web',
 				icon: {
 					color: '#1A73E8',
 					Component: BsBrowserChrome,
@@ -285,7 +282,6 @@ const projects = [
 				name: 'Server',
 				description: 'The server of UTARi',
 				githubLink: 'https://github.com/UTARi-Accommodation/server',
-				imagePath: '/utari/server',
 				icon: {
 					color: '#E23A2E',
 					Component: BsServer,
@@ -295,7 +291,6 @@ const projects = [
 				name: 'Desktop',
 				description: 'The desktop application of UTARi',
 				githubLink: 'https://github.com/UTARi-Accommodation/desktop',
-				imagePath: '/utari/desktop',
 				icon: {
 					color: '#174276',
 					Component: BsWindowDesktop,
@@ -305,7 +300,6 @@ const projects = [
 				name: 'Common',
 				description: 'All commonly used functions and typings',
 				githubLink: 'https://github.com/UTARi-Accommodation/common',
-				imagePath: '/utari/common',
 				icon: {
 					color: '#E91E63',
 					Component: BsCodeSlash,
@@ -320,7 +314,6 @@ const projects = [
 				name: 'JKLM bot',
 				description: 'A JKLM bot written for fun',
 				githubLink: 'https://github.com/GervinFung/jklm-bot',
-				imagePath: '/bots/jklm-bot',
 				icon: {
 					color: '#24A1C8',
 					Component: BsRobot,
@@ -336,7 +329,6 @@ const projects = [
 				description:
 					'Partial optimized Brainfuck implementation in TypeScript',
 				githubLink: 'https://github.com/GervinFung/brainfuck',
-				imagePath: '/toys/brainfuck',
 				icon: {
 					color: '#6A1B9A',
 					Component: FaRegFileCode,
@@ -347,7 +339,6 @@ const projects = [
 				description:
 					'A customizable unix terminal emulator for React on web, with customizable command',
 				githubLink: 'https://github.com/GervinFung/react-unix-terminal',
-				imagePath: '/toys/react-unix-terminal',
 				icon: {
 					color: '#2F393F',
 					Component: BsFillTerminalFill,
@@ -357,7 +348,6 @@ const projects = [
 				name: 'Guard Data',
 				description: 'Safely guard JSON data as intended type',
 				githubLink: 'https://github.com/GervinFung/guard-data',
-				imagePath: '/toys/guard-data',
 				icon: {
 					color: '#279847',
 					Component: SiAdguard,

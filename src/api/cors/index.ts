@@ -4,14 +4,14 @@ import type { Response } from '../endpoint';
 
 const initMiddleware = <T>(
 	middleware: (
-		req: NextApiRequest,
-		res: NextApiResponse<T>,
+		request: NextApiRequest,
+		response: NextApiResponse<T>,
 		callback: (result: unknown) => void
 	) => void
 ) => {
-	return (req: NextApiRequest, res: NextApiResponse<T>) => {
+	return (request: NextApiRequest, response: NextApiResponse<T>) => {
 		return new Promise((resolve, reject) => {
-			middleware(req, res, (result: unknown) => {
+			middleware(request, response, (result) => {
 				return result instanceof Error
 					? reject(result)
 					: resolve(result);

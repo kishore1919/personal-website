@@ -1,7 +1,7 @@
-import ci from 'ci-info';
 import fs from 'fs';
+import ci from 'ci-info';
 import { defineConfig } from 'vitest/config';
-import { Optional, isTruthy } from '@poolofdeath20/util';
+import { Defined, isTruthy } from '@poolofdeath20/util';
 
 export default defineConfig(() => {
 	const timeOut = 300_000;
@@ -23,7 +23,7 @@ export default defineConfig(() => {
 					const [key, value] = keyValuePair.split('=');
 					return {
 						...prev,
-						[Optional.from(key).unwrapOrThrow(
+						[Defined.parse(key).orThrow(
 							new Error('key is undefined')
 						)]: value,
 					};

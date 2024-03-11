@@ -1,10 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
-import Layout from '../layout';
-import ErrorContainer from './';
 import { withRouter } from 'next/router';
 import type { NextRouter } from 'next/router';
+import Layout from '../layout';
+import ErrorContainer from './';
 import { Error } from '../common/alert';
+import type { Children } from '../../type/react';
 
 type State = Readonly<{
 	closedAlert: boolean;
@@ -12,10 +13,11 @@ type State = Readonly<{
 }>;
 
 class ErrorBoundary extends React.Component<
-	Readonly<{
-		router: NextRouter;
-		children: React.ReactNode;
-	}>,
+	Readonly<
+		Children & {
+			router: NextRouter;
+		}
+	>,
 	State
 > {
 	state: State = {

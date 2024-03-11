@@ -33,11 +33,13 @@ export default class Database {
 				this.database = Database.create();
 			}
 		}
+
 		return this.database;
 	};
 
 	private constructor(url: string, collections: typeof config.collections) {
 		this.client = mongoose.connect(url);
+
 		this.collections = collections;
 	}
 
@@ -45,12 +47,15 @@ export default class Database {
 	readonly close = async () => {
 		return (await this.client).disconnect();
 	};
+
 	readonly clearCollections = async () => {
 		return await this.getContactFormMessage().deleteMany({});
 	};
+
 	readonly getAllContactFormMessages = async () => {
 		try {
 			const contactFormMessage = this.getContactFormMessage();
+
 			return {
 				result: 'succeed',
 				messages: await contactFormMessage
@@ -80,10 +85,12 @@ export default class Database {
 	) => {
 		try {
 			const contactFormMessage = this.getContactFormMessage();
+
 			const result = await new contactFormMessage({
 				...mongoose.sanitizeFilter(formMessage),
 				createdOn: new Date(),
 			}).save();
+
 			return {
 				result: 'succeed',
 				message: contactFormMessage
