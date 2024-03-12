@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
@@ -428,13 +429,13 @@ const Header = () => {
 					>
 						<Box>
 							<Link href="/" style={{ textDecoration: 'none' }}>
-								<Box
+								<Image
 									alt="logo"
 									loading="lazy"
-									component="img"
 									src="/images/icons/icon-72x72.png"
-									sx={{
-										width: 36,
+									width={36}
+									height={36}
+									style={{
 										display: 'block',
 									}}
 								/>
