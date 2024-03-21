@@ -6,6 +6,7 @@ import { ContactMessageParser } from '../../src/common/contact';
 
 const contact: EndPointFunc<Data> = async (request, response) => {
 	await cors<Data>()(request, response);
+
 	if (request.method !== 'POST') {
 		return response.status(404).json('Only accept POST request');
 	}
@@ -32,13 +33,11 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 
 	const { name, email, message } = body;
 
-	const values = {
+	const parser = ContactMessageParser.from({
 		name: typeof name !== 'string' ? '' : name,
 		email: typeof email !== 'string' ? '' : email,
 		message: typeof message !== 'string' ? '' : message,
-	};
-
-	const contactMessageParser = ContactMessageParser.of(values);
+	});
 
 	const responseSucceed = {
 		type: 'succeed',
@@ -48,7 +47,7 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 		return response.status(200).json(responseSucceed);
 	}
 
-	const { status, ...rest } = contactMessageParser.allValueIsValid();
+	const { status, ...rest } = parser.allValueIsValid();
 
 	if (status === 'error') {
 		return response.status(200).json({
@@ -60,7 +59,7 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 	const database = await Database.instance();
 
 	const insertResult = await database
-		.insertContactFormMessage(values)
+		.insertContactFormMessage(parser.value())
 		.then(() => {
 			return responseSucceed;
 		})

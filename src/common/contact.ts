@@ -30,7 +30,7 @@ type ContactMessageParserProps = Readonly<{
 class ContactMessageParser {
 	private constructor(private readonly props: ContactMessageParserProps) {}
 
-	static readonly of = (props: ContactMessageParserProps) => {
+	static readonly from = (props: ContactMessageParserProps) => {
 		return new this(props);
 	};
 
@@ -123,6 +123,14 @@ class ContactMessageParser {
 					? 'clean'
 					: 'error',
 		} as const;
+	};
+
+	readonly value = () => {
+		if (this.allValueIsValid()) {
+			return this.props;
+		}
+
+		throw new Error('Valud is not valid. Please check the value again');
 	};
 }
 

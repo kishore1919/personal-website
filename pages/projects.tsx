@@ -402,7 +402,7 @@ const Item = (
 			<MuiLink.default
 				href={project.githubLink}
 				target="_blank"
-				rel="noopener noreferrer"
+				rel="external nofollow noopener noreferrer"
 				underline="none"
 			>
 				<Box

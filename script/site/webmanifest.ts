@@ -15,17 +15,17 @@ const main = () => {
 		categories: ['portfolio'],
 		theme_color: colorTheme.contrast.black,
 		icons: dimensions.map((dimension) => {
-			const commonProperties = {
+			const properties = {
 				sizes: `${dimension}x${dimension}`,
 				src: `/images/icons/icon-${dimension}x${dimension}.png`,
 				type: 'image/png',
 			};
 
-			return dimension !== 128
-				? commonProperties
+			return dimension !== 512
+				? properties
 				: {
-						...commonProperties,
-						purpose: 'maskable',
+						...properties,
+						purpose: 'any',
 					};
 		}),
 	};

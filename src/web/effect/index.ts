@@ -1,3 +1,5 @@
+import type { Argument, Return } from '@poolofdeath20/util';
+
 const scrambleAndShowBase = (listOfCharacters: string) => {
 	return ({
 		count,
@@ -39,9 +41,9 @@ const scrambleAndShowBase = (listOfCharacters: string) => {
 	};
 };
 
-type Param = Parameters<ReturnType<typeof scrambleAndShowBase>>[0];
-
-const scrambleAndShow = (param: Param) => {
+const scrambleAndShow = (
+	param: Argument<Return<typeof scrambleAndShowBase>>
+) => {
 	const alphabets = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	const lowerCaseAlphabets = alphabets.toLowerCase();
 	const number = '0123456789';

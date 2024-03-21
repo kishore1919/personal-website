@@ -368,7 +368,7 @@ const Contact: NextPage = () => {
 									onClick={(event) => {
 										event.preventDefault();
 										const { status, ...values } =
-											ContactMessageParser.of(
+											ContactMessageParser.from(
 												contactInfo
 											).allValueIsValid();
 										if (status === 'error') {

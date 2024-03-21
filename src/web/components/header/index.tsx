@@ -50,7 +50,7 @@ const SocialButton = (
 		<MuiLink.default
 			href={props.href}
 			target="_blank"
-			rel="noopener noreferrer"
+			rel="external nofollow noopener noreferrer"
 			underline="none"
 			sx={{
 				display: 'flex',

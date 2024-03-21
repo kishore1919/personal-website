@@ -11,14 +11,14 @@ describe('Contact', () => {
 		};
 		it('should attest all values are valid', () => {
 			expect(
-				ContactMessageParser.of(values).allValueIsValid().status
+				ContactMessageParser.from(values).allValueIsValid().status
 			).toBe('clean');
 		});
 		it.each(['', ' '])(
 			'should attest all values are valid except when name = "%s"',
 			(name) => {
 				expect(
-					ContactMessageParser.of({
+					ContactMessageParser.from({
 						...values,
 						name,
 					}).allValueIsValid().status
@@ -29,7 +29,7 @@ describe('Contact', () => {
 			'should attest all values are valid except when email = "%s"',
 			(email) => {
 				expect(
-					ContactMessageParser.of({
+					ContactMessageParser.from({
 						...values,
 						email,
 					}).allValueIsValid().status
@@ -40,7 +40,7 @@ describe('Contact', () => {
 			'should attest all values are valid except when message = "%s"',
 			(message) => {
 				expect(
-					ContactMessageParser.of({
+					ContactMessageParser.from({
 						...values,
 						message,
 					}).allValueIsValid().status

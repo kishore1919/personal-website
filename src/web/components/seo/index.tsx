@@ -1,6 +1,7 @@
 import React from 'react';
 import { DefaultSeo } from 'next-seo';
 import Schema from './schema';
+import { colorTheme } from '../../theme';
 
 const Seo = (
 	props: Readonly<{
@@ -19,6 +20,8 @@ const Seo = (
 	const title = `${name} | ${props.title}`;
 
 	const { description } = props;
+
+	const content = colorTheme.contrast.black;
 
 	return (
 		<React.Fragment>
@@ -42,7 +45,7 @@ const Seo = (
 						const squareDimension = `${dimension}x${dimension}`;
 
 						return {
-							alt: `website icon as dimension of $${squareDimension}`,
+							alt: `website icon as dimension of ${squareDimension}`,
 							width: dimension,
 							height: dimension,
 							url: `${iconPath}/icon-${squareDimension}.png`,
@@ -82,15 +85,15 @@ const Seo = (
 					},
 					{
 						name: 'theme-color',
-						content: '#121212',
+						content,
 					},
 					{
 						name: 'msapplication-navbutton-color',
-						content: '#121212',
+						content,
 					},
 					{
 						name: 'apple-mobile-web-app-status-bar-style',
-						content: '#121212',
+						content,
 					},
 					{
 						name: 'msapplication-starturl',

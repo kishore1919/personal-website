@@ -41,6 +41,7 @@ describe('UI screenshot test', () => {
 					}
 
 					const dir = `${__dirname}/snapshot-images/${platform}/${mode}`;
+
 					const image = await getWebSnapshot({
 						mode,
 						link,
@@ -48,6 +49,7 @@ describe('UI screenshot test', () => {
 						platform,
 						port: server.getPort(),
 					});
+
 					expect(image).toMatchImageSnapshot({
 						customSnapshotsDir: dir,
 						customSnapshotIdentifier: link,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { scrambleAndShow } from '../effect';
-import { isTruthy } from '@poolofdeath20/util';
+import { isTruthy, type Argument } from '@poolofdeath20/util';
 
 type Result = Readonly<
 	| {
@@ -13,9 +13,10 @@ type Result = Readonly<
 >;
 
 const useWordScramble = (
-	props: Parameters<typeof scrambleAndShow>[0] & {
-		timeOut: number;
-	}
+	props: Argument<typeof scrambleAndShow> &
+		Readonly<{
+			timeOut: number;
+		}>
 ) => {
 	const words = scrambleAndShow({
 		count: props.count,
@@ -104,10 +105,6 @@ const useWordScramble = (
 	}, [result.current.status === 'started' && result.current.index]);
 
 	return {
-		...result,
-		started: () => {
-			return result.current.status !== 'started';
-		},
 		word: () => {
 			return result.current.status !== 'started'
 				? props.content
