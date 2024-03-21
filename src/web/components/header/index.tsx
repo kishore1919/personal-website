@@ -26,6 +26,7 @@ import {
 	isTruthy,
 	type Mode,
 	getPreferredMode,
+	Defined,
 } from '@poolofdeath20/util';
 import Holder from '../common/holder';
 import useWordScramble from '../../hooks/use-word-scramble';
@@ -43,11 +44,13 @@ const SocialButton = (
 	props: Readonly<
 		Children & {
 			href: string;
+			'aria-label': string;
 		}
 	>
 ) => {
 	return (
 		<MuiLink.default
+			aria-label={props['aria-label']}
 			href={props.href}
 			target="_blank"
 			rel="external nofollow noopener noreferrer"
@@ -79,6 +82,7 @@ const CustomLink = (
 
 	return (
 		<Link
+			aria-label={`${props.id} link`}
 			href={`/${props.id === 'home' ? '' : props.id}`}
 			style={{ textDecoration: 'none' }}
 		>
@@ -114,10 +118,14 @@ const CustomLink = (
 	);
 };
 
+type DontUseLink = Readonly<{
+	dontUseLink?: true;
+}>;
+
 const EssentialIcons = {
-	Projects: (props: Readonly<{ dontUseLink?: true }>) => {
+	Projects: (props: DontUseLink) => {
 		const Icon = (
-			<IconButton>
+			<IconButton aria-label="projects icon">
 				<LightbulbIcon
 					sx={{
 						color: 'text.secondary',
@@ -129,6 +137,7 @@ const EssentialIcons = {
 			Icon
 		) : (
 			<Link
+				aria-label="projects link"
 				href="/projects"
 				style={{
 					textDecoration: 'none',
@@ -138,9 +147,9 @@ const EssentialIcons = {
 			</Link>
 		);
 	},
-	Contact: (props: Readonly<{ dontUseLink?: true }>) => {
+	Contact: (props: DontUseLink) => {
 		const Icon = (
-			<IconButton>
+			<IconButton aria-label="contact icon">
 				<EmailIcon
 					sx={{
 						color: 'text.secondary',
@@ -152,6 +161,7 @@ const EssentialIcons = {
 			Icon
 		) : (
 			<Link
+				aria-label="contact link"
 				href="/contact"
 				style={{
 					textDecoration: 'none',
@@ -163,9 +173,9 @@ const EssentialIcons = {
 			</Link>
 		);
 	},
-	Github: (props: Readonly<{ dontUseLink?: true }>) => {
+	Github: (props: DontUseLink) => {
 		const Icon = (
-			<IconButton>
+			<IconButton aria-label="github icon">
 				<GitHubIcon
 					sx={{
 						color: 'text.secondary',
@@ -176,12 +186,14 @@ const EssentialIcons = {
 		return props.dontUseLink ? (
 			Icon
 		) : (
-			<SocialButton href={links.github}>{Icon}</SocialButton>
+			<SocialButton aria-label="github link" href={links.github}>
+				{Icon}
+			</SocialButton>
 		);
 	},
-	LinkedIn: (props: Readonly<{ dontUseLink?: true }>) => {
+	LinkedIn: (props: DontUseLink) => {
 		const Icon = (
-			<IconButton>
+			<IconButton aria-label="linkedin icon">
 				<LinkedInIcon
 					sx={{
 						color: 'text.secondary',
@@ -193,7 +205,9 @@ const EssentialIcons = {
 		return props.dontUseLink ? (
 			Icon
 		) : (
-			<SocialButton href={links.linkedin}>{Icon}</SocialButton>
+			<SocialButton aria-label="linkedin link" href={links.linkedin}>
+				{Icon}
+			</SocialButton>
 		);
 	},
 };
@@ -215,6 +229,7 @@ const ThemeMenu = () => {
 	const LightIcon = () => {
 		return (
 			<LightModeIcon
+				aria-label="light mode icon"
 				sx={{
 					color: 'text.secondary',
 				}}
@@ -225,6 +240,7 @@ const ThemeMenu = () => {
 	const DarkIcon = () => {
 		return (
 			<DarkModeIcon
+				aria-label="dark mode icon"
 				sx={{
 					color: 'text.secondary',
 				}}
@@ -235,6 +251,7 @@ const ThemeMenu = () => {
 	return (
 		<React.Fragment>
 			<IconButton
+				aria-label="theme icon"
 				onClick={(event) => {
 					setAnchorElement(event.currentTarget);
 				}}
@@ -284,6 +301,7 @@ const ThemeMenu = () => {
 					}}
 				>
 					<DevicesIcon
+						aria-label="system mode icon"
 						sx={{
 							color: 'text.secondary',
 						}}
@@ -343,26 +361,29 @@ const Header = () => {
 								return window.open(
 									link,
 									'_blank',
-									'noopener noreferrer'
+									'external nofollow noopener noreferrer'
 								);
 							};
+
 							if (value === 2) {
 								return open(links.github);
 							}
+
 							if (value === 3) {
 								return open(links.linkedin);
 							}
-							const id = ids.at(value + 1);
-							if (!id) {
-								return;
-							}
+
+							const id = Defined.parse(ids.at(value + 1)).orThrow(
+								`value: ${value + 1} is out of range for ids: ${ids.join(', ')}`
+							);
+
 							return router.push(id, undefined, {
 								shallow: true,
 							});
 						}}
 					>
 						<BottomNavigationAction
-							label="Projects"
+							label={capitalize(ids[0])}
 							icon={<EssentialIcons.Projects dontUseLink />}
 							sx={({ palette }) => {
 								return {
@@ -374,7 +395,7 @@ const Header = () => {
 							}}
 						/>
 						<BottomNavigationAction
-							label="Contact"
+							label={capitalize(ids[1])}
 							icon={<EssentialIcons.Contact dontUseLink />}
 							sx={({ palette }) => {
 								return {
@@ -490,8 +511,11 @@ const Header = () => {
 									)}
 									<EssentialIcons.Github />
 									<EssentialIcons.LinkedIn />
-									<SocialButton href={links.instagram}>
-										<IconButton>
+									<SocialButton
+										aria-label="instagram link"
+										href={links.instagram}
+									>
+										<IconButton aria-label="instagram icon">
 											<InstagramIcon
 												sx={{
 													color: 'text.secondary',

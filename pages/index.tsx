@@ -90,8 +90,18 @@ const Index: NextPage = () => {
 				>
 					GERVIN
 				</Typography>
-				<Holder sx={{ width: consts.width.others[breakPoint ?? 'xl'] }}>
-					<Content delay={1} sx={{ color: 'text.primary', mt: 3 }}>
+				<Holder
+					sx={{
+						width: consts.width.others[breakPoint ?? 'xl'],
+					}}
+				>
+					<Content
+						delay={1}
+						sx={{
+							color: 'text.primary',
+							mt: 3,
+						}}
+					>
 						{isDay() ? 'Bonjour' : 'Bonsoir'}! Je vous remercie de
 						votre visite!
 					</Content>
@@ -124,6 +134,7 @@ const Index: NextPage = () => {
 							}}
 						>
 							<Link
+								aria-label="projects link"
 								href="/projects"
 								style={{
 									textDecoration: 'none',
