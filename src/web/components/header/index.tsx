@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { type PropsWithChildren } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import * as MuiLink from '@mui/material/Link';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import ExternalLink from '@mui/material/Link';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import DevicesIcon from '@mui/icons-material/Devices';
@@ -20,16 +19,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import {
-	isFalse,
-	capitalize,
-	isTruthy,
-	type Mode,
-	getPreferredMode,
-	Defined,
-} from '@poolofdeath20/util';
+import { alpha } from '@mui/material/styles';
+import { isTruthy, type Mode, getPreferredMode } from '@poolofdeath20/util';
 import Holder from '../common/holder';
-import useWordScramble from '../../hooks/use-word-scramble';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
 import links from '../../links';
 import consts from '../../const';
@@ -38,7 +30,15 @@ import type { Children } from '../../type/react';
 
 const ids = ['home', 'projects', 'contact'] as const;
 
-type Id = (typeof ids)[number];
+const useAnchorElement = () => {
+	const [get, set] = React.useState(undefined as undefined | HTMLElement);
+
+	const clear = () => {
+		set(undefined);
+	};
+
+	return [get, set, clear] as const;
+};
 
 const SocialButton = (
 	props: Readonly<
@@ -49,7 +49,7 @@ const SocialButton = (
 	>
 ) => {
 	return (
-		<MuiLink.default
+		<ExternalLink
 			aria-label={props['aria-label']}
 			href={props.href}
 			target="_blank"
@@ -60,169 +60,152 @@ const SocialButton = (
 				alignItems: 'center',
 				borderRadius: '50%',
 				border: 'none',
+				whiteSpace: 'pre-wrap',
+				gap: 2,
 			}}
 		>
 			{props.children}
-		</MuiLink.default>
+		</ExternalLink>
 	);
 };
 
-const CustomLink = (
-	props: Readonly<{
-		id: Id;
-		isActive: boolean;
-		shouldUseIcon: boolean;
-	}>
+const InternalLinkWithIcon = (
+	props: PropsWithChildren &
+		Readonly<{
+			href: string;
+		}>
 ) => {
-	const wordScramble = useWordScramble({
-		count: 10,
-		timeOut: 30,
-		content: capitalize(props.id),
-	});
-
 	return (
 		<Link
-			aria-label={`${props.id} link`}
-			href={`/${props.id === 'home' ? '' : props.id}`}
-			style={{ textDecoration: 'none' }}
+			aria-label={`${props.href === '/' ? 'home' : props.href} link`}
+			href={props.href}
+			style={{
+				textDecoration: 'none',
+				display: 'flex',
+				alignItems: 'center',
+			}}
 		>
-			{props.shouldUseIcon ? null : (
-				<Box
-					onMouseOver={wordScramble.start}
-					onMouseOut={wordScramble.stop}
-					sx={{
-						transition: 'border 0.5s',
-						boxSizing: 'border-box',
-					}}
-				>
-					<Typography
-						sx={({ palette }) => {
-							return {
-								fontWeight: props.isActive
-									? 'bolder'
-									: undefined,
-								color: !props.isActive
-									? palette.text.secondary
-									: palette.text.primary,
-								'&:hover': {
-									color: palette.custom.opposite,
-								},
-							};
-						}}
-					>
-						{wordScramble.word()}
-					</Typography>
-				</Box>
-			)}
+			<Stack
+				direction="row"
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					whiteSpace: 'pre-wrap',
+					gap: 2,
+				}}
+			>
+				{props.children}
+			</Stack>
 		</Link>
 	);
 };
 
-type DontUseLink = Readonly<{
-	dontUseLink?: true;
+type InternalEssentialIconsProps = Readonly<{
+	route: string;
 }>;
 
-const EssentialIcons = {
-	Projects: (props: DontUseLink) => {
-		const Icon = (
-			<IconButton aria-label="projects icon">
-				<LightbulbIcon
-					sx={{
-						color: 'text.secondary',
-					}}
-				/>
-			</IconButton>
-		);
-		return props.dontUseLink ? (
-			Icon
-		) : (
-			<Link
-				aria-label="projects link"
-				href="/projects"
-				style={{
-					textDecoration: 'none',
-				}}
-			>
-				{Icon}
-			</Link>
+const Icons = {
+	Projects: (props: InternalEssentialIconsProps) => {
+		return (
+			<InternalLinkWithIcon href="/projects">
+				<IconButton aria-label="projects icon">
+					<LightbulbIcon
+						sx={{
+							color:
+								ids[1] === props.route
+									? 'text.primary'
+									: 'text.secondary',
+						}}
+					/>
+				</IconButton>
+			</InternalLinkWithIcon>
 		);
 	},
-	Contact: (props: DontUseLink) => {
-		const Icon = (
-			<IconButton aria-label="contact icon">
-				<EmailIcon
-					sx={{
-						color: 'text.secondary',
-					}}
-				/>
-			</IconButton>
-		);
-		return props.dontUseLink ? (
-			Icon
-		) : (
-			<Link
-				aria-label="contact link"
-				href="/contact"
-				style={{
-					textDecoration: 'none',
-
-					color: 'text.secondary',
-				}}
-			>
-				{Icon}
-			</Link>
+	Contact: (props: InternalEssentialIconsProps) => {
+		return (
+			<InternalLinkWithIcon href="/contact">
+				<IconButton aria-label="contact icon">
+					<EmailIcon
+						sx={{
+							color:
+								ids[2] === props.route
+									? 'text.primary'
+									: 'text.secondary',
+						}}
+					/>
+				</IconButton>
+			</InternalLinkWithIcon>
 		);
 	},
-	Github: (props: DontUseLink) => {
-		const Icon = (
-			<IconButton aria-label="github icon">
-				<GitHubIcon
-					sx={{
-						color: 'text.secondary',
-					}}
-				/>
-			</IconButton>
-		);
-		return props.dontUseLink ? (
-			Icon
-		) : (
+	Github: () => {
+		return (
 			<SocialButton aria-label="github link" href={links.github}>
-				{Icon}
+				<IconButton aria-label="github icon">
+					<GitHubIcon
+						sx={{
+							color: 'text.secondary',
+						}}
+					/>
+				</IconButton>
 			</SocialButton>
 		);
 	},
-	LinkedIn: (props: DontUseLink) => {
-		const Icon = (
-			<IconButton aria-label="linkedin icon">
-				<LinkedInIcon
-					sx={{
-						color: 'text.secondary',
-					}}
-				/>
-			</IconButton>
-		);
-
-		return props.dontUseLink ? (
-			Icon
-		) : (
+	LinkedIn: () => {
+		return (
 			<SocialButton aria-label="linkedin link" href={links.linkedin}>
-				{Icon}
+				<IconButton aria-label="linkedin icon">
+					<LinkedInIcon
+						sx={{
+							color: 'text.secondary',
+						}}
+					/>
+				</IconButton>
+			</SocialButton>
+		);
+	},
+	Instagram: () => {
+		return (
+			<SocialButton aria-label="instagram link" href={links.instagram}>
+				<IconButton aria-label="instagram icon">
+					<InstagramIcon
+						sx={{
+							color: 'text.secondary',
+						}}
+					/>
+				</IconButton>
 			</SocialButton>
 		);
 	},
 };
 
-const ThemeMenu = () => {
-	const [anchorElement, setAnchorElement] = React.useState(
-		undefined as undefined | HTMLElement
+const Item = (
+	props: Children &
+		Readonly<{
+			onClick?: () => void;
+		}>
+) => {
+	return (
+		<MenuItem
+			onClick={props.onClick}
+			sx={{
+				whiteSpace: 'pre-wrap',
+				gap: 2,
+			}}
+		>
+			{props.children}
+		</MenuItem>
 	);
+};
+
+const ThemeMenu = () => {
+	const [get, set, clear] = useAnchorElement();
 
 	const themeContext = React.useContext(ThemeContext);
 
 	const onChooseTheme = (mode: Mode) => {
 		return () => {
 			themeContext.setMode(mode);
-			setAnchorElement(undefined);
+			clear();
 		};
 	};
 
@@ -253,17 +236,15 @@ const ThemeMenu = () => {
 			<IconButton
 				aria-label="theme icon"
 				onClick={(event) => {
-					setAnchorElement(event.currentTarget);
+					set(event.currentTarget);
 				}}
 			>
 				{themeContext.mode === 'dark' ? <DarkIcon /> : <LightIcon />}
 			</IconButton>
 			<Menu
-				open={isTruthy(anchorElement)}
-				anchorEl={anchorElement}
-				onClose={() => {
-					setAnchorElement(undefined);
-				}}
+				open={isTruthy(get)}
+				anchorEl={get}
+				onClose={clear}
 				anchorOrigin={{
 					vertical: 'bottom',
 					horizontal: 'right',
@@ -272,34 +253,27 @@ const ThemeMenu = () => {
 					vertical: 'top',
 					horizontal: 'right',
 				}}
+				sx={({ palette }) => {
+					const value = palette.mode === 'dark' ? 0.1 : 0.2;
+
+					return {
+						'& .MuiPaper-root': {
+							background: palette.custom.default,
+							boxShadow: 'none',
+							border: `1px solid ${alpha(palette.custom.opposite, value)}`,
+						},
+					};
+				}}
 			>
-				<MenuItem
-					onClick={onChooseTheme('light')}
-					sx={{
-						whiteSpace: 'pre-wrap',
-						gap: 3,
-					}}
-				>
+				<Item onClick={onChooseTheme('light')}>
 					<LightIcon />
 					<Typography>Light</Typography>
-				</MenuItem>
-				<MenuItem
-					onClick={onChooseTheme('dark')}
-					sx={{
-						whiteSpace: 'pre-wrap',
-						gap: 3,
-					}}
-				>
+				</Item>
+				<Item onClick={onChooseTheme('dark')}>
 					<DarkIcon />
 					<Typography>Dark</Typography>
-				</MenuItem>
-				<MenuItem
-					onClick={onChooseTheme(getPreferredMode())}
-					sx={{
-						whiteSpace: 'pre-wrap',
-						gap: 3,
-					}}
-				>
+				</Item>
+				<Item onClick={onChooseTheme(getPreferredMode())}>
 					<DevicesIcon
 						aria-label="system mode icon"
 						sx={{
@@ -307,7 +281,7 @@ const ThemeMenu = () => {
 						}}
 					/>
 					<Typography>System</Typography>
-				</MenuItem>
+				</Item>
 			</Menu>
 		</React.Fragment>
 	);
@@ -315,115 +289,34 @@ const ThemeMenu = () => {
 
 const Header = () => {
 	const router = useRouter();
-	const route = router.route.replace('/', '');
+	const route = router.route.replace('/', '') || 'home';
 
 	const breakPoint = useBreakpoint();
-	const allShouldUseIcon = breakPoint === 'xm' || breakPoint === 'sm';
-	const shouldUseBottonNavigation = breakPoint === 'xs';
+	const shouldUseMobileNavigation = breakPoint === 'xs';
+
+	const InternalLinksWithIcon = () => {
+		return (
+			<React.Fragment>
+				<Icons.Projects route={route} />
+				<Icons.Contact route={route} />
+			</React.Fragment>
+		);
+	};
 
 	return (
 		<Holder
 			sx={{
-				mb: shouldUseBottonNavigation ? 0 : 16,
+				mb: shouldUseMobileNavigation ? 0 : 16,
 				boxSizing: 'border-box',
 			}}
 		>
-			{isFalse(shouldUseBottonNavigation) ? null : (
-				<Box
-					sx={{
-						zIndex: 2,
-						position: 'fixed',
-						bottom: 0,
-						width: '100%',
-					}}
-				>
-					<BottomNavigation
-						showLabels
-						value={
-							ids
-								.map((id, index) => {
-									return {
-										id,
-										index: !index ? undefined : index - 1,
-									};
-								})
-								.find(({ id }) => {
-									return id === route;
-								})?.index
-						}
-						sx={{
-							width: '100%',
-							backgroundColor: 'transparent',
-							backdropFilter: 'blur(250px)',
-						}}
-						onChange={(_, value) => {
-							const open = (link: string) => {
-								return window.open(
-									link,
-									'_blank',
-									'external nofollow noopener noreferrer'
-								);
-							};
-
-							if (value === 2) {
-								return open(links.github);
-							}
-
-							if (value === 3) {
-								return open(links.linkedin);
-							}
-
-							const id = Defined.parse(ids.at(value + 1)).orThrow(
-								`value: ${value + 1} is out of range for ids: ${ids.join(', ')}`
-							);
-
-							return router.push(id, undefined, {
-								shallow: true,
-							});
-						}}
-					>
-						<BottomNavigationAction
-							label={capitalize(ids[0])}
-							icon={<EssentialIcons.Projects dontUseLink />}
-							sx={({ palette }) => {
-								return {
-									color:
-										route === ids[1]
-											? `${palette.text.primary} !important`
-											: undefined,
-								};
-							}}
-						/>
-						<BottomNavigationAction
-							label={capitalize(ids[1])}
-							icon={<EssentialIcons.Contact dontUseLink />}
-							sx={({ palette }) => {
-								return {
-									color:
-										route === ids[2]
-											? `${palette.text.primary} !important`
-											: undefined,
-								};
-							}}
-						/>
-						<BottomNavigationAction
-							label="Github"
-							icon={<EssentialIcons.Github dontUseLink />}
-						/>
-						<BottomNavigationAction
-							label="LinkedIn"
-							icon={<EssentialIcons.LinkedIn dontUseLink />}
-						/>
-					</BottomNavigation>
-				</Box>
-			)}
 			<Box
 				sx={{
 					width: '100%',
 				}}
 			>
 				<AppBar
-					position={shouldUseBottonNavigation ? 'relative' : 'fixed'}
+					position={shouldUseMobileNavigation ? 'relative' : 'fixed'}
 					elevation={0}
 					sx={{
 						backgroundColor: 'transparent',
@@ -434,18 +327,13 @@ const Header = () => {
 				>
 					<Toolbar
 						sx={{
-							py: 3,
-							px: `0px !important`,
+							py: 2,
+							px: shouldUseMobileNavigation
+								? 1
+								: `0px !important`,
 							width: consts.width.projects[breakPoint ?? 'xl'],
-							...(shouldUseBottonNavigation
-								? {
-										display: 'flex',
-										justifyContent: 'space-between',
-									}
-								: {
-										display: 'grid',
-										gridTemplateColumns: '1fr 1fr 1fr',
-									}),
+							display: 'flex',
+							justifyContent: 'space-between',
 						}}
 					>
 						<Box>
@@ -462,71 +350,21 @@ const Header = () => {
 								/>
 							</Link>
 						</Box>
-						{isFalse(shouldUseBottonNavigation) ? null : (
-							<Box>
-								<ThemeMenu />
-							</Box>
-						)}
-						{shouldUseBottonNavigation ? null : (
-							<Box>
-								<Box
-									sx={{
-										width: '100%',
-										display: 'flex',
-										justifyContent: 'space-evenly',
-										alignItems: 'center',
-									}}
-								>
-									{ids.map((id) => {
-										return (
-											<CustomLink
-												id={id}
-												key={id}
-												isActive={
-													(route || 'home') === id
-												}
-												shouldUseIcon={allShouldUseIcon}
-											/>
-										);
-									})}
-								</Box>
-							</Box>
-						)}
-						{shouldUseBottonNavigation ? null : (
-							<Box>
-								<Box
-									sx={{
-										width: '100%',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'flex-end',
-										gridGap: 24,
-									}}
-								>
-									{!allShouldUseIcon ? null : (
-										<React.Fragment>
-											<EssentialIcons.Projects />
-											<EssentialIcons.Contact />
-										</React.Fragment>
-									)}
-									<EssentialIcons.Github />
-									<EssentialIcons.LinkedIn />
-									<SocialButton
-										aria-label="instagram link"
-										href={links.instagram}
-									>
-										<IconButton aria-label="instagram icon">
-											<InstagramIcon
-												sx={{
-													color: 'text.secondary',
-												}}
-											/>
-										</IconButton>
-									</SocialButton>
-									<ThemeMenu />
-								</Box>
-							</Box>
-						)}
+						<Stack
+							direction="row"
+							spacing={{
+								xs: 1,
+								sm: 2,
+							}}
+							alignContent="center"
+							justifyContent="flex-end"
+						>
+							<InternalLinksWithIcon />
+							<Icons.Github />
+							<Icons.LinkedIn />
+							<Icons.Instagram />
+							<ThemeMenu />
+						</Stack>
 					</Toolbar>
 				</AppBar>
 			</Box>

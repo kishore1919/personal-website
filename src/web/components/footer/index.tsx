@@ -33,7 +33,6 @@ const Footer = () => {
 			sx={{
 				m: 0,
 				mt: 8,
-				mb: isMobile ? 8 : 0,
 				...animation,
 			}}
 		>

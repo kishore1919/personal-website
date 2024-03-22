@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import * as MuiLink from '@mui/material/Link';
+import ExternalLink from '@mui/material/Link';
 import { useTheme, type SxProps, type Theme } from '@mui/material/styles';
 import Seo from '../src/web/components/seo';
 import Holder from '../src/web/components/common/holder';
@@ -399,7 +399,7 @@ const Item = (
 				};
 			}}
 		>
-			<MuiLink.default
+			<ExternalLink
 				href={project.githubLink}
 				target="_blank"
 				rel="external nofollow noopener noreferrer"
@@ -449,7 +449,7 @@ const Item = (
 						</Box>
 					</Box>
 				</Box>
-			</MuiLink.default>
+			</ExternalLink>
 		</Box>
 	);
 };
@@ -460,6 +460,7 @@ const Projects: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
+				url="/projects"
 				title="Projects"
 				keywords={['Personal Website']}
 				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"

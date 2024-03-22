@@ -2,7 +2,7 @@ const consts = {
 	fontFamily: 'JetBrains Mono',
 	width: {
 		projects: {
-			xs: '95%',
+			xs: '90%',
 			sm: '90%',
 			xm: '85%',
 			md: '80%',
@@ -10,7 +10,7 @@ const consts = {
 			xl: '70%',
 		},
 		others: {
-			xs: '95%',
+			xs: '90%',
 			sm: '90%',
 			xm: '85%',
 			md: '70%',

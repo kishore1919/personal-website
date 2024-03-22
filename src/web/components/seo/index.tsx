@@ -8,9 +8,12 @@ const Seo = (
 		title: string;
 		description: string;
 		keywords: ReadonlyArray<string>;
+		url: undefined | string;
 	}>
 ) => {
-	const url = process.env.NEXT_PUBLIC_ORIGIN;
+	const origin = process.env.NEXT_PUBLIC_ORIGIN;
+
+	const url = props.url ? `${origin}/${props.url}` : origin;
 
 	const iconPath = '/images/icons';
 	const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;

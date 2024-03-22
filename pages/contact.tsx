@@ -185,6 +185,7 @@ const Contact: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
+				url="contact"
 				title="Contact"
 				keywords={['Personal Website', 'Contact Page']}
 				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organizations on Github"
