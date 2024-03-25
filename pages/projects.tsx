@@ -35,7 +35,8 @@ const projects = [
 			{
 				name: 'Web',
 				description: 'The Web Application that is UI/UX friendly',
-				githubLink: 'https://github.com/gervinfung/gitignored',
+				githubLink:
+					'https://github.com/gervinfung/gitignored/tree/main/apps/web',
 				icon: {
 					color: '#1A73E8',
 					Component: BsBrowserChrome,
@@ -45,10 +46,36 @@ const projects = [
 				name: 'Terminal',
 				description:
 					'The CLI Application that cache and with distinctive colors for commands/arguments',
-				githubLink: 'https://github.com/gervinfung/gitignored',
+				githubLink:
+					'https://github.com/gervinfung/gitignored/tree/main/apps/cli',
 				icon: {
 					color: '#2F393F',
 					Component: BsFillTerminalFill,
+				},
+			},
+		],
+	},
+	{
+		category: 'Periotable',
+		projects: [
+			{
+				name: 'Web',
+				description: 'The Responsive Web Application',
+				githubLink:
+					'https://github.com/gervinfung/periotable/tree/main/apps/web',
+				icon: {
+					color: '#1A73E8',
+					Component: BsBrowserChrome,
+				},
+			},
+			{
+				name: 'Desktop',
+				description: 'The Multi-Platform Desktop Application',
+				githubLink:
+					'https://github.com/gervinfung/periotable/tree/main/apps/desktop',
+				icon: {
+					color: '#174276',
+					Component: BsWindowDesktop,
 				},
 			},
 		],
