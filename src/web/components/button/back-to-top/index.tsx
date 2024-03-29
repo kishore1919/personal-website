@@ -1,0 +1,40 @@
+import React from 'react';
+import IconButton from '@mui/material/IconButton';
+import { FaArrowUp } from 'react-icons/fa6';
+import useHeight from '../../../hooks/use-height';
+
+const BackToTop = () => {
+	const height = useHeight();
+
+	return height <= 500 ? null : (
+		<IconButton
+			aria-label="back to top"
+			onClick={() => {
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth',
+				});
+			}}
+			sx={({ palette }) => {
+				const isDark = palette.mode === 'dark';
+
+				return {
+					zIndex: 3,
+					position: 'fixed',
+					bottom: 10,
+					right: 15,
+					backgroundColor: 'transparent',
+					color: palette.grey[isDark ? 900 : 500],
+					'&:hover': {
+						color: palette.custom.opposite,
+						backgroundColor: palette.grey[isDark ? 900 : 300],
+					},
+				};
+			}}
+		>
+			<FaArrowUp fontSize="0.75em" />
+		</IconButton>
+	);
+};
+
+export default BackToTop;

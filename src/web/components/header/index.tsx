@@ -23,6 +23,7 @@ import { alpha } from '@mui/material/styles';
 import { isTruthy, type Mode, getPreferredMode } from '@poolofdeath20/util';
 import Holder from '../common/holder';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
+import useHeight from '../../hooks/use-height';
 import links from '../../links';
 import consts from '../../const';
 import { ThemeContext } from '../../context/theme';
@@ -294,6 +295,8 @@ const Header = () => {
 	const breakPoint = useBreakpoint();
 	const shouldUseMobileNavigation = breakPoint === 'xs';
 
+	const height = useHeight();
+
 	const InternalLinksWithIcon = () => {
 		return (
 			<React.Fragment>
@@ -316,13 +319,17 @@ const Header = () => {
 				}}
 			>
 				<AppBar
-					position={shouldUseMobileNavigation ? 'relative' : 'fixed'}
+					position="fixed"
 					elevation={0}
-					sx={{
-						backgroundColor: 'transparent',
-						display: 'grid',
-						placeItems: 'center',
-						backdropFilter: 'blur(250px)',
+					sx={({ palette }) => {
+						return {
+							backgroundColor: 'custom.default',
+							display: 'grid',
+							placeItems: 'center',
+							borderBottom: !height
+								? undefined
+								: `1px solid ${palette.grey[palette.mode === 'dark' ? 900 : 500]}`,
+						};
 					}}
 				>
 					<Toolbar

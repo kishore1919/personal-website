@@ -506,7 +506,7 @@ const Projects: NextPage = () => {
 									key={subProjects.category}
 									sx={{
 										display: 'grid',
-										gridGap: 48,
+										gap: 4,
 									}}
 								>
 									<Box
@@ -515,7 +515,11 @@ const Projects: NextPage = () => {
 											placeItems: 'center',
 										}}
 									>
-										<Typography sx={{ fontWeight: 700 }}>
+										<Typography
+											sx={{
+												fontWeight: 700,
+											}}
+										>
 											{subProjects.category}
 										</Typography>
 									</Box>

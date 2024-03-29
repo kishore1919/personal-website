@@ -5,13 +5,13 @@ import {
 	responsiveFontSizes,
 	ThemeProvider,
 } from '@mui/material/styles';
-import { colorTheme } from '../src/web/theme';
 import ErrorBoundary from '../src/web/components/error/boundary';
-import consts from '../src/web/const';
 import Layout from '../src/web/components/layout';
-import '../src/web/css/font.css';
+import consts from '../src/web/const';
+import { colorTheme } from '../src/web/theme';
 import { ThemeContext } from '../src/web/context/theme';
 import { getPreferredMode, type Mode } from '@poolofdeath20/util';
+import '../src/web/css/font.css';
 
 const App = (props: AppProps) => {
 	const modeKey = 'mode';
