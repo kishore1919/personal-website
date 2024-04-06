@@ -1,5 +1,5 @@
 import React, { type PropsWithChildren } from 'react';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { useTheme } from '@mui/material/styles';
@@ -12,7 +12,6 @@ const Layout = (props: Readonly<PropsWithChildren>) => {
 
 	return (
 		<React.Fragment>
-			<Header />
 			<CssBaseline />
 			<GlobalStyles
 				styles={`
@@ -30,16 +29,27 @@ const Layout = (props: Readonly<PropsWithChildren>) => {
                 }
           `}
 			/>
-			<Box
-				sx={{
-					mt: 4,
-					width: '100%',
+			<Stack
+				spacing={{
+					xs: 10,
+					lg: 12,
+				}}
+				sx={(theme) => {
+					return {
+						backgroundColor:
+							theme.palette.mode === 'dark'
+								? 'background.surface'
+								: undefined,
+					};
 				}}
 			>
-				<BackToTop />
-				{props?.children}
-			</Box>
-			<Footer />
+				<Stack spacing={16}>
+					<Header />
+					<BackToTop />
+					{props.children}
+				</Stack>
+				<Footer />
+			</Stack>
 		</React.Fragment>
 	);
 };

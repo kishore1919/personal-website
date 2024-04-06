@@ -309,7 +309,6 @@ const Header = () => {
 	return (
 		<Holder
 			sx={{
-				mb: shouldUseMobileNavigation ? 0 : 16,
 				boxSizing: 'border-box',
 			}}
 		>
@@ -344,7 +343,12 @@ const Header = () => {
 						}}
 					>
 						<Box>
-							<Link href="/" style={{ textDecoration: 'none' }}>
+							<Link
+								href="/"
+								style={{
+									textDecoration: 'none',
+								}}
+							>
 								<Image
 									alt="logo"
 									loading="lazy"

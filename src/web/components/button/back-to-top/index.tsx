@@ -18,16 +18,20 @@ const BackToTop = () => {
 			sx={({ palette }) => {
 				const isDark = palette.mode === 'dark';
 
+				const color = (isDark: boolean) => {
+					return palette.grey[isDark ? 50 : 900];
+				};
+
 				return {
 					zIndex: 3,
 					position: 'fixed',
 					bottom: 10,
 					right: 15,
 					backgroundColor: 'transparent',
-					color: palette.grey[isDark ? 900 : 500],
+					color: color(isDark),
 					'&:hover': {
-						color: palette.custom.opposite,
-						backgroundColor: palette.grey[isDark ? 900 : 300],
+						color: color(!isDark),
+						backgroundColor: color(isDark),
 					},
 				};
 			}}
