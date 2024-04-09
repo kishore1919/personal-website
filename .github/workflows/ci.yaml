@@ -53,7 +53,7 @@ jobs:
 
             - name: Unit test & API test
               # running test will also execute `build`
-              run: make test
+              run: make pretest-ci && make test
 
             - name: Generate sitemap and webmanifest
               run: make generate
