@@ -108,6 +108,9 @@ format-write:
 lint:
 	pnpm eslint . --ignore-path .gitignore --ext .mjs,.tsx,.ts --color && pnpm knip
 
+lint-workflows:
+	actionlint
+
 ## typecheck
 typecheck:
 	pnpm tsc -p tsconfig.json --noEmit $(arguments)
