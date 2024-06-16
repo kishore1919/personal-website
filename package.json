@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"author": "Gervin Fung",
 	"private": true,
+	"license": "GPL-3.0",
 	"description": "Everyone developer needs their own personal/portfolio website, and this is mine. Welcome to my website",
 	"scripts": {
 		"postinstall": "make opt-out-telemetry && make format-generate-config"
