@@ -21,7 +21,6 @@ const config: KnipConfig = {
 		'prettier',
 		'gen-env-type-def',
 		'@poolofdeath20/prettier-config-generator',
-		'eslint',
 	],
 	ignoreBinaries: ['make'],
 };
