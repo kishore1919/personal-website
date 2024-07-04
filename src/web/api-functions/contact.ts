@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Data } from '../../common/contact';
 
-const sendMessage = (
+const sendMessage = async (
 	values: Readonly<{
 		name: string;
 		email: string;
