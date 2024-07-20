@@ -32,3 +32,6 @@ public/manifest.json
 public/service-worker.js*
 public/workbox-*.js*
 public/robots.txt
+
+# pnpm
+.pnpm-store

@@ -7,7 +7,7 @@ const Holder = (
 	props: Readonly<
 		Children & {
 			id?: ContainerProps['id'];
-			sx?: SxProps<Theme>;
+			sx?: undefined | SxProps<Theme>;
 			holderRef?: ContainerProps['ref'];
 		}
 	>

@@ -53,7 +53,7 @@ const TextFieldInput = (
 			error={isTruthy(props.error)}
 			helperText={props.error}
 			label={capitalize(props.id)}
-			rows={props.multiline ? 8 : undefined}
+			rows={props.multiline ? 8 : 0}
 			InputLabelProps={{ required: false }}
 			inputProps={{
 				spellCheck: 'false',
