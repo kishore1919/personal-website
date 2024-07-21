@@ -447,8 +447,8 @@ const Item = (
 								color:
 									isWhite && palette.mode === 'light'
 										? '#000'
-										: project.icon.color ??
-											palette.text.secondary,
+										: (project.icon.color ??
+											palette.text.secondary),
 							}}
 						/>
 					</Box>
