@@ -1,4 +1,5 @@
 import fs from 'fs';
+
 import pkg from '../../package.json';
 import { colorTheme } from '../../src/web/theme';
 

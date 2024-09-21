@@ -106,7 +106,7 @@ format-write:
 
 ## lint
 lint:
-	pnpm eslint . --ignore-path .gitignore --ext .mjs,.tsx,.ts --color && pnpm knip
+	pnpm eslint . --color && pnpm knip
 
 lint-workflows:
 	actionlint

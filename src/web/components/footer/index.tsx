@@ -1,21 +1,23 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import Holder from '../common/holder';
+import type { SxProps, Theme } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
-import type { SxProps, Theme } from '@mui/material/styles';
-import useBreakpoint from '../../hooks/use-breakpoint-value';
+import Typography from '@mui/material/Typography';
 import { isFalse } from '@poolofdeath20/util';
+import React from 'react';
+
+import useBreakpoint from '../../hooks/use-breakpoint-value';
+import Holder from '../common/holder';
 
 const Footer = () => {
 	const breakPoint = useBreakpoint();
 
 	const isMobile = breakPoint === 'xs';
 
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -59,7 +61,6 @@ const Footer = () => {
 					>
 						<Link
 							href="https://creativecommons.org/licenses/by-nc-sa/4.0"
-							target="_blank"
 							rel="external nofollow noopener noreferrer"
 							sx={{
 								textDecoration: 'underline',
@@ -70,6 +71,7 @@ const Footer = () => {
 									textDecorationColor: 'text.primary',
 								},
 							}}
+							target="_blank"
 						>
 							CC BY-NC-SA 4.0
 						</Link>{' '}

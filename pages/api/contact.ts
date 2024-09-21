@@ -1,7 +1,10 @@
-import Database from '../../src/api/database';
-import cors from '../../src/api/cors';
 import type { EndPointFunc } from '../../src/api/endpoint';
 import type { Data } from '../../src/common/contact';
+
+import { string, object, safeParse, optional, boolean } from 'valibot';
+
+import cors from '../../src/api/cors';
+import Database from '../../src/api/database';
 import { ContactMessageParser } from '../../src/common/contact';
 
 const contact: EndPointFunc<Data> = async (request, response) => {
@@ -11,9 +14,17 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 		return response.status(404).json('Only accept POST request');
 	}
 
-	const { body } = request;
+	const body = safeParse(
+		object({
+			name: string(),
+			email: string(),
+			message: string(),
+			isHoneyPot: optional(boolean()),
+		}),
+		request.body
+	);
 
-	if (typeof body !== 'object' || body === null) {
+	if (!body.success) {
 		return response.status(200).json({
 			type: 'input',
 			name: {
@@ -31,19 +42,13 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 		});
 	}
 
-	const { name, email, message } = body;
-
-	const parser = ContactMessageParser.from({
-		name: typeof name !== 'string' ? '' : name,
-		email: typeof email !== 'string' ? '' : email,
-		message: typeof message !== 'string' ? '' : message,
-	});
+	const parser = ContactMessageParser.from(body.output);
 
 	const responseSucceed = {
 		type: 'succeed',
 	} as const;
 
-	if (body.isHoneyPot ?? false) {
+	if (body.output.isHoneyPot) {
 		return response.status(200).json(responseSucceed);
 	}
 
@@ -56,7 +61,7 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 		});
 	}
 
-	const database = await Database.instance();
+	const database = Database.instance();
 
 	const insertResult = await database
 		.insertContactFormMessage(parser.value())

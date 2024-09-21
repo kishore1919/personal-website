@@ -1,16 +1,19 @@
-import React from 'react';
+import type { Mode } from '@poolofdeath20/util';
 import type { AppProps } from 'next/app';
+
 import {
 	createTheme,
 	responsiveFontSizes,
 	ThemeProvider,
 } from '@mui/material/styles';
+import { getPreferredMode } from '@poolofdeath20/util';
+import React from 'react';
+
 import ErrorBoundary from '../src/web/components/error/boundary';
 import Layout from '../src/web/components/layout';
 import consts from '../src/web/const';
-import { colorTheme } from '../src/web/theme';
 import { ThemeContext } from '../src/web/context/theme';
-import { getPreferredMode, type Mode } from '@poolofdeath20/util';
+import { colorTheme } from '../src/web/theme';
 import '../src/web/css/font.css';
 
 const App = (props: AppProps) => {
@@ -89,13 +92,15 @@ const App = (props: AppProps) => {
 		);
 	}, [mode]);
 
+	const value = React.useMemo(() => {
+		return {
+			mode,
+			setMode,
+		};
+	}, [mode]);
+
 	return (
-		<ThemeContext.Provider
-			value={{
-				mode,
-				setMode,
-			}}
-		>
+		<ThemeContext.Provider value={value}>
 			<ThemeProvider theme={theme}>
 				<ErrorBoundary>
 					<main>

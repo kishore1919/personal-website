@@ -10,17 +10,17 @@ const config: KnipConfig = {
 	],
 	ignore: [
 		'next-sitemap.config.js',
-		'script/env/copy.ts',
 		'script/env/type-def.ts',
 		'script/mongo-setup/document.js',
 		'script/site/webmanifest.ts',
 	],
 	ignoreDependencies: [
-		'vite-node',
+		'@poolofdeath20/prettier-config-generator',
+		'eslint',
+		'gen-env-type-def',
 		'next-sitemap',
 		'prettier',
-		'gen-env-type-def',
-		'@poolofdeath20/prettier-config-generator',
+		'vite-node',
 	],
 	ignoreBinaries: ['make'],
 };

@@ -1,7 +1,9 @@
-import React from 'react';
-import Container, { type ContainerProps } from '@mui/material/Container';
-import type { SxProps, Theme } from '@mui/material/styles';
 import type { Children } from '../../type/react';
+import type { ContainerProps } from '@mui/material/Container';
+import type { SxProps, Theme } from '@mui/material/styles';
+
+import Container from '@mui/material/Container';
+import React from 'react';
 
 const Holder = (
 	props: Readonly<

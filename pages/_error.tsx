@@ -1,8 +1,10 @@
-import React from 'react';
 import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+
+import React from 'react';
+
 import ErrorContainer from '../src/web/components/error';
 
-const getServerSideProps = async (
+const getServerSideProps = (
 	context: Parameters<GetServerSideProps>[number]
 ) => {
 	return {
@@ -17,8 +19,6 @@ const Error = (
 ) => {
 	return (
 		<ErrorContainer
-			statusCode={serverProps.statusCode}
-			type={serverProps.statusCode === 404 ? 'replace' : 'reload'}
 			messages={[
 				'Oops! You seems lost',
 				'Yeah, I am as confused as you are',
@@ -26,6 +26,8 @@ const Error = (
 				'Luckily, unlike some other mistakes, this can be fixed',
 				`So let's get you...`,
 			]}
+			statusCode={serverProps.statusCode}
+			type={serverProps.statusCode === 404 ? 'replace' : 'reload'}
 		/>
 	);
 };

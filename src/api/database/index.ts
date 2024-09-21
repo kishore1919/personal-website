@@ -1,4 +1,7 @@
-import mongoose, { type ObjectId } from 'mongoose';
+import type { ObjectId } from 'mongoose';
+
+import mongoose from 'mongoose';
+
 import config from './config';
 import { contactFormMessageSchema } from './schema';
 
@@ -12,7 +15,7 @@ export default class Database {
 	private readonly client: ReturnType<typeof mongoose.connect>;
 	private readonly collections: typeof config.collections;
 
-	private static readonly create = async () => {
+	private static readonly create = () => {
 		const environment = process.env.NEXT_PUBLIC_NODE_ENV;
 
 		const isLocal =
@@ -25,9 +28,9 @@ export default class Database {
 		return new this(url, config.collections);
 	};
 
-	private static database: Promise<Database> | undefined = undefined;
+	private static database: Database | undefined = undefined;
 
-	static readonly instance = (): Promise<Database> => {
+	static readonly instance = () => {
 		switch (typeof this.database) {
 			case 'undefined': {
 				this.database = Database.create();

@@ -1,13 +1,16 @@
-import React from 'react';
-import type { NextPage } from 'next';
-import Seo from '../src/web/components/seo';
-import Typography, { type TypographyProps } from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import type { SxProps, Theme } from '@mui/material/styles';
+import type { TypographyProps } from '@mui/material/Typography';
+import type { NextPage } from 'next';
+
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Link from 'next/link';
+import React from 'react';
+
 import Holder from '../src/web/components/common/holder';
+import Seo from '../src/web/components/seo';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
-import Link from 'next/link';
 
 const Content = (
 	props: TypographyProps &
@@ -15,10 +18,10 @@ const Content = (
 			delay: number;
 		}>
 ) => {
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -33,7 +36,6 @@ const Content = (
 	return (
 		<Typography
 			{...props}
-			variant="subtitle1"
 			sx={{
 				mt: 3,
 				textAlign: 'justify',
@@ -41,6 +43,7 @@ const Content = (
 				whiteSpace: 'pre-wrap',
 				...animation,
 			}}
+			variant="subtitle1"
 		/>
 	);
 };
@@ -69,16 +72,13 @@ const Index: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
-				url={undefined}
-				title="Home"
-				keywords={['Personal Website']}
 				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
+				keywords={['Personal Website']}
+				title="Home"
+				url={undefined}
 			/>
 			<Holder>
 				<Typography
-					variant={
-						!breakPoint ? 'h2' : breakPoint === 'xs' ? 'h1' : 'h2'
-					}
 					sx={({ palette }) => {
 						return {
 							mb: '16px',
@@ -88,6 +88,9 @@ const Index: NextPage = () => {
 							].join(' ,'),
 						};
 					}}
+					variant={
+						!breakPoint ? 'h2' : breakPoint === 'xs' ? 'h1' : 'h2'
+					}
 				>
 					GERVIN
 				</Typography>

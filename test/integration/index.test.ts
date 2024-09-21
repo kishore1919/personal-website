@@ -1,6 +1,8 @@
 import { beforeAll, afterAll, describe } from 'vitest';
-import Server from '../server';
+
 import Database from '../../src/api/database';
+import Server from '../server';
+
 import testContactFormSubmissionPost from './contact-form-submission';
 
 const testIntegration = () => {
@@ -9,7 +11,7 @@ const testIntegration = () => {
 
 	beforeAll(async () => {
 		await server.start();
-		await (await database).clearCollections();
+		await database.clearCollections();
 	});
 
 	describe('Integration Test', () => {

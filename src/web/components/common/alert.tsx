@@ -1,8 +1,9 @@
-import React from 'react';
+import type { Children } from '../../type/react';
+
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Snackbar from '@mui/material/Snackbar';
-import type { Children } from '../../type/react';
+import React from 'react';
 
 type AlertProps = Readonly<
 	Children & {
@@ -17,11 +18,11 @@ const Container = (
 ) => {
 	return (
 		<Snackbar
-			open
 			anchorOrigin={{
 				vertical: 'top',
 				horizontal: 'center',
 			}}
+			open
 		>
 			{props.children}
 		</Snackbar>
@@ -31,7 +32,7 @@ const Container = (
 const Error = (props: AlertProps) => {
 	return (
 		<Container>
-			<Alert severity="error" onClose={props.onClose}>
+			<Alert onClose={props.onClose} severity="error">
 				<AlertTitle>Error</AlertTitle>
 				{props.children}
 			</Alert>
@@ -42,7 +43,7 @@ const Error = (props: AlertProps) => {
 const Warning = (props: AlertProps) => {
 	return (
 		<Container>
-			<Alert severity="warning" onClose={props.onClose}>
+			<Alert onClose={props.onClose} severity="warning">
 				<AlertTitle>Warning</AlertTitle>
 				{props.children}
 			</Alert>
@@ -53,7 +54,7 @@ const Warning = (props: AlertProps) => {
 const Info = (props: AlertProps) => {
 	return (
 		<Container>
-			<Alert severity="info" onClose={props.onClose}>
+			<Alert onClose={props.onClose} severity="info">
 				<AlertTitle>Info</AlertTitle>
 				{props.children}
 			</Alert>
@@ -64,7 +65,7 @@ const Info = (props: AlertProps) => {
 const Success = (props: AlertProps) => {
 	return (
 		<Container>
-			<Alert severity="success" onClose={props.onClose}>
+			<Alert onClose={props.onClose} severity="success">
 				<AlertTitle>Success</AlertTitle>
 				{props.children}
 			</Alert>

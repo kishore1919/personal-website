@@ -1,4 +1,6 @@
 #!/usr/bin/sh
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 
 db = db.getSiblingDB('admin');
 

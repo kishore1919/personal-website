@@ -1,7 +1,8 @@
 import fs from 'fs';
+
+import { Defined, isTruthy } from '@poolofdeath20/util';
 import ci from 'ci-info';
 import { defineConfig } from 'vitest/config';
-import { Defined, isTruthy } from '@poolofdeath20/util';
 
 export default defineConfig(() => {
 	const timeOut = 300_000;

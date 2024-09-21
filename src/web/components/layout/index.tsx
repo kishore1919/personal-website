@@ -1,11 +1,14 @@
-import React, { type PropsWithChildren } from 'react';
-import Stack from '@mui/material/Stack';
+import type { PropsWithChildren } from 'react';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import GlobalStyles from '@mui/material/GlobalStyles';
+import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import Header from '../header';
-import Footer from '../footer';
+import React from 'react';
+
 import BackToTop from '../button/back-to-top';
+import Footer from '../footer';
+import Header from '../header';
 
 const Layout = (props: Readonly<PropsWithChildren>) => {
 	const theme = useTheme();

@@ -1,5 +1,13 @@
-import axios from 'axios';
 import type { Data } from '../../common/contact';
+
+import axios from 'axios';
+
+class SendMessageError extends Error {
+	constructor() {
+		super(`Oops! I can't send your email as there is an issue`);
+		this.name = 'SendMessageError';
+	}
+}
 
 const sendMessage = async (
 	values: Readonly<{
@@ -20,10 +28,8 @@ const sendMessage = async (
 		})
 		.catch((error) => {
 			console.error(error);
-			throw new Error(
-				`Oops! I can't send your email as there is an issue`
-			);
+			throw new SendMessageError();
 		});
 };
 
-export { sendMessage };
+export { sendMessage, SendMessageError };

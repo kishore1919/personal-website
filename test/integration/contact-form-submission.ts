@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+
 import Database from '../../src/api/database';
 import { sendMessage } from '../../src/web/api-functions/contact';
 
@@ -11,7 +12,7 @@ const testContactFormSubmissionPost = () => {
 		} as const;
 
 		beforeEach(async () => {
-			(await Database.instance()).clearCollections();
+			await Database.instance().clearCollections();
 		});
 
 		it('should return success status if input passed the validation', async () => {
@@ -20,7 +21,7 @@ const testContactFormSubmissionPost = () => {
 		});
 
 		it('should return success status if honeypot is set, but do not insert into database', async () => {
-			const instance = await Database.instance();
+			const instance = Database.instance();
 			const response = await sendMessage({
 				...dummy,
 				isHoneyPot: true,

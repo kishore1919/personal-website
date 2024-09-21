@@ -1,6 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import Cors from 'cors';
 import type { Response } from '../endpoint';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+import Cors from 'cors';
 
 const initMiddleware = <T>(
 	middleware: (

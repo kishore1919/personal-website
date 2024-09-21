@@ -1,12 +1,14 @@
-import React from 'react';
-import Link from 'next/link';
+import type { Children } from '../../type/react';
+
+import { keyframes } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { keyframes } from '@emotion/react';
-import Title from '../common/title';
+import React from 'react';
+
 import { SecondaryMainButton } from '../common/button';
-import type { Children } from '../../type/react';
+import Title from '../common/title';
 
 const chargeHomeButton = keyframes`
     0% {
@@ -41,14 +43,13 @@ const MarginTopBox = (
 const ClickRefresh = (
 	props: Readonly<{
 		title: string;
-		refresh: () => void;
+		onRefresh: () => void;
 		timeToChange: number;
 	}>
 ) => {
 	return (
 		<SecondaryMainButton
-			title={props.title}
-			onClick={props.refresh}
+			onClick={props.onRefresh}
 			sx={({ palette }) => {
 				return {
 					fontWeight: 600,
@@ -66,6 +67,7 @@ const ClickRefresh = (
 					},
 				};
 			}}
+			title={props.title}
 		/>
 	);
 };
@@ -87,16 +89,23 @@ const ErrorContainer = (
 
 	React.useEffect(() => {
 		if (!countDown) {
-			props.type === 'reload' ? router.reload() : router.replace(home);
+			if (props.type === 'reload') {
+				router.reload();
+			} else {
+				void router.replace(home);
+			}
 		}
+
 		if (process.env.NEXT_PUBLIC_NODE_ENV === 'testing') {
 			return;
 		}
+
 		const goTo = setTimeout(() => {
 			return setCountDown((countDown) => {
 				return countDown - 1;
 			});
 		}, 1000);
+
 		return () => {
 			return clearTimeout(goTo);
 		};
@@ -113,8 +122,8 @@ const ErrorContainer = (
 			}}
 		>
 			<Title
-				title={`${props.statusCode ?? ''} Error`}
 				content="You took the wrong turn and came here"
+				title={`${props.statusCode ?? ''} Error`}
 			/>
 			<Box
 				sx={{
@@ -123,10 +132,10 @@ const ErrorContainer = (
 			>
 				<MarginTopBox shouldNotMarginTop>
 					<Typography
-						variant="h1"
 						sx={{
 							fontWeight: 'bold',
 						}}
+						variant="h1"
 					>
 						{props.statusCode}
 					</Typography>
@@ -136,7 +145,6 @@ const ErrorContainer = (
 						return (
 							<Typography
 								key={message}
-								variant={!index ? 'h3' : 'inherit'}
 								sx={{
 									m: 0,
 									mb: index ? 1 : 6,
@@ -144,6 +152,7 @@ const ErrorContainer = (
 										? undefined
 										: 'text.secondary',
 								}}
+								variant={!index ? 'h3' : 'inherit'}
 							>
 								{message}
 							</Typography>
@@ -180,16 +189,16 @@ const ErrorContainer = (
 							<React.Fragment>
 								Quickly{' '}
 								<Box
-									style={{
+									sx={{
 										textDecoration: 'none',
 									}}
 								>
 									<ClickRefresh
-										timeToChange={timeToChange}
-										title="RELOAD"
-										refresh={() => {
+										onRefresh={() => {
 											return router.reload();
 										}}
+										timeToChange={timeToChange}
+										title="RELOAD"
 									/>{' '}
 								</Box>
 								Now
@@ -204,11 +213,11 @@ const ErrorContainer = (
 									}}
 								>
 									<ClickRefresh
+										onRefresh={() => {
+											void router.replace(home);
+										}}
 										timeToChange={timeToChange}
 										title="HOME"
-										refresh={() => {
-											return router.replace(home);
-										}}
 									/>{' '}
 								</Link>
 								Immediately

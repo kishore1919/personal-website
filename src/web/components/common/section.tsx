@@ -1,7 +1,8 @@
-import React from 'react';
-import Paper from '@mui/material/Paper';
-import type { SxProps, Theme } from '@mui/material/styles';
 import type { Children } from '../../type/react';
+import type { SxProps, Theme } from '@mui/material/styles';
+
+import Paper from '@mui/material/Paper';
+import React from 'react';
 
 const Section = (
 	props: Readonly<

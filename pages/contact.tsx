@@ -1,20 +1,25 @@
-import React from 'react';
+import type { SxProps, Theme } from '@mui/material/styles';
 import type { NextPage } from 'next';
+
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import type { SxProps, Theme } from '@mui/material/styles';
 import { capitalize, isTruthy } from '@poolofdeath20/util';
+import React from 'react';
+
 import { ContactMessageParser } from '../src/common/contact';
+import {
+	sendMessage,
+	SendMessageError,
+} from '../src/web/api-functions/contact';
+import { Error, Success, Info } from '../src/web/components/common/alert';
 import Holder from '../src/web/components/common/holder';
 import Section from '../src/web/components/common/section';
-import { sendMessage } from '../src/web/api-functions/contact';
-import { Error, Success, Info } from '../src/web/components/common/alert';
+import Seo from '../src/web/components/seo';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
-import Seo from '../src/web/components/seo';
 
 const TextFieldInput = (
 	props: Readonly<{
@@ -30,10 +35,10 @@ const TextFieldInput = (
 ) => {
 	const { setValue, ...rest } = props;
 
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -48,25 +53,24 @@ const TextFieldInput = (
 	return (
 		<TextField
 			{...rest}
-			required
+			InputLabelProps={{ required: false }}
 			autoComplete="off"
 			error={isTruthy(props.error)}
 			helperText={props.error}
-			label={capitalize(props.id)}
-			rows={props.multiline ? 8 : 0}
-			InputLabelProps={{ required: false }}
 			inputProps={{
 				spellCheck: 'false',
 			}}
+			label={capitalize(props.id)}
+			onChange={(event) => {
+				event.persist();
+				setValue(event.target.value);
+			}}
+			required
+			rows={props.multiline ? 8 : 0}
 			sx={{
 				zIndex: 0,
 				backgroundColor: 'background.default',
 				...animation,
-			}}
-			onChange={(event) => {
-				event.persist();
-				const { value } = event.target;
-				setValue(value);
 			}}
 		/>
 	);
@@ -78,40 +82,49 @@ const HoneyPot = (
 		setValue: (value: string) => void;
 	}>
 ) => {
-	const hiddenLabel =
-		React.useRef() as React.MutableRefObject<HTMLLabelElement>;
+	const hidden = {
+		label: React.useRef() as React.MutableRefObject<HTMLLabelElement>,
+		input: React.useRef() as React.MutableRefObject<HTMLInputElement>,
+	};
 
-	const faxClassName = 'fax';
+	const identifier = 'fax';
 
 	React.useEffect(() => {
-		const { current } = hiddenLabel;
-		if (current) {
-			current.style.setProperty('visibility', 'hidden');
-			current.style.setProperty('display', 'none');
-			current.style.setProperty('opacity', '0');
-			current.style.setProperty('z-index', '-1');
-		}
-	}, []);
+		const hideElement = (element?: HTMLElement) => {
+			element?.style.setProperty('visibility', 'hidden');
+			element?.style.setProperty('display', 'none');
+			element?.style.setProperty('opacity', '0');
+			element?.style.setProperty('z-index', '-1');
+		};
+
+		hideElement(hidden.label.current);
+		hideElement(hidden.input.current);
+	}, [hidden.label, hidden.input]);
 
 	return (
-		<label
-			tabIndex={-1}
-			ref={hiddenLabel}
-			htmlFor={faxClassName}
-			className={faxClassName}
-		>
-			<input
+		<React.Fragment>
+			<label
+				className={identifier}
+				htmlFor={identifier}
+				ref={hidden.label}
 				tabIndex={-1}
-				type="text"
-				id={faxClassName}
+			>
+				Fax
+			</label>
+			<input
 				autoComplete="off"
-				value={props.value}
-				name={faxClassName}
+				className={identifier}
+				id={identifier}
+				name={identifier}
 				onChange={(event) => {
 					props.setValue(event.target.value);
 				}}
+				ref={hidden.input}
+				tabIndex={-1}
+				type="text"
+				value={props.value}
 			/>
-		</label>
+		</React.Fragment>
 	);
 };
 
@@ -132,23 +145,25 @@ const Contact: NextPage = () => {
 	const [messageResult, setMessageResult] = React.useState(
 		undefined as
 			| undefined
-			| {
-					status: 'sending';
-			  }
-			| {
-					status: 'failed';
-					reason: string;
-			  }
-			| {
-					status: 'succeed';
-					message: string;
-			  }
+			| Readonly<
+					| {
+							status: 'sending';
+					  }
+					| {
+							status: 'failed';
+							reason: string;
+					  }
+					| {
+							status: 'succeed';
+							message: string;
+					  }
+			  >
 	);
 
-	const [show, setState] = React.useState(false);
+	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
-		setState(true);
+		setShow(true);
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
@@ -185,10 +200,10 @@ const Contact: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
-				url="contact"
-				title="Contact"
-				keywords={['Personal Website', 'Contact Page']}
 				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organizations on Github"
+				keywords={['Personal Website', 'Contact Page']}
+				title="Contact"
+				url="contact"
 			/>
 			<Holder sx={animation}>
 				<Section
@@ -262,18 +277,16 @@ const Contact: NextPage = () => {
 								gridGap: 16,
 							}}
 						>
-							<HoneyPot value={honeyPot} setValue={setHoneyPot} />
+							<HoneyPot setValue={setHoneyPot} value={honeyPot} />
 							<TextFieldInput
 								delay={2}
-								id="name"
-								type="text"
-								value={contactInfo.name}
 								error={
 									contactInfoParseResult?.name.status !==
 									'error'
 										? undefined
 										: contactInfoParseResult.name.reason
 								}
+								id="name"
 								placeholder="What did your mom call you"
 								setValue={(name) => {
 									setContactInfo((prev) => {
@@ -283,18 +296,18 @@ const Contact: NextPage = () => {
 										};
 									});
 								}}
+								type="text"
+								value={contactInfo.name}
 							/>
 							<TextFieldInput
 								delay={4}
-								id="email"
-								type="email"
-								value={contactInfo.email}
 								error={
 									contactInfoParseResult?.email.status !==
 									'error'
 										? undefined
 										: contactInfoParseResult.email.reason
 								}
+								id="email"
 								placeholder="Where can I email you back"
 								setValue={(email) => {
 									setContactInfo((prev) => {
@@ -304,19 +317,19 @@ const Contact: NextPage = () => {
 										};
 									});
 								}}
+								type="email"
+								value={contactInfo.email}
 							/>
 							<TextFieldInput
 								delay={6}
-								multiline
-								id="message"
-								type="text"
-								value={contactInfo.message}
 								error={
 									contactInfoParseResult?.message.status !==
 									'error'
 										? undefined
 										: contactInfoParseResult.message.reason
 								}
+								id="message"
+								multiline
 								placeholder="Remember, short & sweet please"
 								setValue={(message) => {
 									setContactInfo((prev) => {
@@ -326,6 +339,8 @@ const Contact: NextPage = () => {
 										};
 									});
 								}}
+								type="text"
+								value={contactInfo.message}
 							/>
 							<Box
 								sx={{
@@ -337,35 +352,6 @@ const Contact: NextPage = () => {
 							>
 								<Button
 									disableElevation
-									variant="contained"
-									sx={({ palette }) => {
-										return {
-											width: 'fit-content',
-											color: 'custom.striking.red',
-											border:
-												palette.mode === 'dark'
-													? 'none'
-													: `1px solid ${palette.custom.striking.red}`,
-											backgroundColor:
-												'custom.contrast.white',
-											background: [
-												`linear-gradient(to right`,
-												`${palette.custom.striking.red} 50%`,
-												`${palette.custom.contrast.white} 50%)`,
-											].join(','),
-											backgroundSize: '300% 100%',
-											backgroundPosition: 'right bottom',
-											transition: 'all 0.2s ease-out',
-											fontSize: '1em',
-											'&:hover': {
-												color: 'custom.contrast.white',
-												backgroundColor:
-													'custom.striking.red',
-												backgroundPosition:
-													'left bottom',
-											},
-										};
-									}}
 									onClick={(event) => {
 										event.preventDefault();
 										const { status, ...values } =
@@ -394,14 +380,15 @@ const Contact: NextPage = () => {
 										})
 											.then((result) => {
 												switch (result.type) {
-													case 'input':
+													case 'input': {
 														return setMessageResult(
 															{
 																status: 'failed',
 																reason: messageFailedMessage,
 															}
 														);
-													case 'succeed':
+													}
+													case 'succeed': {
 														setContactInfo(
 															emptyContactInfo
 														);
@@ -412,15 +399,56 @@ const Contact: NextPage = () => {
 																	messageSentOutMessage,
 															}
 														);
+													}
 												}
 											})
 											.catch((message) => {
+												if (
+													!(
+														message instanceof
+														SendMessageError
+													)
+												) {
+													throw new TypeError(
+														'Message is not an instance of Error'
+													);
+												}
+
 												setMessageResult({
 													status: 'failed',
-													reason: message,
+													reason: message.message,
 												});
 											});
 									}}
+									sx={({ palette }) => {
+										return {
+											width: 'fit-content',
+											color: 'custom.striking.red',
+											border:
+												palette.mode === 'dark'
+													? 'none'
+													: `1px solid ${palette.custom.striking.red}`,
+											backgroundColor:
+												'custom.contrast.white',
+											background: [
+												`linear-gradient(to right`,
+												`${palette.custom.striking.red} 50%`,
+												`${palette.custom.contrast.white} 50%)`,
+											].join(','),
+											backgroundSize: '300% 100%',
+											backgroundPosition: 'right bottom',
+											transition: 'all 0.2s ease-out',
+											fontSize: '1em',
+											'&:hover': {
+												color: 'custom.contrast.white',
+												backgroundColor:
+													'custom.striking.red',
+												backgroundPosition:
+													'left bottom',
+											},
+										};
+									}}
+									variant="contained"
 								>
 									SEND
 								</Button>

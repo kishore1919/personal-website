@@ -1,6 +1,7 @@
-import React from 'react';
 import IconButton from '@mui/material/IconButton';
+import React from 'react';
 import { FaArrowUp } from 'react-icons/fa6';
+
 import useHeight from '../../../hooks/use-height';
 
 const BackToTop = () => {

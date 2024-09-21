@@ -6,15 +6,16 @@ type Common = {
 };
 
 declare module '@mui/material/styles' {
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
+	// eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-object-type
 	interface Theme extends Common {}
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
+	// eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-object-type
 	interface Palette extends Common {}
 
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
+	// eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-object-type
 	interface PaletteOptions extends Common {}
 
+	// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 	interface BreakpointOverrides {
 		xm: true;
 	}

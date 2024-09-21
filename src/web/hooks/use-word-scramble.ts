@@ -1,6 +1,9 @@
+import type { Argument } from '@poolofdeath20/util';
+
+import { isTruthy } from '@poolofdeath20/util';
 import React from 'react';
+
 import { scrambleAndShow } from '../effect';
-import { isTruthy, type Argument } from '@poolofdeath20/util';
 
 type Result = Readonly<
 	| {
@@ -90,18 +93,15 @@ const useWordScramble = (
 					if (words.at(current.index)?.isSame) {
 						setCurrentResult(previous);
 					} else {
-						return changeWord();
+						changeWord();
 					}
 				}
 			}
 		}
-		return;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [result.previous.status]);
 
 	React.useEffect(() => {
-		return changeWord();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		changeWord();
 	}, [result.current.status === 'started' && result.current.index]);
 
 	return {

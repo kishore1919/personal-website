@@ -1,12 +1,16 @@
-import * as puppeteer from 'puppeteer';
-import { beforeAll, afterAll, describe, it, expect } from 'vitest';
+import type { Browser } from 'puppeteer';
+
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
+import puppeteer from 'puppeteer';
+import { beforeAll, afterAll, describe, it, expect } from 'vitest';
+
 import Server from '../server';
+
 import { getWebSnapshot } from './browser';
 
 describe('UI screenshot test', () => {
 	const server = Server.of(8080);
-	let browser: undefined | puppeteer.Browser = undefined;
+	let browser: undefined | Browser = undefined;
 
 	beforeAll(async () => {
 		await server.start();
