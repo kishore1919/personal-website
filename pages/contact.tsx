@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { capitalize, isTruthy } from '@poolofdeath20/util';
+import { capitalize } from '@poolofdeath20/util';
 import React from 'react';
 
 import { ContactMessageParser } from '../src/common/contact';
@@ -55,7 +55,7 @@ const TextFieldInput = (
 			{...rest}
 			InputLabelProps={{ required: false }}
 			autoComplete="off"
-			error={isTruthy(props.error)}
+			error={Boolean(props.error)}
 			helperText={props.error}
 			inputProps={{
 				spellCheck: 'false',

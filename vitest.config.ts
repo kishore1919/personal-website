@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import { Defined, isTruthy } from '@poolofdeath20/util';
+import { Defined } from '@poolofdeath20/util';
 import ci from 'ci-info';
 import { defineConfig } from 'vitest/config';
 
@@ -19,7 +19,7 @@ export default defineConfig(() => {
 					encoding: 'utf-8',
 				})
 				.split('\n')
-				.filter(isTruthy)
+				.filter(Boolean)
 				.reduce((prev, keyValuePair) => {
 					const [key, value] = keyValuePair.split('=');
 					return {

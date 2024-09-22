@@ -54,15 +54,6 @@ importers:
       '@ducanh2912/next-pwa':
         specifier: ^10.2.8
         version: 10.2.8(next@14.2.5(@babel/core@7.24.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(webpack@5.93.0)
-      '@eslint/compat':
-        specifier: ^1.1.1
-        version: 1.1.1
-      '@eslint/js':
-        specifier: ^9.8.0
-        version: 9.8.0
-      '@next/eslint-plugin-next':
-        specifier: ^14.2.6
-        version: 14.2.6
       '@poolofdeath20/eslint-config':
         specifier: ^0.4.0
         version: 0.4.0(@eslint/compat@1.1.1)(@eslint/js@9.8.0)(@next/eslint-plugin-next@14.2.6)(@types/eslint__js@8.42.3)(@typescript-eslint/eslint-plugin@8.0.1(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.3))(eslint@9.8.0)(typescript@5.5.3))(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.3))(eslint-plugin-import@2.30.0(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.3))(eslint@9.8.0))(eslint-plugin-jsx-a11y@6.9.0(eslint@9.8.0))(eslint-plugin-react-hooks@4.6.2(eslint@9.8.0))(eslint-plugin-react@7.35.0(eslint@9.8.0))(typescript-eslint@8.0.1(eslint@9.8.0)(typescript@5.5.3))
@@ -75,12 +66,6 @@ importers:
       '@types/cors':
         specifier: ^2.8.17
         version: 2.8.17
-      '@types/eslint-plugin-jsx-a11y':
-        specifier: ^6.9.0
-        version: 6.9.0
-      '@types/eslint__js':
-        specifier: ^8.42.3
-        version: 8.42.3
       '@types/jest-image-snapshot':
         specifier: ^6.4.0
         version: 6.4.0
@@ -99,18 +84,6 @@ importers:
       eslint:
         specifier: ^9.8.0
         version: 9.8.0
-      eslint-plugin-import:
-        specifier: ^2.30.0
-        version: 2.30.0(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.3))(eslint@9.8.0)
-      eslint-plugin-jsx-a11y:
-        specifier: ^6.9.0
-        version: 6.9.0(eslint@9.8.0)
-      eslint-plugin-react:
-        specifier: ^7.35.0
-        version: 7.35.0(eslint@9.8.0)
-      eslint-plugin-react-hooks:
-        specifier: ^4.6.2
-        version: 4.6.2(eslint@9.8.0)
       gen-env-type-def:
         specifier: ^0.0.4
         version: 0.0.4
@@ -132,9 +105,6 @@ importers:
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
-      typescript-eslint:
-        specifier: ^8.0.1
-        version: 8.0.1(eslint@9.8.0)(typescript@5.5.3)
       vite-node:
         specifier: ^2.0.3
         version: 2.0.3(@types/node@20.14.11)(terser@5.31.3)
@@ -1365,9 +1335,6 @@ packages:
 
   '@types/cors@2.8.17':
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
-
-  '@types/eslint-plugin-jsx-a11y@6.9.0':
-    resolution: {integrity: sha512-5nw0sPyYGCsFibwjOXftxends8Nrh/JLgDtBWj6aJVcN14kHwy1yIy0o1MGLKfCcR27pvUFGgYG+hX2HSX16uA==}
 
   '@types/eslint-scope@3.7.7':
     resolution: {integrity: sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg==}
@@ -5301,10 +5268,6 @@ snapshots:
     dependencies:
       '@types/node': 20.14.11
 
-  '@types/eslint-plugin-jsx-a11y@6.9.0':
-    dependencies:
-      '@types/eslint': 8.56.10
-
   '@types/eslint-scope@3.7.7':
     dependencies:
       '@types/eslint': 8.56.10
@@ -7505,7 +7468,7 @@ snapshots:
 
   resolve@2.0.0-next.5:
     dependencies:
-      is-core-module: 2.15.0
+      is-core-module: 2.15.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 

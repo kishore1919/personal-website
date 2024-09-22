@@ -9,7 +9,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { isTruthy, getPreferredMode } from '@poolofdeath20/util';
+import { getPreferredMode } from '@poolofdeath20/util';
 import React from 'react';
 
 import { ThemeContext } from '../../context/theme';
@@ -96,7 +96,7 @@ const ThemeMenu = () => {
 					horizontal: 'right',
 				}}
 				onClose={clear}
-				open={isTruthy(get)}
+				open={Boolean(get)}
 				sx={({ palette }) => {
 					const value = palette.mode === 'dark' ? 0.1 : 0.2;
 

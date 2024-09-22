@@ -21,6 +21,9 @@ const config: KnipConfig = {
 		'next-sitemap',
 		'prettier',
 		'vite-node',
+		'@eslint/compat',
+		'@eslint/js',
+		'typescript-eslint',
 	],
 	ignoreBinaries: ['make'],
 };
