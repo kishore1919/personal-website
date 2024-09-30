@@ -126,7 +126,7 @@ class ContactMessageParser {
 	};
 
 	readonly value = () => {
-		if (this.allValueIsValid()) {
+		if (this.allValueIsValid().status === 'clean') {
 			return this.props;
 		}
 

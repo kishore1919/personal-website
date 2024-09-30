@@ -24,11 +24,9 @@ const App = (props: AppProps) => {
 	React.useEffect(() => {
 		const value = localStorage.getItem(modeKey);
 
-		if (value === 'dark' || value === 'light') {
-			return setMode(value);
-		}
-
-		setMode(getPreferredMode());
+		setMode(
+			value === 'dark' || value === 'light' ? value : getPreferredMode()
+		);
 	}, []);
 
 	React.useEffect(() => {

@@ -3,7 +3,6 @@ import type { SxProps, Theme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { isFalse } from '@poolofdeath20/util';
 import React from 'react';
 
 import useBreakpoint from '../../hooks/use-breakpoint-value';
@@ -42,7 +41,7 @@ const Footer = () => {
 				sx={{
 					mb: 4,
 					whiteSpace: 'pre-wrap',
-					...(isFalse(isMobile)
+					...(!isMobile
 						? {
 								display: 'flex',
 							}

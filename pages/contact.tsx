@@ -186,7 +186,7 @@ const Contact: NextPage = () => {
 	};
 
 	React.useEffect(() => {
-		if (!messageResult || messageResult?.status === 'sending') {
+		if (!messageResult || messageResult.status === 'sending') {
 			return;
 		}
 
@@ -402,7 +402,7 @@ const Contact: NextPage = () => {
 													}
 												}
 											})
-											.catch((message) => {
+											.catch((message: unknown) => {
 												if (
 													!(
 														message instanceof

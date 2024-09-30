@@ -2,7 +2,7 @@ import type { SxProps, Theme } from '@mui/material/styles';
 import type { NextPage } from 'next';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import ExternalLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
@@ -173,11 +173,12 @@ const Projects: NextPage = () => {
 
 													return (
 														<Grid
-															item
 															key={project.name}
-															lg={4}
-															xm={6}
-															xs={12}
+															size={{
+																lg: 4,
+																xm: 6,
+																xs: 12,
+															}}
 														>
 															<Item
 																delay={delay}

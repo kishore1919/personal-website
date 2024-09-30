@@ -1,4 +1,27 @@
-import type { Browser } from 'puppeteer';
+import type { Argument } from '@poolofdeath20/util';
+import type { Browser, Page } from 'puppeteer';
+
+const setTheme = async (
+	props: Readonly<{
+		page: Page;
+		mode: 'dark' | 'light';
+	}>
+) => {
+	await props.page.emulateMediaFeatures([
+		{
+			name: 'prefers-color-scheme',
+			value: props.mode,
+		},
+	]);
+
+	// this solves puppeteer theme issue
+	await props.page.evaluate((mode) => {
+		return localStorage.setItem('mode', mode);
+	}, props.mode);
+	await props.page.evaluate((mode) => {
+		return localStorage.setItem('mode', mode);
+	}, props.mode);
+};
 
 const getWebSnapshot = async (
 	param: Readonly<{
@@ -6,7 +29,7 @@ const getWebSnapshot = async (
 		port: number;
 		browser: Browser;
 		platform: 'pc' | 'tablet' | 'mobile';
-		mode: 'dark' | 'light';
+		mode: Argument<typeof setTheme>['mode'];
 	}>
 ) => {
 	const page = await param.browser.newPage();
@@ -30,13 +53,10 @@ const getWebSnapshot = async (
 		}`
 	);
 
-	await page.emulateMediaFeatures([
-		{ name: 'prefers-color-scheme', value: param.mode },
-	]);
-
-	await page.evaluate((mode) => {
-		return localStorage.setItem('mode', mode);
-	}, param.mode);
+	await setTheme({
+		page,
+		mode: param.mode,
+	});
 
 	await page.reload({
 		waitUntil: 'networkidle0',

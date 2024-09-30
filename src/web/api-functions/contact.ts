@@ -26,7 +26,7 @@ const sendMessage = async (
 		.then(({ data }) => {
 			return data as Data;
 		})
-		.catch((error) => {
+		.catch((error: unknown) => {
 			console.error(error);
 			throw new SendMessageError();
 		});
