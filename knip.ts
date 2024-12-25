@@ -17,10 +17,10 @@ const config: KnipConfig = {
 	],
 	ignoreDependencies: [
 		'@poolofdeath20/prettier-config-generator',
-		'@poolofdeath20/eslint-config',
 		'gen-env-type-def',
 		'next-sitemap',
 		'prettier',
+		'eslint',
 		'vite-node',
 	],
 	ignoreBinaries: ['make'],

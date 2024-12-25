@@ -41,25 +41,21 @@ const TextFieldInput = (
 		setShow(true);
 	}, []);
 
-	const animation: SxProps<Theme> | undefined =
+	const animation =
 		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
 			? undefined
-			: {
+			: ({
 					transition: 'opacity 1s',
 					transitionDelay: `${props.delay}00ms`,
 					opacity: show ? 1 : 0,
-				};
+				} satisfies SxProps<Theme>);
 
 	return (
 		<TextField
 			{...rest}
-			InputLabelProps={{ required: false }}
 			autoComplete="off"
 			error={Boolean(props.error)}
 			helperText={props.error}
-			inputProps={{
-				spellCheck: 'false',
-			}}
 			label={capitalize(props.id)}
 			onChange={(event) => {
 				event.persist();
@@ -67,6 +63,14 @@ const TextFieldInput = (
 			}}
 			required
 			rows={props.multiline ? 8 : 0}
+			slotProps={{
+				inputLabel: {
+					required: false,
+				},
+				htmlInput: {
+					spellCheck: 'false',
+				},
+			}}
 			sx={{
 				zIndex: 0,
 				backgroundColor: 'background.default',
@@ -83,14 +87,14 @@ const HoneyPot = (
 	}>
 ) => {
 	const hidden = {
-		label: React.useRef() as React.MutableRefObject<HTMLLabelElement>,
-		input: React.useRef() as React.MutableRefObject<HTMLInputElement>,
+		label: React.useRef(null as null | HTMLLabelElement),
+		input: React.useRef(null as null | HTMLInputElement),
 	};
 
 	const identifier = 'fax';
 
 	React.useEffect(() => {
-		const hideElement = (element?: HTMLElement) => {
+		const hideElement = (element: null | HTMLElement) => {
 			element?.style.setProperty('visibility', 'hidden');
 			element?.style.setProperty('display', 'none');
 			element?.style.setProperty('opacity', '0');
