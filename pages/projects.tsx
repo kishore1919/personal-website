@@ -2,7 +2,7 @@ import type { SxProps, Theme } from '@mui/material/styles';
 import type { NextPage } from 'next';
 
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import ExternalLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
