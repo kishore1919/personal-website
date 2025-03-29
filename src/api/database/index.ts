@@ -17,7 +17,6 @@ export default class Database {
 		const environment = process.env.NEXT_PUBLIC_NODE_ENV;
 
 		const isLocal =
-			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			environment === 'testing' || environment === 'development';
 
 		const url = isLocal

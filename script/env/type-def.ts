@@ -6,6 +6,11 @@ const main = () => {
 			inDir: 'config',
 			envType: 'process.env',
 			outDir: '.',
+			allowStringType: {
+				for: 'some',
+				case: 'include',
+				variables: ['NEXT_PUBLIC_NODE_ENV'],
+			},
 		},
 	]);
 };
