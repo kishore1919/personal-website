@@ -87,7 +87,7 @@ const Projects = (props: InternalEssentialIconsProps) => {
 				<LightbulbIcon
 					sx={{
 						color:
-							ids[1] === props.route
+							props.route === 'projects'
 								? 'text.primary'
 								: 'text.secondary',
 					}}
@@ -104,7 +104,7 @@ const Contact = (props: InternalEssentialIconsProps) => {
 				<EmailIcon
 					sx={{
 						color:
-							ids[2] === props.route
+							props.route === 'contact'
 								? 'text.primary'
 								: 'text.secondary',
 					}}

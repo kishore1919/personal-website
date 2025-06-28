@@ -8,7 +8,6 @@ import React, { useState, useEffect } from 'react';
 // import { ContactMessageParser } from '../src/common/contact';
 import Holder from '../src/web/components/common/holder';
 import Section from '../src/web/components/common/section';
-// import Seo from '../src/web/components/seo';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
 import FormfacadeEmbed from "@formfacade/embed-react";
@@ -16,7 +15,7 @@ import FormfacadeEmbed from "@formfacade/embed-react";
 
 const Contact: NextPage = () => {
 	const [show, setShow] = useState(false);
-	const breakPoint = useBreakpoint();
+	const breakPoint = useBreakpoint() as keyof typeof consts.width.others;
 
 	useEffect(() => {
 		setShow(true);
@@ -33,6 +32,13 @@ const Contact: NextPage = () => {
 
 	return (
 		<React.Fragment>
+			{/* Uncomment for SEO */}
+			{/* <Seo
+				description="Contact Kishore Selvaraj"
+				keywords={['Contact', 'Personal Website']}
+				title="Contact"
+				url="/contact"
+			/> */}
 			<Holder sx={animation}>
 				<Section
 					elevation={0}

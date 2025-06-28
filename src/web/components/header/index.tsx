@@ -19,7 +19,7 @@ import ThemeMenu from './theme-menu';
 
 const Header = () => {
 	const router = useRouter();
-	const route = router.route.replace('/', '') || 'home';
+	const route = router.pathname.replace(/^\//, '') || 'home';
 
 	const breakPoint = useBreakpoint();
 
