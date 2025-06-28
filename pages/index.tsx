@@ -106,31 +106,27 @@ const Index: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{isDay() ? 'Morning' : 'Evening'}! Je vous remercie de
-						votre visite!
+						{isDay() ? 'Morning' : 'Evening'}! Thank you for visiting this site!
 					</Content>
 					<Content delay={2}>
-						I am Gervin Fung Da Xuen, and I am not French. I build
+						I am Kishore selvaraj, a software engineer based in
+						Bangalore, and I am not French. I build
 						software both for fun and for a living. I am passionate
-						about open-source software, and I build websites,
-						desktop applications, mobile applications, and
-						development tools
+						about open-source software, and I build Infrastructure and websites.
 					</Content>
 					<Content delay={4}>
 						I have been coding since 2021, and it all started when I
-						wanted to make a Chess game with Java Swing and then
-						with the LibGDX framework. Later, during an intern
-						applicant test, I broadened my skillset to include
-						TypeScript and began making web and mobile applications.
-						After some time, I began using Rust to create terminal
-						applications
+						wanted to make a weather app in react and then
+						with the Django. Later, during an internship i got in to DEVOPS, I broadened my skillset to include
+						Docker, Terraform, Linux, Git, Kubernetes began making web applications and deploying them.
+						After some time, I began using opensource applications and started contribution to them.
 					</Content>
 					<Content delay={6}>
-						TypeScript, Java, and Rust are my primary languages in
-						software engineering, although I believe I am capable of
-						using other languages as well, aside from PHP. My
+						Python and bash are my primary languages in
+						software engineering, although I believe I am capable
+						of using other languages as well, aside from Python. My
 						passion lies in the ability to work on web applications,
-						mobile applications, and development tools. You can find
+						CLI tools, Deployment and infrastructure automation. You can find
 						my full projects list{' '}
 						<Box
 							sx={{
@@ -157,7 +153,7 @@ const Index: NextPage = () => {
 					</Content>
 					<Content delay={8}>
 						Outside of programming, I enjoy reading interesting
-						articles, working out, and playing video games with my
+						articles, working out, bike rides and playing video games with my
 						friends.
 					</Content>
 				</Holder>
