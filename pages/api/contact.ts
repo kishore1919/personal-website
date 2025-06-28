@@ -4,7 +4,7 @@ import type { Data } from '../../src/common/contact';
 import { string, object, safeParse, optional, boolean } from 'valibot';
 
 import cors from '../../src/api/cors';
-import Database from '../../src/api/database';
+// import Database from '../../src/api/database';
 import { ContactMessageParser } from '../../src/common/contact';
 
 const contact: EndPointFunc<Data> = async (request, response) => {
@@ -61,22 +61,22 @@ const contact: EndPointFunc<Data> = async (request, response) => {
 		});
 	}
 
-	const database = Database.instance();
+	// const database = Database.instance();
 
-	const insertResult = await database
-		.insertContactFormMessage(parser.value())
-		.then(() => {
-			return responseSucceed;
-		})
-		.catch(() => {
-			return {
-				type: 'failed',
-			} as const;
-		});
+	// const insertResult = await database
+	// 	.insertContactFormMessage(parser.value())
+	// 	.then(() => {
+	// 		return responseSucceed;
+	// 	})
+	// 	.catch(() => {
+	// 		return {
+	// 			type: 'failed',
+	// 		} as const;
+	// 	});
 
-	response
-		.status(insertResult.type === 'succeed' ? 200 : 500)
-		.json(insertResult);
+	// response
+	// 	.status(insertResult.type === 'succeed' ? 200 : 500)
+	// 	.json(insertResult);
 };
 
 export default contact;

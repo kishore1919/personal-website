@@ -96,7 +96,7 @@ const ErrorContainer = (
 			}
 		}
 
-		if (process.env.NEXT_PUBLIC_NODE_ENV === 'testing') {
+		if (process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing') {
 			return;
 		}
 

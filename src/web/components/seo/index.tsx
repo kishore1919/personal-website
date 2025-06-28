@@ -13,7 +13,7 @@ const Seo = (
 		url: undefined | string;
 	}>
 ) => {
-	const origin = process.env.NEXT_PUBLIC_ORIGIN;
+	const origin = process.env['NEXT_PUBLIC_ORIGIN'];
 
 	const url = props.url ? `${origin}/${props.url}` : origin;
 
@@ -108,16 +108,15 @@ const Seo = (
 						content: 'index.html',
 					},
 				]}
-				canonical={url}
+				canonical={url || ''}
 				defaultTitle={title}
 				description={description}
 				openGraph={{
-					url,
+					url: url || '',
 					title,
 					description,
 					images: dimensions.map((dimension) => {
 						const squareDimension = `${dimension}x${dimension}`;
-
 						return {
 							alt: `website icon as dimension of ${squareDimension}`,
 							width: dimension,

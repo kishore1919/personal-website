@@ -25,9 +25,18 @@ const cors = <T>() => {
 	return initMiddleware<Response<T>>(
 		Cors({
 			credentials: true,
-			origin: process.env.NEXT_PUBLIC_ORIGIN,
+			origin: process.env['NEXT_PUBLIC_ORIGIN'],
 		})
 	);
 };
+
+// const config = {
+//   port: process.env['MONGO_PORT'],
+//   database: process.env['MONGO_DB'],
+//   address: process.env['MONGO_ADDRESS'],
+//   collections: {
+//     // ...existing code...
+//   }
+// };
 
 export default cors;

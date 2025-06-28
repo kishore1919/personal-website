@@ -28,13 +28,13 @@ const Item = (
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
-		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+		(process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
 			? undefined
 			: {
 					transition: 'opacity 1s',
-					transitionDelay: `${project.delay}00ms`,
+					transitionDelay: '200ms',
 					opacity: show ? 1 : 0,
-				};
+				});
 
 	const { palette } = useTheme();
 

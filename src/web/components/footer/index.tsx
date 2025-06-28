@@ -20,7 +20,7 @@ const Footer = () => {
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
-		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+		process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
 			? undefined
 			: {
 					transition: 'opacity 1s, transform 1s',

@@ -18,7 +18,7 @@ const sendMessage = async (
 	}>
 ) => {
 	return axios
-		.post(`${process.env.NEXT_PUBLIC_ORIGIN}/api/contact`, values, {
+		.post(`${process.env['NEXT_PUBLIC_ORIGIN']}/api/contact`, values, {
 			headers: {
 				'Content-Type': 'application/json',
 			},

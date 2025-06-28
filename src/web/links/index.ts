@@ -3,7 +3,7 @@ const links = {
 	github: 'https://github.com/kishore1919',
 	instagram: 'https://www.instagram.com/poolofdeath20',
 	linkedin: 'https://www.linkedin.com/in/kishore-selvaraj-kishore',
-	domain: process.env.NEXT_PUBLIC_ORIGIN,
+	domain: process.env['NEXT_PUBLIC_ORIGIN'],
 } as const;
 
 export default links;

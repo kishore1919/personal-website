@@ -60,9 +60,15 @@ importers:
       '@eslint/compat':
         specifier: ^1.3.1
         version: 1.3.1(eslint@9.23.0(jiti@2.4.2))
+      '@eslint/js':
+        specifier: ^9.30.0
+        version: 9.30.0
+      '@next/eslint-plugin-next':
+        specifier: ^15.3.4
+        version: 15.3.4
       '@poolofdeath20/eslint-config':
         specifier: ^0.4.2
-        version: 0.4.2(@eslint/compat@1.3.1(eslint@9.23.0(jiti@2.4.2)))(@eslint/js@9.23.0)(@next/eslint-plugin-next@15.1.2)(@types/eslint__js@8.42.3)(@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-jsx-a11y@6.10.2(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.1.0(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react@7.37.3(eslint@9.23.0(jiti@2.4.2)))(typescript-eslint@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))
+        version: 0.4.2(@eslint/compat@1.3.1(eslint@9.23.0(jiti@2.4.2)))(@eslint/js@9.30.0)(@next/eslint-plugin-next@15.3.4)(@types/eslint__js@8.42.3)(@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-jsx-a11y@6.10.2(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.1.0(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react@7.37.3(eslint@9.23.0(jiti@2.4.2)))(typescript-eslint@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))
       '@poolofdeath20/prettier-config-generator':
         specifier: ^0.0.1
         version: 0.0.1(prettier@3.5.3)
@@ -870,6 +876,10 @@ packages:
     resolution: {integrity: sha512-35MJ8vCPU0ZMxo7zfev2pypqTwWTofFZO6m4KAtdoFhRpLJUpHTZZ+KB3C7Hb1d7bULYwO4lJXGCi5Se+8OMbw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@eslint/js@9.30.0':
+    resolution: {integrity: sha512-Wzw3wQwPvc9sHM+NjakWTcPx11mbZyiYHuwWa/QfZ7cIRX7WK54PSk7bdyXDaoaopUcMatv1zaQvOAAO8hCdww==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@eslint/object-schema@2.1.6':
     resolution: {integrity: sha512-RBMg5FRL0I0gs51M/guSAj5/e14VQ4tpZnQNWwuDT66P14I43ItmPfIZRhO9fUVIPOAQXU47atlywZ/czoqFPA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1139,8 +1149,8 @@ packages:
   '@next/env@15.2.4':
     resolution: {integrity: sha512-+SFtMgoiYP3WoSswuNmxJOCwi06TdWE733D+WPjpXIe4LXGULwEaofiiAy6kbS0+XjM5xF5n3lKuBwN2SnqD9g==}
 
-  '@next/eslint-plugin-next@15.1.2':
-    resolution: {integrity: sha512-sgfw3+WdaYOGPKCvM1L+UucBmRfh8V2Ygefp7ELON0+0vY7uohQwXXnVWg3rY7mXDKharQR3o7uedpfvnU2hlQ==}
+  '@next/eslint-plugin-next@15.3.4':
+    resolution: {integrity: sha512-lBxYdj7TI8phbJcLSAqDt57nIcobEign5NYIKCiy0hXQhrUbTqLqOaSDi568U6vFg4hJfBdZYsG4iP/uKhCqgg==}
 
   '@next/swc-darwin-arm64@15.2.4':
     resolution: {integrity: sha512-1AnMfs655ipJEDC/FHkSr0r3lXBgpqKo4K1kiwfUf3iE68rDFXZ1TtHdMvf7D0hMItgDZ7Vuq3JgNMbt/+3bYw==}
@@ -4873,6 +4883,8 @@ snapshots:
 
   '@eslint/js@9.23.0': {}
 
+  '@eslint/js@9.30.0': {}
+
   '@eslint/object-schema@2.1.6': {}
 
   '@eslint/plugin-kit@0.2.7':
@@ -5104,7 +5116,7 @@ snapshots:
 
   '@next/env@15.2.4': {}
 
-  '@next/eslint-plugin-next@15.1.2':
+  '@next/eslint-plugin-next@15.3.4':
     dependencies:
       fast-glob: 3.3.1
 
@@ -5156,11 +5168,11 @@ snapshots:
       '@nodelib/fs.scandir': 4.0.1
       fastq: 1.19.1
 
-  '@poolofdeath20/eslint-config@0.4.2(@eslint/compat@1.3.1(eslint@9.23.0(jiti@2.4.2)))(@eslint/js@9.23.0)(@next/eslint-plugin-next@15.1.2)(@types/eslint__js@8.42.3)(@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-jsx-a11y@6.10.2(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.1.0(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react@7.37.3(eslint@9.23.0(jiti@2.4.2)))(typescript-eslint@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))':
+  '@poolofdeath20/eslint-config@0.4.2(@eslint/compat@1.3.1(eslint@9.23.0(jiti@2.4.2)))(@eslint/js@9.30.0)(@next/eslint-plugin-next@15.3.4)(@types/eslint__js@8.42.3)(@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-jsx-a11y@6.10.2(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.1.0(eslint@9.23.0(jiti@2.4.2)))(eslint-plugin-react@7.37.3(eslint@9.23.0(jiti@2.4.2)))(typescript-eslint@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))':
     dependencies:
       '@eslint/compat': 1.3.1(eslint@9.23.0(jiti@2.4.2))
-      '@eslint/js': 9.23.0
-      '@next/eslint-plugin-next': 15.1.2
+      '@eslint/js': 9.30.0
+      '@next/eslint-plugin-next': 15.3.4
       '@types/eslint__js': 8.42.3
       '@typescript-eslint/eslint-plugin': 8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       '@typescript-eslint/parser': 8.18.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)

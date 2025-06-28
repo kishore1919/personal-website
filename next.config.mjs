@@ -2,7 +2,7 @@ import process from 'process';
 
 import withPWAInit from '@ducanh2912/next-pwa';
 
-const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === 'development';
+const isDevelopment = process.env['NEXT_PUBLIC_NODE_ENV'] === 'development';
 
 const withPWA = withPWAInit({
 	dest: 'public',

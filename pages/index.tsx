@@ -25,11 +25,11 @@ const Content = (
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
-		process.env.NEXT_PUBLIC_NODE_ENV === 'testing'
+		process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
 			? undefined
 			: {
 					transition: 'opacity 1s',
-					transitionDelay: `${props.delay}00ms`,
+					transitionDelay: '200ms',
 					opacity: show ? 1 : 0,
 				};
 
