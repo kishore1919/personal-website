@@ -276,7 +276,7 @@ const Contact: NextPage = () => {
 							</Typography>
 						</Section>
 						<FormfacadeEmbed
-						formFacadeURL="https://formfacade.com/include/105782332382281789224/form/1FAIpQLScBqc9v_mWkoQ1KYuoLCXAxJrvXCXfRq_xSvWy4onqnGztuDA/classic.js/?div=ff-compose"
+						formFacadeURL={process.env.NEXT_PUBLIC_FORMFACAD_URL}
 						onSubmitForm={() => console.log('Form submitted')}
 						/>
 					</Box>
