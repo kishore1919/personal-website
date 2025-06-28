@@ -3,10 +3,11 @@ import type { PropsWithChildren } from 'react';
 
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import InstagramIcon from '@mui/icons-material/Instagram';
+// import InstagramIcon from '@mui/icons-material/Instagram';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import IconButton from '@mui/material/IconButton';
+import ArticleIcon from '@mui/icons-material/Article';
 import ExternalLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Link from 'next/link';
@@ -81,9 +82,16 @@ const SocialButton = (
 };
 
 const Projects = (props: InternalEssentialIconsProps) => {
+	// console.log('Projects icon rendered with route:', props.route);
 	return (
 		<InternalLinkWithIcon href="/projects">
-			<IconButton aria-label="projects icon">
+			<IconButton
+				aria-label="projects icon"
+				onClick={e => {
+					e.preventDefault();
+					window.location.assign('/projects');
+				}}
+			>
 				<LightbulbIcon
 					sx={{
 						color:
@@ -100,7 +108,13 @@ const Projects = (props: InternalEssentialIconsProps) => {
 const Contact = (props: InternalEssentialIconsProps) => {
 	return (
 		<InternalLinkWithIcon href="/contact">
-			<IconButton aria-label="contact icon">
+			<IconButton
+				aria-label="contact icon"
+				onClick={e => {
+					e.preventDefault();
+					window.location.assign('/contact');
+				}}
+			>
 				<EmailIcon
 					sx={{
 						color:
@@ -144,9 +158,9 @@ const LinkedIn = () => {
 
 const Instagram = () => {
 	return (
-		<SocialButton aria-label="instagram link" href={links.instagram}>
+		<SocialButton aria-label="Medium link" href={links.medium}>
 			<IconButton aria-label="instagram icon">
-				<InstagramIcon
+				<ArticleIcon
 					sx={{
 						color: 'text.secondary',
 					}}
