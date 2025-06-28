@@ -31,3 +31,5 @@ public/manifest.json
 public/service-worker.js*
 public/workbox-*.js*
 public/robots.txt
+
+.DS_Store
