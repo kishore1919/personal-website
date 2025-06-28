@@ -72,7 +72,7 @@ const Footer = () => {
 							}}
 							target="_blank"
 						>
-							CC BY-NC-SA 4.0
+							Bangalore
 						</Link>{' '}
 					</Typography>
 				</Box>
@@ -82,7 +82,7 @@ const Footer = () => {
 							color: 'text.secondary',
 						}}
 					>
-						2022 - Present © Gervin Fung
+						2025 - Present © Kishore selvaraj
 					</Typography>
 				</Box>
 			</Box>

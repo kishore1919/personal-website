@@ -92,7 +92,7 @@ const Index: NextPage = () => {
 						!breakPoint ? 'h2' : breakPoint === 'xs' ? 'h1' : 'h2'
 					}
 				>
-					GERVIN
+					Kishore selvaraj
 				</Typography>
 				<Holder
 					sx={{
@@ -106,7 +106,7 @@ const Index: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{isDay() ? 'Bonjour' : 'Bonsoir'}! Je vous remercie de
+						{isDay() ? 'Morning' : 'Evening'}! Je vous remercie de
 						votre visite!
 					</Content>
 					<Content delay={2}>

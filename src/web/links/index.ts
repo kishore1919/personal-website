@@ -1,8 +1,8 @@
 const links = {
-	gmail: 'gervinfungdaxuen@gmail.com',
-	github: 'https://github.com/GervinFung',
+	gmail: 'kishoreselvaraj19@gmail.com',
+	github: 'https://github.com/kishore1919',
 	instagram: 'https://www.instagram.com/poolofdeath20',
-	linkedin: 'https://www.linkedin.com/in/gervin-fung-387409209',
+	linkedin: 'https://www.linkedin.com/in/kishore-selvaraj-kishore',
 	domain: process.env.NEXT_PUBLIC_ORIGIN,
 } as const;
 

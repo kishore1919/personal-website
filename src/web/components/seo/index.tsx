@@ -20,7 +20,7 @@ const Seo = (
 	const iconPath = '/images/icons';
 	const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
 
-	const name = 'Gervin';
+	const name = 'Kishore';
 
 	const title = `${name} | ${props.title}`;
 
@@ -63,13 +63,13 @@ const Seo = (
 				additionalMetaTags={[
 					{
 						name: 'keyword',
-						content: `Gervin Fung Da Xuen, ${name}, Dart, Rust, Java, TypeScript, React-based, FullStack Developer, PoolOfDeath20, Game Developer, ${props.keywords.join(
+						content: `Kishore Selvaraj, ${name}, Dart, Rust, Java, TypeScript, React-based, FullStack Developer, PoolOfDeath20, Game Developer, ${props.keywords.join(
 							','
 						)}`,
 					},
 					{
 						name: 'author',
-						content: 'Gervin Fung Da Xuen | PoolOfDeath20',
+						content: 'Kishore Selvaraj | kishore1919',
 					},
 					{
 						name: 'viewport',
