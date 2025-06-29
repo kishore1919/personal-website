@@ -82,7 +82,6 @@ const SocialButton = (
 };
 
 const Projects = (props: InternalEssentialIconsProps) => {
-	// console.log('Projects icon rendered with route:', props.route);
 	return (
 		<InternalLinkWithIcon href="/projects">
 			<IconButton

@@ -72,7 +72,7 @@ const Index: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
-				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
+				description="I am Kishore Selvaraj. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
 				keywords={['Personal Website']}
 				title="Home"
 				url={undefined}
@@ -109,8 +109,8 @@ const Index: NextPage = () => {
 						{isDay() ? 'Morning' : 'Evening'}! Thank you for visiting this site!
 					</Content>
 					<Content delay={2}>
-						I am Kishore selvaraj, a software engineer based in
-						Bangalore, and I am not French. I build
+						I am Kishore Selvaraj, a software engineer based in
+						Bangalore and I build
 						software both for fun and for a living. I am passionate
 						about open-source software, and I build Infrastructure and websites.
 					</Content>
@@ -133,22 +133,17 @@ const Index: NextPage = () => {
 								display: 'inline-block',
 							}}
 						>
-							<Link
+							<Box
+								component="a"
 								aria-label="projects link"
 								href="/projects"
-								style={{
-									textDecoration: 'none',
+								sx={{
+									color: 'text.primary',
+									textDecoration: 'underline',
 								}}
 							>
-								<Box
-									sx={{
-										color: 'text.primary',
-										textDecoration: 'underline',
-									}}
-								>
-									here
-								</Box>
-							</Link>
+								here
+							</Box>
 						</Box>
 					</Content>
 					<Content delay={8}>

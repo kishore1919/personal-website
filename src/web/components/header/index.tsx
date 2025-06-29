@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -60,7 +59,7 @@ const Header = () => {
 						}}
 					>
 						<Box>
-							<Link
+							<a
 								href="/"
 								style={{
 									textDecoration: 'none',
@@ -76,7 +75,7 @@ const Header = () => {
 									}}
 									width={36}
 								/>
-							</Link>
+							</a>
 						</Box>
 						<Stack
 							alignContent="center"
