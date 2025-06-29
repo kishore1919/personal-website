@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
+// import Link from 'next/link';
 import React from 'react';
 
 import Holder from '../src/web/components/common/holder';
