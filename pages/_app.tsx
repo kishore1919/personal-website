@@ -9,7 +9,8 @@ import {
 import { getPreferredMode } from '@poolofdeath20/util';
 import React from 'react';
 
-import ErrorBoundary from '../src/web/components/error/boundary';
+import { ErrorBoundary } from 'react-error-boundary';
+import Fallback from '../src/web/components/error/fallback';
 import Layout from '../src/web/components/layout';
 import consts from '../src/web/const';
 import { ThemeContext } from '../src/web/context/theme';
@@ -100,7 +101,7 @@ const App = (props: AppProps) => {
 	return (
 		<ThemeContext.Provider value={value}>
 			<ThemeProvider theme={theme}>
-				<ErrorBoundary>
+				<ErrorBoundary FallbackComponent={Fallback}>
 					<main>
 						<Layout>
 							<props.Component {...props.pageProps} />

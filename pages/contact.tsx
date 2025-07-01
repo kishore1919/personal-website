@@ -11,6 +11,8 @@ import Section from '../src/web/components/common/section';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
 import FormfacadeEmbed from "@formfacade/embed-react";
+import Seo from '../src/web/components/seo';
+import { contactPageContent } from '../src/web/information/content';
 
 
 const Contact: NextPage = () => {
@@ -32,13 +34,12 @@ const Contact: NextPage = () => {
 
 	return (
 		<React.Fragment>
-			{/* Uncomment for SEO */}
-			{/* <Seo
-				description="Contact Kishore Selvaraj"
-				keywords={['Contact', 'Personal Website']}
-				title="Contact"
-				url="/contact"
-			/> */}
+			<Seo
+				description={contactPageContent.seo.description}
+				keywords={contactPageContent.seo.keywords}
+				title={contactPageContent.seo.title}
+				url={contactPageContent.seo.url}
+			/>
 			<Holder sx={animation}>
 				<Section
 					elevation={0}
@@ -69,10 +70,10 @@ const Contact: NextPage = () => {
 							}}
 						>
 							<Typography sx={{ fontWeight: 'bold', color: 'custom.default' }}>
-								Alright, you want to contact me?
+								{contactPageContent.content[0]}
 							</Typography>
 							<Typography sx={{ fontWeight: 'bold', color: 'custom.default' }}>
-								Just drop me a line! I will do my best to respond if need be
+								{contactPageContent.content[1]}
 							</Typography>
 						</Section>
 						<FormfacadeEmbed

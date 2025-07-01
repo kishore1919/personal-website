@@ -11,6 +11,7 @@ import Holder from '../src/web/components/common/holder';
 import Seo from '../src/web/components/seo';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
+import { homePageContent } from '../src/web/information/content';
 
 const Content = (
 	props: TypographyProps &
@@ -72,9 +73,9 @@ const Index: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
-				description="I am Kishore Selvaraj. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
-				keywords={['Personal Website']}
-				title="Home"
+				description={homePageContent.seo.description}
+				keywords={homePageContent.seo.keywords}
+				title={homePageContent.seo.title}
 				url={undefined}
 			/>
 			<Holder>
@@ -92,7 +93,7 @@ const Index: NextPage = () => {
 						!breakPoint ? 'h2' : breakPoint === 'xs' ? 'h1' : 'h2'
 					}
 				>
-					Kishore selvaraj
+					{homePageContent.title}
 				</Typography>
 				<Holder
 					sx={{
@@ -106,28 +107,18 @@ const Index: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{isDay() ? 'Morning' : 'Evening'}! Thank you for visiting this site!
+						{isDay()
+							? homePageContent.content[0]
+							: homePageContent.content[1]}
 					</Content>
 					<Content delay={2}>
-						I am Kishore Selvaraj, a software engineer based in
-						Bangalore and I build
-						software both for fun and for a living. I am passionate
-						about open-source software, and I build Infrastructure and websites.
+						{homePageContent.content[2]}
 					</Content>
 					<Content delay={4}>
-						I have been coding since 2021, and it all started when I
-						wanted to make a weather app in react and then
-						with the Django. Later, during an internship i got in to DEVOPS, I broadened my skillset to include
-						Docker, Terraform, Linux, Git, Kubernetes began making web applications and deploying them.
-						After some time, I began using opensource applications and started contribution to them.
+						{homePageContent.content[3]}
 					</Content>
 					<Content delay={6}>
-						Python and bash are my primary languages in
-						software engineering, although I believe I am capable
-						of using other languages as well, aside from Python. My
-						passion lies in the ability to work on web applications,
-						CLI tools, Deployment and infrastructure automation. You can find
-						my full projects list{' '}
+						{homePageContent.content[4]}{' '}
 						<Box
 							sx={{
 								display: 'inline-block',
@@ -136,7 +127,7 @@ const Index: NextPage = () => {
 							<Box
 								component="a"
 								aria-label="projects link"
-								href="/projects"
+								href={homePageContent.links.projects}
 								sx={{
 									color: 'text.primary',
 									textDecoration: 'underline',
@@ -147,9 +138,7 @@ const Index: NextPage = () => {
 						</Box>
 					</Content>
 					<Content delay={8}>
-						Outside of programming, I enjoy reading interesting
-						articles, working out, bike rides and playing video games with my
-						friends.
+						{homePageContent.content[5]}
 					</Content>
 				</Holder>
 			</Holder>

@@ -14,6 +14,7 @@ import Seo from '../src/web/components/seo';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
 import projects from '../src/web/information/projects';
+import { projectsPageContent } from '../src/web/information/content';
 
 const Item = (
 	project: (typeof projects)[0]['projects'][0] &
@@ -119,10 +120,10 @@ const Projects: NextPage = () => {
 	return (
 		<React.Fragment>
 			<Seo
-				description="I am Gervin Fung Da Xuen. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github"
-				keywords={['Personal Website']}
-				title="Projects"
-				url="/projects"
+				description={projectsPageContent.seo.description}
+				keywords={projectsPageContent.seo.keywords}
+				title={projectsPageContent.seo.title}
+				url={projectsPageContent.seo.url}
 			/>
 			<Holder>
 				<Stack
