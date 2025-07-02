@@ -3,8 +3,8 @@ import type { Data } from '../../common/contact';
 import axios from 'axios';
 
 class SendMessageError extends Error {
-	constructor() {
-		super(`Oops! I can't send your email as there is an issue`);
+	constructor(message = `Oops! I can't send your email as there is an issue`) {
+		super(message);
 		this.name = 'SendMessageError';
 	}
 }

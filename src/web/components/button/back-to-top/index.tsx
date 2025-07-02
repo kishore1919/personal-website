@@ -17,10 +17,11 @@ const BackToTop = () => {
 				});
 			}}
 			sx={({ palette }) => {
-				const isDark = palette.mode === 'dark';
+				const { mode, grey } = palette;
+				const isDark = mode === 'dark';
 
-				const color = (isDark: boolean) => {
-					return palette.grey[isDark ? 50 : 900];
+				const color = (dark: boolean) => {
+					return grey[dark ? 50 : 900];
 				};
 
 				return {

@@ -7,6 +7,7 @@ import React from 'react';
 
 import useBreakpoint from '../../hooks/use-breakpoint-value';
 import Holder from '../common/holder';
+import { footerContent } from '../../information/content';
 
 const Footer = () => {
 	const breakPoint = useBreakpoint();
@@ -19,15 +20,12 @@ const Footer = () => {
 		setShow(true);
 	}, []);
 
-	const animation: SxProps<Theme> | undefined =
-		process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
-			? undefined
-			: {
-					transition: 'opacity 1s, transform 1s',
-					transitionDelay: '200ms',
-					opacity: show ? 1 : 0,
-					transform: show ? 'translateY(0)' : 'translateY(-100%)',
-				};
+	const animation: SxProps<Theme> = {
+		transition: 'opacity 1s, transform 1s',
+		transitionDelay: '200ms',
+		opacity: show ? 1 : 0,
+		transform: show ? 'translateY(0)' : 'translateY(-100%)',
+	};
 
 	return (
 		<Holder
@@ -38,19 +36,21 @@ const Footer = () => {
 			}}
 		>
 			<Box
-				sx={{
-					mb: 4,
-					whiteSpace: 'pre-wrap',
-					...(!isMobile
+				sx={[
+					{
+						mb: 4,
+						whiteSpace: 'pre-wrap',
+					},
+					!isMobile
 						? {
-								display: 'flex',
-							}
+							display: 'flex',
+						}
 						: {
-								display: 'grid',
-								placeItems: 'center',
-								gridGap: 8,
-							}),
-				}}
+							display: 'grid',
+							placeItems: 'center',
+							gridGap: 8,
+						},
+				]}
 			>
 				<Box>
 					<Typography
@@ -59,7 +59,7 @@ const Footer = () => {
 						}}
 					>
 						<Link
-							href="https://creativecommons.org/licenses/by-nc-sa/4.0"
+							href={footerContent.licenseLink}
 							rel="external nofollow noopener noreferrer"
 							sx={{
 								textDecoration: 'underline',
@@ -72,7 +72,7 @@ const Footer = () => {
 							}}
 							target="_blank"
 						>
-							Bangalore
+							{footerContent.location}
 						</Link>{' '}
 					</Typography>
 				</Box>
@@ -82,7 +82,7 @@ const Footer = () => {
 							color: 'text.secondary',
 						}}
 					>
-						2025 - Present © Kishore selvaraj
+						{footerContent.copyright}
 					</Typography>
 				</Box>
 			</Box>

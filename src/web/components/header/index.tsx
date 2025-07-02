@@ -11,14 +11,14 @@ import React from 'react';
 import consts from '../../const';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
 import useHeight from '../../hooks/use-height';
+import { headerContent } from '../../information/content';
 import Holder from '../common/holder';
 
 import { Contact, Github, Instagram, LinkedIn, Projects } from './icons';
-import ThemeMenu from './theme-menu';
 
 const Header = () => {
 	const router = useRouter();
-	const route = router.pathname.replace(/^\//, '') || 'home';
+	const route = router.pathname.replace(/^\//, '') || headerContent.homeRoute;
 
 	const breakPoint = useBreakpoint();
 
@@ -38,7 +38,10 @@ const Header = () => {
 				<AppBar
 					elevation={0}
 					position="fixed"
-					sx={({ palette }) => {
+					sx={(
+						{
+							palette,
+						}) => {
 						return {
 							backgroundColor: 'custom.default',
 							display: 'grid',
@@ -60,16 +63,16 @@ const Header = () => {
 					>
 						<Box>
 							<a
-								href="/"
+								href={headerContent.logo.href}
 								style={{
 									textDecoration: 'none',
 								}}
 							>
 								<Image
-									alt="logo"
+									alt={headerContent.logo.alt}
 									height={36}
 									loading="lazy"
-									src="/images/icons/icon-72x72.png"
+									src={headerContent.logo.src}
 									style={{
 										display: 'block',
 									}}
@@ -91,7 +94,6 @@ const Header = () => {
 							<Github />
 							<LinkedIn />
 							<Instagram />
-							<ThemeMenu />
 						</Stack>
 					</Toolbar>
 				</AppBar>

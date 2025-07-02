@@ -1,76 +1,12 @@
-import type { Children } from '../../type/react';
-
-import { keyframes } from '@emotion/react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import { SecondaryMainButton } from '../common/button';
+import ClickRefresh from '../common/click-refresh';
+import MarginTopBox from '../common/margin-top-box';
 import Title from '../common/title';
-
-const chargeHomeButton = keyframes`
-    0% {
-        background-position: 100% 0%;
-    }
-    100% {
-        background-position: 0% -100%;
-    }
-`;
-
-const MarginTopBox = (
-	props: Readonly<
-		Children & {
-			shouldNotMarginTop?: true;
-		}
-	>
-) => {
-	return (
-		<Box
-			sx={{
-				m: 0,
-				mt: !props.shouldNotMarginTop ? 4 : undefined,
-				display: 'grid',
-				placeItems: 'center',
-			}}
-		>
-			{props.children}
-		</Box>
-	);
-};
-
-const ClickRefresh = (
-	props: Readonly<{
-		title: string;
-		onRefresh: () => void;
-		timeToChange: number;
-	}>
-) => {
-	return (
-		<SecondaryMainButton
-			onClick={props.onRefresh}
-			sx={({ palette }) => {
-				return {
-					fontWeight: 600,
-					backgroundColor: 'custom.blue.dark',
-					background: [
-						`linear-gradient(to left`,
-						`${palette.background.default} 50%`,
-						`${palette.custom.blue.dark} 50%)`,
-					].join(','),
-					backgroundSize: '200%',
-					display: 'inline-block',
-					animation: `${chargeHomeButton} ease-in-out ${props.timeToChange}s`,
-					'&:hover': {
-						backgroundPosition: 'left !important',
-					},
-				};
-			}}
-			title={props.title}
-		/>
-	);
-};
 
 const ErrorContainer = (
 	props: Readonly<{
@@ -109,8 +45,7 @@ const ErrorContainer = (
 		return () => {
 			return clearTimeout(goTo);
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [countDown]);
+	}, [countDown, props.type, router, home]);
 
 	return (
 		<Box
@@ -194,7 +129,7 @@ const ErrorContainer = (
 									}}
 								>
 									<ClickRefresh
-										onRefresh={() => {
+										onClick={() => {
 											return router.reload();
 										}}
 										timeToChange={timeToChange}
@@ -213,7 +148,7 @@ const ErrorContainer = (
 									}}
 								>
 									<ClickRefresh
-										onRefresh={() => {
+										onClick={() => {
 											void router.replace(home);
 										}}
 										timeToChange={timeToChange}

@@ -34,24 +34,20 @@ class ContactMessageParser {
 		return new this(props);
 	};
 
-	private static readonly isValidEmail = (email: string) => {
-		return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-			email
-		);
-	};
-
-	private readonly parseName = () => {
-		const { name } = this.props;
-		if (isEmpty(name)) {
+	private readonly validate = (
+		value: string,
+		fieldName: 'name' | 'email' | 'message'
+	) => {
+		if (isEmpty(value)) {
 			return {
 				status: 'error',
-				reason: 'Please do not leave name section empty',
+				reason: `Please do not leave ${fieldName} section empty`,
 			} as const;
 		}
-		if (isBlank(this.props.name)) {
+		if (isBlank(value)) {
 			return {
 				status: 'error',
-				reason: 'Please do not leave name section blank',
+				reason: `Please do not leave ${fieldName} section blank`,
 			} as const;
 		}
 		return {
@@ -59,21 +55,23 @@ class ContactMessageParser {
 		} as const;
 	};
 
+	private static readonly isValidEmail = (email: string) => {
+		return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+			email
+		);
+	};
+
+	private readonly parseName = () => {
+		return this.validate(this.props.name, 'name');
+	};
+
 	private readonly parseEmail = () => {
-		const { email } = this.props;
-		if (isEmpty(email)) {
-			return {
-				status: 'error',
-				reason: 'Please do not leave email section empty',
-			} as const;
+		const basicValidation = this.validate(this.props.email, 'email');
+		if (basicValidation.status === 'error') {
+			return basicValidation;
 		}
-		if (isBlank(email)) {
-			return {
-				status: 'error',
-				reason: 'Please do not leave email section blank',
-			} as const;
-		}
-		if (!ContactMessageParser.isValidEmail(email)) {
+
+		if (!ContactMessageParser.isValidEmail(this.props.email)) {
 			return {
 				status: 'error',
 				reason: 'Please enter valid email format',
@@ -85,22 +83,7 @@ class ContactMessageParser {
 	};
 
 	private readonly parseMessage = () => {
-		const { message } = this.props;
-		if (isEmpty(message)) {
-			return {
-				status: 'error',
-				reason: 'Please do not leave message section empty',
-			} as const;
-		}
-		if (isBlank(message)) {
-			return {
-				status: 'error',
-				reason: 'Please do not leave message section blank',
-			} as const;
-		}
-		return {
-			status: 'clean',
-		} as const;
+		return this.validate(this.props.message, 'message');
 	};
 
 	readonly parse = () => {

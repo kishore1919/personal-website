@@ -1,7 +1,7 @@
 import Script from 'next/script';
 import React from 'react';
 
-import links from '../../links';
+import { headerContent } from '../../information/content';
 
 const Schema = () => {
 	const structuredData = {
@@ -13,7 +13,7 @@ const Schema = () => {
 					name,
 					'@type': 'ListItem',
 					position: 1,
-					item: `${links.domain}/${name === 'home' ? '' : name}`,
+					item: `${headerContent.links.domain}/${name === 'home' ? '' : name}`,
 				};
 			}
 		),

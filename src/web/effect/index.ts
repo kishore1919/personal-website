@@ -21,13 +21,7 @@ const scrambleAndShowBase = (listOfCharacters: string) => {
 			() => {
 				const generatedContent = content
 					.split('')
-					.map(() => {
-						const generatedWord = generateWord();
-
-						return generatedWord !== content
-							? generatedWord
-							: generateWord();
-					})
+					.map(() => generateWord())
 					.join('');
 				return {
 					content: generatedContent,

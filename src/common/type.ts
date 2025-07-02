@@ -1,15 +1,10 @@
-type DeepReadonly<T> =
-	T extends Array<infer R>
-		? ReadonlyArray<DeepReadonly<R>>
-		: // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-			T extends Function
-			? T
-			: T extends object
-				? DeepReadonlyObject<T>
-				: T;
+type DeepReadonly<T> = T extends (infer R)[]
+	? ReadonlyArray<DeepReadonly<R>>
+	: // eslint-disable-next-line @typescript-eslint/ban-types
+		T extends Function
+		? T
+		: T extends object
+			? { readonly [P in keyof T]: DeepReadonly<T[P]> }
+			: T;
 
-type DeepReadonlyObject<T> = {
-	readonly [P in keyof T]: DeepReadonly<T[P]>;
-};
-
-export type { DeepReadonly, DeepReadonlyObject };
+export type { DeepReadonly };

@@ -11,6 +11,7 @@ export default defineConfig(() => {
 		clearScreen: ci.isCI,
 		test: {
 			watch: false,
+			reporter: 'verbose',
 			testTimeout: timeOut,
 			hookTimeout: timeOut,
 			teardownTimeout: timeOut,

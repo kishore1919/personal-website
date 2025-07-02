@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 import Link from 'next/link';
 import React from 'react';
 
-import links from '../../links';
+import { headerContent } from '../../information/content';
 
 type InternalEssentialIconsProps = Readonly<{
 	route: string;
@@ -22,10 +22,9 @@ type InternalEssentialIconsProps = Readonly<{
 const ids = ['home', 'projects', 'contact'] as const;
 
 const InternalLinkWithIcon = (
-	props: PropsWithChildren &
-		Readonly<{
-			href: string;
-		}>
+	props: PropsWithChildren & Readonly<{
+		href: string;
+	}>
 ) => {
 	return (
 		<Link
@@ -83,12 +82,12 @@ const SocialButton = (
 
 const Projects = (props: InternalEssentialIconsProps) => {
 	return (
-		<InternalLinkWithIcon href="/projects">
+		<InternalLinkWithIcon href={headerContent.links.projects}>
 			<IconButton
 				aria-label="projects icon"
 				onClick={e => {
 					e.preventDefault();
-					window.location.assign('/projects');
+					window.location.assign(headerContent.links.projects);
 				}}
 			>
 				<LightbulbIcon
@@ -106,12 +105,12 @@ const Projects = (props: InternalEssentialIconsProps) => {
 
 const Contact = (props: InternalEssentialIconsProps) => {
 	return (
-		<InternalLinkWithIcon href="/contact">
+		<InternalLinkWithIcon href={headerContent.links.contact}>
 			<IconButton
 				aria-label="contact icon"
 				onClick={e => {
 					e.preventDefault();
-					window.location.assign('/contact');
+					window.location.assign(headerContent.links.contact);
 				}}
 			>
 				<EmailIcon
@@ -129,7 +128,7 @@ const Contact = (props: InternalEssentialIconsProps) => {
 
 const Github = () => {
 	return (
-		<SocialButton aria-label="github link" href={links.github}>
+		<SocialButton aria-label="github link" href={headerContent.links.github}>
 			<IconButton aria-label="github icon">
 				<GitHubIcon
 					sx={{
@@ -143,7 +142,7 @@ const Github = () => {
 
 const LinkedIn = () => {
 	return (
-		<SocialButton aria-label="linkedin link" href={links.linkedin}>
+		<SocialButton aria-label="linkedin link" href={headerContent.links.linkedin}>
 			<IconButton aria-label="linkedin icon">
 				<LinkedInIcon
 					sx={{
@@ -157,7 +156,7 @@ const LinkedIn = () => {
 
 const Instagram = () => {
 	return (
-		<SocialButton aria-label="Medium link" href={links.medium}>
+		<SocialButton aria-label="Medium link" href={headerContent.links.medium}>
 			<IconButton aria-label="instagram icon">
 				<ArticleIcon
 					sx={{
