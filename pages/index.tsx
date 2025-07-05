@@ -64,10 +64,11 @@ const Index: NextPage = () => {
 		};
 	}, []);
 
-	const isDay = () => {
+	const getGreetingIndex = () => {
 		const hours = new Date(time).getHours();
-
-		return hours >= 6 && hours < 18;
+		if (hours >= 6 && hours < 12) return 0; // Morning
+		if (hours >= 12 && hours < 18) return 1; // Afternoon
+		return 2; // Evening
 	};
 
 	return (
@@ -107,17 +108,12 @@ const Index: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{isDay()
-							? homePageContent.content[0]
-							: homePageContent.content[1]}
+						{homePageContent.content[getGreetingIndex()]}
 					</Content>
 					<Content delay={2}>
-						{homePageContent.content[2]}
-					</Content>
-					<Content delay={4}>
 						{homePageContent.content[3]}
 					</Content>
-					<Content delay={6}>
+					<Content delay={4}>
 						{homePageContent.content[4]}{' '}
 						<Box
 							sx={{
@@ -137,8 +133,11 @@ const Index: NextPage = () => {
 							</Box>
 						</Box>
 					</Content>
-					<Content delay={8}>
+					<Content delay={6}>
 						{homePageContent.content[5]}
+					</Content>
+					<Content delay={8}>
+						{homePageContent.content[6]}
 					</Content>
 				</Holder>
 			</Holder>

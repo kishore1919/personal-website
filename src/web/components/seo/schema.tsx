@@ -8,11 +8,11 @@ const Schema = () => {
 		'@context': 'https://schema.org',
 		'@type': 'BreadcrumbList',
 		itemListElement: (['home', 'projects', 'contact'] as const).map(
-			(name) => {
+			(name, idx) => {
 				return {
 					name,
 					'@type': 'ListItem',
-					position: 1,
+					position: idx + 1,
 					item: `${headerContent.links.domain}/${name === 'home' ? '' : name}`,
 				};
 			}

@@ -156,8 +156,8 @@ const LinkedIn = () => {
 
 const Instagram = () => {
 	return (
-		<SocialButton aria-label="Medium link" href={headerContent.links.medium}>
-			<IconButton aria-label="instagram icon">
+		<SocialButton aria-label="medium link" href={headerContent.links.medium}>
+			<IconButton aria-label="medium icon">
 				<ArticleIcon
 					sx={{
 						color: 'text.secondary',

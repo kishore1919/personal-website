@@ -16,7 +16,7 @@ Projects Page
 
 Contact Page
 
-![Contact](test/snapshot/snapshot-images/pc/dark/contact.png 'contact')
+![Contact](test/snapshot/snapshot-images/pc/dark/contact.png 'Contact')
 
 Error Page
 

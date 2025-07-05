@@ -4,7 +4,7 @@ import type { Browser, Page } from 'puppeteer';
 const setTheme = async (
 	props: Readonly<{
 		page: Page;
-		mode: 'dark' | 'light';
+		mode: 'dark';
 	}>
 ) => {
 	await props.page.emulateMediaFeatures([

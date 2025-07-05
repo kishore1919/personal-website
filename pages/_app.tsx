@@ -1,4 +1,3 @@
-import type { Mode } from '@poolofdeath20/util';
 import type { AppProps } from 'next/app';
 
 import {
@@ -6,34 +5,16 @@ import {
 	responsiveFontSizes,
 	ThemeProvider,
 } from '@mui/material/styles';
-import { getPreferredMode } from '@poolofdeath20/util';
 import React from 'react';
 
 import { ErrorBoundary } from 'react-error-boundary';
 import Fallback from '../src/web/components/error/fallback';
 import Layout from '../src/web/components/layout';
 import consts from '../src/web/const';
-import { ThemeContext } from '../src/web/context/theme';
 import { colorTheme } from '../src/web/theme';
 import '../src/web/css/font.css';
 
 const App = (props: AppProps) => {
-	const modeKey = 'mode';
-
-	const [mode, setMode] = React.useState('dark' as Mode);
-
-	React.useEffect(() => {
-		const value = localStorage.getItem(modeKey);
-
-		setMode(
-			value === 'dark' || value === 'light' ? value : getPreferredMode()
-		);
-	}, []);
-
-	React.useEffect(() => {
-		localStorage.setItem(modeKey, mode);
-	}, [mode]);
-
 	const theme = React.useMemo(() => {
 		const { fontFamily } = consts;
 
@@ -43,12 +24,9 @@ const App = (props: AppProps) => {
 					fontFamily,
 				},
 				palette: {
-					mode,
+					mode: 'dark',
 					background: {
-						default:
-							mode === 'dark'
-								? colorTheme.contrast.black
-								: colorTheme.contrast.white,
+						default: colorTheme.contrast.black,
 					},
 					primary: {
 						main: colorTheme.blue.light,
@@ -58,14 +36,8 @@ const App = (props: AppProps) => {
 					},
 					custom: {
 						...colorTheme,
-						default:
-							mode === 'dark'
-								? colorTheme.contrast.black
-								: colorTheme.contrast.white,
-						opposite:
-							mode === 'light'
-								? colorTheme.contrast.black
-								: colorTheme.contrast.white,
+						default: colorTheme.contrast.black,
+						opposite: colorTheme.contrast.white,
 					},
 				},
 				components: {
@@ -89,27 +61,18 @@ const App = (props: AppProps) => {
 				},
 			})
 		);
-	}, [mode]);
-
-	const value = React.useMemo(() => {
-		return {
-			mode,
-			setMode,
-		};
-	}, [mode]);
+	}, []);
 
 	return (
-		<ThemeContext.Provider value={value}>
-			<ThemeProvider theme={theme}>
-				<ErrorBoundary FallbackComponent={Fallback}>
-					<main>
-						<Layout>
-							<props.Component {...props.pageProps} />
-						</Layout>
-					</main>
-				</ErrorBoundary>
-			</ThemeProvider>
-		</ThemeContext.Provider>
+		<ThemeProvider theme={theme}>
+			<ErrorBoundary FallbackComponent={Fallback}>
+				<main>
+					<Layout>
+						<props.Component {...props.pageProps} />
+					</Layout>
+				</main>
+			</ErrorBoundary>
+		</ThemeProvider>
 	);
 };
 

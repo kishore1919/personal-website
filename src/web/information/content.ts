@@ -1,17 +1,18 @@
 export const homePageContent = {
 	seo: {
-		description: "I am Kishore Selvaraj. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github",
+		description: "Welcome to the personal website of Kishore Selvaraj, a software engineer. Discover my projects, skills, and professional journey. All my side projects are open-source and available on GitHub.",
 		keywords: ['Personal Website'],
 		title: "Home",
 	},
-	title: "Kishore selvaraj",
+	title: "Kishore Selvaraj",
 	content: [
-		"Morning! Thank you for visiting this site!",
-		"Evening! Thank you for visiting this site!",
-		"I am Kishore Selvaraj, a software engineer based in Bangalore and I build software both for fun and for a living. I am passionate about open-source software, and I build Infrastructure and websites.",
-		"I have been coding since 2021, and it all started when I wanted to make a weather app in react and then with the Django. Later, during an internship i got in to DEVOPS, I broadened my skillset to include Docker, Terraform, Linux, Git, Kubernetes began making web applications and deploying them. After some time, I began using opensource applications and started contribution to them.",
-		"Python and bash are my primary languages in software engineering, although I believe I believe I am capable of using other languages as well, aside from Python. My passion lies in the ability to work on web applications, CLI tools, Deployment and infrastructure automation. You can find my full projects list",
-		"Outside of programming, I enjoy reading interesting articles, working out, bike rides and playing video games with my friends.",
+		"Good morning! Thank you for visiting!",
+		"Good afternoon! Thank you for visiting!",
+		"Good evening! Thank you for visiting!",
+		"I'm Kishore Selvaraj, a software engineer based in Bangalore. I build software for both fun and a living, with a passion for open-source, infrastructure, and web development.",
+		"My coding journey began in 2021 with a React weather app, which I later rebuilt using Django. A DevOps internship expanded my skillset to include Docker, Terraform, Linux, Git, and Kubernetes, enabling me to build and deploy web applications. This experience ignited my passion for open-source, and I've been an active contributor ever since.",
+		"While Python and Bash are my primary languages, I'm a versatile engineer comfortable with adapting to new technologies. I'm passionate about creating web applications, CLI tools, and automating deployment and infrastructure. You can find a full list of my projects here.",
+		"Outside of programming, I enjoy reading insightful articles, working out, going for bike rides, and playing video games with friends.",
 	],
 	links: {
 		projects: "/projects",
@@ -26,14 +27,15 @@ export const contactPageContent = {
 		url: "/contact",
 	},
 	content: [
-		"Alright, you want to contact me?",
-		"Just drop me a line! I will do my best to respond if need be",
+		"Looking to get in touch?",
+		"Feel free to send me an email at kishoreselvaraj19@gmail.com",
+		"I'll do my best to get back to you as soon as possible!",
 	],
 };
 
 export const projectsPageContent = {
 	seo: {
-		description: "I Kishore Selvaraj. Everything you want to know about me as a software engineer, can be found here. Feel free to poke around. Every side projects deemed important/useful will be shown here. All side projects is available as repositories/organization on Github",
+		description: "A curated list of my software engineering projects. Explore my work, from web applications to infrastructure automation. All projects are open-source and available on GitHub.",
 		keywords: ['Personal Website'],
 		title: "Projects",
 		url: "/projects",
@@ -42,7 +44,7 @@ export const projectsPageContent = {
 
 export const footerContent = {
 	location: "Bangalore",
-	copyright: "2025 - Present © Kishore selvaraj",
+	copyright: "2025 - Present © Kishore Selvaraj",
 	licenseLink: "https://creativecommons.org/licenses/by-nc-sa/4.0",
 };
 
