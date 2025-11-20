@@ -17,7 +17,7 @@
 		"@poolofdeath20/util": "^0.8.2",
 		"axios": "^1.8.4",
 		"cors": "^2.8.5",
-		"mongoose": "^8.13.0",
+		"mongoose": "^8.19.2",
 		"next": "^15.2.4",
 		"next-seo": "^6.6.0",
 		"react": "^19.0.0",
