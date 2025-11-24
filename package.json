@@ -12,7 +12,7 @@
 		"@emotion/react": "^11.14.0",
 		"@emotion/styled": "^11.14.0",
 		"@formfacade/embed-react": "^1.1.2",
-		"@mui/icons-material": "^7.0.0",
+		"@mui/icons-material": "^7.3.4",
 		"@mui/material": "^7.3.4",
 		"@poolofdeath20/util": "^0.8.2",
 		"axios": "^1.8.4",
