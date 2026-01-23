@@ -13,7 +13,6 @@
     "@astrojs/react": "^4.4.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@formfacade/embed-react": "^1.1.2",
     "@mui/icons-material": "^7.3.7",
     "@mui/material": "^7.3.7",
     "@poolofdeath20/util": "^0.8.2",

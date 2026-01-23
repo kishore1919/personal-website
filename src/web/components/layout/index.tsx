@@ -21,13 +21,14 @@ const Layout = (props: Readonly<PropsWithChildren>) => {
 					lg: 12,
 				}}
 				sx={{
+					minHeight: '100vh',
 					backgroundColor:
 						theme.palette.mode === 'dark'
 							? 'background.surface'
 							: undefined,
 				}}
 			>
-				<Stack spacing={16}>
+				<Stack spacing={16} sx={{ flexGrow: 1 }}>
 					<Header />
 					<BackToTop />
 					{props.children}

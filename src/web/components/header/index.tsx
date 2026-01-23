@@ -74,7 +74,7 @@ const Header = () => {
 								<img
 									alt={headerContent.logo.alt}
 									height={36}
-									loading="lazy"
+									loading="eager"
 									src={headerContent.logo.src}
 									style={{
 										display: 'block',

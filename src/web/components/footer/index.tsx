@@ -31,7 +31,8 @@ const Footer = () => {
 		<Holder
 			sx={{
 				m: 0,
-				mt: 8,
+				mt: 12,
+				pb: 6,
 				...animation,
 			}}
 		>
@@ -39,52 +40,39 @@ const Footer = () => {
 				sx={[
 					{
 						mb: 4,
-						whiteSpace: 'pre-wrap',
+						textAlign: 'center',
 					},
 					!isMobile
 						? {
 							display: 'flex',
+							justifyContent: 'center',
+							gap: 2,
 						}
 						: {
 							display: 'grid',
 							placeItems: 'center',
-							gridGap: 8,
+							gridGap: 1,
 						},
 				]}
 			>
-				<Box>
-					<Typography
-						sx={{
-							color: 'text.secondary',
-						}}
-					>
-						<Link
-							href={footerContent.licenseLink}
-							rel="external nofollow noopener noreferrer"
-							sx={{
-								textDecoration: 'underline',
-								color: 'text.secondary',
-								textDecorationColor: 'text.secondary',
-								'&:hover': {
-									color: 'text.primary',
-									textDecorationColor: 'text.primary',
-								},
-							}}
-							target="_blank"
-						>
-							{footerContent.location}
-						</Link>{' '}
-					</Typography>
-				</Box>
-				<Box>
-					<Typography
-						sx={{
-							color: 'text.secondary',
-						}}
-					>
-						{footerContent.copyright}
-					</Typography>
-				</Box>
+				<Typography
+					sx={{
+						color: 'text.secondary',
+						fontWeight: 500,
+					}}
+				>
+					{footerContent.location}
+				</Typography>
+				{!isMobile && (
+					<Typography sx={{ color: 'text.disabled' }}>•</Typography>
+				)}
+				<Typography
+					sx={{
+						color: 'text.secondary',
+					}}
+				>
+					{footerContent.copyright}
+				</Typography>
 			</Box>
 		</Holder>
 	);

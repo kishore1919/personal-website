@@ -10,7 +10,6 @@ import Holder from '../src/web/components/common/holder';
 import Section from '../src/web/components/common/section';
 import consts from '../src/web/const';
 import useBreakpoint from '../src/web/hooks/use-breakpoint-value';
-import FormfacadeEmbed from "@formfacade/embed-react";
 import Seo from '../src/web/components/seo';
 import { contactPageContent } from '../src/web/information/content';
 
@@ -74,10 +73,6 @@ const Contact = () => {
 								{contactPageContent.content[1]}
 							</Typography>
 						</Section>
-						<FormfacadeEmbed
-							formFacadeURL={import.meta.env.PUBLIC_FORMFACAD_URL}
-							onSubmitForm={() => console.log('Form submitted')}
-						/>
 					</Box>
 				</Section>
 			</Holder>
