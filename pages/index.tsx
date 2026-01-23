@@ -110,7 +110,10 @@ const Index = () => {
 						{homePageContent.content[3]}
 					</Content>
 					<Content delay={4}>
-						{homePageContent.content[4]}{' '}
+						{homePageContent.content[4]}
+					</Content>
+					<Content delay={6}>
+						{homePageContent.content[5]}{' '}
 						<Box
 							sx={{
 								display: 'inline-block',
@@ -128,9 +131,6 @@ const Index = () => {
 								here
 							</Box>
 						</Box>
-					</Content>
-					<Content delay={6}>
-						{homePageContent.content[5]}
 					</Content>
 					<Content delay={8}>
 						{homePageContent.content[6]}

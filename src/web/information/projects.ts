@@ -1,31 +1,70 @@
-// import { BiLogoReact, BiNotepad } from 'react-icons/bi';
 import {
 	BsFillTerminalFill,
-// 	BsBrowserChrome,
-// 	BsReddit,
-// 	BsServer,
-// 	BsWindowDesktop,
-// 	BsCodeSlash,
-// 	BsRobot,
-// 	BsFilesAlt,
+	BsBrowserChrome,
+	BsCodeSlash,
+	BsRobot,
+	BsServer,
 } from 'react-icons/bs';
-// import { FaChessBoard, FaRegFileCode } from 'react-icons/fa';
-// import { GiTicTacToe } from 'react-icons/gi';
-// import { ImNpm } from 'react-icons/im';
-// import { PiDotsNine } from 'react-icons/pi';
-// import { SiAdguard, SiDeno, SiEslint, SiTypescript } from 'react-icons/si';
-// import { TbBrandNextjs } from 'react-icons/tb';
+import {
+	SiTerraform,
+	SiAnsible,
+	SiDocker,
+	SiJenkins,
+	SiAmazonwebservices,
+	SiAstro,
+	SiPython,
+	SiApache,
+} from 'react-icons/si';
 
 const projects = [
 	{
-		category: 'Terraform',
+		category: 'Infrastructure & DevOps',
 		projects: [
 			{
 				name: 'Terraform',
 				description:
-					'This is my personal project about IAC with terraform on AWS And GCP.',
-				githubLink:
-					'https://github.com/kishore1919/Terraform',
+					'Infrastructure as Code project using Terraform to manage resources on AWS and GCP.',
+				githubLink: 'https://github.com/kishore1919/Terraform',
+				icon: {
+					color: '#7B42BC',
+					Component: SiTerraform,
+				},
+			},
+			{
+				name: 'Ansible Homelab Setup',
+				description:
+					'Automated homelab configuration and deployment using Ansible playbooks.',
+				githubLink: 'https://github.com/kishore1919/ansible_homelab_setup',
+				icon: {
+					color: '#EE0000',
+					Component: SiAnsible,
+				},
+			},
+			{
+				name: 'Ansible Lab with Docker',
+				description:
+					'Setting up a local Ansible laboratory environment using Docker containers.',
+				githubLink: 'https://github.com/kishore1919/ansible-lab-setup-with-docker',
+				icon: {
+					color: '#2496ED',
+					Component: SiDocker,
+				},
+			},
+			{
+				name: 'Jenkins CI/CD Pipeline',
+				description:
+					'End-to-end automation pipelines using Jenkins for continuous integration and delivery.',
+				githubLink: 'https://github.com/kishore1919/jenkins-pipeline-cicd',
+				icon: {
+					color: '#D24939',
+					Component: SiJenkins,
+				},
+			},
+			{
+				name: 'Cloud Cleanup Scripts',
+				description:
+					'Automation scripts to identify and remove unused cloud resources to save costs.',
+				githubLink: 'https://github.com/kishore1919/cloud_resources_cleanup_scripts',
 				icon: {
 					color: '#2F393F',
 					Component: BsFillTerminalFill,
@@ -33,359 +72,96 @@ const projects = [
 			},
 		],
 	},
-	// {
-	// 	category: 'Gitignored',
-	// 	projects: [
-	// 		{
-	// 			name: 'Web',
-	// 			description: 'The Web Application that is UI/UX friendly',
-	// 			githubLink:
-	// 				'https://github.com/gervinfung/gitignored/tree/main/apps/web',
-	// 			icon: {
-	// 				color: '#1A73E8',
-	// 				Component: BsBrowserChrome,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Terminal',
-	// 			description:
-	// 				'The CLI Application that cache and with distinctive colors for commands/arguments',
-	// 			githubLink:
-	// 				'https://github.com/gervinfung/gitignored/tree/main/apps/cli',
-	// 			icon: {
-	// 				color: '#2F393F',
-	// 				Component: BsFillTerminalFill,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Periotable',
-	// 	projects: [
-	// 		{
-	// 			name: 'Web',
-	// 			description: 'The Responsive Web Application',
-	// 			githubLink:
-	// 				'https://github.com/gervinfung/periotable/tree/main/apps/web',
-	// 			icon: {
-	// 				color: '#1A73E8',
-	// 				Component: BsBrowserChrome,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Desktop',
-	// 			description: 'The Multi-Platform Desktop Application',
-	// 			githubLink:
-	// 				'https://github.com/gervinfung/periotable/tree/main/apps/desktop',
-	// 			icon: {
-	// 				color: '#174276',
-	// 				Component: BsWindowDesktop,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Informations',
-	// 	projects: [
-	// 		{
-	// 			name: 'Useful Websites',
-	// 			description:
-	// 				'A collection of useful unknown websites based on reddit post',
-	// 			githubLink:
-	// 				'https://github.com/GervinFung/useful-unknown-website-comments',
-	// 			icon: {
-	// 				color: '#FF4500',
-	// 				Component: BsReddit,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Games',
-	// 	projects: [
-	// 		{
-	// 			name: 'LibGDX-Chess-Game',
-	// 			description:
-	// 				'A LibGDX AI Multithreaded Chess Game playable on many devices from Level 1 to Level 10',
-	// 			githubLink: 'https://github.com/GervinFung/LibGDX-Chess-Game',
-	// 			icon: {
-	// 				color: '#FFF',
-	// 				Component: FaChessBoard,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'AndroidSimpleAIChess',
-	// 			description:
-	// 				'First Android Project - Parallel AI Chess Game with 10 different levels',
-	// 			githubLink:
-	// 				'https://github.com/GervinFung/AndroidSimpleAIChess',
-	// 			icon: {
-	// 				color: '#FFF',
-	// 				Component: FaChessBoard,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'SimpleParallelChessAI',
-	// 			description:
-	// 				'A Parallel AI Chess Game from Level 1 to Level 10 made with Java Swing',
-	// 			githubLink:
-	// 				'https://github.com/GervinFung/SimpleParallelChessAI',
-	// 			icon: {
-	// 				color: '#FFF',
-	// 				Component: FaChessBoard,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'TicTacToe',
-	// 			description:
-	// 				'AI Tic-Tac-Toe Game made with Java Swing. Play in 3x3 grid up to 10x10',
-	// 			githubLink: 'https://github.com/GervinFung/TicTacToe',
-	// 			icon: {
-	// 				color: '#F06292',
-	// 				Component: GiTicTacToe,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Connect4',
-	// 			description: 'A Connect-4 Game written in C# WinForm',
-	// 			githubLink: 'https://github.com/GervinFung/Connect4',
-	// 			icon: {
-	// 				color: '#44475A',
-	// 				Component: PiDotsNine,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'TypeScript/NPM',
-	// 	projects: [
-	// 		{
-	// 			name: 'Gen Env Type Def',
-	// 			description:
-	// 				'Generate type definitions for environment variables from different environment files with support for both import.meta.env and process.env',
-	// 			githubLink: 'https://github.com/GervinFung/gen-env-type-def',
-	// 			icon: {
-	// 				color: '#C12127',
-	// 				Component: ImNpm,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Ts Add Js Extension',
-	// 			description:
-	// 				'Add .js extension to each relative import/export statement in JavaScript file',
-	// 			githubLink: 'https://github.com/GervinFung/ts-add-js-extension',
-	// 			icon: {
-	// 				color: '#C12127',
-	// 				Component: ImNpm,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Util',
-	// 			description:
-	// 				'My personal utility functions that I use in my projects',
-	// 			githubLink:
-	// 				'https://github.com/GervinFung/npm-tools/tree/main/packages/util',
-	// 			icon: {
-	// 				color: '#C12127',
-	// 				Component: ImNpm,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Deno',
-	// 	projects: [
-	// 		{
-	// 			name: 'Denoify',
-	// 			description:
-	// 				'For NPM module authors that would like to support Deno but do not want to write and maintain a port',
-	// 			githubLink: 'https://github.com/garronej/denoify',
-	// 			icon: {
-	// 				color: '#15803D',
-	// 				Component: SiDeno,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Configurations',
-	// 	projects: [
-	// 		{
-	// 			name: 'Dotfiles',
-	// 			description: 'My dotfiles that are XDG_CONFIG_HOME compliant',
-	// 			githubLink: 'https://github.com/GervinFung/.config',
-	// 			icon: {
-	// 				color: '#2196F3',
-	// 				Component: BsFilesAlt,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Eslint Config PoolOfDeath20',
-	// 			description: 'My ESLint shareable config',
-	// 			githubLink:
-	// 				'https://github.com/GervinFung/npm-tools/tree/main/packages/eslint-config',
-	// 			icon: {
-	// 				color: '#4B32C3',
-	// 				Component: SiEslint,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Tsconfig PoolOfDeath20',
-	// 			description: 'My commonly used TypeScript config',
-	// 			githubLink:
-	// 				'https://github.com/GervinFung/npm-tools/tree/main/packages/tsconfig',
-	// 			icon: {
-	// 				color: '#3178C6',
-	// 				Component: SiTypescript,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Starter Templates',
-	// 	projects: [
-	// 		{
-	// 			name: 'NPM Package',
-	// 			description: 'NPM Package Starter Template',
-	// 			githubLink: 'https://github.com/GervinFung/npm-package-starter',
-	// 			icon: {
-	// 				color: '#C12127',
-	// 				Component: ImNpm,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'React',
-	// 			description: 'React Starter Template',
-	// 			githubLink: 'https://github.com/GervinFung/react-starter',
-	// 			icon: {
-	// 				color: '#087EA4',
-	// 				Component: BiLogoReact,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Next.js',
-	// 			description: 'Nextjs Starter Template',
-	// 			githubLink: 'https://github.com/GervinFung/nextjs-starter',
-	// 			icon: {
-	// 				Component: TbBrandNextjs,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Text Editor',
-	// 	projects: [
-	// 		{
-	// 			name: 'Notepad',
-	// 			description:
-	// 				'Text Editor similar to NotePad that can undo all of your edit',
-	// 			githubLink: 'https://github.com/GervinFung/TextEditor',
-	// 			icon: {
-	// 				color: '#D5C4A1',
-	// 				Component: BiNotepad,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Notepad FX',
-	// 			description:
-	// 				'Fist JavaFX project - an upgraded version of the previous Notepad Text Editor',
-	// 			githubLink: 'https://github.com/GervinFung/TextEditorFX',
-	// 			icon: {
-	// 				color: '#D5C4A1',
-	// 				Component: BiNotepad,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'UTARi',
-	// 	projects: [
-	// 		{
-	// 			name: 'Web',
-	// 			description: 'The web application of UTARi',
-	// 			githubLink: 'https://github.com/UTARi-Accommodation/web',
-	// 			icon: {
-	// 				color: '#1A73E8',
-	// 				Component: BsBrowserChrome,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Server',
-	// 			description: 'The server of UTARi',
-	// 			githubLink: 'https://github.com/UTARi-Accommodation/server',
-	// 			icon: {
-	// 				color: '#E23A2E',
-	// 				Component: BsServer,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Desktop',
-	// 			description: 'The desktop application of UTARi',
-	// 			githubLink: 'https://github.com/UTARi-Accommodation/desktop',
-	// 			icon: {
-	// 				color: '#174276',
-	// 				Component: BsWindowDesktop,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Common',
-	// 			description: 'All commonly used functions and typings',
-	// 			githubLink: 'https://github.com/UTARi-Accommodation/common',
-	// 			icon: {
-	// 				color: '#E91E63',
-	// 				Component: BsCodeSlash,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Bots',
-	// 	projects: [
-	// 		{
-	// 			name: 'JKLM bot',
-	// 			description: 'A JKLM bot written for fun',
-	// 			githubLink: 'https://github.com/GervinFung/jklm-bot',
-	// 			icon: {
-	// 				color: '#24A1C8',
-	// 				Component: BsRobot,
-	// 			},
-	// 		},
-	// 	],
-	// },
-	// {
-	// 	category: 'Toys',
-	// 	projects: [
-	// 		{
-	// 			name: 'Brainfuck',
-	// 			description:
-	// 				'Partial optimized Brainfuck implementation in TypeScript',
-	// 			githubLink: 'https://github.com/GervinFung/brainfuck',
-	// 			icon: {
-	// 				color: '#6A1B9A',
-	// 				Component: FaRegFileCode,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'React Unix Terminal',
-	// 			description:
-	// 				'A customizable unix terminal emulator for React on web, with customizable command',
-	// 			githubLink: 'https://github.com/GervinFung/react-unix-terminal',
-	// 			icon: {
-	// 				color: '#2F393F',
-	// 				Component: BsFillTerminalFill,
-	// 			},
-	// 		},
-	// 		{
-	// 			name: 'Guard Data',
-	// 			description: 'Safely guard JSON data as intended type',
-	// 			githubLink: 'https://github.com/GervinFung/guard-data',
-	// 			icon: {
-	// 				color: '#279847',
-	// 				Component: SiAdguard,
-	// 			},
-	// 		},
-	// 	],
-	// },
+	{
+		category: 'Web & Cloud Applications',
+		projects: [
+			{
+				name: 'Personal Website (Astro)',
+				description:
+					'My personal portfolio website built with Astro, React, and MUI.',
+				githubLink: 'https://github.com/kishore1919/personal-website-astro',
+				icon: {
+					color: '#FF5D01',
+					Component: SiAstro,
+				},
+			},
+			{
+				name: 'AWS RAG Chatbot',
+				description:
+					'Retrieval-Augmented Generation chatbot built on AWS with LangChain.',
+				githubLink: 'https://github.com/kishore1919/aws_rag_chatbot',
+				icon: {
+					color: '#FF9900',
+					Component: SiAmazonwebservices,
+				},
+			},
+			{
+				name: 'Weather App',
+				description:
+					'A responsive weather application providing real-time weather data.',
+				githubLink: 'https://github.com/kishore1919/weather-app',
+				icon: {
+					color: '#1A73E8',
+					Component: BsBrowserChrome,
+				},
+			},
+			{
+				name: 'Apache2 Reverse Proxy',
+				description:
+					'Configuration and setup for Apache2 as a high-performance reverse proxy.',
+				githubLink: 'https://github.com/kishore1919/reverse-proxy-apache2',
+				icon: {
+					color: '#D22128',
+					Component: SiApache,
+				},
+			},
+		],
+	},
+	{
+		category: 'Experiments & Tools',
+		projects: [
+			{
+				name: 'LLM Deployment',
+				description:
+					'Deploying Large Language Models at scale using OpenShift and advanced orchestration.',
+				githubLink: 'https://github.com/kishore1919/openshit-llm-deployment',
+				icon: {
+					color: '#6A1B9A',
+					Component: BsRobot,
+				},
+			},
+			{
+				name: 'DNSPython Tools',
+				description:
+					'Network tools and utilities built using the dnspython library for DNS management.',
+				githubLink: 'https://github.com/kishore1919/dnspython',
+				icon: {
+					color: '#3776AB',
+					Component: SiPython,
+				},
+			},
+			{
+				name: 'FastMCP Quickstart',
+				description:
+					'A rapid starting point for building Model Context Protocol servers.',
+				githubLink: 'https://github.com/kishore1919/fastmcp-quickstart-20251203-56l3',
+				icon: {
+					color: '#E91E63',
+					Component: BsCodeSlash,
+				},
+			},
+			{
+				name: 'Kishore1919 (Profile)',
+				description:
+					'My GitHub profile configuration and special landing page.',
+				githubLink: 'https://github.com/kishore1919/kishore1919',
+				icon: {
+					color: '#24292E',
+					Component: BsServer,
+				},
+			},
+		],
+	},
 ];
 
 export default projects;
