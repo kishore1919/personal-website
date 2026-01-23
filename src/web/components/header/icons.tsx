@@ -10,7 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import ArticleIcon from '@mui/icons-material/Article';
 import ExternalLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Link from 'next/link';
 import React from 'react';
 
 import { headerContent } from '../../information/content';
@@ -27,7 +26,7 @@ const InternalLinkWithIcon = (
 	}>
 ) => {
 	return (
-		<Link
+		<a
 			aria-label={`${props.href === '/' ? 'home' : props.href} link`}
 			href={props.href}
 			style={{
@@ -47,7 +46,7 @@ const InternalLinkWithIcon = (
 			>
 				{props.children}
 			</Stack>
-		</Link>
+		</a>
 	);
 };
 

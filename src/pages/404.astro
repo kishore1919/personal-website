@@ -1,0 +1,14 @@
+---
+import RootLayout from '../layouts/RootLayout.astro';
+import Error404Page from '../components/pages/404Page.tsx';
+
+const seo = {
+  title: '404 - Page Not Found',
+  description: 'The page you are looking for does not exist.',
+  keywords: ['404', 'not found']
+};
+---
+
+<RootLayout title={seo.title} description={seo.description} keywords={seo.keywords}>
+	<Error404Page client:load />
+</RootLayout>

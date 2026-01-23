@@ -1,35 +1,24 @@
-node_modules
+# build output
+dist/
 
-# next.js
-.next
-out
-next-env.d.ts
+# generated types
+.astro/
 
-# generated
-.prettierrc
+# dependencies
+node_modules/
 
-# typescript
-.tscache
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# production
-dist
-cache
-
-# local env files
+# environment variables
 .env
-config/.env.production
-config/.env.staging
-env.d.ts
+.env.production
 
-# vercel
-.vercel
-
-# sitemap
-public/sitemap*.xml
-public/site.webmanifest
-public/manifest.json
-public/service-worker.js*
-public/workbox-*.js*
-public/robots.txt
-
+# macOS-specific files
 .DS_Store
+
+# jetbrains setting folder
+.idea/

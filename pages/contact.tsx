@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/material/styles';
-import type { NextPage } from 'next';
+
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -15,7 +15,7 @@ import Seo from '../src/web/components/seo';
 import { contactPageContent } from '../src/web/information/content';
 
 
-const Contact: NextPage = () => {
+const Contact = () => {
 	const [show, setShow] = useState(false);
 	const breakPoint = useBreakpoint() as keyof typeof consts.width.others;
 
@@ -24,34 +24,32 @@ const Contact: NextPage = () => {
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
-		(process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
+		(import.meta.env.MODE === 'test'
 			? undefined
 			: {
-					transition: 'opacity 1s',
-					transitionDelay: '200ms',
-					opacity: show ? 1 : 0,
-				});
+				transition: 'opacity 1s',
+				transitionDelay: '200ms',
+				opacity: show ? 1 : 0,
+			});
 
 	return (
 		<React.Fragment>
-			<Seo
-				description={contactPageContent.seo.description}
-				keywords={contactPageContent.seo.keywords}
-				title={contactPageContent.seo.title}
-				url={contactPageContent.seo.url}
-			/>
+			{/* SEO handled by Astro wrapper */}
 			<Holder sx={animation}>
 				<Section
 					elevation={0}
-					sx={({ palette }) => ({
-						borderRadius: 0,
-						boxShadow: [
-							`-5px 5px ${palette.custom.striking.green}`,
-							`5px -5px ${palette.custom.striking.red}`,
-						].join(' ,'),
-						width: consts.width.others[breakPoint ?? 'xl'],
-						backgroundColor: 'background.default',
-					})}
+					sx={({ palette }) => {
+						const striking = (palette as any).custom?.striking || { green: '#0FFBF9', red: '#FF3F4A' };
+						return {
+							borderRadius: 0,
+							boxShadow: [
+								`-5px 5px ${striking.green}`,
+								`5px -5px ${striking.red}`,
+							].join(' ,'),
+							width: consts.width.others[breakPoint ?? 'xl'],
+							backgroundColor: 'background.default',
+						};
+					}}
 				>
 					<Box
 						sx={{
@@ -77,7 +75,7 @@ const Contact: NextPage = () => {
 							</Typography>
 						</Section>
 						<FormfacadeEmbed
-							formFacadeURL={process.env['NEXT_PUBLIC_FORMFACAD_URL']}
+							formFacadeURL={import.meta.env.PUBLIC_FORMFACAD_URL}
 							onSubmitForm={() => console.log('Form submitted')}
 						/>
 					</Box>

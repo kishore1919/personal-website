@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content';
+
+// Load hero content from src/content/hero/*.md
+const heroContent = await getCollection('hero');
+---
+
+{heroContent.map(item => (
+  <section class="hero" style="background: var(--gradient); padding: 4rem; text-align: center;">
+    <h1>{item.data.title}</h1>
+    <p>{item.body}</p>
+  </section>
+))}

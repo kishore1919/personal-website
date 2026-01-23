@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+
 import React from 'react';
 
 import ClickRefresh from '../common/click-refresh';
@@ -15,7 +14,6 @@ const ErrorContainer = (
 		messages: ReadonlyArray<string>;
 	}>
 ) => {
-	const router = useRouter();
 
 	const home = '/';
 	const delay = 1;
@@ -26,13 +24,13 @@ const ErrorContainer = (
 	React.useEffect(() => {
 		if (!countDown) {
 			if (props.type === 'reload') {
-				router.reload();
+				window.location.reload();
 			} else {
-				void router.replace(home);
+				window.location.replace(home);
 			}
 		}
 
-		if (process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing') {
+		if (import.meta.env.MODE === 'test') {
 			return;
 		}
 
@@ -45,7 +43,7 @@ const ErrorContainer = (
 		return () => {
 			return clearTimeout(goTo);
 		};
-	}, [countDown, props.type, router, home]);
+	}, [countDown, props.type, home]);
 
 	return (
 		<Box
@@ -130,7 +128,7 @@ const ErrorContainer = (
 								>
 									<ClickRefresh
 										onClick={() => {
-											return router.reload();
+											window.location.reload();
 										}}
 										timeToChange={timeToChange}
 										title="RELOAD"
@@ -141,7 +139,7 @@ const ErrorContainer = (
 						) : (
 							<React.Fragment>
 								Go{' '}
-								<Link
+								<a
 									href={home}
 									style={{
 										textDecoration: 'none',
@@ -149,12 +147,12 @@ const ErrorContainer = (
 								>
 									<ClickRefresh
 										onClick={() => {
-											void router.replace(home);
+											window.location.replace(home);
 										}}
 										timeToChange={timeToChange}
 										title="HOME"
 									/>{' '}
-								</Link>
+								</a>
 								Immediately
 							</React.Fragment>
 						)}

@@ -1,0 +1,11 @@
+---
+import RootLayout from '../layouts/RootLayout.astro';
+import ProjectsPage from '../components/pages/ProjectsPage.tsx';
+import { projectsPageContent } from '../web/information/content';
+
+const { seo } = projectsPageContent;
+---
+
+<RootLayout title={seo.title} description={seo.description} keywords={seo.keywords} url={seo.url}>
+	<ProjectsPage client:load />
+</RootLayout>

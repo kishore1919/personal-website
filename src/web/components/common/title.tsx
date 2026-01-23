@@ -1,5 +1,4 @@
-import Head from 'next/head';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Title = (
 	props: Readonly<{
@@ -7,13 +6,15 @@ const Title = (
 		content: string;
 	}>
 ) => {
-	return (
-		<Head>
-			<meta charSet="utf-8" content={props.content} name="description" />
-			{/* ref: https://github.com/vercel/next.js/discussions/38256#discussioncomment-3070196 */}
-			<title>{props.title}</title>
-		</Head>
-	);
+	useEffect(() => {
+		document.title = props.title;
+		const meta = document.querySelector('meta[name="description"]');
+		if (meta) {
+			meta.setAttribute('content', props.content);
+		}
+	}, [props.title, props.content]);
+
+	return null;
 };
 
 export default Title;

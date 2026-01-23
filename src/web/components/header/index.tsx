@@ -4,9 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import consts from '../../const';
 import useBreakpoint from '../../hooks/use-breakpoint-value';
@@ -17,8 +15,13 @@ import Holder from '../common/holder';
 import { Contact, Github, Instagram, LinkedIn, Projects } from './icons';
 
 const Header = () => {
-	const router = useRouter();
-	const route = router.pathname.replace(/^\//, '') || headerContent.homeRoute;
+	const [pathname, setPathname] = useState('');
+
+	useEffect(() => {
+		setPathname(window.location.pathname);
+	}, []);
+
+	const route = pathname.replace(/^\//, '') || headerContent.homeRoute;
 
 	const breakPoint = useBreakpoint();
 
@@ -68,7 +71,7 @@ const Header = () => {
 									textDecoration: 'none',
 								}}
 							>
-								<Image
+								<img
 									alt={headerContent.logo.alt}
 									height={36}
 									loading="lazy"

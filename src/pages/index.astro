@@ -1,0 +1,11 @@
+---
+import RootLayout from '../layouts/RootLayout.astro';
+import IndexPage from '../components/pages/IndexPage.tsx';
+import { homePageContent } from '../web/information/content';
+
+const { seo } = homePageContent;
+---
+
+<RootLayout title={seo.title} description={seo.description} keywords={seo.keywords}>
+	<IndexPage client:load />
+</RootLayout>

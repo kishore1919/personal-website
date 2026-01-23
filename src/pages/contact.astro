@@ -1,0 +1,11 @@
+---
+import RootLayout from '../layouts/RootLayout.astro';
+import ContactPage from '../components/pages/ContactPage.tsx';
+import { contactPageContent } from '../web/information/content';
+
+const { seo } = contactPageContent;
+---
+
+<RootLayout title={seo.title} description={seo.description} keywords={seo.keywords} url={seo.url}>
+	<ContactPage client:load />
+</RootLayout>

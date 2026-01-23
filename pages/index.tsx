@@ -1,6 +1,6 @@
 import type { SxProps, Theme } from '@mui/material/styles';
 import type { TypographyProps } from '@mui/material/Typography';
-import type { NextPage } from 'next';
+
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -26,13 +26,13 @@ const Content = (
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
-		process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
+		(import.meta.env.MODE === 'test')
 			? undefined
 			: {
-					transition: 'opacity 1s',
-					transitionDelay: '200ms',
-					opacity: show ? 1 : 0,
-				};
+				transition: 'opacity 1s',
+				transitionDelay: '200ms',
+				opacity: show ? 1 : 0,
+			};
 
 	return (
 		<Typography
@@ -49,7 +49,7 @@ const Content = (
 	);
 };
 
-const Index: NextPage = () => {
+const Index = () => {
 	const [time, setTime] = React.useState(Date.now());
 
 	const breakPoint = useBreakpoint();
@@ -73,20 +73,16 @@ const Index: NextPage = () => {
 
 	return (
 		<React.Fragment>
-			<Seo
-				description={homePageContent.seo.description}
-				keywords={homePageContent.seo.keywords}
-				title={homePageContent.seo.title}
-				url={undefined}
-			/>
+			{/* SEO handled by Astro wrapper */}
 			<Holder>
 				<Typography
 					sx={({ palette }) => {
+						const striking = (palette as any).custom?.striking || { green: '#0FFBF9', red: '#FF3F4A' };
 						return {
 							mb: '16px',
 							textShadow: [
-								`4px 1px ${palette.custom.striking.green}`,
-								`-4px 1px ${palette.custom.striking.red}`,
+								`4px 1px ${striking.green}`,
+								`-4px 1px ${striking.red}`,
 							].join(' ,'),
 						};
 					}}

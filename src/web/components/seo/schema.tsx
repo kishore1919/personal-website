@@ -1,6 +1,4 @@
-import Script from 'next/script';
 import React from 'react';
-
 import { headerContent } from '../../information/content';
 
 const Schema = () => {
@@ -20,7 +18,7 @@ const Schema = () => {
 	};
 
 	return (
-		<Script
+		<script
 			dangerouslySetInnerHTML={{
 				__html: JSON.stringify(structuredData, undefined, 4),
 			}}

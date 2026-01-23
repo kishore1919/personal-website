@@ -1,7 +1,6 @@
 import type { FallbackProps } from 'react-error-boundary';
 
-import Head from 'next/head';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Error } from '../common/alert';
 import Layout from '../layout';
@@ -9,11 +8,12 @@ import Layout from '../layout';
 import ErrorContainer from '.';
 
 const Fallback = (props: FallbackProps) => {
+	useEffect(() => {
+		document.title = 'Error';
+	}, []);
+
 	return (
 		<Layout>
-			<Head>
-				<title>Error</title>
-			</Head>
 			<Error onClose={props.resetErrorBoundary}>{props.error.message}</Error>
 			<ErrorContainer
 				messages={[

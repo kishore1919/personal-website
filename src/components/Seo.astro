@@ -1,0 +1,20 @@
+---
+export interface SeoProps {
+  title: string;
+  description: string;
+  keywords: string[];
+  url?: string;
+}
+---
+
+{/**
+ * Simple SEO component using Astro's <Head>.
+ * Accepts title, description, keywords and optional URL.
+ */}
+
+<title>{Astro.props.title}</title>
+<meta name="description" content={Astro.props.description} />
+<meta name="keywords" content={Astro.props.keywords.join(", ")} />
+{Astro.props.url && <meta property="og:url" content={Astro.props.url} />}
+<meta property="og:title" content={Astro.props.title} />
+<meta property="og:description" content={Astro.props.description} />

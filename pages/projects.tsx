@@ -1,5 +1,5 @@
 import type { SxProps, Theme } from '@mui/material/styles';
-import type { NextPage } from 'next';
+
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -29,13 +29,13 @@ const Item = (
 	}, []);
 
 	const animation: SxProps<Theme> | undefined =
-		(process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
+		(import.meta.env.MODE === 'test'
 			? undefined
 			: {
-					transition: 'opacity 1s',
-					transitionDelay: '200ms',
-					opacity: show ? 1 : 0,
-				});
+				transition: 'opacity 1s',
+				transitionDelay: '200ms',
+				opacity: show ? 1 : 0,
+			});
 
 	const { palette } = useTheme();
 
@@ -114,17 +114,12 @@ const Item = (
 	);
 };
 
-const Projects: NextPage = () => {
+const Projects = () => {
 	const breakPoint = useBreakpoint();
 
 	return (
 		<React.Fragment>
-			<Seo
-				description={projectsPageContent.seo.description}
-				keywords={projectsPageContent.seo.keywords}
-				title={projectsPageContent.seo.title}
-				url={projectsPageContent.seo.url}
-			/>
+			{/* SEO handled by Astro wrapper */}
 			<Holder>
 				<Stack
 					spacing={8}

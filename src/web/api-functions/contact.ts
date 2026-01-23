@@ -17,8 +17,9 @@ const sendMessage = async (
 		isHoneyPot?: true;
 	}>
 ) => {
+	const origin = import.meta.env.PUBLIC_ORIGIN || (typeof window !== 'undefined' ? window.location.origin : '');
 	return axios
-		.post(`${process.env['NEXT_PUBLIC_ORIGIN']}/api/contact`, values, {
+		.post(`${origin}/api/contact`, values, {
 			headers: {
 				'Content-Type': 'application/json',
 			},
