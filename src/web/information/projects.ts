@@ -23,7 +23,7 @@ const projects = [
 			{
 				name: 'Terraform',
 				description:
-					'Infrastructure as Code project using Terraform to manage resources on AWS and GCP.',
+					'This is my personal project about IAC with terraform on AWS And GCP.',
 				githubLink: 'https://github.com/kishore1919/Terraform',
 				icon: {
 					color: '#7B42BC',
@@ -31,9 +31,9 @@ const projects = [
 				},
 			},
 			{
-				name: 'Ansible Homelab Setup',
+				name: 'ansible_homelab_setup',
 				description:
-					'Automated homelab configuration and deployment using Ansible playbooks.',
+					'An Ansible playbook that deploys a complete homelab infrastructure on Ubuntu, featuring containerized services and KVM virtual machines.',
 				githubLink: 'https://github.com/kishore1919/ansible_homelab_setup',
 				icon: {
 					color: '#EE0000',
@@ -41,19 +41,20 @@ const projects = [
 				},
 			},
 			{
-				name: 'Ansible Lab with Docker',
+				name: 'ansible-lab-setup-with-docker',
 				description:
-					'Setting up a local Ansible laboratory environment using Docker containers.',
-				githubLink: 'https://github.com/kishore1919/ansible-lab-setup-with-docker',
+					'Dockerized Ansible lab environment for learning and testing automation playbooks and configurations',
+				githubLink:
+					'https://github.com/kishore1919/ansible-lab-setup-with-docker',
 				icon: {
 					color: '#2496ED',
 					Component: SiDocker,
 				},
 			},
 			{
-				name: 'Jenkins CI/CD Pipeline',
+				name: 'jenkins-pipeline-cicd',
 				description:
-					'End-to-end automation pipelines using Jenkins for continuous integration and delivery.',
+					'Jenkins CI/CD pipeline implementation demonstrating automated build, test, and deployment workflows',
 				githubLink: 'https://github.com/kishore1919/jenkins-pipeline-cicd',
 				icon: {
 					color: '#D24939',
@@ -61,10 +62,11 @@ const projects = [
 				},
 			},
 			{
-				name: 'Cloud Cleanup Scripts',
+				name: 'cloud_resources_cleanup_scripts',
 				description:
-					'Automation scripts to identify and remove unused cloud resources to save costs.',
-				githubLink: 'https://github.com/kishore1919/cloud_resources_cleanup_scripts',
+					'Automated cloud resource cleanup scripts for cost optimization and resource management',
+				githubLink:
+					'https://github.com/kishore1919/cloud_resources_cleanup_scripts',
 				icon: {
 					color: '#2F393F',
 					Component: BsFillTerminalFill,
@@ -76,9 +78,9 @@ const projects = [
 		category: 'Web & Cloud Applications',
 		projects: [
 			{
-				name: 'Personal Website (Astro)',
+				name: 'personal-website-astro',
 				description:
-					'My personal portfolio website built with Astro, React, and MUI.',
+					'Modern personal website built with Astro framework for fast, content-focused web experiences',
 				githubLink: 'https://github.com/kishore1919/personal-website-astro',
 				icon: {
 					color: '#FF5D01',
@@ -86,9 +88,9 @@ const projects = [
 				},
 			},
 			{
-				name: 'AWS RAG Chatbot',
+				name: 'aws_rag_chatbot',
 				description:
-					'Retrieval-Augmented Generation chatbot built on AWS with LangChain.',
+					'This project is an implementation of a Retrieval-Augmented Generation (RAG) chatbot using AWS BEDROCK services. The chatbot leverages retrieval-based techniques to provide accurate and context-aware responses.',
 				githubLink: 'https://github.com/kishore1919/aws_rag_chatbot',
 				icon: {
 					color: '#FF9900',
@@ -96,9 +98,9 @@ const projects = [
 				},
 			},
 			{
-				name: 'Weather App',
+				name: 'weather-app',
 				description:
-					'A responsive weather application providing real-time weather data.',
+					'Web-based weather application with live weather data display. Deployed via GitHub Pages',
 				githubLink: 'https://github.com/kishore1919/weather-app',
 				icon: {
 					color: '#1A73E8',
@@ -106,9 +108,9 @@ const projects = [
 				},
 			},
 			{
-				name: 'Apache2 Reverse Proxy',
+				name: 'reverse-proxy-apache2',
 				description:
-					'Configuration and setup for Apache2 as a high-performance reverse proxy.',
+					'Docker-based Apache2 reverse proxy configuration for load balancing and routing web traffic',
 				githubLink: 'https://github.com/kishore1919/reverse-proxy-apache2',
 				icon: {
 					color: '#D22128',
@@ -121,9 +123,9 @@ const projects = [
 		category: 'Experiments & Tools',
 		projects: [
 			{
-				name: 'LLM Deployment',
+				name: 'openshit-llm-deployment',
 				description:
-					'Deploying Large Language Models at scale using OpenShift and advanced orchestration.',
+					'OpenShift deployment configuration for Large Language Model (LLM) applications with MIT License',
 				githubLink: 'https://github.com/kishore1919/openshit-llm-deployment',
 				icon: {
 					color: '#6A1B9A',
@@ -131,9 +133,9 @@ const projects = [
 				},
 			},
 			{
-				name: 'DNSPython Tools',
+				name: 'dnspython',
 				description:
-					'Network tools and utilities built using the dnspython library for DNS management.',
+					'Python-based DNS utilities and tools for network operations and domain name system management',
 				githubLink: 'https://github.com/kishore1919/dnspython',
 				icon: {
 					color: '#3776AB',
@@ -141,19 +143,19 @@ const projects = [
 				},
 			},
 			{
-				name: 'FastMCP Quickstart',
-				description:
-					'A rapid starting point for building Model Context Protocol servers.',
-				githubLink: 'https://github.com/kishore1919/fastmcp-quickstart-20251203-56l3',
+				name: 'fastmcp-quickstart-20251203-56l3',
+				description: 'FastMCP quickstart example - ready to deploy!',
+				githubLink:
+					'https://github.com/kishore1919/fastmcp-quickstart-20251203-56l3',
 				icon: {
 					color: '#E91E63',
 					Component: BsCodeSlash,
 				},
 			},
 			{
-				name: 'Kishore1919 (Profile)',
+				name: 'kishore1919',
 				description:
-					'My GitHub profile configuration and special landing page.',
+					'✨ Special repository - My GitHub profile README showcasing my work, skills, and interests',
 				githubLink: 'https://github.com/kishore1919/kishore1919',
 				icon: {
 					color: '#24292E',

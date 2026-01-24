@@ -44,7 +44,7 @@ export const projectsPageContent = {
 
 export const footerContent = {
 	location: "Bangalore",
-	copyright: "2025 - Present © Kishore Selvaraj",
+	copyright: "2021 - Present © Kishore Selvaraj",
 	licenseLink: "https://creativecommons.org/licenses/by-nc-sa/4.0",
 };
 
