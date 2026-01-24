@@ -23,7 +23,7 @@ const projects = [
 			{
 				name: 'Terraform',
 				description:
-					'This is my personal project about IAC with terraform on AWS And GCP.',
+					'Infrastructure as Code (IaC) repository for managing AWS and GCP resources using Terraform best practices.',
 				githubLink: 'https://github.com/kishore1919/Terraform',
 				icon: {
 					color: '#7B42BC',
@@ -33,7 +33,7 @@ const projects = [
 			{
 				name: 'ansible_homelab_setup',
 				description:
-					'An Ansible playbook that deploys a complete homelab infrastructure on Ubuntu, featuring containerized services and KVM virtual machines.',
+					'Ansible playbook for deploying a complete homelab infrastructure on Ubuntu, featuring containerized services and KVM virtual machines.',
 				githubLink: 'https://github.com/kishore1919/ansible_homelab_setup',
 				icon: {
 					color: '#EE0000',
@@ -43,7 +43,7 @@ const projects = [
 			{
 				name: 'ansible-lab-setup-with-docker',
 				description:
-					'Dockerized Ansible lab environment for learning and testing automation playbooks and configurations',
+					'Dockerized Ansible lab environment designed for learning and testing automation playbooks in a safe, isolated setting.',
 				githubLink:
 					'https://github.com/kishore1919/ansible-lab-setup-with-docker',
 				icon: {
@@ -54,7 +54,7 @@ const projects = [
 			{
 				name: 'jenkins-pipeline-cicd',
 				description:
-					'Jenkins CI/CD pipeline implementation demonstrating automated build, test, and deployment workflows',
+					'Comprehensive Jenkins CI/CD pipeline implementation demonstrating automated build, test, and deployment workflows.',
 				githubLink: 'https://github.com/kishore1919/jenkins-pipeline-cicd',
 				icon: {
 					color: '#D24939',
@@ -64,7 +64,7 @@ const projects = [
 			{
 				name: 'cloud_resources_cleanup_scripts',
 				description:
-					'Automated cloud resource cleanup scripts for cost optimization and resource management',
+					'Automated scripts for identifying and removing unused cloud resources across various providers to optimize costs.',
 				githubLink:
 					'https://github.com/kishore1919/cloud_resources_cleanup_scripts',
 				icon: {
@@ -80,7 +80,7 @@ const projects = [
 			{
 				name: 'personal-website-astro',
 				description:
-					'Modern personal website built with Astro framework for fast, content-focused web experiences',
+					'Modern, performance-focused personal portfolio website built with the Astro framework for a fast and content-driven experience.',
 				githubLink: 'https://github.com/kishore1919/personal-website-astro',
 				icon: {
 					color: '#FF5D01',
@@ -90,7 +90,7 @@ const projects = [
 			{
 				name: 'aws_rag_chatbot',
 				description:
-					'This project is an implementation of a Retrieval-Augmented Generation (RAG) chatbot using AWS BEDROCK services. The chatbot leverages retrieval-based techniques to provide accurate and context-aware responses.',
+					'Retrieval-Augmented Generation (RAG) chatbot leveraging AWS Bedrock services to provide accurate, context-aware responses.',
 				githubLink: 'https://github.com/kishore1919/aws_rag_chatbot',
 				icon: {
 					color: '#FF9900',
@@ -100,7 +100,7 @@ const projects = [
 			{
 				name: 'weather-app',
 				description:
-					'Web-based weather application with live weather data display. Deployed via GitHub Pages',
+					'Responsive web-based weather application delivering real-time weather data and forecasts. Deployed via GitHub Pages.',
 				githubLink: 'https://github.com/kishore1919/weather-app',
 				icon: {
 					color: '#1A73E8',
@@ -110,7 +110,7 @@ const projects = [
 			{
 				name: 'reverse-proxy-apache2',
 				description:
-					'Docker-based Apache2 reverse proxy configuration for load balancing and routing web traffic',
+					'Docker-based Apache2 configuration serving as a high-performance reverse proxy for load balancing and traffic routing.',
 				githubLink: 'https://github.com/kishore1919/reverse-proxy-apache2',
 				icon: {
 					color: '#D22128',
@@ -125,7 +125,7 @@ const projects = [
 			{
 				name: 'openshit-llm-deployment',
 				description:
-					'OpenShift deployment configuration for Large Language Model (LLM) applications with MIT License',
+					'OpenShift deployment configuration for scalable Large Language Model (LLM) applications.',
 				githubLink: 'https://github.com/kishore1919/openshit-llm-deployment',
 				icon: {
 					color: '#6A1B9A',
@@ -135,7 +135,7 @@ const projects = [
 			{
 				name: 'dnspython',
 				description:
-					'Python-based DNS utilities and tools for network operations and domain name system management',
+					'Collection of Python-based DNS utilities and tools for streamlining network operations and DNS management.',
 				githubLink: 'https://github.com/kishore1919/dnspython',
 				icon: {
 					color: '#3776AB',
@@ -144,7 +144,7 @@ const projects = [
 			},
 			{
 				name: 'fastmcp-quickstart-20251203-56l3',
-				description: 'FastMCP quickstart example - ready to deploy!',
+				description: 'Quickstart template for building Model Context Protocol (MCP) servers, pre-configured for rapid deployment.',
 				githubLink:
 					'https://github.com/kishore1919/fastmcp-quickstart-20251203-56l3',
 				icon: {
@@ -155,7 +155,7 @@ const projects = [
 			{
 				name: 'kishore1919',
 				description:
-					'✨ Special repository - My GitHub profile README showcasing my work, skills, and interests',
+					'GitHub profile README showcasing my professional work, technical skills, and current interests.',
 				githubLink: 'https://github.com/kishore1919/kishore1919',
 				icon: {
 					color: '#24292E',
