@@ -6,11 +6,7 @@
 	"license": "GPL-3.0",
 	"description": "Everyone developer needs their own personal/portfolio website, and this is mine. Welcome to my website",
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-		"format": "prettier --write ."
+		"postinstall": "make opt-out-telemetry && make format-generate-config"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
