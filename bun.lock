@@ -7,7 +7,6 @@
       "dependencies": {
         "@emotion/react": "^11.14.0",
         "@emotion/styled": "^11.14.0",
-        "@formfacade/embed-react": "^1.1.2",
         "@mui/icons-material": "^7.0.0",
         "@mui/material": "^7.3.4",
         "@poolofdeath20/util": "^0.8.2",
@@ -331,8 +330,6 @@
     "@eslint/object-schema": ["@eslint/object-schema@2.1.6", "", {}, "sha512-RBMg5FRL0I0gs51M/guSAj5/e14VQ4tpZnQNWwuDT66P14I43ItmPfIZRhO9fUVIPOAQXU47atlywZ/czoqFPA=="],
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.2.7", "", { "dependencies": { "@eslint/core": "0.12.0", "levn": "0.4.1" } }, "sha512-JubJ5B2pJ4k4yGxaNLdbjrnk9d/iDz6/q8wOilpIowd6PJPgaxCuHBnBszq7Ce2TyMrywm5r4PnKm6V3iiZF+g=="],
-
-    "@formfacade/embed-react": ["@formfacade/embed-react@1.1.2", "", {}, "sha512-wjyjME4HvvXpzoYtRqbbtTgYDvIlUJS/HooUNXX/Jt4NITJe9QcqxQtbsKg4PIpzIRV1NFheGp4vGcr/KAv1XA=="],
 
     "@humanfs/core": ["@humanfs/core@0.19.1", "", {}, "sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA=="],
 

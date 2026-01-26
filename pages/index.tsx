@@ -29,10 +29,10 @@ const Content = (
 		process.env['NEXT_PUBLIC_NODE_ENV'] === 'testing'
 			? undefined
 			: {
-					transition: 'opacity 1s',
-					transitionDelay: '200ms',
-					opacity: show ? 1 : 0,
-				};
+				transition: 'opacity 1s',
+				transitionDelay: '200ms',
+				opacity: show ? 1 : 0,
+			};
 
 	return (
 		<Typography
@@ -114,7 +114,10 @@ const Index: NextPage = () => {
 						{homePageContent.content[3]}
 					</Content>
 					<Content delay={4}>
-						{homePageContent.content[4]}{' '}
+						{homePageContent.content[4]}
+					</Content>
+					<Content delay={6}>
+						{homePageContent.content[5]}{' '}
 						<Box
 							sx={{
 								display: 'inline-block',
@@ -132,9 +135,6 @@ const Index: NextPage = () => {
 								here
 							</Box>
 						</Box>
-					</Content>
-					<Content delay={6}>
-						{homePageContent.content[5]}
 					</Content>
 					<Content delay={8}>
 						{homePageContent.content[6]}

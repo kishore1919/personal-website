@@ -11,7 +11,7 @@ export const homePageContent = {
 		"Good evening! Thank you for visiting!",
 		"I'm Kishore Selvaraj, a software engineer based in Bangalore. I build software for both fun and a living, with a passion for open-source, infrastructure, and web development.",
 		"My coding journey began in 2021 with a React weather app, which I later rebuilt using Django. A DevOps internship expanded my skillset to include Docker, Terraform, Linux, Git, and Kubernetes, enabling me to build and deploy web applications. This experience ignited my passion for open-source, and I've been an active contributor ever since.",
-		"While Python and Bash are my primary languages, I'm a versatile engineer comfortable with adapting to new technologies. I'm passionate about creating web applications, CLI tools, and automating deployment and infrastructure. You can find a full list of my projects here.",
+		"While Python and Bash are my primary languages, I'm a versatile engineer comfortable with adapting to new technologies. I'm passionate about creating web applications, CLI tools, and automating deployment and infrastructure. You can find a full list of my projects",
 		"Outside of programming, I enjoy reading insightful articles, working out, going for bike rides, and playing video games with friends.",
 	],
 	links: {
