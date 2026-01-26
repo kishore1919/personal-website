@@ -1,19 +1,12 @@
 import type { SxProps, Theme } from '@mui/material/styles';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import React from 'react';
-
-import useBreakpoint from '../../hooks/use-breakpoint-value';
 import Holder from '../common/holder';
 import { footerContent } from '../../information/content';
 
 const Footer = () => {
-	const breakPoint = useBreakpoint();
-
-	const isMobile = breakPoint === 'xs';
-
 	const [show, setShow] = React.useState(false);
 
 	React.useEffect(() => {
@@ -24,67 +17,49 @@ const Footer = () => {
 		transition: 'opacity 1s, transform 1s',
 		transitionDelay: '200ms',
 		opacity: show ? 1 : 0,
-		transform: show ? 'translateY(0)' : 'translateY(-100%)',
+		transform: show ? 'translateY(0)' : 'translateY(20px)',
 	};
 
 	return (
 		<Holder
 			sx={{
 				m: 0,
-				mt: 8,
+				p: 0,
+				position: 'fixed',
+				bottom: 0,
+				left: 0,
+				right: 0,
+				width: '100%',
+				zIndex: 1000,
+				backdropFilter: 'blur(10px)',
+				backgroundColor: (theme) =>
+					theme.palette.mode === 'dark'
+						? 'rgba(0, 0, 0, 0.7)'
+						: 'rgba(255, 255, 255, 0.7)',
+				borderTop: (theme) => `1px solid ${theme.palette.divider}`,
 				...animation,
 			}}
 		>
 			<Box
-				sx={[
-					{
-						mb: 4,
-						whiteSpace: 'pre-wrap',
-					},
-					!isMobile
-						? {
-							display: 'flex',
-						}
-						: {
-							display: 'grid',
-							placeItems: 'center',
-							gridGap: 8,
-						},
-				]}
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					width: '100%',
+					py: 2,
+				}}
 			>
-				<Box>
-					<Typography
-						sx={{
-							color: 'text.secondary',
-						}}
-					>
-						<Link
-							href={footerContent.licenseLink}
-							rel="external nofollow noopener noreferrer"
-							sx={{
-								textDecoration: 'underline',
-								color: 'text.secondary',
-								textDecorationColor: 'text.secondary',
-								'&:hover': {
-									color: 'text.primary',
-									textDecorationColor: 'text.primary',
-								},
-							}}
-							target="_blank"
-						>
-							{footerContent.location}
-						</Link>{' '}
-					</Typography>
-				</Box>
-				<Box>
-					<Typography
-						sx={{
-							color: 'text.secondary',
-						}}
-					>
-						{footerContent.copyright}
-					</Typography>
-				</Box>
+				<Typography
+					variant="body2"
+					sx={{
+						color: 'text.secondary',
+						textAlign: 'center',
+						letterSpacing: '0.05em',
+						fontWeight: 400,
+					}}
+				>
+					{footerContent.location} {footerContent.copyright}
+				</Typography>
 			</Box>
 		</Holder>
 	);

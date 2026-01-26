@@ -1,12 +1,16 @@
 {
 	"name": "personal-website",
 	"version": "0.0.0",
-	"author": "Gervin Fung",
+	"author": "Kishore Selvaraj",
 	"private": true,
 	"license": "GPL-3.0",
 	"description": "Everyone developer needs their own personal/portfolio website, and this is mine. Welcome to my website",
 	"scripts": {
-		"postinstall": "make opt-out-telemetry && make format-generate-config"
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+		"format": "prettier --write ."
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",

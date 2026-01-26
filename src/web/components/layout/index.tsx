@@ -25,6 +25,7 @@ const Layout = (props: Readonly<PropsWithChildren>) => {
 						theme.palette.mode === 'dark'
 							? 'background.surface'
 							: undefined,
+					pb: 10, // Add padding to avoid footer overlap
 				}}
 			>
 				<Stack spacing={16}>
