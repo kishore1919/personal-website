@@ -6,7 +6,20 @@
 	"license": "GPL-3.0",
 	"description": "Everyone developer needs their own personal/portfolio website, and this is mine. Welcome to my website",
 	"scripts": {
-		"postinstall": "make opt-out-telemetry && make format-generate-config"
+		"postinstall": "npx next telemetry disable && pnpm prettier-config-generate",
+		"opt-out-telemetry": "npx next telemetry disable",
+		"format-generate-config": "pnpm prettier-config-generate",
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "eslint . --color && knip",
+		"typecheck": "tsc -p tsconfig.json --noEmit",
+		"format": "prettier --write .",
+		"format-check": "prettier --check .",
+		"generate": "pnpm generate-webmanifest && pnpm generate-sitemap",
+		"generate-webmanifest": "vite-node script/site/webmanifest.ts",
+		"generate-sitemap": "next-sitemap",
+		"generate-environment-type-definition": "vite-node script/env/type-def.ts"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
