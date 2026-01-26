@@ -133,4 +133,9 @@ pretest-ci:
 
 test: build-testing test-unit test-integration test-snapshot
 
+upgrade-next:
+	pnpm run upgrade:next
+	-git add package.json pnpm-lock.yaml
+	-git commit -m "chore(deps): upgrade next to v14 to fix security vulnerability" || echo "No changes to commit"
+
 

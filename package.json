@@ -19,7 +19,9 @@
 		"generate": "pnpm generate-webmanifest && pnpm generate-sitemap",
 		"generate-webmanifest": "vite-node script/site/webmanifest.ts",
 		"generate-sitemap": "next-sitemap",
-		"generate-environment-type-definition": "vite-node script/env/type-def.ts"
+		"generate-environment-type-definition": "vite-node script/env/type-def.ts",
+		"upgrade:next": "pnpm up next@latest --latest && pnpm install --no-frozen-lockfile",
+		"fix:peers": "pnpm up react@18.3.1 react-dom@18.3.1 typescript@5.7.3 @types/react@18.3.27 @types/react-dom@18.3.7 --latest && pnpm install --no-frozen-lockfile"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
@@ -31,10 +33,10 @@
 		"axios": "^1.8.4",
 		"cors": "^2.8.5",
 		"mongoose": "^8.13.0",
-		"next": "^15.5.6",
+		"next": "^14.0.0",
 		"next-seo": "^6.6.0",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
+		"react": "18.3.1",
+		"react-dom": "18.3.1",
 		"react-error-boundary": "^6.0.0",
 		"react-icons": "^5.5.0",
 		"valibot": "1.0.0"
@@ -50,8 +52,8 @@
 		"@types/cors": "^2.8.17",
 		"@types/jest-image-snapshot": "^6.4.0",
 		"@types/node": "22.13.14",
-		"@types/react": "^19.0.12",
-		"@types/react-dom": "^19.0.4",
+		"@types/react": "18.3.27",
+		"@types/react-dom": "18.3.7",
 		"ci-info": "^4.2.0",
 		"eslint": "^9.23.0",
 		"gen-env-type-def": "^0.0.5",
@@ -60,8 +62,14 @@
 		"next-sitemap": "^4.2.3",
 		"prettier": "^3.5.3",
 		"puppeteer": "^22.15.0",
-		"typescript": "^5.8.2",
+		"typescript": "5.7.3",
 		"vite-node": "^3.0.9",
 		"vitest": "^3.0.9"
+	},
+	"overrides": {
+		"typescript": "5.7.3"
+	},
+	"engines": {
+		"node": ">=18.16.0"
 	}
 }
