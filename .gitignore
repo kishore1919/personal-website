@@ -33,3 +33,6 @@ public/workbox-*.js*
 public/robots.txt
 
 .DS_Store
+
+
+pnpm-lock.yaml
