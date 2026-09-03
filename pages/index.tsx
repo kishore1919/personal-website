@@ -50,25 +50,20 @@ const Content = (
 };
 
 const Index: NextPage = () => {
-	const [time, setTime] = React.useState(Date.now());
-
-	const breakPoint = useBreakpoint();
-
-	React.useEffect(() => {
-		const timer = setInterval(() => {
-			return setTime(Date.now());
-		}, 1000);
-
-		return () => {
-			return clearInterval(timer);
-		};
-	}, []);
-
-	const getGreetingIndex = () => {
-		const hours = new Date(time).getHours();
+	// 3G/low-end: greeting only needs the hour at render time. The previous
+	// 1s setInterval re-rendered the whole page 60x/min, keeping the main
+	// thread and React reconciler busy on slow devices for zero benefit.
+	const greetingIndex = React.useMemo(() => {
+		const hours = new Date().getHours();
 		if (hours >= 6 && hours < 12) return 0; // Morning
 		if (hours >= 12 && hours < 18) return 1; // Afternoon
 		return 2; // Evening
+	}, []);
+
+	const breakPoint = useBreakpoint();
+
+	const getGreetingIndex = () => {
+		return greetingIndex;
 	};
 
 	return (

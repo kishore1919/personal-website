@@ -30,6 +30,19 @@ export default class Doc extends Document {
 			<Html lang="en">
 				<Head>
 					<link href="/manifest.json" rel="manifest" />
+					<meta name="theme-color" content="#000000" />
+					{/* 3G: preload only the primary font weight; other weights load on demand */}
+					<link
+						rel="preload"
+						href="/font/jetbrains-mono-v17-latin-regular.woff2"
+						as="font"
+						type="font/woff2"
+						crossOrigin="anonymous"
+					/>
+					{/* 3G: early connection to external profiles linked in header */}
+					<link rel="dns-prefetch" href="https://github.com" />
+					<link rel="dns-prefetch" href="https://www.linkedin.com" />
+					<link rel="dns-prefetch" href="https://medium.com" />
 				</Head>
 				<body
 					style={{

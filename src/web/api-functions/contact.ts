@@ -1,7 +1,5 @@
 import type { Data } from '../../common/contact';
 
-import axios from 'axios';
-
 class SendMessageError extends Error {
 	constructor(message = `Oops! I can't send your email as there is an issue`) {
 		super(message);
@@ -17,14 +15,16 @@ const sendMessage = async (
 		isHoneyPot?: true;
 	}>
 ) => {
-	return axios
-		.post(`${process.env['NEXT_PUBLIC_ORIGIN']}/api/contact`, values, {
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-		.then(({ data }) => {
-			return data as Data;
+	// 3G: native fetch instead of axios (~12KB gz) for this single POST.
+	return fetch(`${process.env['NEXT_PUBLIC_ORIGIN']}/api/contact`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(values),
+	})
+		.then(async (response) => {
+			return (await response.json()) as Data;
 		})
 		.catch((error: unknown) => {
 			console.error(error);

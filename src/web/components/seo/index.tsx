@@ -18,7 +18,9 @@ const Seo = (
 	const url = props.url ? `${origin}/${props.url}` : origin;
 
 	const iconPath = '/images/icons';
-	const dimensions = [72, 96, 128, 152, 192, 384, 512] as const;
+	// 3G: only advertise the icons browsers actually fetch (favicon + PWA).
+	// Listing all 7 PNG sizes + duplicates for apple-touch adds ~1KB of
+	// blocking head HTML and triggers extra 432KB icon downloads on slow nets.
 
 	const name = 'Kishore';
 
@@ -39,26 +41,15 @@ const Seo = (
 						href: `${iconPath}/favicon.ico`,
 					},
 					{
-						rel: 'apple-touch-icon',
-						type: 'image/x-icon',
-						href: `${iconPath}/favicon.ico`,
+						rel: 'icon',
+						type: 'image/png',
+						sizes: '192x192',
+						href: `${iconPath}/icon-192x192.png`,
 					},
-					...dimensions.flatMap((dimension) => {
-						const sizes = `${dimension}x${dimension}`;
-						const href = `${iconPath}/icon-${sizes}.png`;
-						return [
-							{
-								href,
-								sizes,
-								rel: 'icon',
-							},
-							{
-								href,
-								sizes,
-								rel: 'apple-touch-icon',
-							},
-						];
-					}),
+					{
+						rel: 'apple-touch-icon',
+						href: `${iconPath}/icon-192x192.png`,
+					},
 				]}
 				additionalMetaTags={[
 					{
@@ -115,15 +106,14 @@ const Seo = (
 					url: url || '',
 					title,
 					description,
-					images: dimensions.map((dimension) => {
-						const squareDimension = `${dimension}x${dimension}`;
-						return {
-							alt: `website icon as dimension of ${squareDimension}`,
-							width: dimension,
-							height: dimension,
-							url: `${iconPath}/icon-${squareDimension}.png`,
-						};
-					}),
+					images: [
+						{
+							alt: 'website icon 512x512',
+							width: 512,
+							height: 512,
+							url: `${iconPath}/icon-512x512.png`,
+						},
+					],
 				}}
 				title={title}
 				titleTemplate={title}

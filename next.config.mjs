@@ -13,13 +13,62 @@ const withPWA = withPWAInit({
 	dest: 'public',
 	sw: 'service-worker.js',
 	disable: isDevelopment,
+	register: true,
 });
 
 /** @type {import('next').NextConfig} */
 const config = {
 	reactStrictMode: true,
-	productionBrowserSourceMaps: isDevelopment,
+	poweredByHeader: false,
+	compress: true,
+	productionBrowserSourceMaps: false,
 	outputFileTracingRoot: __dirname,
+	images: {
+		formats: ['image/avif', 'image/webp'],
+	},
+	modularizeImports: {
+		'@mui/icons-material': {
+			transform: '@mui/icons-material/{{member}}',
+		},
+		'react-icons/bs': {
+			transform: 'react-icons/bs/{{member}}',
+		},
+		'react-icons/si': {
+			transform: 'react-icons/si/{{member}}',
+		},
+		'react-icons/fa6': {
+			transform: 'react-icons/fa6/{{member}}',
+		},
+	},
+	experimental: {
+		optimizePackageImports: [
+			'@mui/material',
+			'@mui/icons-material',
+			'react-icons',
+		],
+	},
+	async headers() {
+		return [
+			{
+				source: '/font/:path*',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=31536000, immutable',
+					},
+				],
+			},
+			{
+				source: '/images/:path*',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=31536000, immutable',
+					},
+				],
+			},
+		];
+	},
 };
 
 export default withPWA(config);

@@ -85,10 +85,6 @@ const Projects = (props: InternalEssentialIconsProps) => {
 		<InternalLinkWithIcon href={headerContent.links.projects}>
 			<IconButton
 				aria-label="projects icon"
-				onClick={e => {
-					e.preventDefault();
-					window.location.assign(headerContent.links.projects);
-				}}
 			>
 				<LightbulbIcon
 					sx={{
@@ -108,10 +104,6 @@ const Contact = (props: InternalEssentialIconsProps) => {
 		<InternalLinkWithIcon href={headerContent.links.contact}>
 			<IconButton
 				aria-label="contact icon"
-				onClick={e => {
-					e.preventDefault();
-					window.location.assign(headerContent.links.contact);
-				}}
 			>
 				<EmailIcon
 					sx={{
