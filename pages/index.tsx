@@ -50,21 +50,20 @@ const Content = (
 };
 
 const Index: NextPage = () => {
-	// 3G/low-end: greeting only needs the hour at render time. The previous
-	// 1s setInterval re-rendered the whole page 60x/min, keeping the main
-	// thread and React reconciler busy on slow devices for zero benefit.
-	const greetingIndex = React.useMemo(() => {
+	// Hydration-safe greeting: server and first client render must produce
+	// identical HTML, but server and client clocks/timezones can differ
+	// (e.g. UTC host vs local browser), which used to throw React #425/#418.
+	// Render a deterministic fallback, then correct it after hydration.
+	const [greetingIndex, setGreetingIndex] = React.useState(2); // Evening
+
+	React.useEffect(() => {
 		const hours = new Date().getHours();
-		if (hours >= 6 && hours < 12) return 0; // Morning
-		if (hours >= 12 && hours < 18) return 1; // Afternoon
-		return 2; // Evening
+		if (hours >= 6 && hours < 12) setGreetingIndex(0); // Morning
+		else if (hours >= 12 && hours < 18) setGreetingIndex(1); // Afternoon
+		else setGreetingIndex(2); // Evening
 	}, []);
 
 	const breakPoint = useBreakpoint();
-
-	const getGreetingIndex = () => {
-		return greetingIndex;
-	};
 
 	return (
 		<React.Fragment>
@@ -103,7 +102,7 @@ const Index: NextPage = () => {
 							mt: 3,
 						}}
 					>
-						{homePageContent.content[getGreetingIndex()]}
+						{homePageContent.content[greetingIndex]}
 					</Content>
 					<Content delay={2}>
 						{homePageContent.content[3]}
